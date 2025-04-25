@@ -1,38 +1,55 @@
 import React, { useState, useEffect } from 'react';  
-import MapView from '../components/map/MapView';  
-import { useGPSStore } from '../store/gpsStore';  
-import useGPS from '../hooks/useGPS';  
-import useIMU from '../hooks/useIMU';  
+// فعلاً MapView را import نمی‌کنیم تا بعداً پیاده‌سازی شود  
+// import MapView from '../components/map/MapView';  
 
-const MapPage = () => {  
+export const MapPage = () => {  
   const [mapMode, setMapMode] = useState('gps'); // 'gps', 'qr', 'imu'  
-  const { currentLocation, isTracking, toggleTracking } = useGPSStore();  
+  const [isTracking, setIsTracking] = useState(false);  
+  const [currentLocation, setCurrentLocation] = useState(null);  
   const [positionError, setPositionError] = useState(null);  
+  const [loading, setLoading] = useState(true);  
   
-  const { position, error, loading, startWatching, stopWatching } = useGPS({  
-    enableHighAccuracy: true,  
-    watchPosition: true  
-  });  
+  // فانکشن شبیه‌سازی دریافت موقعیت برای تست  
+  const simulateGetLocation = () => {  
+    setLoading(true);  
+    
+    // شبیه‌سازی تأخیر دریافت موقعیت  
+    setTimeout(() => {  
+      // گاهی خطا، گاهی موفق (برای تست)  
+      if (Math.random() > 0.2) {  
+        setCurrentLocation({  
+          coords: {  
+            lat: 35.6892 + (Math.random() * 0.01 - 0.005),  
+            lng: 51.3890 + (Math.random() * 0.01 - 0.005),  
+            accuracy: 10 + Math.random() * 20,  
+            altitude: 1200 + Math.random() * 100,  
+            heading: Math.random() * 360,  
+            speed: Math.random() * 5  
+          },  
+          timestamp: Date.now()  
+        });  
+        setPositionError(null);  
+      } else {  
+        setPositionError('خطا در دریافت موقعیت: دسترسی به GPS مقدور نیست');  
+      }  
+      
+      setLoading(false);  
+    }, 1500);  
+  };  
   
-  const { stepCount, orientation, isCalibrating } = useIMU();  
-  
-  // مدیریت خطاهای GPS  
+  // اجرای اولیه  
   useEffect(() => {  
-    if (error) {  
-      setPositionError(`خطا در دریافت موقعیت: ${error.message}`);  
-    } else {  
-      setPositionError(null);  
-    }  
-  }, [error]);  
+    simulateGetLocation();  
+  }, []);  
   
   // آغاز/توقف ردیابی  
   const handleTrackingToggle = () => {  
+    setIsTracking(prev => !prev);  
+    
     if (!isTracking) {  
-      startWatching();  
-    } else {  
-      stopWatching();  
+      // شروع ردیابی  
+      simulateGetLocation();  
     }  
-    toggleTracking();  
   };  
   
   return (  
@@ -40,27 +57,27 @@ const MapPage = () => {
       <div className="map-controls">  
         <div className="mode-selector">  
           <button   
-            className={mapMode === 'gps' ? 'active' : ''}   
+            className={`btn ${mapMode === 'gps' ? 'btn-primary' : 'btn-secondary'}`}  
             onClick={() => setMapMode('gps')}  
           >  
             GPS  
           </button>  
           <button   
-            className={mapMode === 'qr' ? 'active' : ''}   
+            className={`btn ${mapMode === 'qr' ? 'btn-primary' : 'btn-secondary'}`}  
             onClick={() => setMapMode('qr')}  
           >  
             QR Code  
           </button>  
           <button   
-            className={mapMode === 'imu' ? 'active' : ''}   
+            className={`btn ${mapMode === 'imu' ? 'btn-primary' : 'btn-secondary'}`}  
             onClick={() => setMapMode('imu')}  
           >  
-            IMU (Dead Reckoning)  
+            IMU  
           </button>  
         </div>  
         
         <button   
-          className={`tracking-toggle ${isTracking ? 'active' : ''}`}  
+          className={`btn ${isTracking ? 'btn-danger' : 'btn-success'}`}  
           onClick={handleTrackingToggle}  
         >  
           {isTracking ? 'توقف ردیابی' : 'شروع ردیابی'}  
@@ -87,30 +104,35 @@ const MapPage = () => {
         )}  
       </div>  
       
-      {mapMode === 'imu' && (  
-        <div className="imu-info">  
-          <h3>اطلاعات IMU</h3>  
-          {isCalibrating ? (  
-            <div>در حال کالیبراسیون...</div>  
-          ) : (  
-            <>  
-              <div>تعداد قدم‌ها: {stepCount}</div>  
-              <div>جهت: {orientation.alpha?.toFixed(2)}°</div>  
-            </>  
+      {/* فعلاً به جای MapView، یک دیو ساده نمایش می‌دهیم */}  
+      <div className="map-placeholder" style={{  
+        height: "70vh",  
+        backgroundColor: "#e9e9e9",  
+        display: "flex",  
+        justifyContent: "center",  
+        alignItems: "center",  
+        borderRadius: "8px",  
+        margin: "15px 0"  
+      }}>  
+        <div style={{ textAlign: "center" }}>  
+          <h3>نقشه (در حال بارگذاری...)</h3>  
+          <p>در این قسمت نقشه واقعی لود خواهد شد</p>  
+          {currentLocation && (  
+            <p>  
+              موقعیت فعلی: {currentLocation.coords.lat.toFixed(6)}, {currentLocation.coords.lng.toFixed(6)}  
+            </p>  
           )}  
         </div>  
-      )}  
-      
-      <MapView height="70vh" trackUser={true} />  
+      </div>  
       
       <div className="action-buttons">  
-        <button className="save-location-btn">  
+        <button className="btn btn-primary">  
           ذخیره موقعیت فعلی  
         </button>  
-        <button className="share-location-btn">  
+        <button className="btn btn-secondary">  
           اشتراک‌گذاری موقعیت  
         </button>  
-        <button className="navigation-btn">  
+        <button className="btn btn-info">  
           مسیریابی  
         </button>  
       </div>  
@@ -118,4 +140,5 @@ const MapPage = () => {
   );  
 };  
 
-export default MapPage;  
+// سطر زیر اضافه نشود - به جای آن از { MapPage } در import استفاده شود  
+// export default MapPage;  

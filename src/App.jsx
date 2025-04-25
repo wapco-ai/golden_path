@@ -1,17 +1,17 @@
 import React from 'react';  
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';  
-import HomePage from './pages/HomePage';  
-import MapPage from './pages/MapPage';  
-import QRScanPage from './pages/QRScanPage';  
-import SettingsPage from './pages/SettingsPage';  
-import NotFoundPage from './pages/NotFoundPage';  
-import Header from './components/layout/Header';  
-import Footer from './components/layout/Footer';  
+import { HomePage } from './pages/HomePage';  
+import { MapPage } from './pages/MapPage';  
+import { QRScanPage } from './pages/QRScanPage';  
+import { SettingsPage } from './pages/SettingsPage';  
+import { NotFoundPage } from './pages/NotFoundPage';  
+import { Header } from './components/layout/Header';  
+import { Footer } from './components/layout/Footer';  
 import './App.css';  
 
 function App() {  
   return (  
-    <Router basename={import.meta.env.BASE_URL}>  
+    <Router>  
       <div className="app">  
         <Header />  
         <main className="main-content">  
