@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/gps_validity/sw.js', { scope: '/gps_validity/' })})}
