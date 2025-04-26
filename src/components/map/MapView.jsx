@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';  
-import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap } from 'react-leaflet';  
+import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap, ZoomControl } from 'react-leaflet';  
 import L from 'leaflet';  
 import 'leaflet/dist/leaflet.css';  
 import './Map.css';  
@@ -75,7 +75,10 @@ const MapView = ({
         zoom={initialZoom}   
         className="map-container"  
         whenCreated={setMap}  
+        zoomControl={false} // غیرفعال کردن کنترل زوم پیش‌فرض  
       >  
+        <ZoomControl position="topright" /> {/* قرار دادن کنترل زوم در موقعیت بالا-راست */}  
+        
         <TileLayer  
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'  
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"  

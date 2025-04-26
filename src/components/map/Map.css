@@ -13,29 +13,62 @@
 .map-container {  
   width: 100%;  
   height: 100%;  
-  z-index: 2;  
 }  
 
+/* استایل مشترک برای همه دکمه‌های دارای آیکون */  
+.button-with-icon {  
+  display: inline-flex;  
+  align-items: center;  
+  justify-content: center;  
+  gap: 4px;  
+}  
+
+.button-with-icon svg {  
+  vertical-align: middle;  
+  flex-shrink: 0;  
+}  
+
+/* نوار ابزار بالای نقشه */  
 .map-toolbar {  
   position: absolute;  
   top: 10px;  
   left: 10px;  
   right: 10px;  
-  z-index: 1000;  
+  z-index: 1001;  
   display: flex;  
   justify-content: space-between;  
-  padding: 10px;  
+  align-items: center;  
+  padding: 8px;  
+  background-color: rgba(255, 255, 255, 0.8);  
+  border-radius: 8px;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
 }  
 
-.map-bottom-toolbar {  
-  position: absolute;  
-  bottom: 20px;  
-  left: 10px;  
-  right: 10px;  
-  z-index: 1000;  
-  display: flex;  
+.back-button {  
+  background-color: white;  
+  color: #333;  
+  border: none;  
+  border-radius: 4px;  
+  padding: 4px 8px;  
+  font-weight: bold;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+  cursor: pointer;  
+  display: inline-flex;  
+  align-items: center;  
   justify-content: center;  
-  gap: 10px;  
+  gap: 4px;  
+  text-decoration: none;  
+  min-width: 90px;  
+  height: 28px;  
+}  
+
+.back-button svg {  
+  vertical-align: middle;  
+  margin-top: -1px; /* تنظیم دقیق برای تراز بهتر */  
+}  
+
+.back-button:hover {  
+  background-color: #f0f0f0;  
 }  
 
 .tracking-button {  
@@ -43,16 +76,64 @@
   color: #333;  
   border: none;  
   border-radius: 4px;  
-  padding: 8px 16px;  
+  padding: 4px 8px;  
   font-weight: bold;  
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
   cursor: pointer;  
+  display: inline-flex;  
+  align-items: center;  
+  justify-content: center;  
+  gap: 4px;  
+  min-width: 90px;  
+  height: 28px;  
+}  
+
+.tracking-button svg {  
+  vertical-align: middle;  
+  margin-top: -1px; /* تنظیم دقیق برای تراز بهتر */  
 }  
 
 .tracking-button.active {  
   background-color: #0085ff;  
   color: white;  
 }  
+
+/* استایل برای دکمه‌های اکشن نیز باید اصلاح شود */  
+.action-button {  
+  background-color: white;  
+  color: #333;  
+  border: none;  
+  border-radius: 4px;  
+  padding: 4px 6px;  
+  font-weight: bold;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+  cursor: pointer;  
+  display: inline-flex;  
+  align-items: center;  
+  justify-content: center;  
+  gap: 2px;  
+}  
+
+.action-button svg {  
+  vertical-align: middle;  
+  margin-top: -1px; /* تنظیم دقیق برای تراز بهتر */  
+}   
+
+/* نوار ابزار پایین نقشه */  
+.map-bottom-toolbar {  
+  position: absolute;  
+  bottom: 25px;  
+  left: 50%;  
+  transform: translateX(-50%);  
+  z-index: 1001;  
+  display: flex;  
+  justify-content: center;  
+  gap: 10px;  
+  padding: 8px;  
+  background-color: rgba(255, 255, 255, 0.8);  
+  border-radius: 8px;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+}   
 
 .error-indicator {  
   background-color: rgba(255, 0, 0, 0.7);  
@@ -75,10 +156,13 @@
   color: #333;  
   border: none;  
   border-radius: 4px;  
-  padding: 8px 16px;  
+  padding: 4px 6px;  
   font-weight: bold;  
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
   cursor: pointer;  
+  display: flex;  
+  align-items: center;  
+  gap: 2px;  
 }  
 
 .action-button:disabled {  
@@ -101,10 +185,11 @@
   color: white;  
 }  
 
+/* کنترل‌های نقشه */  
 .map-controls-overlay {  
   position: absolute;  
   right: 10px;  
-  bottom: 80px;  
+  bottom: 100px; /* افزایش فاصله از پایین */  
   display: flex;  
   flex-direction: column;  
   gap: 10px;  
@@ -130,16 +215,18 @@
   color: white;  
 }  
 
+/* پنل اطلاعات موقعیت */  
 .location-panel {  
   position: absolute;  
-  bottom: 70px;  
+  bottom: 80px; /* فاصله بیشتر از پایین */  
   left: 10px;  
   background-color: rgba(255, 255, 255, 0.9);  
   padding: 8px;  
   border-radius: 4px;  
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
-  z-index: 1000;  
+  z-index: 999; /* کمتر از دکمه‌ها */  
   font-size: 12px;  
+  max-width: 180px;  
 }  
 
 .coordinates-display {  
@@ -152,21 +239,43 @@
   font-weight: bold;  
 }  
 
+/* اطمینان از عدم تداخل با کنترل‌های leaflet */  
+.leaflet-control-zoom {  
+  margin-top: 60px !important; /* افزایش فاصله از بالا برای جلوگیری از تداخل با نوار ابزار */  
+}  
+
 /* برای اپ‌بار در موبایل */  
 @media (max-width: 768px) {  
   .map-toolbar {  
-    top: 0;  
-    left: 0;  
-    right: 0;  
-    background-color: rgba(255, 255, 255, 0.9);  
+    top: 10px;  
+    padding: 6px;  
   }  
   
   .map-bottom-toolbar {  
-    bottom: 10px;  
+    bottom: 20px;  
+    width: 95%;  
+    max-width: 400px;  
+    padding: 6px;  
+    flex-wrap: wrap;  
+    justify-content: center;  
   }  
   
   .action-button {  
-    font-size: 12px;  
-    padding: 6px 10px;  
+    font-size: 10px;  
+    padding: 6px 8px;  
+  }  
+  
+  .map-controls-overlay {  
+    bottom: 90px;  
+  }  
+  
+  .location-panel {  
+    bottom: 90px;  
+    max-width: 150px;  
+    font-size: 10px;  
+  }  
+  
+  .leaflet-control-zoom {  
+    margin-top: 70px !important;  
   }  
 }  
