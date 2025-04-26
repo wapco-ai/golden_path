@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';  
+import React, { useEffect, useState } from 'react';  
 import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap } from 'react-leaflet';  
 import L from 'leaflet';  
 import 'leaflet/dist/leaflet.css';  
+import './Map.css';  
 
-// آیکون‌های Leaflet  
+// حل مشکل آیکون‌های Leaflet  
 delete L.Icon.Default.prototype._getIconUrl;  
 L.Icon.Default.mergeOptions({  
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',  
@@ -37,8 +38,7 @@ const MapView = ({
   locationHistory = [],   
   savedLocations = [],   
   followUser = true,  
-  initialZoom = 15,  
-  onMapClick  
+  initialZoom = 15  
 }) => {  
   const [map, setMap] = useState(null);  
   const [isFollowing, setIsFollowing] = useState(followUser);  
@@ -75,8 +75,6 @@ const MapView = ({
         zoom={initialZoom}   
         className="map-container"  
         whenCreated={setMap}  
-        onClick={onMapClick}  
-        attributionControl={false}  
       >  
         <TileLayer  
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'  
