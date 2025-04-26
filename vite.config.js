@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';  
 
 export default defineConfig({  
-  base: process.env.BASE_URL || '/',  
+  //base: process.env.BASE_URL || '/',  
+  base: '/gps_validity/',
   plugins: [  
     react(),  
     VitePWA({  

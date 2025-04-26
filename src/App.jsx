@@ -6,7 +6,8 @@ import { QRScanPage } from './pages/QRScanPage';
 import { SettingsPage } from './pages/SettingsPage';  
 import { NotFoundPage } from './pages/NotFoundPage';  
 import { Header } from './components/layout/Header';  
-import { Footer } from './components/layout/Footer';  
+import { Footer } from './components/layout/Footer'; 
+//import { HashRouter as Router } from 'react-router-dom';  
 import './App.css';  
 
 function App() {  
