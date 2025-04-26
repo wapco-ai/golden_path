@@ -3,20 +3,15 @@ import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap } from
 import L from 'leaflet';  
 import 'leaflet/dist/leaflet.css';  
 
-// برای حل مشکل آیکون‌های Leaflet در React  
-import markerIcon from 'leaflet/dist/images/marker-icon.png';  
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';  
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';  
-
-// تنظیم آیکون‌های پیش‌فرض Leaflet  
+// آیکون‌های Leaflet  
 delete L.Icon.Default.prototype._getIconUrl;  
 L.Icon.Default.mergeOptions({  
-  iconUrl: markerIcon,  
-  iconRetinaUrl: markerIcon2x,  
-  shadowUrl: markerShadow,  
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',  
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',  
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',  
 });  
 
-// آیکون موقعیت فعلی با رنگ آبی  
+// آیکون موقعیت فعلی  
 const currentLocationIcon = new L.Icon({  
   iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwODVmZiIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjgiLz48L3N2Zz4=',  
   iconSize: [24, 24],  
@@ -24,7 +19,7 @@ const currentLocationIcon = new L.Icon({
   popupAnchor: [0, -12],  
 });  
 
-// کامپوننت برای به‌روزرسانی خودکار مرکز نقشه با تغییر موقعیت  
+// کامپوننت کنترل خودکار مرکز نقشه  
 const AutoCenterMap = ({ position, follow }) => {  
   const map = useMap();  
   
@@ -37,12 +32,10 @@ const AutoCenterMap = ({ position, follow }) => {
   return null;  
 };  
 
-// کامپوننت اصلی نقشه  
 const MapView = ({   
   currentLocation,   
   locationHistory = [],   
   savedLocations = [],   
-  height = '70vh',   
   followUser = true,  
   initialZoom = 15,  
   onMapClick  
@@ -50,7 +43,7 @@ const MapView = ({
   const [map, setMap] = useState(null);  
   const [isFollowing, setIsFollowing] = useState(followUser);  
   
-  // تبدیل آرایه موقعیت‌ها به فرمت مناسب برای Polyline  
+  // مسیر طی شده  
   const pathPoints = locationHistory  
     .filter(loc => loc?.coords?.lat && loc?.coords?.lng)  
     .map(loc => [loc.coords.lat, loc.coords.lng]);  
@@ -76,13 +69,14 @@ const MapView = ({
   };  
   
   return (  
-    <div className="map-container" style={{ position: 'relative' }}>  
+    <div className="map-fullscreen">  
       <MapContainer   
         center={getInitialCenter()}   
         zoom={initialZoom}   
-        style={{ height, width: '100%', zIndex: 1 }}  
+        className="map-container"  
         whenCreated={setMap}  
         onClick={onMapClick}  
+        attributionControl={false}  
       >  
         <TileLayer  
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'  
@@ -105,17 +99,11 @@ const MapView = ({
                   {currentLocation.coords.altitude && (  
                     <p>ارتفاع: {currentLocation.coords.altitude.toFixed(2)} متر</p>  
                   )}  
-                  {currentLocation.coords.heading && (  
-                    <p>جهت: {currentLocation.coords.heading.toFixed(2)}°</p>  
-                  )}  
-                  {currentLocation.coords.speed && (  
-                    <p>سرعت: {(currentLocation.coords.speed * 3.6).toFixed(2)} کیلومتر بر ساعت</p>  
-                  )}  
                 </div>  
               </Popup>  
             </Marker>  
             
-            {/* دایره نشان‌دهنده دقت موقعیت */}  
+            {/* دایره دقت */}  
             <Circle   
               center={[currentLocation.coords.lat, currentLocation.coords.lng]}  
               radius={currentLocation.coords.accuracy}  
@@ -148,83 +136,67 @@ const MapView = ({
                 <p>طول جغرافیایی: {location.coords.lng.toFixed(6)}</p>  
                 <p>عرض جغرافیایی: {location.coords.lat.toFixed(6)}</p>  
                 {location.timestamp && (  
-                  <p>زمان ذخیره: {new Date(location.timestamp).toLocaleString('fa-IR')}</p>  
+                  <p>زمان: {new Date(location.timestamp).toLocaleString('fa-IR')}</p>  
                 )}  
               </div>  
             </Popup>  
           </Marker>  
         ))}  
         
-        {/* تنظیم خودکار مرکز نقشه بر اساس موقعیت کاربر */}  
+        {/* تنظیم خودکار مرکز نقشه */}  
         <AutoCenterMap position={currentLocation} follow={isFollowing} />  
       </MapContainer>  
       
-      {/* دکمه تعقیب موقعیت کاربر */}  
-      <div   
-        className="map-control-button location-follow-button"   
-        style={{  
-          position: 'absolute',  
-          bottom: '20px',  
-          right: '10px',  
-          zIndex: 2,  
-          backgroundColor: isFollowing ? '#0085ff' : 'white',  
-          color: isFollowing ? 'white' : '#333',  
-          padding: '8px',  
-          borderRadius: '4px',  
-          boxShadow: '0 1px 5px rgba(0,0,0,0.4)',  
-          cursor: 'pointer',  
-          display: 'flex',  
-          alignItems: 'center',  
-          justifyContent: 'center',  
-          width: '40px',  
-          height: '40px'  
-        }}  
-        onClick={toggleFollow}  
-        title={isFollowing ? 'توقف تعقیب موقعیت' : 'تعقیب موقعیت'}  
-      >  
-        {/* آیکون تعقیب موقعیت */}  
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">  
-          <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />  
-          <circle cx="12" cy="10" r="3" />  
-        </svg>  
+      {/* دکمه‌های کنترل نقشه */}  
+      <div className="map-controls-overlay">  
+        {/* دکمه تعقیب موقعیت */}  
+        <button   
+          className={`map-control-button ${isFollowing ? 'active' : ''}`}  
+          onClick={toggleFollow}  
+          title={isFollowing ? 'توقف تعقیب موقعیت' : 'تعقیب موقعیت'}  
+        >  
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">  
+            <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />  
+            <circle cx="12" cy="10" r="3" />  
+          </svg>  
+        </button>  
+        
+        {/* دکمه مرکز به موقعیت فعلی */}  
+        <button   
+          className="map-control-button"  
+          onClick={() => {  
+            if (currentLocation?.coords && map) {  
+              map.setView(  
+                [currentLocation.coords.lat, currentLocation.coords.lng],   
+                map.getZoom()  
+              );  
+            }  
+          }}  
+          title="مرکز به موقعیت فعلی"  
+        >  
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">  
+            <circle cx="12" cy="12" r="10" />  
+            <circle cx="12" cy="12" r="3" />  
+          </svg>  
+        </button>  
       </div>  
       
-      {/* دکمه بازگشت به موقعیت فعلی */}  
-      <div   
-        className="map-control-button center-location-button"   
-        style={{  
-          position: 'absolute',  
-          bottom: '70px',  
-          right: '10px',  
-          zIndex: 2,  
-          backgroundColor: 'white',  
-          color: '#333',  
-          padding: '8px',  
-          borderRadius: '4px',  
-          boxShadow: '0 1px 5px rgba(0,0,0,0.4)',  
-          cursor: 'pointer',  
-          display: 'flex',  
-          alignItems: 'center',  
-          justifyContent: 'center',  
-          width: '40px',  
-          height: '40px'  
-        }}  
-        onClick={() => {  
-          if (currentLocation?.coords && map) {  
-            map.setView(  
-              [currentLocation.coords.lat, currentLocation.coords.lng],   
-              map.getZoom()  
-            );  
-          }  
-        }}  
-        title="مرکز به موقعیت فعلی"  
-      >  
-        {/* آیکون مرکز به موقعیت فعلی */}  
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">  
-          <circle cx="12" cy="12" r="10" />  
-          <circle cx="12" cy="12" r="3" />  
-        </svg>  
-      </div>  
+      {/* پنل اطلاعات موقعیت */}  
+      {currentLocation && (  
+        <div className="location-panel">  
+          <div className="coordinates-display">  
+            <div>  
+              <span>عرض:</span> {currentLocation.coords.lat.toFixed(6)}  
+            </div>  
+            <div>  
+              <span>طول:</span> {currentLocation.coords.lng.toFixed(6)}  
+            </div>  
+            <div>  
+              <span>دقت:</span> {currentLocation.coords.accuracy.toFixed(1)}m  
+            </div>  
+          </div>  
+        </div>  
+      )}  
     </div>  
   );  
 };  

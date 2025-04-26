@@ -8,7 +8,6 @@ export const MapPage = () => {
   const [isTracking, setIsTracking] = useState(false);  
   const [error, setError] = useState(null);  
   const [loading, setLoading] = useState(true);  
-  const [mapMode, setMapMode] = useState('gps'); // 'gps', 'qr', 'imu'  
   
   // دریافت موقعیت فعلی  
   const getCurrentPosition = useCallback(() => {  
@@ -95,7 +94,7 @@ export const MapPage = () => {
             speed  
           },  
           timestamp: position.timestamp,  
-          id: Date.now() // شناسه یکتا برای هر موقعیت  
+          id: Date.now()  
         };  
         
         setCurrentLocation(newLocation);  
@@ -216,135 +215,56 @@ export const MapPage = () => {
     };  
   }, [getCurrentPosition]);  
   
-  // کلیک روی نقشه  
-  const handleMapClick = (e) => {  
-    console.log('Map clicked at:', e.latlng);  
-    // می‌توانید اینجا منطق اضافی مثل افزودن مارکر بگذارید  
-  };  
-  
   return (  
-    <div className="map-page">  
-      <div className="map-header">  
-        <h2>نقشه موقعیت</h2>  
-        
-        <div className="map-controls">  
-          <div className="mode-selector">  
-            <button   
-              className={`btn ${mapMode === 'gps' ? 'btn-primary' : 'btn-secondary'}`}  
-              onClick={() => setMapMode('gps')}  
-            >  
-              GPS  
-            </button>  
-            <button   
-              className={`btn ${mapMode === 'qr' ? 'btn-primary' : 'btn-secondary'}`}  
-              onClick={() => setMapMode('qr')}  
-            >  
-              QR Code  
-            </button>  
-            <button   
-              className={`btn ${mapMode === 'imu' ? 'btn-primary' : 'btn-secondary'}`}  
-              onClick={() => setMapMode('imu')}  
-            >  
-              IMU  
-            </button>  
-          </div>  
-          
-          <button   
-            className={`btn ${isTracking ? 'btn-danger' : 'btn-success'}`}  
-            onClick={toggleTracking}  
-          >  
-            {isTracking ? 'توقف ردیابی' : 'شروع ردیابی'}  
-          </button>  
-        </div>  
-      </div>  
-      
-      {error && (  
-        <div className="error-message">  
-          {error}  
-        </div>  
-      )}  
-      
-      <div className="location-info">  
-        {loading && !currentLocation ? (  
-          <div className="loading">در حال دریافت موقعیت...</div>  
-        ) : currentLocation ? (  
-          <div className="coordinates">  
-            <div>عرض جغرافیایی: <strong>{currentLocation.coords.lat.toFixed(6)}</strong></div>  
-            <div>طول جغرافیایی: <strong>{currentLocation.coords.lng.toFixed(6)}</strong></div>  
-            <div>دقت: <strong>{currentLocation.coords.accuracy.toFixed(2)} متر</strong></div>  
-            {currentLocation.coords.speed && (  
-              <div>سرعت: <strong>{(currentLocation.coords.speed * 3.6).toFixed(2)} کیلومتر/ساعت</strong></div>  
-            )}  
-          </div>  
-        ) : (  
-          <div>موقعیت در دسترس نیست</div>  
-        )}  
-      </div>  
-      
-      <div className="map-wrapper">  
-        <MapView   
-          currentLocation={currentLocation}  
-          locationHistory={locationHistory}  
-          savedLocations={savedLocations}  
-          height="60vh"  
-          followUser={true}  
-          initialZoom={15}  
-          onMapClick={handleMapClick}  
-        />  
-      </div>  
-      
-      <div className="action-buttons">  
+    <div className="map-fullpage">  
+      {/* نوار ابزار بالای نقشه - روی نقشه قرار می‌گیرد */}  
+      <div className="map-toolbar">  
         <button   
-          className="btn btn-primary"  
+          className={`tracking-button ${isTracking ? 'active' : ''}`}  
+          onClick={toggleTracking}  
+        >  
+          {isTracking ? 'توقف ردیابی' : 'شروع ردیابی'}  
+        </button>  
+        
+        {error && <div className="error-indicator">{error}</div>}  
+        
+        {loading && !currentLocation && <div className="loading-indicator">در حال یافتن موقعیت...</div>}  
+      </div>  
+      
+      {/* نقشه اصلی - فضای کامل صفحه را می‌گیرد */}  
+      <MapView   
+        currentLocation={currentLocation}  
+        locationHistory={locationHistory}  
+        savedLocations={savedLocations}  
+        followUser={true}  
+        initialZoom={15}  
+      />  
+      
+      {/* نوار ابزار پایین نقشه - روی نقشه قرار می‌گیرد */}  
+      <div className="map-bottom-toolbar">  
+        <button   
+          className="action-button save-button"  
           onClick={saveCurrentLocation}  
           disabled={!currentLocation}  
         >  
-          ذخیره موقعیت فعلی  
+          ذخیره موقعیت  
         </button>  
+        
         <button   
-          className="btn btn-info"  
+          className="action-button share-button"  
           onClick={shareCurrentLocation}  
           disabled={!currentLocation}  
         >  
-          اشتراک‌گذاری موقعیت  
+          اشتراک‌گذاری  
         </button>  
+        
         <button   
-          className="btn btn-secondary"  
+          className="action-button clear-button"  
           onClick={() => setLocationHistory([])}  
           disabled={locationHistory.length === 0}  
         >  
           پاک کردن مسیر  
         </button>  
-      </div>  
-      
-      <div className="info-panel">  
-        <h3>آمار</h3>  
-        <div className="stats">  
-          <div className="stat-item">  
-            <span className="stat-label">تعداد نقاط ثبت شده:</span>  
-            <span className="stat-value">{locationHistory.length}</span>  
-          </div>  
-          {locationHistory.length > 0 && (  
-            <div className="stat-item">  
-              <span className="stat-label">زمان شروع ردیابی:</span>  
-              <span className="stat-value">  
-                {new Date(locationHistory[0].timestamp).toLocaleTimeString('fa-IR')}  
-              </span>  
-            </div>  
-          )}  
-          <div className="stat-item">  
-            <span className="stat-label">مکان‌های ذخیره شده:</span>  
-            <span className="stat-value">{savedLocations.length}</span>  
-          </div>  
-          {locationHistory.length > 1 && (  
-            <div className="stat-item">  
-              <span className="stat-label">مدت زمان ردیابی:</span>  
-              <span className="stat-value">  
-                {Math.floor((locationHistory[locationHistory.length - 1].timestamp - locationHistory[0].timestamp) / 60000)} دقیقه  
-              </span>  
-            </div>  
-          )}  
-        </div>  
       </div>  
     </div>  
   );  
