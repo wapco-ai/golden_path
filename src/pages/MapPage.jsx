@@ -1,5 +1,5 @@
 // src/pages/MapPage.jsx  
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';  
 import { Link } from 'react-router-dom';
 import MapView from '../components/map/MapView';
 import { useGPSNoiseDetection } from '../utils/useGPSNoiseDetection';

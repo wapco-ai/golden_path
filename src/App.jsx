@@ -1,7 +1,7 @@
 import React from 'react';  
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';  
 import { HomePage } from './pages/HomePage';  
-import { MapPage } from './pages/MapPage';  
+import MapPage from './pages/MapPage';
 import { QRScanPage } from './pages/QRScanPage';  
 import { SettingsPage } from './pages/SettingsPage';  
 import { NotFoundPage } from './pages/NotFoundPage';  

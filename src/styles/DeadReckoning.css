@@ -1,0 +1,65 @@
+.dr-controls {  
+  position: absolute;  
+  bottom: 140px; /* بالاتر از کنترل‌های اصلی */  
+  right: 10px;  
+  z-index: 1000;  
+  display: flex;  
+  flex-direction: column;  
+  gap: 8px;  
+  direction: rtl;  
+}  
+
+.dr-toggle-button,  
+.dr-calibrate-button,  
+.dr-export-button {  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  gap: 8px;  
+  padding: 8px 12px;  
+  border-radius: 8px;  
+  background-color: #fff;  
+  color: #333;  
+  border: none;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+  font-family: inherit;  
+  font-size: 0.9rem;  
+  cursor: pointer;  
+}  
+
+.dr-toggle-button.active {  
+  background-color: #4CAF50;  
+  color: white;  
+}  
+
+.dr-calibrate-button {  
+  background-color: #2196F3;  
+  color: white;  
+}  
+
+.dr-export-button {  
+  background-color: #FF9800;  
+  color: white;  
+}  
+
+.dr-controls button:disabled {  
+  opacity: 0.5;  
+  cursor: not-allowed;  
+}  
+
+.step-counter {  
+  display: flex;  
+  align-items: center;  
+  gap: 5px;  
+  font-size: 0.85rem;  
+  color: #333;  
+}  
+
+/* استایل برای مسیر Dead Reckoning روی نقشه */  
+.dead-reckoning-path {  
+  stroke: #4CAF50;  
+  stroke-width: 4;  
+  stroke-dasharray: 5, 5;  
+  fill: none;  
+  opacity: 0.8;  
+}  

@@ -1,8 +1,11 @@
+// src/components/map/MapView.jsx  
 import React, { useEffect, useState } from 'react';  
 import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap, ZoomControl } from 'react-leaflet';  
 import L from 'leaflet';  
 import 'leaflet/dist/leaflet.css';  
 import './Map.css';  
+import DeadReckoningControls from './DeadReckoningControls'; // اصلاح شده: import صحیح کامپوننت  
+import deadReckoningService from '../../services/DeadReckoningService';  
 
 // حل مشکل آیکون‌های Leaflet  
 delete L.Icon.Default.prototype._getIconUrl;  
@@ -42,11 +45,24 @@ const MapView = ({
 }) => {  
   const [map, setMap] = useState(null);  
   const [isFollowing, setIsFollowing] = useState(followUser);  
+  const [drPath, setDrPath] = useState([]); // مسیر Dead Reckoning  
   
   // مسیر طی شده  
   const pathPoints = locationHistory  
     .filter(loc => loc?.coords?.lat && loc?.coords?.lng)  
     .map(loc => [loc.coords.lat, loc.coords.lng]);  
+  
+  // اضافه کردن listener برای Dead Reckoning  
+  useEffect(() => {  
+    const removeListener = deadReckoningService.addListener((data) => {  
+      if (data.geoPath && data.geoPath.length > 0) {  
+        const formattedPath = data.geoPath.map(point => [point.lat, point.lng]);  
+        setDrPath(formattedPath);  
+      }  
+    });  
+    
+    return () => removeListener();  
+  }, []);  
   
   // تغییر وضعیت تعقیب کاربر  
   const toggleFollow = () => {  
@@ -75,9 +91,9 @@ const MapView = ({
         zoom={initialZoom}   
         className="map-container"  
         whenCreated={setMap}  
-        zoomControl={false} // غیرفعال کردن کنترل زوم پیش‌فرض  
+        zoomControl={false}  
       >  
-        <ZoomControl position="topright" /> {/* قرار دادن کنترل زوم در موقعیت بالا-راست */}  
+        <ZoomControl position="topright" />  
         
         <TileLayer  
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'  
@@ -115,13 +131,23 @@ const MapView = ({
           </>  
         )}  
         
-        {/* مسیر طی شده */}  
+        {/* مسیر GPS طی شده */}  
         {pathPoints.length > 1 && (  
           <Polyline   
             positions={pathPoints}   
             color="#0085ff"   
             weight={3}   
             opacity={0.7}   
+          />  
+        )}  
+
+        {/* مسیر Dead Reckoning (به رنگ سبز) */}  
+        {drPath.length > 1 && (  
+          <Polyline  
+            positions={drPath}  
+            color="#00c853"  // رنگ سبز   
+            weight={3}  
+            opacity={0.7}  
           />  
         )}  
         
@@ -198,6 +224,9 @@ const MapView = ({
           </div>  
         </div>  
       )}  
+
+      {/* اضافه کردن کنترل‌های Dead Reckoning */}  
+      <DeadReckoningControls currentLocation={currentLocation} />  
     </div>  
   );  
 };  
