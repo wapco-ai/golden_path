@@ -1,8 +1,7 @@
-// src/components/DeadReckoningControls/DeadReckoningControls.jsx  
 import React, { useState, useEffect } from 'react';  
 import deadReckoningService from '../../services/DeadReckoningService';  
 import useIMUSensors from '../../hooks/useIMUSensors';  
-import './DeadReckoningControls.css';   
+import './DeadReckoningControls.css';  
 
 const DeadReckoningControls = ({ currentLocation }) => {  
   const [isActive, setIsActive] = useState(false);  
@@ -56,26 +55,29 @@ const DeadReckoningControls = ({ currentLocation }) => {
     deadReckoningService.reset();  
   };  
 
+  const handleExport = () => {  
+    deadReckoningService.exportLog();  
+  };  
+
   const handleStrideLengthChange = (e) => {  
     const newValue = parseFloat(e.target.value);  
     setStrideLength(newValue);  
     deadReckoningService.setStrideLength(newValue);  
   };  
 
-  const handleExport = () => {  
-    deadReckoningService.exportLog();  
-  };  
-
   return (  
-    <div className="dead-reckoning-controls">  
+    <div className="dead-reckoning-panel">  
       <div className="dr-header">  
-        <h3>Dead Reckoning</h3>  
-        {isCalibrating && <span className="calibrating-badge">درحال کالیبراسیون...</span>}  
+        <h3>ردیابی آفلاین</h3>  
       </div>  
       
-      <div className="dr-controls">  
+      {isCalibrating && (  
+        <div className="calibrating-status">درحال کالیبراسیون...</div>  
+      )}  
+      
+      <div className="dr-button-group">  
         <button   
-          className={`dr-button ${isActive ? 'active' : ''}`}   
+          className={`dr-button dr-button-start ${isActive ? 'active' : ''}`}   
           onClick={handleToggle}  
           disabled={!currentLocation}  
         >  
@@ -83,7 +85,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
         </button>  
         
         <button   
-          className="dr-button"   
+          className="dr-button dr-button-reset"   
           onClick={handleReset}  
           disabled={!isActive}  
         >  
@@ -91,7 +93,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
         </button>  
         
         <button   
-          className="dr-button"   
+          className="dr-button dr-button-export"   
           onClick={handleExport}  
           disabled={stepCount === 0}  
         >  
@@ -99,22 +101,25 @@ const DeadReckoningControls = ({ currentLocation }) => {
         </button>  
       </div>  
       
-      <div className="dr-info">  
-        <div className="step-count">تعداد گام‌ها: {stepCount}</div>  
-        
-        <div className="stride-setting">  
-          <label>طول گام (متر):</label>  
-          <input   
-            type="range"   
-            min="0.3"   
-            max="1.2"   
-            step="0.05"   
-            value={strideLength}   
-            onChange={handleStrideLengthChange}   
-            disabled={!isActive}  
-          />  
-          <span className="stride-value">{strideLength}</span>  
-        </div>  
+      <div className="dr-step-count">  
+        تعداد گام‌ها: {stepCount}  
+      </div>  
+      
+      <div className="dr-stride-control">  
+        <label className="dr-stride-label">  
+          طول گام (متر):  
+        </label>  
+        <input   
+          type="range"   
+          min="0.3"   
+          max="1.2"   
+          step="0.05"   
+          value={strideLength}   
+          onChange={handleStrideLengthChange}   
+          className="dr-stride-slider"  
+          disabled={!isActive}  
+        />  
+        <div className="dr-stride-value">{strideLength}</div>  
       </div>  
     </div>  
   );  
