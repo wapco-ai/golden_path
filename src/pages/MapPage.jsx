@@ -1,8 +1,10 @@
+// src/pages/MapPage.jsx  
 import React, { useState, useEffect, useCallback } from 'react';  
 import { Link } from 'react-router-dom';  
 import MapView from '../components/map/MapView';  
 import { useGPSNoiseDetection } from '../utils/useGPSNoiseDetection';  
 import { isValidGPSReading } from '../utils/gpsFilter';  
+import { LogStorageService } from '../services/LogStorageService';  
 
 export const MapPage = () => {  
   const [currentLocation, setCurrentLocation] = useState(null);  
@@ -11,6 +13,7 @@ export const MapPage = () => {
   const [isTracking, setIsTracking] = useState(false);  
   const [error, setError] = useState(null);  
   const [loading, setLoading] = useState(true);  
+  const [trackStartTime, setTrackStartTime] = useState(null);  
   
   // استفاده از هوک تشخیص نویز  
   const {   
@@ -50,6 +53,9 @@ export const MapPage = () => {
           id: Date.now()  
         };  
         
+        // ذخیره لاگ در دیتابیس لوکال  
+        LogStorageService.saveGPSLog(newLocation, false);  
+        
         setCurrentLocation(newLocation);  
         setLoading(false);  
       },  
@@ -84,88 +90,92 @@ export const MapPage = () => {
   }, []);  
   
   // شروع ردیابی مداوم  
-const startTracking = useCallback(() => {  
-  setIsTracking(true);  
-  
-  if (!navigator.geolocation) {  
-    setError('مرورگر شما از Geolocation پشتیبانی نمی‌کند');  
-    return;  
-  }  
-  
-  // دریافت موقعیت اولیه  
-  getCurrentPosition();  
-  
-  // شروع ردیابی مداوم  
-  const watchId = navigator.geolocation.watchPosition(  
-    (position) => {  
-      console.log('دریافت موقعیت جدید از watchPosition:', position);  
-      const { latitude, longitude, accuracy, altitude, heading, speed } = position.coords;  
-      const newLocation = {  
-        coords: {  
-          lat: latitude,  
-          lng: longitude,  
-          accuracy,  
-          altitude,  
-          heading,  
-          speed  
-        },  
-        timestamp: position.timestamp,  
-        id: Date.now()  
-      };  
-      
-      setCurrentLocation(prevLocation => {  
-        // فیلتر کردن داده‌های نویزی (اختیاری)  
-        const isValid = !prevLocation || isValidGPSReading(newLocation, prevLocation);  
+  const startTracking = useCallback(() => {  
+    setIsTracking(true);  
+    setTrackStartTime(Date.now());  
+    
+    if (!navigator.geolocation) {  
+      setError('مرورگر شما از Geolocation پشتیبانی نمی‌کند');  
+      return;  
+    }  
+    
+    // دریافت موقعیت اولیه  
+    getCurrentPosition();  
+    
+    // شروع ردیابی مداوم  
+    const watchId = navigator.geolocation.watchPosition(  
+      (position) => {  
+        console.log('دریافت موقعیت جدید از watchPosition:', position);  
+        const { latitude, longitude, accuracy, altitude, heading, speed } = position.coords;  
+        const newLocation = {  
+          coords: {  
+            lat: latitude,  
+            lng: longitude,  
+            accuracy,  
+            altitude,  
+            heading,  
+            speed  
+          },  
+          timestamp: position.timestamp,  
+          id: Date.now()  
+        };  
         
-        if (isValid) {  
-          // اضافه کردن به تاریخچه فقط اگر معتبر باشد  
-          setLocationHistory(prevHistory => {  
-            // روش اول (درون تابع)  
-            const newHistory = [...prevHistory, newLocation];  
-            console.log('نقطه جدید به تاریخچه اضافه شد. تعداد نقاط:', newHistory.length);  
-            return newHistory;  
-          });  
-        } else {  
-          console.log('داده GPS نویزی فیلتر شد و به تاریخچه اضافه نشد');  
+        setCurrentLocation(prevLocation => {  
+          // تشخیص نویز  
+          const isNoisy = prevLocation && !isValidGPSReading(newLocation, prevLocation);  
+          
+          // ذخیره لاگ در دیتابیس لوکال  
+          LogStorageService.saveGPSLog(newLocation, isNoisy);  
+          
+          // فیلتر کردن داده‌های نویزی (اختیاری)  
+          if (!isNoisy) {  
+            // اضافه کردن به تاریخچه فقط اگر معتبر باشد  
+            setLocationHistory(prevHistory => {  
+              const newHistory = [...prevHistory, newLocation];  
+              console.log('نقطه جدید به تاریخچه اضافه شد. تعداد نقاط:', newHistory.length);  
+              return newHistory;  
+            });  
+          } else {  
+            console.log('داده GPS نویزی فیلتر شد و به تاریخچه اضافه نشد');  
+          }  
+          
+          // همیشه موقعیت فعلی را به‌روز می‌کنیم، حتی اگر به تاریخچه اضافه نشود  
+          return newLocation;  
+        });  
+        
+        setError(null);  
+      },  
+      (error) => {  
+        console.error('خطا در ردیابی موقعیت:', error);  
+        let errorMessage = 'خطا در ردیابی موقعیت';  
+        
+        switch (error.code) {  
+          case error.PERMISSION_DENIED:  
+            errorMessage = 'دسترسی به موقعیت توسط کاربر رد شده است';  
+            break;  
+          case error.POSITION_UNAVAILABLE:  
+            errorMessage = 'اطلاعات موقعیت در دسترس نیست';  
+            break;  
+          case error.TIMEOUT:  
+            errorMessage = 'زمان درخواست موقعیت به پایان رسید';  
+            break;  
+          case error.UNKNOWN_ERROR:  
+            errorMessage = 'خطای ناشناخته در دریافت موقعیت';  
+            break;  
         }  
         
-        // همیشه موقعیت فعلی را به‌روز می‌کنیم، حتی اگر به تاریخچه اضافه نشود  
-        return newLocation;  
-      });  
-      
-      setError(null);  
-    },  
-    (error) => {  
-      console.error('خطا در ردیابی موقعیت:', error);  
-      let errorMessage = 'خطا در ردیابی موقعیت';  
-      
-      switch (error.code) {  
-        case error.PERMISSION_DENIED:  
-          errorMessage = 'دسترسی به موقعیت توسط کاربر رد شده است';  
-          break;  
-        case error.POSITION_UNAVAILABLE:  
-          errorMessage = 'اطلاعات موقعیت در دسترس نیست';  
-          break;  
-        case error.TIMEOUT:  
-          errorMessage = 'زمان درخواست موقعیت به پایان رسید';  
-          break;  
-        case error.UNKNOWN_ERROR:  
-          errorMessage = 'خطای ناشناخته در دریافت موقعیت';  
-          break;  
+        setError(errorMessage);  
+      },  
+      {  
+        enableHighAccuracy: true,  
+        timeout: 10000,  
+        maximumAge: 0  
       }  
-      
-      setError(errorMessage);  
-    },  
-    {  
-      enableHighAccuracy: true,  
-      timeout: 10000,  
-      maximumAge: 0  
-    }  
-  );  
-  
-  // ذخیره ID مربوط به watchPosition برای پاکسازی بعدی  
-  window.geolocationWatchId = watchId;  
-}, [getCurrentPosition]);   
+    );  
+    
+    // ذخیره ID مربوط به watchPosition برای پاکسازی بعدی  
+    window.geolocationWatchId = watchId;  
+  }, [getCurrentPosition]);  
   
   // توقف ردیابی  
   const stopTracking = useCallback(() => {  
@@ -175,8 +185,28 @@ const startTracking = useCallback(() => {
       navigator.geolocation.clearWatch(window.geolocationWatchId);  
       window.geolocationWatchId = undefined;  
       console.log('ردیابی GPS متوقف شد');  
+      
+      // ذخیره تاریخچه مسیر در پایان ردیابی  
+      if (trackStartTime && locationHistory.length > 0) {  
+        const endTime = Date.now();  
+        const trackName = prompt('نام این مسیر را وارد کنید:', `مسیر ${new Date().toLocaleDateString('fa-IR')}`);  
+        
+        LogStorageService.saveTrackLog(  
+          locationHistory,   
+          trackStartTime,   
+          endTime,   
+          {  
+            name: trackName || `مسیر ${new Date().toLocaleDateString('fa-IR')}`,  
+            noiseScore: anomalyScore,  
+            quality: noiseLevel,  
+            length: locationHistory.length  
+          }  
+        );  
+        
+        console.log('مسیر ذخیره شد');  
+      }  
     }  
-  }, []);  
+  }, [locationHistory, trackStartTime, anomalyScore, noiseLevel]);  
   
   // تغییر وضعیت ردیابی  
   const toggleTracking = useCallback(() => {  
@@ -301,7 +331,7 @@ const startTracking = useCallback(() => {
           <span>{isTracking ? 'توقف ردیابی' : 'شروع ردیابی'}</span>  
         </button>  
         
-        {/* نمایش وضعیت نویز */}  
+                {/* نمایش وضعیت نویز */}  
         {isJamming && (  
           <div className="error-indicator">  
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">  
@@ -341,7 +371,7 @@ const startTracking = useCallback(() => {
             ></div>  
           </div>  
           <div className="quality-text">  
-                        {noiseLevel === 'کم' && <span className="quality-good">کیفیت: خوب</span>}  
+            {noiseLevel === 'کم' && <span className="quality-good">کیفیت: خوب</span>}  
             {noiseLevel === 'متوسط' && <span className="quality-medium">کیفیت: متوسط</span>}  
             {noiseLevel === 'زیاد' && <span className="quality-poor">کیفیت: ضعیف</span>}  
             
@@ -402,10 +432,17 @@ const startTracking = useCallback(() => {
           </svg>  
           <span>پاک کردن مسیر</span>  
         </button>  
+        
+        <Link to="/settings" className="action-button settings-button">  
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">  
+            <circle cx="12" cy="12" r="3"></circle>  
+            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path>  
+          </svg>  
+          <span>تنظیمات</span>  
+        </Link>  
       </div>  
     </div>  
   );  
 };  
 
 export default MapPage;  
-			

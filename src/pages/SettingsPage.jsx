@@ -1,167 +1,283 @@
-import React, { useState } from 'react';  
+// src/pages/SettingsPage.jsx  
+import React, { useState, useEffect } from 'react';  
+import { Link } from 'react-router-dom';  
+import { LogStorageService } from '../services/LogStorageService';  
+import './SettingsPage.css';  
 
-export const SettingsPage = () => {  
-  const [settings, setSettings] = useState({  
-    gpsHighAccuracy: true,  
-    trackingInterval: 5,  
-    saveLocationHistory: true,  
-    darkMode: false,  
-    mapTileProvider: 'openstreetmap',  
-    language: 'fa'  
-  });  
-
-  const handleChange = (e) => {  
-    const { name, value, type, checked } = e.target;  
-    setSettings({  
-      ...settings,  
-      [name]: type === 'checkbox' ? checked : value  
-    });  
+const SettingsPage = () => {  
+  const [logCounts, setLogCounts] = useState({ gpsLogs: 0, trackLogs: 0 });  
+  const [storageSize, setStorageSize] = useState({ gpsLogsSize: 0, trackLogsSize: 0, totalSize: 0 });  
+  const [isLoading, setIsLoading] = useState(true);  
+  const [isExporting, setIsExporting] = useState(false);  
+  const [message, setMessage] = useState('');  
+  
+  // دریافت آمار لاگ‌ها  
+  useEffect(() => {  
+    async function fetchLogStats() {  
+      try {  
+        setIsLoading(true);  
+        const counts = await LogStorageService.getLogCounts();  
+        const size = await LogStorageService.estimateStorageSize();  
+        
+        setLogCounts(counts);  
+        setStorageSize(size);  
+        setIsLoading(false);  
+      } catch (error) {  
+        console.error('خطا در دریافت آمار لاگ‌ها:', error);  
+        setMessage('خطا در دریافت آمار لاگ‌ها');  
+        setIsLoading(false);  
+      }  
+    }  
+    
+    fetchLogStats();  
+  }, []);  
+  
+  // تبدیل بایت به نمایش انسانی  
+  const formatSize = (bytes) => {  
+    if (bytes === 0) return '0 بایت';  
+    
+    const k = 1024;  
+    const sizes = ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت'];  
+    const i = Math.floor(Math.log(bytes) / Math.log(k));  
+    
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];  
   };  
-
-  const handleSubmit = (e) => {  
-    e.preventDefault();  
-    // در اینجا می‌توانید تنظیمات را در store ذخیره کنید  
-    console.log('Settings saved:', settings);  
-    // نمایش پیام موفقیت  
-    alert('تنظیمات با موفقیت ذخیره شد.');  
+  
+  // خروجی‌گیری لاگ‌های GPS به صورت JSON  
+  const exportGPSLogsAsJSON = async () => {  
+    try {  
+      setIsExporting(true);  
+      setMessage('در حال خروجی‌گیری از لاگ‌های GPS...');  
+      
+      const json = await LogStorageService.exportGPSLogsAsJSON();  
+      LogStorageService.downloadFile(json, `gps_logs_${new Date().toISOString()}.json`, 'application/json');  
+      
+      setMessage('خروجی‌گیری با موفقیت انجام شد');  
+      setIsExporting(false);  
+    } catch (error) {  
+      console.error('خطا در خروجی‌گیری لاگ‌های GPS:', error);  
+      setMessage('خطا در خروجی‌گیری لاگ‌های GPS');  
+      setIsExporting(false);  
+    }  
   };  
-
+  
+  // خروجی‌گیری لاگ‌های GPS به صورت CSV  
+  const exportGPSLogsAsCSV = async () => {  
+    try {  
+      setIsExporting(true);  
+      setMessage('در حال خروجی‌گیری از لاگ‌های GPS...');  
+      
+      const csv = await LogStorageService.exportGPSLogsAsCSV();  
+      LogStorageService.downloadFile(csv, `gps_logs_${new Date().toISOString()}.csv`, 'text/csv');  
+      
+      setMessage('خروجی‌گیری با موفقیت انجام شد');  
+      setIsExporting(false);  
+    } catch (error) {  
+      console.error('خطا در خروجی‌گیری لاگ‌های GPS:', error);  
+      setMessage('خطا در خروجی‌گیری لاگ‌های GPS');  
+      setIsExporting(false);  
+    }  
+  };  
+  
+  // خروجی‌گیری مسیرها به صورت GeoJSON  
+  const exportTracksAsGeoJSON = async () => {  
+    try {  
+      setIsExporting(true);  
+      setMessage('در حال خروجی‌گیری از مسیرها...');  
+      
+      const geoJSON = await LogStorageService.exportTrackLogsAsGeoJSON();  
+      LogStorageService.downloadFile(geoJSON, `tracks_${new Date().toISOString()}.geojson`, 'application/geo+json');  
+      
+      setMessage('خروجی‌گیری با موفقیت انجام شد');  
+      setIsExporting(false);  
+    } catch (error) {  
+      console.error('خطا در خروجی‌گیری مسیرها:', error);  
+      setMessage('خطا در خروجی‌گیری مسیرها');  
+      setIsExporting(false);  
+    }  
+  };  
+  
+  // پاک کردن لاگ‌های GPS  
+  const clearGPSLogs = async () => {  
+    try {  
+      if (window.confirm('آیا مطمئن هستید که می‌خواهید همه لاگ‌های GPS را پاک کنید؟ این عمل غیرقابل بازگشت است.')) {  
+        setIsLoading(true);  
+        setMessage('در حال پاک کردن لاگ‌های GPS...');  
+        
+        await LogStorageService.clearGPSLogs();  
+        
+        // به‌روزرسانی آمار  
+        const counts = await LogStorageService.getLogCounts();  
+        const size = await LogStorageService.estimateStorageSize();  
+        
+        setLogCounts(counts);  
+        setStorageSize(size);  
+        setMessage('لاگ‌های GPS با موفقیت پاک شدند');  
+        setIsLoading(false);  
+      }  
+    } catch (error) {  
+      console.error('خطا در پاک کردن لاگ‌های GPS:', error);  
+      setMessage('خطا در پاک کردن لاگ‌های GPS');  
+      setIsLoading(false);  
+    }  
+  };  
+  
+  // پاک کردن لاگ‌های مسیر  
+  const clearTrackLogs = async () => {  
+    try {  
+      if (window.confirm('آیا مطمئن هستید که می‌خواهید همه لاگ‌های مسیر را پاک کنید؟ این عمل غیرقابل بازگشت است.')) {  
+        setIsLoading(true);  
+        setMessage('در حال پاک کردن لاگ‌های مسیر...');  
+        
+        await LogStorageService.clearTrackLogs();  
+        
+        // به‌روزرسانی آمار  
+        const counts = await LogStorageService.getLogCounts();  
+        const size = await LogStorageService.estimateStorageSize();  
+        
+        setLogCounts(counts);  
+        setStorageSize(size);  
+        setMessage('لاگ‌های مسیر با موفقیت پاک شدند');  
+        setIsLoading(false);  
+      }  
+    } catch (error) {  
+      console.error('خطا در پاک کردن لاگ‌های مسیر:', error);  
+      setMessage('خطا در پاک کردن لاگ‌های مسیر');  
+      setIsLoading(false);  
+    }  
+  };  
+  
   return (  
     <div className="settings-page">  
-      <h2>تنظیمات</h2>  
+      <div className="settings-header">  
+        <Link to="/" className="back-button">  
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none">  
+            <path d="M19 12H5M12 19l-7-7 7-7"/>  
+          </svg>  
+          <span>بازگشت</span>  
+        </Link>  
+        <h1>تنظیمات</h1>  
+      </div>  
       
-      <form onSubmit={handleSubmit} className="settings-form">  
-        <div className="form-section">  
-          <h3>تنظیمات GPS</h3>  
+      <div className="settings-content">  
+        <section className="setting-section logs-section">  
+          <h2>مدیریت لاگ‌ها</h2>  
           
-          <div className="form-group">  
-            <label>  
-              <input  
-                type="checkbox"  
-                name="gpsHighAccuracy"  
-                checked={settings.gpsHighAccuracy}  
-                onChange={handleChange}  
-              />  
-              استفاده از GPS با دقت بالا  
-            </label>  
-            <small>مصرف باتری بیشتر، دقت بالاتر</small>  
+          {isLoading ? (  
+            <div className="loading">در حال بارگذاری آمار لاگ‌ها...</div>  
+          ) : (  
+            <div className="logs-stats">  
+              <div className="stat-item">  
+                <span>تعداد لاگ‌های GPS:</span>  
+                <span className="stat-value">{logCounts.gpsLogs.toLocaleString('fa-IR')}</span>  
+              </div>  
+              <div className="stat-item">  
+                <span>تعداد مسیرهای ذخیره شده:</span>  
+                <span className="stat-value">{logCounts.trackLogs.toLocaleString('fa-IR')}</span>  
+              </div>  
+              <div className="stat-item">  
+                <span>حجم تقریبی لاگ‌های GPS:</span>  
+                <span className="stat-value">{formatSize(storageSize.gpsLogsSize)}</span>  
+              </div>  
+              <div className="stat-item">  
+                <span>حجم تقریبی مسیرها:</span>  
+                <span className="stat-value">{formatSize(storageSize.trackLogsSize)}</span>  
+              </div>  
+              <div className="stat-item total-size">  
+                <span>حجم کل:</span>  
+                <span className="stat-value">{formatSize(storageSize.totalSize)}</span>  
+              </div>  
+            </div>  
+          )}  
+          
+          <div className="export-section">  
+            <h3>خروجی‌گیری از لاگ‌ها</h3>  
+            <div className="button-group">  
+              <button   
+                className="export-button"  
+                onClick={exportGPSLogsAsJSON}  
+                disabled={isExporting || logCounts.gpsLogs === 0}  
+              >  
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">  
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>  
+                </svg>  
+                خروجی JSON لاگ‌های GPS  
+              </button>  
+              
+              <button  
+                className="export-button"  
+                onClick={exportGPSLogsAsCSV}  
+                disabled={isExporting || logCounts.gpsLogs === 0}  
+              >  
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">  
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>  
+                </svg>  
+                خروجی CSV لاگ‌های GPS  
+              </button>  
+              
+              <button  
+                className="export-button"  
+                onClick={exportTracksAsGeoJSON}  
+                disabled={isExporting || logCounts.trackLogs === 0}  
+              >  
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">  
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>  
+                </svg>  
+                خروجی GeoJSON مسیرها  
+              </button>  
+            </div>  
           </div>  
           
-          <div className="form-group">  
-            <label htmlFor="trackingInterval">فاصله زمانی ردیابی (ثانیه)</label>  
-            <input  
-              type="number"  
-              id="trackingInterval"  
-              name="trackingInterval"  
-              min="1"  
-              max="60"  
-              value={settings.trackingInterval}  
-              onChange={handleChange}  
-            />  
+          <div className="clear-section">  
+            <h3>پاک کردن لاگ‌ها</h3>  
+            <div className="button-group">  
+              <button  
+                className="clear-button danger"  
+                onClick={clearGPSLogs}  
+                disabled={isLoading || logCounts.gpsLogs === 0}  
+              >  
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">  
+                  <polyline points="3 6 5 6 21 6"></polyline>  
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>  
+                </svg>  
+                پاک کردن لاگ‌های GPS  
+              </button>  
+              
+              <button  
+                className="clear-button danger"  
+                onClick={clearTrackLogs}  
+                disabled={isLoading || logCounts.trackLogs === 0}  
+              >  
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">  
+                  <polyline points="3 6 5 6 21 6"></polyline>  
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>  
+                </svg>  
+                پاک کردن مسیرها  
+              </button>  
+            </div>  
           </div>  
-        </div>  
+          
+          {message && (  
+            <div className={`message ${message.includes('خطا') ? 'error' : 'success'}`}>  
+              {message}  
+            </div>  
+          )}  
+        </section>  
         
-        <div className="form-section">  
-          <h3>تنظیمات داده</h3>  
-          
-          <div className="form-group">  
-            <label>  
-              <input  
-                type="checkbox"  
-                name="saveLocationHistory"  
-                checked={settings.saveLocationHistory}  
-                onChange={handleChange}  
-              />  
-              ذخیره تاریخچه موقعیت  
-            </label>  
-          </div>  
-          
-          <div className="form-group">  
-            <button   
-              type="button"   
-              className="btn btn-danger"  
-              onClick={() => {  
-                if (window.confirm('آیا از پاک کردن تاریخچه اطمینان دارید؟')) {  
-                  // پاک کردن تاریخچه  
-                }  
-              }}  
-            >  
-              پاک کردن تاریخچه موقعیت  
-            </button>  
-          </div>  
-        </div>  
-        
-        <div className="form-section">  
-          <h3>تنظیمات ظاهری</h3>  
-          
-          <div className="form-group">  
-            <label>  
-              <input  
-                type="checkbox"  
-                name="darkMode"  
-                checked={settings.darkMode}  
-                onChange={handleChange}  
-              />  
-              حالت تاریک  
-            </label>  
-          </div>  
-          
-          <div className="form-group">  
-            <label htmlFor="mapTileProvider">ارائه‌دهنده نقشه</label>  
-            <select  
-              id="mapTileProvider"  
-              name="mapTileProvider"  
-              value={settings.mapTileProvider}  
-              onChange={handleChange}  
-            >  
-              <option value="openstreetmap">OpenStreetMap</option>  
-              <option value="carto">Carto</option>  
-              <option value="terrain">Terrain</option>  
-            </select>  
-          </div>  
-          
-          <div className="form-group">  
-            <label htmlFor="language">زبان</label>  
-            <select  
-              id="language"  
-              name="language"  
-              value={settings.language}  
-              onChange={handleChange}  
-            >  
-              <option value="fa">فارسی</option>  
-              <option value="en">English</option>  
-              <option value="ar">العربية</option>  
-            </select>  
-          </div>  
-        </div>  
-        
-        <div className="form-actions">  
-          <button type="submit" className="btn btn-primary">  
-            ذخیره تنظیمات  
-          </button>  
-          <button   
-            type="button"   
-            className="btn btn-secondary"  
-            onClick={() => {  
-              if (window.confirm('تنظیمات به حالت پیش‌فرض بازگردانده شود؟')) {  
-                setSettings({  
-                  gpsHighAccuracy: true,  
-                  trackingInterval: 5,  
-                  saveLocationHistory: true,  
-                  darkMode: false,  
-                  mapTileProvider: 'openstreetmap',  
-                  language: 'fa'  
-                });  
-              }  
-            }}  
-          >  
-            بازگشت به پیش‌فرض  
-          </button>  
-        </div>  
-      </form>  
+        <section className="setting-section about-section">  
+          <h2>درباره برنامه</h2>  
+          <p>  
+            این برنامه برای ردیابی موقعیت GPS و تشخیص اختلال در سیگنال طراحی شده است.  
+            کلیه داده‌ها به صورت محلی در دستگاه شما ذخیره می‌شوند و هیچ اطلاعاتی به سرور ارسال نمی‌شود.  
+          </p>  
+          <p>  
+            نسخه: 1.0.0  
+          </p>  
+        </section>  
+      </div>  
     </div>  
   );  
 };  
 
-// سطر زیر اضافه نشود - به جای آن از { SettingsPage } در import استفاده شود  
-// export default SettingsPage;  
+//export default SettingsPage; 
+export { SettingsPage };  
