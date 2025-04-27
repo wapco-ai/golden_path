@@ -5,7 +5,7 @@ export const HomePage = () => {
   return (  
     <div className="home-page">  
       <section className="hero">  
-        <h1>به اپلیکیشن GPS Validity خوش آمدید</h1>  
+        <h1>به اپلیکیشن مسیر طلایی خوش آمدید</h1>  
         <p>ردیابی دقیق موقعیت و ناوبری حتی در شرایط سخت</p>  
         
         <div className="hero-buttons">  

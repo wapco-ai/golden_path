@@ -5,7 +5,7 @@ export const Header = () => {
   return (  
     <header className="app-header">  
       <div className="logo">  
-        <Link to="/">GPS Validity</Link>  
+        <Link to="/">مسیر طلایی</Link>  
       </div>  
       <nav className="main-nav">  
         <ul>  

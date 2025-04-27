@@ -100,7 +100,7 @@
   margin: 0.75rem 0;  
 }  
 
-.export-button, .clear-button {  
+.export-button, .settings-clear-button {  
   display: flex;  
   align-items: center;  
   justify-content: center;  
@@ -115,7 +115,7 @@
   background-color: #f5f5f5;  
 }  
 
-.export-button svg, .clear-button svg {  
+.export-button svg, .settings-clear-button svg {  
   width: 16px;  
   height: 16px;  
 }  
@@ -124,7 +124,7 @@
   background-color: #e0e0e0;  
 }  
 
-.export-button:disabled, .clear-button:disabled {  
+.export-button:disabled, .settings-clear-button:disabled {  
   opacity: 0.5;  
   cursor: not-allowed;  
 }  
@@ -175,7 +175,7 @@
     flex-wrap: wrap;  
   }  
   
-  .export-button, .clear-button {  
+  .export-button, .settings-clear-button {  
     flex: 1;  
     min-width: 200px;  
   }  

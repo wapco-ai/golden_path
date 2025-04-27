@@ -30,19 +30,64 @@
 
 /* نوار ابزار بالای نقشه */  
 .map-toolbar {  
-  position: absolute;  
-  top: 10px;  
-  left: 10px;  
-  right: 10px;  
-  z-index: 1001;  
   display: flex;  
-  justify-content: space-between;  
   align-items: center;  
-  padding: 8px;  
-  background-color: rgba(255, 255, 255, 0.8);  
-  border-radius: 8px;  
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+  padding: 8px 10px;  
+  background: #fff;  
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  z-index: 1000;  
 }  
+
+.signal-quality-pill {  
+  display: flex;  
+  align-items: center;  
+  gap: 5px;  
+  font-size: 0.8rem;  
+  padding: 4px 8px;  
+  border-radius: 12px;  
+  margin: 0 auto;  
+}  
+
+.signal-quality-pill.good {  
+  background-color: rgba(76, 175, 80, 0.15);  
+  color: #1b5e20;  
+}  
+
+.signal-quality-pill.medium {  
+  background-color: rgba(255, 152, 0, 0.15);  
+  color: #e65100;  
+}  
+
+.signal-quality-pill.poor {  
+  background-color: rgba(244, 67, 54, 0.15);  
+  color: #b71c1c;  
+}  
+
+.back-button {  
+  display: flex;  
+  align-items: center;  
+  gap: 5px;  
+  text-decoration: none;  
+  color: #333;  
+  font-size: 0.9rem;  
+}  
+
+.start-tracking-button {  
+  display: flex;  
+  align-items: center;  
+  gap: 5px;  
+  background: #2196f3;  
+  color: white;  
+  border: none;  
+  padding: 6px 10px;  
+  border-radius: 4px;  
+  font-size: 0.9rem;  
+  cursor: pointer;  
+}   
 
 .back-button {  
   background-color: white;  
@@ -180,9 +225,25 @@
   color: white;  
 }  
 
-.clear-button:not(:disabled):hover {  
+.map-clear-button:not(:disabled):hover {  
   background-color: #F44336;  
   color: white;  
+}  
+
+/* تغییر از .clear-button به .map-clear-button */  
+.map-clear-button {  
+  /* استایل‌های موجود برای دکمه پاک کردن در صفحه نقشه */  
+  background-color: #f0f0f0;  
+  color: #555;  
+}  
+
+.map-clear-button:hover {  
+  background-color: #e0e0e0;  
+}  
+
+.map-clear-button:disabled {  
+  opacity: 0.5;  
+  cursor: not-allowed;  
 }  
 
 /* کنترل‌های نقشه */  
@@ -442,5 +503,166 @@
     bottom: 90px;  
     width: 120px;  
     font-size: 10px;  
+  }  
+}  
+
+/* اضافه کردن به فایل CSS موجود برای صفحه نقشه */  
+
+.alerts-container {  
+  position: fixed;  
+  bottom: 80px; /* بالاتر از نوار ابزار پایین */  
+  left: 50%;  
+  transform: translateX(-50%);  
+  width: 90%;  
+  max-width: 400px;  
+  z-index: 1000;  
+  display: flex;  
+  flex-direction: column;  
+  gap: 8px;  
+  pointer-events: none; /* اجازه کلیک روی نقشه زیرین */  
+}  
+
+.alert-toast {  
+  display: flex;  
+  align-items: center;  
+  padding: 12px 16px;  
+  border-radius: 10px;  
+  background-color: rgba(255, 255, 255, 0.95);  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  
+  animation: slideIn 0.3s ease forwards, fadeOut 0.3s ease 5s forwards;  
+  pointer-events: auto; /* این المان قابل کلیک است */  
+  backdrop-filter: blur(10px);  
+  border: 1px solid rgba(0, 0, 0, 0.05);  
+  font-size: 0.9rem;  
+  max-width: 100%;  
+}  
+
+.error-alert {  
+  border-right: 4px solid #e53935;  
+}  
+
+.warning-alert {  
+  border-right: 4px solid #ffb300;  
+}  
+
+.info-alert {  
+  border-right: 4px solid #039be5;  
+}  
+
+.success-alert {  
+  border-right: 4px solid #43a047;  
+}  
+
+.alert-icon {  
+  margin-left: 12px;  
+  line-height: 0;  
+  flex-shrink: 0;  
+}  
+
+.error-alert .alert-icon {  
+  color: #e53935;  
+}  
+
+.warning-alert .alert-icon {  
+  color: #ffb300;  
+}  
+
+.info-alert .alert-icon {  
+  color: #039be5;  
+}  
+
+.success-alert .alert-icon {  
+  color: #43a047;  
+}  
+
+.alert-icon.spinning svg {  
+  animation: spin 1.5s linear infinite;  
+}  
+
+.alert-content {  
+  flex: 1;  
+  min-width: 0;  
+}  
+
+.alert-title {  
+  font-weight: 600;  
+  margin-bottom: 2px;  
+  color: #333;  
+}  
+
+.alert-message {  
+  color: #555;  
+  overflow: hidden;  
+  text-overflow: ellipsis;  
+}  
+
+.alert-details {  
+  display: flex;  
+  flex-wrap: wrap;  
+  gap: 8px;  
+  margin-top: 4px;  
+  font-size: 0.8rem;  
+}  
+
+.alert-details span {  
+  background-color: rgba(0, 0, 0, 0.05);  
+  padding: 2px 6px;  
+  border-radius: 4px;  
+  color: #666;  
+}  
+
+.alert-close {  
+  background: none;  
+  border: none;  
+  padding: 4px;  
+  color: #aaa;  
+  border-radius: 50%;  
+  cursor: pointer;  
+  margin-right: 8px;  
+  line-height: 0;  
+  transition: all 0.2s;  
+  flex-shrink: 0;  
+}  
+
+.alert-close:hover {  
+  background-color: rgba(0, 0, 0, 0.05);  
+  color: #555;  
+}  
+
+@keyframes slideIn {  
+  from {  
+    opacity: 0;  
+    transform: translateY(20px);  
+  }  
+  to {  
+    opacity: 1;  
+    transform: translateY(0);  
+  }  
+}  
+
+@keyframes fadeOut {  
+  from {  
+    opacity: 1;  
+  }  
+  to {  
+    opacity: 0;  
+    transform: translateY(-20px);  
+  }  
+}  
+
+@keyframes spin {  
+  0% {  
+    transform: rotate(0deg);  
+  }  
+  100% {  
+    transform: rotate(360deg);  
+  }  
+}  
+
+/* برای دستگاه‌های موبایل در حالت افقی */  
+@media screen and (max-height: 500px) {  
+  .alerts-container {  
+    bottom: auto;  
+    top: 70px;  
   }  
 }  

@@ -4,7 +4,7 @@ export const Footer = () => {
   return (  
     <footer className="app-footer">  
       <div className="footer-content">  
-        <p>© {new Date().getFullYear()} GPS Validity - تمامی حقوق محفوظ است</p>  
+        <p>© {new Date().getFullYear()} مسیر طلایی - تمامی حقوق محفوظ است</p>  
         <div className="footer-links">  
           <a href="#" target="_blank" rel="noopener noreferrer">درباره ما</a>  
           <a href="#" target="_blank" rel="noopener noreferrer">تماس با ما</a>  
