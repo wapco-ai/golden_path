@@ -279,3 +279,168 @@
     margin-top: 70px !important;  
   }  
 }  
+
+/* پنل کیفیت سیگنال GPS */  
+.gps-quality-panel {  
+  position: absolute;  
+  bottom: 80px;  
+  right: 10px;  
+  background-color: rgba(255, 255, 255, 0.9);  
+  padding: 8px;  
+  border-radius: 4px;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+  z-index: 999;  
+  font-size: 12px;  
+  width: 150px;  
+}  
+
+.quality-header {  
+  font-weight: bold;  
+  margin-bottom: 4px;  
+  text-align: center;  
+}  
+
+.quality-meter {  
+  height: 6px;  
+  background-color: #f0f0f0;  
+  border-radius: 3px;  
+  overflow: hidden;  
+  margin-bottom: 4px;  
+}  
+
+.quality-bar {  
+  height: 100%;  
+  transition: width 0.5s ease;  
+}  
+
+.quality-bar.good {  
+  background-color: #4CAF50;  
+}  
+
+.quality-bar.medium {  
+  background-color: #FFC107;  
+}  
+
+.quality-bar.poor {  
+  background-color: #F44336;  
+}  
+
+.quality-text {  
+  font-size: 10px;  
+  text-align: center;  
+}  
+
+.quality-warning {  
+  color: #F44336;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  gap: 4px;  
+  margin-top: 4px;  
+}  
+
+/* تغییر موقعیت در موبایل */  
+@media (max-width: 768px) {  
+  .gps-quality-panel {  
+    bottom: 90px;  
+    width: 120px;  
+    font-size: 10px;  
+  }  
+}  
+
+/* پنل کیفیت سیگنال GPS */  
+.gps-quality-panel {  
+  position: absolute;  
+  bottom: 80px;  
+  right: 10px;  
+  background-color: rgba(255, 255, 255, 0.9);  
+  padding: 8px;  
+  border-radius: 4px;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+  z-index: 999;  
+  font-size: 12px;  
+  width: 150px;  
+  direction: rtl;  
+}  
+
+.quality-header {  
+  font-weight: bold;  
+  margin-bottom: 4px;  
+  text-align: center;  
+}  
+
+.quality-meter {  
+  height: 6px;  
+  background-color: #f0f0f0;  
+  border-radius: 3px;  
+  overflow: hidden;  
+  margin-bottom: 4px;  
+}  
+
+.quality-bar {  
+  height: 100%;  
+  transition: width 0.5s ease;  
+}  
+
+.quality-bar.good {  
+  background-color: #4CAF50;  
+}  
+
+.quality-bar.medium {  
+  background-color: #FFC107;  
+}  
+
+.quality-bar.poor {  
+  background-color: #F44336;  
+}  
+
+.quality-text {  
+  font-size: 11px;  
+  text-align: center;  
+}  
+
+.quality-good {  
+  color: #4CAF50;  
+}  
+
+.quality-medium {  
+  color: #FFC107;  
+}  
+
+.quality-poor {  
+  color: #F44336;  
+}  
+
+.quality-warning {  
+  color: #F44336;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  gap: 4px;  
+  margin-top: 4px;  
+  font-size: 10px;  
+}  
+
+.error-indicator {  
+  display: flex;  
+  align-items: center;  
+  background-color: rgba(244, 67, 54, 0.1);  
+  color: #F44336;  
+  padding: 4px 8px;  
+  border-radius: 4px;  
+  margin-right: 8px;  
+  font-size: 12px;  
+}  
+
+.error-indicator svg {  
+  margin-left: 4px;  
+}  
+
+/* تغییر موقعیت در موبایل */  
+@media (max-width: 768px) {  
+  .gps-quality-panel {  
+    bottom: 90px;  
+    width: 120px;  
+    font-size: 10px;  
+  }  
+}  

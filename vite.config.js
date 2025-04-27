@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({  
   //base: process.env.BASE_URL || '/',  
-  base: '/gps_validity/',
+  base: '/golden_path/',
   plugins: [  
     react(),  
     VitePWA({  
