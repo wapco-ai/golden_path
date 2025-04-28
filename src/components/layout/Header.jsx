@@ -12,7 +12,8 @@ export const Header = () => {
           <li><Link to="/">خانه</Link></li>  
           <li><Link to="/map">نقشه</Link></li>  
           <li><Link to="/qr-scan">اسکن QR</Link></li>  
-          <li><Link to="/login">ehi</Link></li>
+          <li><Link to="/settings">تنظیمات</Link></li>  
+          <li><Link to="/login">فرم</Link></li>
         </ul>  
       </nav>  
     </header>  
