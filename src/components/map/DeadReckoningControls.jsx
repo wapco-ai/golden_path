@@ -8,24 +8,42 @@ const DeadReckoningControls = ({ currentLocation }) => {
   const [isCalibrating, setIsCalibrating] = useState(false);  
   const [stepCount, setStepCount] = useState(0);  
   const [strideLength, setStrideLength] = useState(0.75);  
-  const { accelerometer, gyroscope, isSupported, requestPermission } = useIMUSensors();  
+  const [filteredHeading, setFilteredHeading] = useState(0); // جهت فیلتر شده  
+  
+  const {   
+    acceleration,   
+    rotationRate,   
+    orientation,   
+    isSupported,   
+    hasPermission,  
+    requestPermission,  
+    checkPermissions  
+  } = useIMUSensors();  
 
   useEffect(() => {  
     const removeListener = deadReckoningService.addListener((data) => {  
       setIsActive(data.isActive);  
       setIsCalibrating(data.isCalibrating);  
       setStepCount(data.stepCount);  
+      // به‌روزرسانی جهت فیلتر شده  
+      setFilteredHeading(data.filteredHeading || 0);   
     });  
     
     return () => removeListener();  
   }, []);  
 
+  // پردازش داده‌های IMU هر زمان که isActive و داده‌های سنسور تغییر کنند  
   useEffect(() => {  
-    if (isActive) {  
+    if (isActive && hasPermission) {  
       const timestamp = Date.now();  
-      deadReckoningService.processImuData(accelerometer, gyroscope, timestamp);  
+      deadReckoningService.processImuData(  
+        acceleration,   
+        rotationRate,   
+        orientation,   
+        timestamp  
+      );  
     }  
-  }, [accelerometer, gyroscope, isActive]);  
+  }, [isActive, hasPermission, acceleration, rotationRate, orientation]);  
 
   const handleToggle = async () => {  
     if (!isActive) {  
@@ -34,10 +52,13 @@ const DeadReckoningControls = ({ currentLocation }) => {
         return;  
       }  
       
-      const permissionGranted = await requestPermission();  
-      if (!permissionGranted) {  
-        alert('برای استفاده از Dead Reckoning، دسترسی به سنسورها را فعال کنید.');  
-        return;  
+      // بررسی و درخواست مجوز  
+      if (!checkPermissions()) {  
+        const permissionGranted = await requestPermission();  
+        if (!permissionGranted) {  
+          alert('برای استفاده از Dead Reckoning، دسترسی به سنسورها را فعال کنید.');  
+          return;  
+        }  
       }  
       
       const initialLatLng = currentLocation?.coords ? {  
@@ -68,7 +89,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
   return (  
     <div className="dead-reckoning-panel">  
       <div className="dr-header">  
-        <h3>ردیابی آفلاین</h3>  
+        <h3>Dead Reckoning</h3>  
       </div>  
       
       {isCalibrating && (  
@@ -79,7 +100,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
         <button   
           className={`dr-button dr-button-start ${isActive ? 'active' : ''}`}   
           onClick={handleToggle}  
-          disabled={!currentLocation}  
+          disabled={!isSupported || (!isActive && !hasPermission && typeof DeviceMotionEvent.requestPermission === 'function')}  
         >  
           {isActive ? 'توقف ردیابی' : 'شروع ردیابی'}  
         </button>  
@@ -119,8 +140,12 @@ const DeadReckoningControls = ({ currentLocation }) => {
           className="dr-stride-slider"  
           disabled={!isActive}  
         />  
-        <div className="dr-stride-value">{strideLength}</div>  
+        <div className="dr-stride-value">{strideLength.toFixed(2)}</div>  
       </div>  
+       {/* نمایش جهت فیلتر شده برای دیباگ */}  
+       <div style={{ fontSize: '12px', marginTop: '10px', textAlign: 'center' }}>  
+          جهت (درجه): {(filteredHeading * 180 / Math.PI).toFixed(2)}  
+       </div>  
     </div>  
   );  
 };  
