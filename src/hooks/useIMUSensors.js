@@ -1,11 +1,16 @@
+// src/hooks/useIMUSensors.js (نسخه کامل)  
+
 import { useState, useEffect } from 'react';  
 
 const useIMUSensors = () => {  
+  // داده‌های خام سنسور  
   const [acceleration, setAcceleration] = useState({ x: 0, y: 0, z: 0 }); // شتاب (بدون گرانش)  
   const [accelerationIncludingGravity, setAccelerationIncludingGravity] = useState({ x: 0, y: 0, z: 0 }); // شتاب با گرانش  
-  const [rotationRate, setRotationRate] = useState({ x: 0, y: 0, z: 0 }); // سرعت چرخش  
-  const [orientation, setOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 }); // زوایای اویلر  
-  const [magneticField, setMagneticField] = useState({ x: 0, y: 0, z: 0 }); // میدان مغناطیسی  
+  const [rotationRate, setRotationRate] = useState({ x: 0, y: 0, z: 0 }); // سرعت چرخش (رادیان بر ثانیه)  
+  const [orientation, setOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 }); // زوایای اویلر (درجه)  
+  const [magneticField, setMagneticField] = useState({ x: 0, y: 0, z: 0 }); // میدان مغناطیسی (اختیاری، اگر مرورگر پشتیبانی کند)  
+  
+  // وضعیت سنسورها و مجوزها  
   const [isSupported, setIsSupported] = useState(false);  
   const [hasPermission, setHasPermission] = useState(false);  
 
@@ -43,25 +48,31 @@ const useIMUSensors = () => {
 
       if (event.rotationRate) {  
         setRotationRate({  
-          x: (event.rotationRate.beta || 0) * Math.PI / 180, // Pitch rate in radians/sec  
-          y: (event.rotationRate.gamma || 0) * Math.PI / 180, // Roll rate in radians/sec  
-          z: (event.rotationRate.alpha || 0) * Math.PI / 180 // Yaw rate in radians/sec  
+          x: (event.rotationRate.beta || 0) * Math.PI / 180, // Pitch rate  
+          y: (event.rotationRate.gamma || 0) * Math.PI / 180, // Roll rate  
+          z: (event.rotationRate.alpha || 0) * Math.PI / 180 // Yaw rate  
         });  
       }  
     };  
 
     const handleOrientation = (event) => {  
-      // استفاده از جهت مطلق در صورت وجود  
-      if (event.absolute || event.webkitCompassHeading) {  
+      // تلاش برای استفاده از جهت مطلق در صورت وجود  
+      if (event.absolute || event.webkitCompassHeading !== undefined) {  
          setOrientation({  
             alpha: event.alpha || 0, // Yaw in degrees (0-360)  
             beta: event.beta || 0,   // Pitch in degrees (-180 to 180)  
             gamma: event.gamma || 0  // Roll in degrees (-90 to 90)  
          });  
          
-         // Note: Getting raw magnetic field data directly from DeviceOrientationEvent is not standard.  
-         // We might need to infer it or use a separate sensor API if available.  
-         // For simplicity here, we'll rely on the heading provided by DeviceOrientationEvent.  
+         // استفاده از webkitCompassHeading اگر در دسترس باشد (معمولاً در iOS)  
+         if (event.webkitCompassHeading !== undefined) {  
+             setOrientation(prev => ({ ...prev, alpha: event.webkitCompassHeading }));  
+         }  
+         
+         // دسترسی به داده‌های خام مگنتومتر در رویداد DeviceOrientationEvent استاندارد نیست.  
+         // در اینجا فرض می‌کنیم که برای پیاده‌سازی‌های پیچیده‌تر نیاز به این داده‌ها داریم   
+         // و ممکن است نیاز به APIهای native داشته باشیم.  
+         // setMagneticField({ x: ..., y: ..., z: ... });   
       } else {  
           // جهت نسبی  
            setOrientation({  
@@ -69,11 +80,6 @@ const useIMUSensors = () => {
             beta: event.beta || 0,   // Pitch in degrees (-180 to 180)  
             gamma: event.gamma || 0  // Roll in degrees (-90 to 90)  
          });  
-      }  
-      
-      // اگر webkitCompassHeading وجود دارد، از آن برای جهت دقیق استفاده کنید  
-      if (event.webkitCompassHeading !== undefined) {  
-          setOrientation(prev => ({ ...prev, alpha: event.webkitCompassHeading }));  
       }  
     };  
     
@@ -151,11 +157,11 @@ const useIMUSensors = () => {
   };  
 
   return {  
-    acceleration,  
-    accelerationIncludingGravity,  
-    rotationRate,  
-    orientation, // زوایای اویلر (heading, pitch, roll)  
-    magneticField, // ممکن است در آینده پیاده‌سازی شود  
+    acceleration, // شتاب بدون گرانش (برای تشخیص گام)  
+    accelerationIncludingGravity, // شتاب با گرانش (برای تخمین جهت با مگنتومتر - در پیاده‌سازی پیشرفته‌تر)  
+    rotationRate, // سرعت چرخش (برای به‌روزرسانی جهت در EKF)  
+    orientation, // زوایای اویلر (برای اندازه‌گیری جهت در EKF)  
+    magneticField, // میدان مغناطیسی (اختیاری)  
     isSupported,  
     hasPermission,  
     requestPermission,  

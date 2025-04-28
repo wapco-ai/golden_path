@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';  
-import deadReckoningService from '../../services/DeadReckoningService';  
+import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService'; // استفاده از سرویس جدید  
 import useIMUSensors from '../../hooks/useIMUSensors';  
 import './DeadReckoningControls.css';  
 
@@ -8,7 +8,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
   const [isCalibrating, setIsCalibrating] = useState(false);  
   const [stepCount, setStepCount] = useState(0);  
   const [strideLength, setStrideLength] = useState(0.75);  
-  const [filteredHeading, setFilteredHeading] = useState(0); // جهت فیلتر شده  
+  const [kalmanState, setKalmanState] = useState(null); // وضعیت فیلتر کالمن  
   
   const {   
     acceleration,   
@@ -20,43 +20,52 @@ const DeadReckoningControls = ({ currentLocation }) => {
     checkPermissions  
   } = useIMUSensors();  
 
+  // اضافه کردن listener به سرویس جدید  
   useEffect(() => {  
-    const removeListener = deadReckoningService.addListener((data) => {  
+    const removeListener = advancedDeadReckoningService.addListener((data) => {  
       setIsActive(data.isActive);  
       setIsCalibrating(data.isCalibrating);  
       setStepCount(data.stepCount);  
-      // به‌روزرسانی جهت فیلتر شده  
-      setFilteredHeading(data.filteredHeading || 0);   
+      setKalmanState(data.kalmanState); // به‌روزرسانی وضعیت کالمن  
     });  
     
     return () => removeListener();  
   }, []);  
 
-  // پردازش داده‌های IMU هر زمان که isActive و داده‌های سنسور تغییر کنند  
+  // ارسال داده‌های سنسور به سرویس جدید  
   useEffect(() => {  
     if (isActive && hasPermission) {  
       const timestamp = Date.now();  
-      deadReckoningService.processImuData(  
-        acceleration,   
-        rotationRate,   
-        orientation,   
-        timestamp  
-      );  
+      if (acceleration) advancedDeadReckoningService.processAccelerometerData(acceleration, timestamp);  
+      if (rotationRate) advancedDeadReckoningService.processGyroscopeData(rotationRate, timestamp);  
+      if (orientation) advancedDeadReckoningService.processOrientationData(orientation, timestamp);  
+      // داده‌های GPS به صورت جداگانه در MapView ارسال می‌شوند  
     }  
   }, [isActive, hasPermission, acceleration, rotationRate, orientation]);  
+
+   // ارسال داده‌های GPS به سرویس جدید  
+   useEffect(() => {  
+       if (isActive && currentLocation?.coords) {  
+           advancedDeadReckoningService.processGpsData(  
+               { lat: currentLocation.coords.lat, lng: currentLocation.coords.lng },  
+               currentLocation.coords.accuracy,  
+               Date.now()  
+           );  
+       }  
+   }, [isActive, currentLocation]);  
+
 
   const handleToggle = async () => {  
     if (!isActive) {  
       if (!isSupported) {  
-        alert('سنسورهای IMU در این دستگاه پشتیبانی نمی‌شوند.');  
+        alert('سنسورهای دستگاه پشتیبانی نمی‌شوند.');  
         return;  
       }  
       
-      // بررسی و درخواست مجوز  
       if (!checkPermissions()) {  
         const permissionGranted = await requestPermission();  
         if (!permissionGranted) {  
-          alert('برای استفاده از Dead Reckoning، دسترسی به سنسورها را فعال کنید.');  
+          alert('برای استفاده، دسترسی به سنسورها را فعال کنید.');  
           return;  
         }  
       }  
@@ -66,34 +75,34 @@ const DeadReckoningControls = ({ currentLocation }) => {
         lng: currentLocation.coords.lng  
       } : null;  
       
-      deadReckoningService.toggle(initialLatLng);  
+      advancedDeadReckoningService.toggle(initialLatLng); // استفاده از سرویس جدید  
     } else {  
-      deadReckoningService.toggle();  
+      advancedDeadReckoningService.toggle(); // استفاده از سرویس جدید  
     }  
   };  
 
   const handleReset = () => {  
-    deadReckoningService.reset();  
+    advancedDeadReckoningService.reset(); // استفاده از سرویس جدید  
   };  
 
   const handleExport = () => {  
-    deadReckoningService.exportLog();  
+    advancedDeadReckoningService.exportLog(); // استفاده از سرویس جدید  
   };  
 
   const handleStrideLengthChange = (e) => {  
     const newValue = parseFloat(e.target.value);  
     setStrideLength(newValue);  
-    deadReckoningService.setStrideLength(newValue);  
+    advancedDeadReckoningService.setStrideLength(newValue); // استفاده از سرویس جدید  
   };  
 
   return (  
     <div className="dead-reckoning-panel">  
       <div className="dr-header">  
-        <h3>Dead Reckoning</h3>  
+        <h3>Advanced Dead Reckoning</h3>  
       </div>  
       
       {isCalibrating && (  
-        <div className="calibrating-status">درحال کالیبراسیون...</div>  
+        <div className="calibrating-status">درحال کالیبراسیون سنسورها...</div>  
       )}  
       
       <div className="dr-button-group">  
@@ -102,7 +111,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
           onClick={handleToggle}  
           disabled={!isSupported || (!isActive && !hasPermission && typeof DeviceMotionEvent.requestPermission === 'function')}  
         >  
-          {isActive ? 'توقف ردیابی' : 'شروع ردیابی'}  
+          {isActive ? 'توقف ردیابی پیشرفته' : 'شروع ردیابی پیشرفته'}  
         </button>  
         
         <button   
@@ -110,13 +119,13 @@ const DeadReckoningControls = ({ currentLocation }) => {
           onClick={handleReset}  
           disabled={!isActive}  
         >  
-          بازنشانی مسیر  
+          بازنشانی سیستم  
         </button>  
         
         <button   
           className="dr-button dr-button-export"   
           onClick={handleExport}  
-          disabled={stepCount === 0}  
+          disabled={stepCount === 0 && !kalmanState}  
         >  
           خروجی لاگ  
         </button>  
@@ -142,10 +151,16 @@ const DeadReckoningControls = ({ currentLocation }) => {
         />  
         <div className="dr-stride-value">{strideLength.toFixed(2)}</div>  
       </div>  
-       {/* نمایش جهت فیلتر شده برای دیباگ */}  
-       <div style={{ fontSize: '12px', marginTop: '10px', textAlign: 'center' }}>  
-          جهت (درجه): {(filteredHeading * 180 / Math.PI).toFixed(2)}  
-       </div>  
+       {/* نمایش وضعیت فیلتر کالمن برای دیباگ */}  
+       {kalmanState && (  
+           <div style={{ fontSize: '12px', marginTop: '10px' }}>  
+               <p>موقعیت نسبی: ({kalmanState.x.toFixed(2)}, {kalmanState.y.toFixed(2)}) متر</p>  
+               <p>جهت (درجه): {(kalmanState.theta * 180 / Math.PI).toFixed(2)}</p>  
+               <p>سرعت خطی: {kalmanState.v.toFixed(2)} متر بر ثانیه</p>  
+               <p>سرعت زاویه‌ای: {(kalmanState.w * 180 / Math.PI).toFixed(2)} درجه بر ثانیه</p>  
+               <p>طول گام تخمینی: {kalmanState.stride.toFixed(2)} متر</p>  
+           </div>  
+       )}  
     </div>  
   );  
 };  
