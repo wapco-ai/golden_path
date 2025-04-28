@@ -566,3 +566,111 @@ body {
   font-weight: bold;  
   font-size: 1.1rem; /* یا می‌توانید از واحدهای دیگر مانند em, px استفاده کنید */ 
 }
+
+/* ===== Login Page Styles ===== */
+.login-container {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  text-align: center;
+  direction: rtl;
+}
+
+.login-logo {
+  margin-bottom: 30px;
+}
+
+.logo-image {
+  height: 80px;
+  width: auto;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.login-subtitle {
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.login-form {
+  margin: 30px 0;
+}
+
+.form-group {
+  margin-bottom: 25px;
+  text-align: right;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.phone-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  text-align: right;
+  transition: var(--transition);
+}
+
+.phone-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.submit-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: var(--transition);
+}
+
+.submit-btn:hover {
+  background-color: #2980b9;
+}
+
+.submit-btn:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.login-terms {
+  margin-top: 30px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.login-terms a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.login-terms a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 20px 15px;
+  }
+  
+  .login-title {
+    font-size: 1.5rem;
+  }
+}
