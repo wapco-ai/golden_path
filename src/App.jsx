@@ -19,7 +19,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} /> {/* Added route */}
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/qr-scan" element={<QRScanPage />} />
             <Route path="/settings" element={<SettingsPage />} />
