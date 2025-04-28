@@ -1,5 +1,13 @@
 // src/services/DeadReckoningService.js  
-
+// تابع برای محاسبه انحراف مغناطیسی بر اساس موقعیت جغرافیایی  
+function getMagneticDeclination(latitude, longitude) {  
+    // این یک مدل ساده‌سازی شده است. برای دقت بیشتر از API یا کتابخانه‌های تخصصی استفاده کنید  
+    // مثال: https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml  
+    
+    // مقدار میانگین برای تهران حدود 4.5 درجه شرقی است (2023)  
+    // یعنی قطب‌نمای مغناطیسی 4.5 درجه به شرق قطب جغرافیایی اشاره می‌کند  
+    return 4.5 * Math.PI / 180; // تبدیل به رادیان  
+  } 
 class DeadReckoningService {
     constructor() {
         this.isActive = false;
@@ -23,6 +31,14 @@ class DeadReckoningService {
         this.listeners = [];
 
         this.referencePosition = null;
+
+        // پارامترهای فیلتر مکمل  
+        this.alpha = 0.98; // ضریب ترکیب (بیشتر به ژیروسکوپ اعتماد می‌کند)  
+
+        // مقادیر لازم برای فیلتر  
+        this.lastTimestamp = 0;
+        this.headingFromGyro = 0;
+        this.headingFromMagnetometer = 0;
     }
 
     toggle(initialLatLng = null) {
@@ -31,6 +47,13 @@ class DeadReckoningService {
         if (this.isActive) {
             if (initialLatLng) {
                 this.referencePosition = initialLatLng;
+
+                // محاسبه انحراف مغناطیسی برای موقعیت فعلی  
+                this.magneticDeclination = getMagneticDeclination(
+                    initialLatLng.lat,
+                    initialLatLng.lng
+                );
+
                 this.currentPosition = { x: 0, y: 0 };
             }
 
@@ -49,7 +72,55 @@ class DeadReckoningService {
         return this.isActive;
     }
 
-    processImuData(accelerometer, gyroscope, timestamp) {
+    // محاسبه جهت با استفاده از فیلتر مکمل  
+    computeHeadingWithComplementaryFilter(gyroData, heading, timestamp) {
+        // اگر اولین فراخوانی است، مقداردهی اولیه  
+        if (this.lastTimestamp === 0) {
+            this.headingFromGyro = heading;
+            this.headingFromMagnetometer = heading;
+            this.lastTimestamp = timestamp;
+            return heading;
+        }
+
+        // محاسبه فاصله زمانی (به ثانیه)  
+        const dt = (timestamp - this.lastTimestamp) / 1000;
+        this.lastTimestamp = timestamp;
+
+        // به‌روزرسانی جهت با ژیروسکوپ  
+        // gyroData.z چرخش حول محور عمودی است (برای تلفن در حالت عمودی)  
+        const correctedGyroZ = gyroData.z - this.gyroBias.z;
+
+        // در اینجا ما فرض می‌کنیم که gyroData به رادیان بر ثانیه است  
+        this.headingFromGyro += correctedGyroZ * dt;
+
+        // نرمال‌سازی بین 0 تا 2π  
+        this.headingFromGyro = this.headingFromGyro % (2 * Math.PI);
+        if (this.headingFromGyro < 0) this.headingFromGyro += (2 * Math.PI);
+
+        // جهت از مگنتومتر (قطب‌نما) - تبدیل از درجه به رادیان  
+        this.headingFromMagnetometer = heading * Math.PI / 180;
+
+        // ترکیب دو مقدار با فیلتر مکمل  
+        // ژیروسکوپ برای تغییرات کوتاه‌مدت دقیق است  
+        // مگنتومتر برای جهت‌یابی بلندمدت دقیق است  
+        const filteredHeading = this.alpha * this.headingFromGyro + (1 - this.alpha) * this.headingFromMagnetometer;
+
+        // تصحیح انحراف مغناطیسی  
+        let correctedHeading = filteredHeading;
+        if (this.magneticDeclination) {
+            correctedHeading -= this.magneticDeclination;
+
+            // نرمال‌سازی  
+            if (correctedHeading < 0) correctedHeading += (2 * Math.PI);
+            if (correctedHeading >= (2 * Math.PI)) correctedHeading -= (2 * Math.PI);
+        }
+
+        return correctedHeading;
+
+        // return filteredHeading;
+    }
+
+    processImuData(accelerometer, gyroscope, timestamp, compassHeading) {
         if (!this.isActive) return;
 
         // کالیبراسیون ژیروسکوپ  
@@ -68,6 +139,12 @@ class DeadReckoningService {
             }
             return;
         }
+
+        this.heading = this.computeHeadingWithComplementaryFilter(
+            gyroscope,
+            compassHeading, // جهت قطب‌نما از useIMUSensors  
+            timestamp
+        );
 
         // محاسبه فاصله زمانی  
         // محاسبه فاصله زمانی  
