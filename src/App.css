@@ -1,4 +1,5 @@
 /* استایل‌های اصلی */  
+/* ===== CSS Variables (Design System) ===== */
 :root {  
   --primary-color: #3498db;  
   --secondary-color: #2ecc71;  
@@ -8,561 +9,389 @@
   --text-color: #333;  
   --header-bg: #fff;  
   --card-bg: #fff;  
-  --border-radius: 8px;  
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.15);  
-}  
+  --border-radius: 12px;  
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
+  --transition: all 0.3s ease;
+}
 
+/* ===== Global Reset & Base Styles ===== */
 * {  
   box-sizing: border-box;  
   margin: 0;  
   padding: 0;  
-}  
+}
 
 body {  
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
+  font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);  
   color: var(--text-color);  
   direction: rtl;  
-  line-height: 1.6;  
-}  
+  line-height: 1.6;
+}
 
+/* ===== Layout Structure ===== */
 .app {  
   display: flex;  
   flex-direction: column;  
   min-height: 100vh;  
-}  
+}
 
 .main-content {  
   flex: 1;  
   padding: 20px;  
-  max-width: 1200px;  
+  max-width: 1400px;  
   margin: 0 auto;  
   width: 100%;  
-}  
+}
 
-/* هدر */  
+/* ===== Enhanced Header ===== */
 .app-header {  
   background-color: var(--header-bg);  
-  padding: 15px 20px;  
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  
+  padding: 20px;  
+  box-shadow: var(--shadow);  
   display: flex;  
   justify-content: space-between;  
-  align-items: center;  
-}  
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
 .logo a {  
-  font-size: 1.5rem;  
-  font-weight: bold;  
+  font-size: 1.8rem;  
+  font-weight: 700;  
   color: var(--primary-color);  
-  text-decoration: none;  
-}  
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 .main-nav ul {  
   display: flex;  
   list-style: none;  
-}  
-
-.main-nav li {  
-  margin-left: 20px;  
-}  
+  gap: 15px;
+}
 
 .main-nav a {  
   text-decoration: none;  
   color: var(--text-color);  
   font-weight: 500;  
-  transition: color 0.2s;  
-}  
+  transition: var(--transition);
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+}
 
 .main-nav a:hover {  
   color: var(--primary-color);  
-}  
-
-/* فوتر */  
-.app-footer {  
-  background-color: var(--header-bg);  
-  padding: 15px 20px;  
-  text-align: center;  
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);  
-  margin-top: 30px;  
-}  
-
-.footer-content {  
-  max-width: 1200px;  
-  margin: 0 auto;  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  flex-wrap: wrap;  
-}  
-
-.footer-links {  
-  display: flex;  
-  gap: 20px;  
-}  
-
-.footer-links a {  
-  color: var(--text-color);  
-  text-decoration: none;  
-}  
-
-.footer-links a:hover {  
-  color: var(--primary-color);  
-}  
-
-/* دکمه‌ها */  
-.btn {  
-  display: inline-block;  
-  padding: 10px 15px;  
-  border: none;  
-  border-radius: var(--border-radius);  
-  background-color: var(--primary-color);  
-  color: white;  
-  font-size: 16px;  
-  cursor: pointer;  
-  transition: background-color 0.2s, transform 0.1s;  
-  text-align: center;  
-  margin: 5px;  
-}  
-
-.btn:hover {  
-  opacity: 0.9;  
-}  
-
-.btn:active {  
-  transform: scale(0.98);  
-}  
-
-.btn-primary {  
-  background-color: var(--primary-color);  
-}  
-
-.btn-secondary {  
-  background-color: var(--secondary-color);  
-}  
-
-.btn-danger {  
-  background-color: var(--danger-color);  
-}  
-
-.btn-info {  
-  background-color: var(--info-color);  
-}  
-
-/* صفحه خانه */  
-.home-page {  
-  max-width: 1000px;  
-  margin: 0 auto;  
-}  
-
-.hero {  
-  text-align: center;  
-  padding: 40px 20px;  
-  margin-bottom: 30px;  
-}  
-
-.hero h1 {  
-  font-size: 2.5rem;  
-  margin-bottom: 15px;  
-  color: var(--primary-color);  
-}  
-
-.hero p {  
-  font-size: 1.2rem;  
-  margin-bottom: 30px;  
-  color: #666;  
-}  
-
-.hero-buttons {  
-  display: flex;  
-  justify-content: center;  
-  gap: 15px;  
-}  
-
-.features {  
-  padding: 30px 0;  
-}  
-
-.features h2 {  
-  text-align: center;  
-  margin-bottom: 30px;  
-  font-size: 2rem;  
-}  
-
-.feature-cards {  
-  display: grid;  
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));  
-  gap: 20px;  
-}  
-
-.feature-card {  
-  background-color: var(--card-bg);  
-  border-radius: var(--border-radius);  
-  padding: 25px;  
-  box-shadow: var(--shadow);  
-  text-align: center;  
-}  
-
-.feature-icon {  
-  font-size: 2.5rem;  
-  margin-bottom: 15px;  
-}  
-
-.feature-card h3 {  
-  margin-bottom: 10px;  
-  font-size: 1.2rem;  
-}  
-
-.how-to-use {  
-  padding: 40px 0;  
-}  
-
-.how-to-use h2 {  
-  text-align: center;  
-  margin-bottom: 30px;  
-  font-size: 2rem;  
-}  
-
-.steps {  
-  display: grid;  
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  
-  gap: 20px;  
-}  
-
-.step {  
-  background-color: var(--card-bg);  
-  border-radius: var(--border-radius);  
-  padding: 25px;  
-  box-shadow: var(--shadow);  
-  position: relative;  
-}  
-
-.step-number {  
-  background-color: var(--primary-color);  
-  color: white;  
-  width: 30px;  
-  height: 30px;  
-  border-radius: 50%;  
-  display: flex;  
-  align-items: center;  
-  justify-content: center;  
-  margin-bottom: 15px;  
-}  
-
-/* صفحه تنظیمات */  
-.settings-page {  
-  max-width: 800px;  
-  margin: 0 auto;  
-  padding: 20px;  
-}  
-
-.settings-page h2 {  
-  text-align: center;  
-  margin-bottom: 30px;  
-}  
-
-.settings-form {  
-  background-color: var(--card-bg);  
-  border-radius: var(--border-radius);  
-  padding: 25px;  
-  box-shadow: var(--shadow);  
-}  
-
-.form-section {  
-  margin-bottom: 30px;  
-  padding-bottom: 20px;  
-  border-bottom: 1px solid #eee;  
-}  
-
-.form-section:last-child {  
-  border-bottom: none;  
-}  
-
-.form-section h3 {  
-  margin-bottom: 15px;  
-  font-size: 1.3rem;  
-  color: var(--primary-color);  
-}  
-
-.form-group {  
-  margin-bottom: 15px;  
-}  
-
-.form-group label {  
-  display: block;  
-  margin-bottom: 5px;  
-  font-weight: 500;  
-}  
-
-.form-group input[type="text"],  
-.form-group input[type="number"],  
-.form-group select {  
-  width: 100%;  
-  padding: 10px;  
-  border: 1px solid #ddd;  
-  border-radius: var(--border-radius);  
-  font-size: 16px;  
-}  
-
-.form-group input[type="checkbox"] {  
-  margin-right: 8px;  
-}  
-
-.form-group small {  
-  display: block;  
-  color: #888;  
-  margin-top: 5px;  
-}  
-
-.form-actions {  
-  display: flex;  
-  justify-content: space-between;  
-  padding-top: 20px;  
-}  
-
-/* صفحه نقشه */  
-.map-page {  
-  height: calc(100vh - 130px);  
-  display: flex;  
-  flex-direction: column;  
-}  
-
-.map-controls {  
-  display: flex;  
-  justify-content: space-between;  
-  margin-bottom: 15px;  
-}  
-
-.mode-selector {  
-  display: flex;  
-  gap: 10px;  
-}  
-
-.location-info {  
-  background-color: var(--card-bg);  
-  padding: 15px;  
-  border-radius: var(--border-radius);  
-  margin-bottom: 15px;  
-  box-shadow: var(--shadow);  
-}  
-
-.coordinates {  
-  display: grid;  
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  
-  gap: 10px;  
-}  
-
-.action-buttons {  
-  display: flex;  
-  justify-content: center;  
-  gap: 15px;  
-  margin-top: 20px;  
-}  
-
-.error-message {  
-  background-color: #ffebee;  
-  color: var(--danger-color);  
-  padding: 10px 15px;  
-  border-radius: var(--border-radius);  
-  margin-bottom: 15px;  
-  border-left: 4px solid var(--danger-color);  
-}  
-
-.loading {  
-  text-align: center;  
-  padding: 10px;  
-  color: #777;  
-}  
-
-/* صفحه اسکن QR */  
-.qr-scan-page {  
-  max-width: 800px;  
-  margin: 0 auto;  
-  padding: 20px;  
-}  
-
-.qr-scan-page h2 {  
-  text-align: center;  
-  margin-bottom: 30px;  
-}  
-
-.scanner-container,   
-.scan-result-container,  
-.start-scan-container,  
-.error-container {  
-  background-color: var(--card-bg);  
-  border-radius: var(--border-radius);  
-  padding: 25px;  
-  box-shadow: var(--shadow);  
-  margin-bottom: 20px;  
-  text-align: center;  
-}  
-
-.scan-instruction {  
-  margin-bottom: 20px;  
-  font-weight: 500;  
-}  
-
-.scanner-placeholder {  
-  height: 300px;  
-  display: flex;  
-  flex-direction: column;  
-  justify-content: center;  
-  align-items: center;  
-  background-color: #f8f8f8;  
-  border-radius: var(--border-radius);  
-  gap: 15px;  
-}  
-
-.result-data {  
-  margin: 20px 0;  
-  text-align: left;  
-}  
-
-.qr-data {  
-  background-color: #f5f5f5;  
-  padding: 15px;  
-  border-radius: var(--border-radius);  
-  margin: 15px 0;  
-  word-break: break-all;  
-  font-family: monospace;  
-}  
-
-.location-data {  
-  margin: 15px 0;  
-}  
-
-.scan-time {  
-  color: #777;  
-  font-size: 0.9rem;  
-}  
-
-/* صفحه 404 */  
-.not-found-page {  
-  text-align: center;  
-  padding: 50px 20px;  
-  max-width: 600px;  
-  margin: 0 auto;  
-}  
-
-.not-found-page h1 {  
-  font-size: 6rem;  
-  color: var(--primary-color);  
-  margin-bottom: 0;  
-}  
-
-.not-found-page h2 {  
-  margin-bottom: 20px;  
-}  
-
-.not-found-page p {  
-  margin-bottom: 30px;  
-  color: #777;  
-}  
-
-
-/* استایل‌های نقشه و موقعیت‌یابی */  
-.map-page {  
-  max-width: 1200px;  
-  margin: 0 auto;  
-  padding: 15px;  
-}  
-
-.map-header {  
-  display: flex;  
-  flex-direction: column;  
-  gap: 10px;  
-  margin-bottom: 15px;  
-}  
-
-.map-header h2 {  
-  margin: 0;  
-  color: var(--primary-color);  
-}  
-
-.map-controls {  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  flex-wrap: wrap;  
-  gap: 10px;  
-}  
-
-.mode-selector {  
-  display: flex;  
-  gap: 10px;  
-}  
-
-.location-info {  
-  background-color: var(--card-bg);  
-  padding: 15px;  
-  border-radius: var(--border-radius);  
-  margin-bottom: 15px;  
-  box-shadow: var(--shadow);  
-}  
-
-.coordinates {  
-  display: grid;  
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  
-  gap: 10px;  
-}  
-
-.coordinates > div {  
-  padding: 8px;  
-  background-color: #f8f8f8;  
-  border-radius: 4px;  
-}  
-
-.map-wrapper {  
-  margin-bottom: 15px;  
-  border-radius: var(--border-radius);  
-  overflow: hidden;  
-  box-shadow: var(--shadow);  
-}  
-
-.action-buttons {  
-  display: flex;  
-  flex-wrap: wrap;  
-  justify-content: center;  
-  gap: 10px;  
-  margin: 15px 0;  
-}  
-
-.info-panel {  
-  background-color: var(--card-bg);  
-  padding: 15px;  
-  border-radius: var(--border-radius);  
-  margin-top: 15px;  
-  box-shadow: var(--shadow);  
-}  
-
-.info-panel h3 {  
-  margin-top: 0;  
-  margin-bottom: 15px;  
-  color: var(--primary-color);  
-  font-size: 1.2rem;  
-}  
-
-.stats {  
-  display: grid;  
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  
-  gap: 15px;  
-}  
-
-.stat-item {  
-  display: flex;  
-  flex-direction: column;  
-  padding: 10px;  
-  background-color: #f8f8f8;  
-  border-radius: 4px;  
-}  
-
-.stat-label {  
-  font-size: 0.9rem;  
-  color: #666;  
-  margin-bottom: 5px;  
-}  
-
-.stat-value {  
-  font-weight: bold;  
-  font-size: 1.1rem; /* یا می‌توانید از واحدهای دیگر مانند em, px استفاده کنید */ 
+  background: rgba(52, 152, 219, 0.1);
+}
+
+/* ===== Modern Hero Section ===== */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  margin: 20px 0 40px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
+  color: white;
+  border-radius: var(--border-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+  z-index: 2;
+  line-height: 1.7;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+}
+
+/* ===== Feature Cards ===== */
+.features {
+  padding: 60px 0;
+}
+
+.features h2 {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  position: relative;
+}
+
+.features h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--primary-color);
+  margin: 15px auto 0;
+  border-radius: 2px;
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.feature-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 30px 25px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: var(--transition);
+  border-top: 4px solid var(--primary-color);
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.feature-card h3 {
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.feature-card p {
+  color: #666;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* ===== How To Use Section ===== */
+.how-to-use {
+  padding: 80px 0;
+  background-color: #f9f9f9;
+  margin: 60px 0;
+}
+
+.how-to-use h2 {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  position: relative;
+}
+
+.how-to-use h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--primary-color);
+  margin: 15px auto 0;
+  border-radius: 2px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.step {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: var(--transition);
+}
+
+.step:hover {
+  transform: translateY(-5px);
+}
+
+.step-number {
+  background-color: var(--primary-color);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.step h3 {
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.step p {
+  color: #666;
+  line-height: 1.7;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+}
+
+.btn-info {
+  background-color: var(--info-color);
+}
+
+/* ===== Footer ===== */
+.app-footer {
+  background-color: var(--header-bg);
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 60px;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}
+
+.copyright {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .hero {
+    padding: 80px 20px;
+  }
+  
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1.1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+  
+  .features h2,
+  .how-to-use h2 {
+    font-size: 1.8rem;
+  }
+  
+  .main-nav ul {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo a {
+    font-size: 1.5rem;
+  }
+  
+  .feature-cards,
+  .steps {
+    grid-template-columns: 1fr;
+  }
 }
