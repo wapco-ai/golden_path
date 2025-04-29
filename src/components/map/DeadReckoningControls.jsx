@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 import useIMUSensors from '../../hooks/useIMUSensors';
-import './Map.css';
+import './DeadReckoningControls.css';
 
 const DeadReckoningControls = ({ currentLocation }) => {
   const [isActive, setIsActive] = useState(advancedDeadReckoningService.isActive);
