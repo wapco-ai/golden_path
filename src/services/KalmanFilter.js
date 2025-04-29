@@ -286,13 +286,14 @@ export class KalmanFilter {
      * @returns {Object} وضعیت فعلی {x, y, theta, v, w, stride}  
      */
     getState() {
+        // بررسی و تضمین برگرداندن مقادیر معتبر  
         return {
-            x: this.x[0],
-            y: this.x[1],
-            theta: this.x[2],
-            v: this.x[3],
-            w: this.x[4],
-            stride: this.x[5],
+            x: isNaN(this.x[0]) ? 0 : this.x[0],
+            y: isNaN(this.x[1]) ? 0 : this.x[1],
+            theta: isNaN(this.x[2]) ? 0 : this.x[2],
+            v: isNaN(this.x[3]) ? 0 : this.x[3],
+            w: isNaN(this.x[4]) ? 0 : this.x[4],
+            stride: isNaN(this.x[5]) ? 0.75 : this.x[5],
             covariance: [...this.P],
             timestamp: this.lastUpdateTime
         };
