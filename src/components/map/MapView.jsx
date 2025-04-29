@@ -1,7 +1,7 @@
 // src/components/map/MapView.jsx  
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap, ZoomControl } from 'react-leaflet';
-import DeadReckoningControls from './DeadReckoningControls';  
+import DeadReckoningControls from './DeadReckoningControls';
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -69,7 +69,7 @@ const MapView = ({
   const [drGeoPath, setDrGeoPath] = useState([]);
   const [kalmanState, setKalmanState] = useState(null);
   const [drPosition, setDrPosition] = useState(null);
-  const [stepCount, setStepCount] = useState(0);  
+  const [stepCount, setStepCount] = useState(0);
   // const [headingInDegrees, setHeadingInDegrees] = useState(0);  
 
 
@@ -93,8 +93,10 @@ const MapView = ({
 
       if (data.type === 'step' || data.type === 'serviceStateChanged') {
         // به‌روزرسانی شمارنده گام  
-        if (data.stepCount) {
+        if (data.stepCount !== undefined && data.stepCount !== null) {
           setStepCount(data.stepCount);
+          alert('Step Count updated');  
+
         }
 
         // به‌روزرسانی وضعیت کالمن  
