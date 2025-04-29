@@ -425,7 +425,7 @@ export class LogStorageService {
         totalSize: 0  
       };  
     }  
-  }  
+  }    
   
   // دانلود فایل  
   static downloadFile(content, filename, mimeType) {  

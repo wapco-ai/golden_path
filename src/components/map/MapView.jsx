@@ -1,10 +1,12 @@
 // src/components/map/MapView.jsx  
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap, ZoomControl } from 'react-leaflet';
+import DeadReckoningControls from './DeadReckoningControls';  
+
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
-import AdvancedDeadReckoningControls from './DeadReckoningControls';
+// import AdvancedDeadReckoningControls from './DeadReckoningControls';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 
 // حل مشکل آیکون‌های Leaflet  
@@ -341,7 +343,7 @@ const MapView = ({
       )}
 
       {/* پنل کنترل‌های Dead Reckoning */}
-      <AdvancedDeadReckoningControls currentLocation={currentLocation} />
+      <DeadReckoningControls currentLocation={currentLocation} />
     </div>
   );
 };
