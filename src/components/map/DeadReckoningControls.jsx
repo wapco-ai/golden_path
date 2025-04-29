@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';  
-import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService'; // استفاده از سرویس جدید  
+import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';  
 import useIMUSensors from '../../hooks/useIMUSensors';  
 import './DeadReckoningControls.css';  
 
@@ -8,8 +8,9 @@ const DeadReckoningControls = ({ currentLocation }) => {
   const [isCalibrating, setIsCalibrating] = useState(false);  
   const [stepCount, setStepCount] = useState(0);  
   const [strideLength, setStrideLength] = useState(0.75);  
-  const [kalmanState, setKalmanState] = useState(null); // وضعیت فیلتر کالمن  
-  
+  const [kalmanState, setKalmanState] = useState(null);   
+  const [stepCountErrorShown, setStepCountErrorShown] = useState(false);  
+
   const {   
     acceleration,   
     rotationRate,   
@@ -26,34 +27,43 @@ const DeadReckoningControls = ({ currentLocation }) => {
       setIsActive(data.isActive);  
       setIsCalibrating(data.isCalibrating);  
       setStepCount(data.stepCount);  
-      setKalmanState(data.kalmanState); // به‌روزرسانی وضعیت کالمن  
+      setKalmanState(data.kalmanState);  
+      
+      // اگر در حالت فعال سرویس و کالیبراسیون نیستیم ولی گام نرفته، alert بده  
+      if(data.isActive && !data.isCalibrating && data.stepCount === 0 && !stepCountErrorShown){  
+        alert('توجه: گام برداری ثبت نمی‌شود. مطمئن شوید دستگاه حرکت دارد و سنسورها فعال هستند.');  
+        setStepCountErrorShown(true);  
+      }  
+
+      // اگر گام ثبت شده، خطا را غیرفعال کن  
+      if(data.stepCount > 0){  
+        setStepCountErrorShown(false);  
+      }  
     });  
     
     return () => removeListener();  
-  }, []);  
+  }, [stepCountErrorShown]);  
 
-  // ارسال داده‌های سنسور به سرویس جدید  
+  // ارسال داده‌های سنسور به سرویس  
   useEffect(() => {  
     if (isActive && hasPermission) {  
       const timestamp = Date.now();  
       if (acceleration) advancedDeadReckoningService.processAccelerometerData(acceleration, timestamp);  
       if (rotationRate) advancedDeadReckoningService.processGyroscopeData(rotationRate, timestamp);  
       if (orientation) advancedDeadReckoningService.processOrientationData(orientation, timestamp);  
-      // داده‌های GPS به صورت جداگانه در MapView ارسال می‌شوند  
     }  
   }, [isActive, hasPermission, acceleration, rotationRate, orientation]);  
 
-   // ارسال داده‌های GPS به سرویس جدید  
-   useEffect(() => {  
-       if (isActive && currentLocation?.coords) {  
-           advancedDeadReckoningService.processGpsData(  
-               { lat: currentLocation.coords.lat, lng: currentLocation.coords.lng },  
-               currentLocation.coords.accuracy,  
-               Date.now()  
-           );  
-       }  
-   }, [isActive, currentLocation]);  
-
+  // ارسال داده‌های GPS به سرویس  
+  useEffect(() => {  
+    if (isActive && currentLocation?.coords) {  
+      advancedDeadReckoningService.processGpsData(  
+        { lat: currentLocation.coords.lat, lng: currentLocation.coords.lng },  
+        currentLocation.coords.accuracy,  
+        Date.now()  
+      );  
+    }  
+  }, [isActive, currentLocation]);  
 
   const handleToggle = async () => {  
     if (!isActive) {  
@@ -75,24 +85,24 @@ const DeadReckoningControls = ({ currentLocation }) => {
         lng: currentLocation.coords.lng  
       } : null;  
       
-      advancedDeadReckoningService.toggle(initialLatLng); // استفاده از سرویس جدید  
+      advancedDeadReckoningService.toggle(initialLatLng);  
     } else {  
-      advancedDeadReckoningService.toggle(); // استفاده از سرویس جدید  
+      advancedDeadReckoningService.toggle();  
     }  
   };  
 
   const handleReset = () => {  
-    advancedDeadReckoningService.reset(); // استفاده از سرویس جدید  
+    advancedDeadReckoningService.reset();  
   };  
 
   const handleExport = () => {  
-    advancedDeadReckoningService.exportLog(); // استفاده از سرویس جدید  
+    advancedDeadReckoningService.exportLog();  
   };  
 
   const handleStrideLengthChange = (e) => {  
     const newValue = parseFloat(e.target.value);  
     setStrideLength(newValue);  
-    advancedDeadReckoningService.setStrideLength(newValue); // استفاده از سرویس جدید  
+    advancedDeadReckoningService.setStrideLength(newValue);  
   };  
 
   return (  
