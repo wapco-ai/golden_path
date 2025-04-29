@@ -10,6 +10,10 @@ import { PeakDetector } from '../utils/PeakDetector';
  * با استفاده از Extended Kalman Filter  
  */
 class AdvancedDeadReckoningService {
+    // متد کمکی تبدیل رادیان به درجه  
+    _toDegrees(rad) {
+        return rad * 180 / Math.PI;
+    }
     constructor() {
         // وضعیت سرویس  
         this.isActive = false;
@@ -114,12 +118,15 @@ class AdvancedDeadReckoningService {
                 timestamp: Date.now()
             });
 
-            // اگر موقعیت مرجع ارسال شده است و معتبر است، از آن استفاده کنید  
+            // اگر موقعیت اولیه ارسال شده است، از آن استفاده کنید  
             if (initialLatLng &&
                 initialLatLng.lat !== undefined &&
                 initialLatLng.lng !== undefined &&
                 !isNaN(initialLatLng.lat) &&
                 !isNaN(initialLatLng.lng)) {
+
+                console.log('Setting initial reference position:', initialLatLng);
+
                 this.referencePosition = {
                     lat: initialLatLng.lat,
                     lng: initialLatLng.lng,
@@ -127,27 +134,46 @@ class AdvancedDeadReckoningService {
                     timestamp: Date.now()
                 };
 
-                console.log('Setting reference position:', this.referencePosition);
-
                 // ثبت نقطه اول در مسیر نسبی و جغرافیایی  
                 this.path.push({ x: 0, y: 0, timestamp: Date.now() });
-                this.geoPath.push({ lat: initialLatLng.lat, lng: initialLatLng.lng, timestamp: Date.now() });
-            } else {
-                console.warn('No valid initial position provided for Dead Reckoning');
-                this.referencePosition = null;
-                // موقعیت مرجع null باقی می‌ماند - داده‌های GPS بعدی آن را تنظیم خواهند کرد  
-            }
+                this.geoPath.push({
+                    lat: initialLatLng.lat,
+                    lng: initialLatLng.lng,
+                    timestamp: Date.now()
+                });
 
-            // اطلاع‌رسانی به لیستنرها  
-            this._notify({
-                type: 'serviceStateChanged',
-                isActive: this.isActive,
-                isCalibrating: this.isCalibrating,
-                stepCount: this.stepCount,
-                kalmanState: this.kalmanFilter.getState(),
-                path: this.path,
-                geoPath: this.geoPath
-            });
+                this.currentPosition = { x: 0, y: 0, theta: this._initialHeading || 0 };
+
+                // اطلاع‌رسانی به لیستنرها  
+                this._notify({
+                    type: 'serviceStateChanged',
+                    isActive: this.isActive,
+                    isCalibrating: this.isCalibrating,
+                    stepCount: this.stepCount,
+                    kalmanState: this.kalmanFilter.getState(),
+                    path: this.path,
+                    geoPath: this.geoPath,
+                    position: this.currentPosition,
+                    geoPosition: {
+                        lat: initialLatLng.lat,
+                        lng: initialLatLng.lng,
+                        heading: this._toDegrees(this.kalmanFilter.getState().theta)
+                    }
+                });
+            } else {
+                console.warn('No valid initial position provided. GPS will be used when available.');
+
+                // اطلاع‌رسانی به لیستنرها بدون داده موقعیت  
+                this._notify({
+                    type: 'serviceStateChanged',
+                    isActive: this.isActive,
+                    isCalibrating: this.isCalibrating,
+                    stepCount: this.stepCount,
+                    kalmanState: this.kalmanFilter.getState(),
+                    path: this.path,
+                    geoPath: this.geoPath
+                });
+            }
         } else {
             // توقف سرویس  
             console.log('Stopping Advanced Dead Reckoning Service');
@@ -165,7 +191,6 @@ class AdvancedDeadReckoningService {
 
         return this.isActive;
     }
-
     /**  
      * بازنشانی سرویس و پاکسازی داده‌ها  
      */
@@ -237,52 +262,212 @@ class AdvancedDeadReckoningService {
 
     /**  
      * پردازش داده‌های شتاب‌سنج  
-     * @param {Object} accelerometer داده‌های شتاب‌سنج {x, y, z, timestamp}  
-     * @param {number} timestamp زمان دریافت داده  
      */
-    processAccelerometerData(accelerometer, timestamp = Date.now()) {
-        if (!this.isActive) return;
+    processAccelerometerData(data, timestamp = Date.now()) {
+        if (!this.isActive || !data) return;
 
-        // لاگ داده‌های ورودی  
-        this._logSensorData('accelerometer', accelerometer, timestamp);
-
-        // فیلتر داده‌های شتاب‌سنج  
-        const filteredAccel = this._filterAccelerometerData(accelerometer);
-
-        // محاسبه نُرم (بزرگی) شتاب برای تشخیص گام  
-        const accelNorm = Math.sqrt(
-            Math.pow(filteredAccel.x, 2) +
-            Math.pow(filteredAccel.y, 2) +
-            Math.pow(filteredAccel.z, 2)
-        );
-
-        // ذخیره در تاریخچه برای تشخیص گام  
-        this._accelNormHistory.push({
-            value: accelNorm,
-            timestamp: timestamp
-        });
-
-        // حفظ حداکثر 100 نمونه در تاریخچه  
-        if (this._accelNormHistory.length > 100) {
-            this._accelNormHistory.shift();
+        // بررسی معتبر بودن داده‌ها  
+        if (data.x === undefined || data.y === undefined || data.z === undefined ||
+            isNaN(data.x) || isNaN(data.y) || isNaN(data.z)) {
+            console.warn('داده‌های نامعتبر شتاب‌سنج:', data);
+            return;
         }
 
-        // تشخیص گام  
-        const stepDetected = this._detectStep(accelNorm, timestamp);
+        // لاگ کردن داده‌ها  
+        this._logSensorData('accelerometer', data, timestamp);
 
-        // پردازش داده‌های سنسور برای به‌روزرسانی موقعیت  
-        this._processSensorData({
-            type: 'accelerometer',
-            data: filteredAccel,
-            timestamp: timestamp,
-            stepDetected: stepDetected
-        });
+        // تنظیم محور‌ها براساس جهت نگهداری گوشی  
+        // در اینجا فرض می‌کنیم که کاربر گوشی را عمودی (portrait) نگه می‌دارد  
+        let ax = 0, ay = 0, az = 0;
 
-        // ذخیره آخرین داده‌های شتاب‌سنج  
-        this.lastAccelerometer = {
-            ...filteredAccel,
-            timestamp: timestamp
-        };
+        // بررسی نوع داده‌های شتاب‌سنج (با جاذبه یا بدون جاذبه)  
+        if (data.includesGravity) {
+            // داده شامل جاذبه است (accelerationIncludingGravity)  
+            // در حالت portrait: x = راست/چپ, y = بالا/پایین, z = جلو/عقب  
+            ax = data.x;
+            ay = data.y;
+            az = data.z;
+
+            // اگر فیلتر پایین‌گذر فعال نیست، آن را فعال کنید  
+            if (!this._lowPassFilter) {
+                this._lowPassFilter = new LowPassFilter(0.1);
+            }
+
+            // حذف تقریبی جاذبه با فیلتر پایین‌گذر  
+            const gravity = this._lowPassFilter.filter([ax, ay, az]);
+            ax -= gravity[0];
+            ay -= gravity[1];
+            az -= gravity[2];
+        } else {
+            // داده بدون جاذبه (acceleration)  
+            ax = data.x;
+            ay = data.y;
+            az = data.z;
+        }
+
+        // اگر فیلتر بالاگذر فعال نیست، آن را فعال کنید  
+        if (!this._highPassFilter) {
+            this._highPassFilter = new HighPassFilter(0.8);
+        }
+
+        // اعمال فیلتر بالاگذر برای حذف نویز و drift کم‌فرکانس  
+        const filteredAcc = this._highPassFilter.filter([ax, ay, az]);
+        ax = filteredAcc[0];
+        ay = filteredAcc[1];
+        az = filteredAcc[2];
+
+        // محاسبه سیگنال نُرم شتاب  
+        const accelNorm = Math.sqrt(ax * ax + ay * ay + az * az);
+
+        // محافظت در برابر مقادیر نامعتبر  
+        if (isNaN(accelNorm)) {
+            console.warn('مقدار نامعتبر در نُرم شتاب:', { ax, ay, az, accelNorm });
+            return;
+        }
+
+        // افزودن به تاریخچه نُرم شتاب  
+        this._accelNormHistory.push({ value: accelNorm, timestamp });
+
+        // حفظ فقط آخرین N نمونه شتاب  
+        const historyWindow = 50; // حفظ 50 نمونه آخر  
+        if (this._accelNormHistory.length > historyWindow) {
+            this._accelNormHistory = this._accelNormHistory.slice(-historyWindow);
+        }
+
+        // آستانه‌های تشخیص گام  
+        const minPeakHeight = 0.8;  // حداقل ارتفاع قله  
+        const minTimeBetweenSteps = 250; // حداقل زمان بین گام‌ها (میلی‌ثانیه)  
+
+        // فقط در صورتی که کالیبراسیون تمام شده است  
+        if (!this.isCalibrating && this._accelNormHistory.length >= 10) {
+            // بررسی برای تشخیص قله  
+            if (this._isPeak(this._accelNormHistory, minPeakHeight)) {
+                const currentTime = timestamp;
+                // بررسی فاصله زمانی از آخرین گام  
+                if (currentTime - this.lastStepTime > minTimeBetweenSteps) {
+                    // یک گام جدید شناسایی شد  
+                    this.stepCount++;
+                    this.lastStepTime = currentTime;
+
+                    // به‌روزرسانی فیلتر کالمن با ورودی تشخیص گام  
+                    const dt = (currentTime - this.lastUpdateTime) / 1000.0;
+                    this.lastUpdateTime = currentTime;
+
+                    // ورودی کنترل: a_norm = 1 نشان‌دهنده تشخیص یک گام است  
+                    const controlInput = {
+                        a_norm: 1,
+                        omega: this.lastGyro ? this.lastGyro.alpha * Math.PI / 180 : 0
+                    };
+
+                    // پیش‌بینی فیلتر کالمن  
+                    this.kalmanFilter.predict(controlInput, currentTime);
+
+                    // به‌روزرسانی موقعیت فعلی از فیلتر کالمن  
+                    const kalmanState = this.kalmanFilter.getState();
+
+                    // محافظت در برابر مقادیر نامعتبر  
+                    if (isNaN(kalmanState.x) || isNaN(kalmanState.y) || isNaN(kalmanState.theta)) {
+                        console.warn('مقادیر نامعتبر در وضعیت کالمن:', kalmanState);
+                        return;
+                    }
+
+                    // ثبت موقعیت نسبی جدید  
+                    this.currentPosition = {
+                        x: kalmanState.x,
+                        y: kalmanState.y,
+                        theta: kalmanState.theta
+                    };
+
+                    // تبدیل موقعیت نسبی به مختصات جغرافیایی  
+                    if (this.referencePosition) {
+                        const currentGeoPosition = this._calculateNewLatLng(
+                            this.referencePosition.lat,
+                            this.referencePosition.lng,
+                            this.currentPosition.x,
+                            this.currentPosition.y
+                        );
+
+                        // محافظت در برابر مقادیر نامعتبر  
+                        if (isNaN(currentGeoPosition.lat) || isNaN(currentGeoPosition.lng)) {
+                            console.warn('مقادیر نامعتبر در موقعیت جغرافیایی:', currentGeoPosition);
+                            return;
+                        }
+
+                        // افزودن نقطه به مسیر  
+                        this.path.push({
+                            x: this.currentPosition.x,
+                            y: this.currentPosition.y,
+                            timestamp: currentTime
+                        });
+
+                        this.geoPath.push({
+                            lat: currentGeoPosition.lat,
+                            lng: currentGeoPosition.lng,
+                            timestamp: currentTime
+                        });
+
+                        // لاگ کردن اطلاعات گام  
+                        console.log(`[Step ${this.stepCount}] Pos: (${this.currentPosition.x.toFixed(2)}, ${this.currentPosition.y.toFixed(2)}) GeoPos: (${currentGeoPosition.lat.toFixed(6)}, ${currentGeoPosition.lng.toFixed(6)})`);
+
+                        // اطلاع‌رسانی به لیستنرها  
+                        this._notify({
+                            type: 'step',
+                            stepCount: this.stepCount,
+                            position: {
+                                x: this.currentPosition.x,
+                                y: this.currentPosition.y,
+                                theta: this.currentPosition.theta
+                            },
+                            geoPosition: {
+                                lat: currentGeoPosition.lat,
+                                lng: currentGeoPosition.lng,
+                                heading: this._toDegrees(this.currentPosition.theta)
+                            },
+                            kalmanState: this.kalmanFilter.getState(),
+                            path: this.path,
+                            geoPath: this.geoPath
+                        });
+                    }
+                }
+            }
+        } else if (this.isCalibrating) {
+            // در حالت کالیبراسیون داده‌ها را جمع‌آوری می‌کنیم  
+            const calibrationTime = 2000; // زمان کالیبراسیون (میلی‌ثانیه)  
+
+            if (Date.now() - this.calibrationStart > calibrationTime) {
+                // کالیبراسیون کامل شد  
+                this.isCalibrating = false;
+                console.log('Calibration complete');
+
+                // اطلاع‌رسانی به لیستنرها  
+                this._notify({
+                    type: 'calibrationComplete',
+                    isCalibrating: false,
+                    path: this.path,
+                    geoPath: this.geoPath
+                });
+            }
+        }
+    }
+
+    /**  
+     * بررسی وجود قله در داده‌های شتاب  
+     * @param {Array} history تاریخچه داده‌های نُرم شتاب  
+     * @param {number} threshold آستانه ارتفاع قله  
+     * @returns {boolean} آیا نقطه انتهایی یک قله است  
+     */
+    _isPeak(history, threshold) {
+        if (history.length < 3) return false;
+
+        // بررسی 3 نمونه آخر  
+        const last = history[history.length - 1].value;
+        const previous = history[history.length - 2].value;
+        const beforePrevious = history[history.length - 3].value;
+
+        // شرایط قله:  
+        // 1. نقطه میانی باید از دو طرف بزرگتر باشد  
+        // 2. نقطه میانی باید از آستانه بزرگتر باشد  
+        return (previous > last && previous > beforePrevious && previous > threshold);
     }
 
     /**  

@@ -67,6 +67,8 @@ const MapView = ({
   const [drGeoPath, setDrGeoPath] = useState([]);
   const [kalmanState, setKalmanState] = useState(null);
   const [drPosition, setDrPosition] = useState(null);
+  // const [headingInDegrees, setHeadingInDegrees] = useState(0);  
+
 
   // موقعیت مرکز نقشه (یا موقعیت فعلی GPS یا موقعیت DR)  
   const centerPosition = drPosition && isFollowing && isDrActive
@@ -83,40 +85,42 @@ const MapView = ({
   // اضافه کردن listener برای Advanced Dead Reckoning Service  
   useEffect(() => {
     const removeListener = advancedDeadReckoningService.addListener((data) => {
-      // console.log('DR Service Event:', data);  
-
       // به‌روزرسانی وضعیت فعال بودن سرویس  
       setIsDrActive(data.isActive);
 
-      // به‌روزرسانی مسیر جغرافیایی Dead Reckoning  
-      if (data.geoPath && data.geoPath.length > 0) {
-        const formattedPath = data.geoPath.map(point => [point.lat, point.lng]);
-        setDrGeoPath(formattedPath);
-      }
-
-      // به‌روزرسانی وضعیت کالمن  
-      if (data.kalmanState) {
-        setKalmanState(data.kalmanState);
-
-        // اگر نقطه مرجع موجود است، موقعیت جغرافیایی را محاسبه کنید  
-        if (advancedDeadReckoningService.referencePosition && data.kalmanState.x !== undefined && data.kalmanState.y !== undefined) {
-          const geoPosition = advancedDeadReckoningService._calculateNewLatLng(
-            advancedDeadReckoningService.referencePosition.lat,
-            advancedDeadReckoningService.referencePosition.lng,
-            data.kalmanState.x,
-            data.kalmanState.y
-          );
-
-          setDrPosition(geoPosition);
+      if (data.type === 'step' || data.type === 'serviceStateChanged') {
+        // به‌روزرسانی شمارنده گام  
+        if (data.stepCount) {
+          setStepCount(data.stepCount);
         }
-      }
 
-      // اگر سرویس ریست شده است، مسیر را پاک کنید  
-      if (data.type === 'serviceReset') {
-        setDrGeoPath([]);
-        // نقطه اول را اضافه کنید اگر موجود است  
+        // به‌روزرسانی وضعیت کالمن  
+        if (data.kalmanState) {
+          setKalmanState(data.kalmanState);
+          // محاسبه جهت به درجه  
+          const headingRad = data.kalmanState.theta;
+          // setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
+        }
+
+        // به‌روزرسانی موقعیت تخمینی  
+        if (data.geoPosition) {
+          // بررسی اعتبار موقعیت  
+          if (!isNaN(data.geoPosition.lat) && !isNaN(data.geoPosition.lng)) {
+            console.log('Updating DR position:', data.geoPosition);
+            setDrPosition(data.geoPosition);
+          }
+        }
+
+        // به‌روزرسانی مسیر جغرافیایی Dead Reckoning  
         if (data.geoPath && data.geoPath.length > 0) {
-          setDrGeoPath([[data.geoPath[0].lat, data.geoPath[0].lng]]);
+          const formattedPath = data.geoPath.map(point => {
+            if (isNaN(point.lat) || isNaN(point.lng)) {
+              return null;
+            }
+            return [point.lat, point.lng];
+          }).filter(point => point !== null);
+
+          setDrGeoPath(formattedPath);
         }
       }
     });
