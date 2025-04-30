@@ -942,6 +942,8 @@ class AdvancedDeadReckoningService {
      * @returns {boolean} آیا گام تشخیص داده شده است  
      */
     _detectStep(accelNorm, timestamp) {
+        alert("AccelNorm:", accelNorm);
+
         // اگر کالیبراسیون فعال است، گام تشخیص داده نشود  
         if (this.isCalibrating) return false;
 
