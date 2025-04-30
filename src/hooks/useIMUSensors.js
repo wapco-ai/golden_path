@@ -1,190 +1,133 @@
 import { useState, useEffect } from 'react';  
 import advancedDeadReckoningService from '../services/AdvancedDeadReckoningService';  
 
+/**  
+ * Hook برای کار با سنسورهای IMU  
+ */  
 const useIMUSensors = () => {  
-  const [isSupported, setIsSupported] = useState(false);  
+  const [isSupported, setIsSupported]   = useState(false);  
   const [hasPermission, setHasPermission] = useState(false);  
-  const [acceleration, setAcceleration] = useState(null);  
-  const [rotationRate, setRotationRate] = useState(null);  
-  const [orientation, setOrientation] = useState(null);  
-  
-  // بررسی پشتیبانی سنسورها  
+
+  const [acceleration, setAcceleration]   = useState(null);  
+  const [rotationRate, setRotationRate]   = useState(null);  
+  const [orientation,  setOrientation]    = useState(null);  
+
+  /* ───────────── بررسی پشتیبانی ───────────── */  
   useEffect(() => {  
-    const checkSupport = () => {  
-      const hasMotion = window.DeviceMotionEvent !== undefined;  
-      const hasOrientation = window.DeviceOrientationEvent !== undefined;  
-      const supported = hasMotion && hasOrientation;  
-      setIsSupported(supported);  
-      
-      console.log('Device motion support:', hasMotion);  
-      console.log('Device orientation support:', hasOrientation);  
-      
-      // در برخی مرورگرها مانند کروم دسکتاپ، نیازی به مجوز نیست  
-      if (supported &&   
-          !(typeof DeviceMotionEvent.requestPermission === 'function') &&   
-          !(typeof DeviceOrientationEvent.requestPermission === 'function')) {  
-        setHasPermission(true);  
-      }  
-      
-      return supported;  
-    };  
-    
-    if (checkSupport()) {  
-      console.log("IMU sensors are supported by this device");  
-    } else {  
-      console.warn("IMU sensors are NOT supported by this device");  
+    const hasMotion      = window.DeviceMotionEvent      !== undefined;  
+    const hasOrientation = window.DeviceOrientationEvent !== undefined;  
+    const supported      = hasMotion && hasOrientation;  
+    setIsSupported(supported);  
+
+    // در مرورگرهایی که متد requestPermission ندارند مجوز را پیشاپیش صادر کنیم  
+    if (  
+      supported &&  
+      typeof DeviceMotionEvent.requestPermission      !== 'function' &&  
+      typeof DeviceOrientationEvent.requestPermission !== 'function'  
+    ) {  
+      setHasPermission(true);  
     }  
   }, []);  
-  
-  // افزودن لیستنرهای سنسور  
+
+  /* ───────────── در اولین فرصت مجوز را بگیریم ───────────── */  
   useEffect(() => {  
-    if (!isSupported || !hasPermission) {  
-      return;  
+    if (isSupported && !hasPermission) {  
+      requestPermission();               // ❶ مجوزِ iOS به‌محض mount  
     }  
-    
-    console.log("Setting up sensor listeners");  
-    
-    // لیستنر شتاب‌سنج  
-    const handleMotion = (event) => {  
-      if (!event) return;  
-      
-      // تشخیص نوع داده شتاب‌سنج  
-      if (event.acceleration && event.acceleration.x !== null) {  
-        // شتاب خالص (بدون جاذبه)  
+  }, [isSupported, hasPermission]);  
+
+  /* ───────────── Listener های سنسورها ───────────── */  
+  useEffect(() => {  
+    if (!isSupported || !hasPermission) return;  
+
+    const handleMotion = (e) => {  
+      const ts = e.timeStamp || Date.now();  
+
+      /* شتاب‌سنج */  
+      const hasPureAcc = e.acceleration && e.acceleration.x !== null;  
+      const rawAcc     = hasPureAcc ? e.acceleration : e.accelerationIncludingGravity;  
+      if (rawAcc) {  
         const accel = {  
-          x: event.acceleration.x || 0,  
-          y: event.acceleration.y || 0,  
-          z: event.acceleration.z || 0,  
-          timestamp: event.timeStamp || Date.now(),  
-          includesGravity: false  
+          x: rawAcc.x || 0,  
+          y: rawAcc.y || 0,  
+          z: rawAcc.z || 0,  
+          includesGravity: !hasPureAcc,  
+          timestamp: ts  
         };  
         setAcceleration(accel);  
-        
-        // ارسال داده به سرویس در صورت فعال بودن  
+
         if (advancedDeadReckoningService.isActive) {  
-          advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);  
-        }  
-      } else if (event.accelerationIncludingGravity && event.accelerationIncludingGravity.x !== null) {  
-        // شتاب با جاذبه  
-        const accel = {  
-          x: event.accelerationIncludingGravity.x || 0,  
-          y: event.accelerationIncludingGravity.y || 0,  
-          z: event.accelerationIncludingGravity.z || 0,  
-          timestamp: event.timeStamp || Date.now(),  
-          includesGravity: true  
-        };  
-        setAcceleration(accel);  
-        
-        // ارسال داده به سرویس در صورت فعال بودن  
-        if (advancedDeadReckoningService.isActive) {  
-          advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);  
+          advancedDeadReckoningService.processAccelerometerData(accel, ts);  
         }  
       }  
-      
-      // داده‌های ژیروسکوپ  
-      if (event.rotationRate && event.rotationRate.alpha !== null) {  
+
+      /* ژیروسکوپ */  
+      if (e.rotationRate && e.rotationRate.alpha !== null) {  
         const gyro = {  
-          alpha: event.rotationRate.alpha || 0,  
-          beta: event.rotationRate.beta || 0,  
-          gamma: event.rotationRate.gamma || 0,  
-          timestamp: event.timeStamp || Date.now()  
+          alpha:   e.rotationRate.alpha  || 0,  
+          beta:    e.rotationRate.beta   || 0,  
+          gamma:   e.rotationRate.gamma  || 0,  
+          timestamp: ts  
         };  
         setRotationRate(gyro);  
-        
-        // ارسال داده به سرویس در صورت فعال بودن  
+
         if (advancedDeadReckoningService.isActive) {  
-          advancedDeadReckoningService.processGyroscopeData(gyro, gyro.timestamp);  
+          advancedDeadReckoningService.processGyroscopeData(gyro, ts);  
         }  
       }  
     };  
-    
-    // لیستنر جهت‌یابی  
-    const handleOrientation = (event) => {  
-      if (!event || event.alpha === null) return;  
-      
+
+    const handleOrientation = (e) => {  
+      if (e.alpha === null) return;  
       const orient = {  
-        alpha: event.alpha || 0, // جهت (0-360 درجه)  
-        beta: event.beta || 0,   // شیب جلو/عقب (-180 تا 180 درجه)  
-        gamma: event.gamma || 0, // شیب چپ/راست (-90 تا 90 درجه)  
-        absolute: event.absolute || false,  
-        timestamp: event.timeStamp || Date.now()  
+        alpha:     e.alpha  || 0,  
+        beta:      e.beta   || 0,  
+        gamma:     e.gamma  || 0,  
+        absolute:  e.absolute || false,  
+        timestamp: e.timeStamp || Date.now()  
       };  
       setOrientation(orient);  
-      
-      // ارسال داده به سرویس در صورت فعال بودن  
+
       if (advancedDeadReckoningService.isActive) {  
         advancedDeadReckoningService.processOrientationData(orient, orient.timestamp);  
       }  
     };  
-    
-    // تنظیم نرخ نمونه‌برداری (در صورت امکان)  
-    if (typeof DeviceMotionEvent.requestPermission === 'function') {  
-      // در iOS جدید  
-      window.addEventListener('devicemotion', handleMotion, { frequency: 60 });  
-      window.addEventListener('deviceorientation', handleOrientation, { frequency: 60 });  
-    } else {  
-      // سایر دستگاه‌ها  
-      window.addEventListener('devicemotion', handleMotion);  
-      window.addEventListener('deviceorientation', handleOrientation);  
-    }  
-    
-    console.log("Sensor listeners added");  
-    
-    // حذف لیستنرها در هنگام unmount  
+
+    /* اضافه کردن Listener ها */  
+    const options = { frequency: 60 };  
+    window.addEventListener('devicemotion',      handleMotion,      options);  
+    window.addEventListener('deviceorientation', handleOrientation, options);  
+    console.log('[IMU] listeners attached');  
+
     return () => {  
-      console.log("Removing sensor listeners");  
-      window.removeEventListener('devicemotion', handleMotion);  
+      window.removeEventListener('devicemotion',      handleMotion);  
       window.removeEventListener('deviceorientation', handleOrientation);  
     };  
-  }, [isSupported, hasPermission, advancedDeadReckoningService.isActive]);  
-  
-  // درخواست مجوز دسترسی به سنسورها (برای iOS 13+)  
+  }, [isSupported, hasPermission]);           // ❷ دیگر نیازی به isActive در deps نیست  
+
+  /* ───────────── متدهای مجوز ───────────── */  
   const requestPermission = async () => {  
-    if (!isSupported) {  
-      console.warn("Sensors not supported, cannot request permission");  
-      return false;  
-    }  
-    
-    try {  
-      // برای iOS 13+  
-      if (typeof DeviceMotionEvent.requestPermission === 'function' &&  
-          typeof DeviceOrientationEvent.requestPermission === 'function') {  
-        
-        console.log('Requesting permissions for iOS...');  
-        
-        const motionPermission = await DeviceMotionEvent.requestPermission();  
-        const orientationPermission = await DeviceOrientationEvent.requestPermission();  
-        
-        const granted = motionPermission === 'granted' && orientationPermission === 'granted';  
-        setHasPermission(granted);  
-        console.log(`Permission ${granted ? 'granted' : 'denied'}`);  
-        return granted;  
-      } else {  
-        // برای سایر دستگاه‌ها، فرض می‌کنیم مجوز داریم  
-        console.log('No permission request needed for this device');  
-        setHasPermission(true);  
-        return true;  
-      }  
-    } catch (error) {  
-      console.error('Error requesting sensor permissions:', error);  
-      return false;  
-    }  
-  };  
-  
-  // بررسی وضعیت مجوزها  
-  const checkPermissions = async () => {  
     if (!isSupported) return false;  
-    
-    // در iOS نیاز به درخواست صریح است  
-    if (typeof DeviceMotionEvent.requestPermission === 'function') {  
-      return hasPermission;  
+
+    try {  
+      if (typeof DeviceMotionEvent.requestPermission === 'function') {  
+        const m = await DeviceMotionEvent.requestPermission();  
+        const o = await DeviceOrientationEvent.requestPermission();  
+        const granted = m === 'granted' && o === 'granted';  
+        setHasPermission(granted);  
+        return granted;  
+      }  
+      // مرورگرهای دسکتاپ  
+      setHasPermission(true);  
+      return true;  
+    } catch (err) {  
+      console.error('[IMU] permission error:', err);  
+      return false;  
     }  
-    
-    // در سایر دستگاه‌ها، فرض می‌کنیم مجوز داریم  
-    setHasPermission(true);  
-    return true;  
   };  
-  
+
+  const checkPermissions = () => hasPermission;  
+
   return {  
     acceleration,  
     rotationRate,  

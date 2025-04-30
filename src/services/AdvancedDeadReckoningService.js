@@ -14,6 +14,7 @@ class AdvancedDeadReckoningService {
     _toDegrees(rad) {
         return rad * 180 / Math.PI;
     }
+
     constructor() {
         // وضعیت سرویس  
         this.isActive = false;
@@ -335,8 +336,8 @@ class AdvancedDeadReckoningService {
         }
 
         // آستانه‌های تشخیص گام  
-        const minPeakHeight = 0.8;  // حداقل ارتفاع قله  
-        const minTimeBetweenSteps = 250; // حداقل زمان بین گام‌ها (میلی‌ثانیه)  
+        const minPeakHeight = 1.05;  // حداقل ارتفاع قله  
+        const minTimeBetweenSteps = 400; // حداقل زمان بین گام‌ها (میلی‌ثانیه)  
 
         // فقط در صورتی که کالیبراسیون تمام شده است  
         if (!this.isCalibrating && this._accelNormHistory.length >= 10) {
@@ -356,7 +357,9 @@ class AdvancedDeadReckoningService {
                     // ورودی کنترل: a_norm = 1 نشان‌دهنده تشخیص یک گام است  
                     const controlInput = {
                         a_norm: 1,
-                        omega: this.lastGyro ? this.lastGyro.alpha * Math.PI / 180 : 0
+                        omega: this.lastGyroscope
+                            ? this.lastGyroscope.alphaRad    // رادیان/ثانیه  
+                            : 0
                     };
 
                     // پیش‌بینی فیلتر کالمن  
@@ -952,7 +955,7 @@ class AdvancedDeadReckoningService {
             // بررسی شرایط مناسب برای تشخیص گام:  
             // 1. حداقل 250 میلی‌ثانیه از آخرین گام گذشته باشد (حداکثر 4 گام در ثانیه)  
             // 2. بزرگی شتاب بزرگتر از آستانه باشد  
-            if (timeSinceLastStep > 250 && accelNorm > 0.8) {
+            if (timeSinceLastStep > 10 && accelNorm > 1.2) {
                 this.stepCount++;
                 this.lastStepTime = timestamp;
 

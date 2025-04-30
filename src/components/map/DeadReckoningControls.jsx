@@ -73,11 +73,8 @@ const DeadReckoningControls = ({ currentLocation }) => {
       }  
       
       if (!checkPermissions()) {  
-        const permissionGranted = await requestPermission();  
-        if (!permissionGranted) {  
-          alert('برای استفاده، دسترسی به سنسورها را فعال کنید.');  
-          return;  
-        }  
+        const ok = await requestPermission();  
+        if (!ok) { alert('برای استفاده، دسترسی به سنسورها را فعال کنید.'); return; }  
       }  
       
       const initialLatLng = currentLocation?.coords ? {  
