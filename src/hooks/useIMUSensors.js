@@ -51,6 +51,7 @@ const useIMUSensors = () => {
       // تشخیص نوع داده شتاب‌سنج  
       if (event.acceleration && event.acceleration.x !== null) {
         // شتاب خالص (بدون جاذبه)  
+        // خط 65 تا 71 را پیدا کنید و به این شکل تغییر دهید:  
         const accel = {
           x: event.acceleration.x || 0,
           y: event.acceleration.y || 0,
@@ -61,24 +62,25 @@ const useIMUSensors = () => {
         setAcceleration(accel);
 
         // ارسال داده به سرویس در صورت فعال بودن  
-        if (advancedDeadReckoningService.isActive) {
-          advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
-        }
+        // if (advancedDeadReckoningService.isActive) {
+        //   advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
+        // }
       } else if (event.accelerationIncludingGravity && event.accelerationIncludingGravity.x !== null) {
         // شتاب با جاذبه  
-        const accel = {
-          x: event.accelerationIncludingGravity.x || 0,
-          y: event.accelerationIncludingGravity.y || 0,
-          z: event.accelerationIncludingGravity.z || 0,
-          timestamp: event.timeStamp || Date.now(),
-          includesGravity: true
-        };
-        setAcceleration(accel);
+        const accel = {  
+          x: event.accelerationIncludingGravity.x || 0,  
+          y: event.accelerationIncludingGravity.y || 0,  
+          z: event.accelerationIncludingGravity.z || 0,  
+          timestamp: event.timeStamp || Date.now(),  
+          includesGravity: true  
+        };  
+        setAcceleration(accel);  
+        
 
         // ارسال داده به سرویس در صورت فعال بودن  
-        if (advancedDeadReckoningService.isActive) {
-          advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
-        }
+        // if (advancedDeadReckoningService.isActive) {
+        //   advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
+        // }
       }
 
       // داده‌های ژیروسکوپ  
@@ -92,9 +94,9 @@ const useIMUSensors = () => {
         setRotationRate(gyro);
 
         // ارسال داده به سرویس در صورت فعال بودن  
-        if (advancedDeadReckoningService.isActive) {
-          advancedDeadReckoningService.processGyroscopeData(gyro, gyro.timestamp);
-        }
+        // if (advancedDeadReckoningService.isActive) {
+        //   advancedDeadReckoningService.processGyroscopeData(gyro, gyro.timestamp);
+        // }
       }
     };
 
@@ -112,9 +114,9 @@ const useIMUSensors = () => {
       setOrientation(orient);
 
       // ارسال داده به سرویس در صورت فعال بودن  
-      if (advancedDeadReckoningService.isActive) {
-        advancedDeadReckoningService.processOrientationData(orient, orient.timestamp);
-      }
+      // if (advancedDeadReckoningService.isActive) {
+      //   advancedDeadReckoningService.processOrientationData(orient, orient.timestamp);
+      // }
     };
 
     // تنظیم نرخ نمونه‌برداری (در صورت امکان)  

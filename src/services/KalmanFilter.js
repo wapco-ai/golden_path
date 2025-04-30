@@ -23,8 +23,8 @@ export class KalmanFilter {
         this.Q[i * this.stateSize + i] = 0.01; // مقادیر کوچکتر = اعتماد بیشتر به مدل  
       }  
       // عدم قطعیت بیشتر برای موقعیت و جهت  
-      this.Q[0 * this.stateSize + 0] = 0.5;  // x  
-      this.Q[1 * this.stateSize + 1] = 0.5;  // y  
+      this.Q[0 * this.stateSize + 0] = 0.3;  // x  
+      this.Q[1 * this.stateSize + 1] = 0.3;  // y  
       this.Q[2 * this.stateSize + 2] = 0.5;  // theta  
       
       // ماتریس نویز اندازه‌گیری (R) - میزان عدم قطعیت در داده‌های حسگر  

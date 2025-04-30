@@ -30,9 +30,9 @@ class AdvancedDeadReckoningService {
 
         // تشخیص گام (Peak Detector)  
         this.peakDetector = new PeakDetector({
-            threshold: 0.5,       // آستانه تشخیص پیک  
-            minPeakDistance: 300, // حداقل فاصله زمانی بین پیک‌ها (میلی‌ثانیه)  
-            windowSize: 10        // تعداد نمونه‌هایی که برای تشخیص پیک بررسی می‌شوند  
+            threshold: 0.4,       // آستانه تشخیص پیک  
+            minPeakDistance: 250, // حداقل فاصله زمانی بین پیک‌ها (میلی‌ثانیه)  
+            // windowSize: 10        // تعداد نمونه‌هایی که برای تشخیص پیک بررسی می‌شوند  
         });
 
         // مقادیر کالیبراسیون  
@@ -947,7 +947,7 @@ class AdvancedDeadReckoningService {
 
         // لاگ برای دیباگ  
         console.log("Accel Norm:", accelNorm);
-        alert("AccelNorm:", accelNorm);  
+        alert("AccelNorm:", accelNorm);
 
 
         // تشخیص پیک با استفاده از کلاس PeakDetector  
@@ -960,7 +960,7 @@ class AdvancedDeadReckoningService {
             // بررسی شرایط مناسب برای تشخیص گام:  
             // 1. حداقل 250 میلی‌ثانیه از آخرین گام گذشته باشد (حداکثر 4 گام در ثانیه)  
             // 2. بزرگی شتاب بزرگتر از آستانه باشد  
-            if (timeSinceLastStep > 10 && accelNorm > 0.7) {  // کاهش آستانه از 1.2 به 0.8  
+            if (timeSinceLastStep > 10 && accelNorm > 0.5) {  // کاهش آستانه از 1.2 به 0.8  
                 this.stepCount++;
                 this.lastStepTime = timestamp;
 
@@ -1059,7 +1059,7 @@ class AdvancedDeadReckoningService {
                     this.currentPosition.x,
                     this.currentPosition.y
                 ) > 0.1 && // کاهش از 0.5 به 0.1 متر  
-                now - this.path[this.path.length - 1].timestamp > 100 // کاهش از 500 به 100 میلی‌ثانیه  
+                now - this.path[this.path.length - 1].timestamp > 200 // کاهش از 500 به 200 میلی‌ثانیه  
             )) {
                 this.path.push({
                     x: this.currentPosition.x,
