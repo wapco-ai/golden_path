@@ -337,8 +337,8 @@ class AdvancedDeadReckoningService {
 
         // آستانه‌های تشخیص گام  
         const minPeakHeight = 1.05;  // حداقل ارتفاع قله  
-        const minTimeBetweenSteps = 400; // حداقل زمان بین گام‌ها (میلی‌ثانیه)  
-
+        const minTimeBetweenSteps = 200; // حداقل زمان بین گام‌ها (میلی‌ثانیه)  
+        alert(this._accelNormHistory.length)
         // فقط در صورتی که کالیبراسیون تمام شده است  
         if (!this.isCalibrating && this._accelNormHistory.length >= 10) {
             // بررسی برای تشخیص قله  
