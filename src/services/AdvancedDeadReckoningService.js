@@ -264,193 +264,55 @@ class AdvancedDeadReckoningService {
     /**  
      * پردازش داده‌های شتاب‌سنج  
      */
+    /**  
+ * پردازش داده‌های شتاب‌سنج (IMU)  
+ * @param {Object} data  {x, y, z, includesGravity}  
+ * @param {number} [timestamp=Date.now()]  
+ */
     processAccelerometerData(data, timestamp = Date.now()) {
+        /* ───── ۱) پیش‌شرط‌ها ───── */
         if (!this.isActive || !data) return;
 
-        // بررسی معتبر بودن داده‌ها  
-        if (data.x === undefined || data.y === undefined || data.z === undefined ||
-            isNaN(data.x) || isNaN(data.y) || isNaN(data.z)) {
+        if (['x', 'y', 'z'].some(k => data[k] === undefined || isNaN(data[k]))) {
             console.warn('داده‌های نامعتبر شتاب‌سنج:', data);
             return;
         }
 
-        // لاگ کردن داده‌ها  
-        this._logSensorData('accelerometer', data, timestamp);
+        /* ───── ۲) لاگ خام برای دیباگ ───── */
+        this._logSensorData('accelerometer_raw', data, timestamp);
 
-        // تنظیم محور‌ها براساس جهت نگهداری گوشی  
-        // در اینجا فرض می‌کنیم که کاربر گوشی را عمودی (portrait) نگه می‌دارد  
-        let ax = 0, ay = 0, az = 0;
+        /* ───── ۳) فیلتر و حذف بایاس ───── */
+        const filtered = this._filterAccelerometerData(data);   // متد موجود در فایل  
 
-        // بررسی نوع داده‌های شتاب‌سنج (با جاذبه یا بدون جاذبه)  
-        if (data.includesGravity) {
-            // داده شامل جاذبه است (accelerationIncludingGravity)  
-            // در حالت portrait: x = راست/چپ, y = بالا/پایین, z = جلو/عقب  
-            ax = data.x;
-            ay = data.y;
-            az = data.z;
+        /* ───── ۴) محاسبه نُرم شتاب ───── */
+        const accelNorm = Math.sqrt(
+            filtered.x * filtered.x +
+            filtered.y * filtered.y +
+            filtered.z * filtered.z
+        );
 
-            // اگر فیلتر پایین‌گذر فعال نیست، آن را فعال کنید  
-            if (!this._lowPassFilter) {
-                this._lowPassFilter = new LowPassFilter(0.1);
-            }
-
-            // حذف تقریبی جاذبه با فیلتر پایین‌گذر  
-            const gravity = this._lowPassFilter.filter([ax, ay, az]);
-            ax -= gravity[0];
-            ay -= gravity[1];
-            az -= gravity[2];
-        } else {
-            // داده بدون جاذبه (acceleration)  
-            ax = data.x;
-            ay = data.y;
-            az = data.z;
-        }
-
-        // اگر فیلتر بالاگذر فعال نیست، آن را فعال کنید  
-        if (!this._highPassFilter) {
-            this._highPassFilter = new HighPassFilter(0.8);
-        }
-
-        // اعمال فیلتر بالاگذر برای حذف نویز و drift کم‌فرکانس  
-        const filteredAcc = this._highPassFilter.filter([ax, ay, az]);
-        ax = filteredAcc[0];
-        ay = filteredAcc[1];
-        az = filteredAcc[2];
-
-        // محاسبه سیگنال نُرم شتاب  
-        const accelNorm = Math.sqrt(ax * ax + ay * ay + az * az);
-
-        // محافظت در برابر مقادیر نامعتبر  
-        if (isNaN(accelNorm)) {
-            console.warn('مقدار نامعتبر در نُرم شتاب:', { ax, ay, az, accelNorm });
+        if (!isFinite(accelNorm)) {
+            console.warn('accelNorm غیرمعتبر:', accelNorm);
             return;
         }
 
-        // افزودن به تاریخچه نُرم شتاب  
-        this._accelNormHistory.push({ value: accelNorm, timestamp });
+        /* ───── ۵) تشخیص گام ───── */
+        const stepDetected = this._detectStep(accelNorm, timestamp);
 
-        // حفظ فقط آخرین N نمونه شتاب  
-        const historyWindow = 50; // حفظ 50 نمونه آخر  
-        if (this._accelNormHistory.length > historyWindow) {
-            this._accelNormHistory = this._accelNormHistory.slice(-historyWindow);
-        }
+        /* ───── ۶) ارسال به موتور سنسور‌فیوژن ───── */
+        this._processSensorData({
+            type: 'accelerometer',
+            data: { accelNorm },
+            stepDetected,
+            timestamp
+        });
 
-        // آستانه‌های تشخیص گام  
-        const minPeakHeight = 1.05;  // حداقل ارتفاع قله  
-        const minTimeBetweenSteps = 200; // حداقل زمان بین گام‌ها (میلی‌ثانیه)  
-        alert(this._accelNormHistory.length)
-        // فقط در صورتی که کالیبراسیون تمام شده است  
-        if (!this.isCalibrating && this._accelNormHistory.length >= 10) {
-            // بررسی برای تشخیص قله  
-            if (this._isPeak(this._accelNormHistory, minPeakHeight)) {
-                const currentTime = timestamp;
-                // بررسی فاصله زمانی از آخرین گام  
-                if (currentTime - this.lastStepTime > minTimeBetweenSteps) {
-                    // یک گام جدید شناسایی شد  
-                    this.stepCount++;
-                    this.lastStepTime = currentTime;
-
-                    // به‌روزرسانی فیلتر کالمن با ورودی تشخیص گام  
-                    const dt = (currentTime - this.lastUpdateTime) / 1000.0;
-                    this.lastUpdateTime = currentTime;
-
-                    // ورودی کنترل: a_norm = 1 نشان‌دهنده تشخیص یک گام است  
-                    const controlInput = {
-                        a_norm: 1,
-                        omega: this.lastGyroscope
-                            ? this.lastGyroscope.alphaRad    // رادیان/ثانیه  
-                            : 0
-                    };
-
-                    // پیش‌بینی فیلتر کالمن  
-                    this.kalmanFilter.predict(controlInput, currentTime);
-
-                    // به‌روزرسانی موقعیت فعلی از فیلتر کالمن  
-                    const kalmanState = this.kalmanFilter.getState();
-
-                    // محافظت در برابر مقادیر نامعتبر  
-                    if (isNaN(kalmanState.x) || isNaN(kalmanState.y) || isNaN(kalmanState.theta)) {
-                        console.warn('مقادیر نامعتبر در وضعیت کالمن:', kalmanState);
-                        return;
-                    }
-
-                    // ثبت موقعیت نسبی جدید  
-                    this.currentPosition = {
-                        x: kalmanState.x,
-                        y: kalmanState.y,
-                        theta: kalmanState.theta
-                    };
-
-                    // تبدیل موقعیت نسبی به مختصات جغرافیایی  
-                    if (this.referencePosition) {
-                        const currentGeoPosition = this._calculateNewLatLng(
-                            this.referencePosition.lat,
-                            this.referencePosition.lng,
-                            this.currentPosition.x,
-                            this.currentPosition.y
-                        );
-
-                        // محافظت در برابر مقادیر نامعتبر  
-                        if (isNaN(currentGeoPosition.lat) || isNaN(currentGeoPosition.lng)) {
-                            console.warn('مقادیر نامعتبر در موقعیت جغرافیایی:', currentGeoPosition);
-                            return;
-                        }
-
-                        // افزودن نقطه به مسیر  
-                        this.path.push({
-                            x: this.currentPosition.x,
-                            y: this.currentPosition.y,
-                            timestamp: currentTime
-                        });
-
-                        this.geoPath.push({
-                            lat: currentGeoPosition.lat,
-                            lng: currentGeoPosition.lng,
-                            timestamp: currentTime
-                        });
-
-                        // لاگ کردن اطلاعات گام  
-                        console.log(`[Step ${this.stepCount}] Pos: (${this.currentPosition.x.toFixed(2)}, ${this.currentPosition.y.toFixed(2)}) GeoPos: (${currentGeoPosition.lat.toFixed(6)}, ${currentGeoPosition.lng.toFixed(6)})`);
-
-                        // اطلاع‌رسانی به لیستنرها  
-                        this._notify({
-                            type: 'step',
-                            stepCount: this.stepCount,
-                            position: {
-                                x: this.currentPosition.x,
-                                y: this.currentPosition.y,
-                                theta: this.currentPosition.theta
-                            },
-                            geoPosition: {
-                                lat: currentGeoPosition.lat,
-                                lng: currentGeoPosition.lng,
-                                heading: this._toDegrees(this.currentPosition.theta)
-                            },
-                            kalmanState: this.kalmanFilter.getState(),
-                            path: this.path,
-                            geoPath: this.geoPath
-                        });
-                    }
-                }
-            }
-        } else if (this.isCalibrating) {
-            // در حالت کالیبراسیون داده‌ها را جمع‌آوری می‌کنیم  
-            const calibrationTime = 2000; // زمان کالیبراسیون (میلی‌ثانیه)  
-
-            if (Date.now() - this.calibrationStart > calibrationTime) {
-                // کالیبراسیون کامل شد  
-                this.isCalibrating = false;
-                console.log('Calibration complete');
-
-                // اطلاع‌رسانی به لیستنرها  
-                this._notify({
-                    type: 'calibrationComplete',
-                    isCalibrating: false,
-                    path: this.path,
-                    geoPath: this.geoPath
-                });
-            }
-        }
+        /* ───── ۷) ذخیره آخرین شتاب ───── */
+        this.lastAccelerometer = {
+            ...filtered,
+            accelNorm,
+            timestamp
+        };
     }
 
     /**  
@@ -941,43 +803,34 @@ class AdvancedDeadReckoningService {
      * @param {number} timestamp زمان دریافت داده  
      * @returns {boolean} آیا گام تشخیص داده شده است  
      */
+    /**  
+     * تشخیص گام با PeakDetector  
+     * @param {number} accelNorm  نُرم شتاب فیلترشده  
+     * @param {number} timestamp  زمان نمونه (ms)  
+     * @returns {boolean}  آیا گام رخ داده است؟  
+     */
     _detectStep(accelNorm, timestamp) {
-        alert("AccelNorm:", accelNorm);
+        if (this.isCalibrating) return false;           // در کالیبراسیون گام نمی‌شماریم  
 
-        // اگر کالیبراسیون فعال است، گام تشخیص داده نشود  
-        if (this.isCalibrating) return false;
-
-        // لاگ برای دیباگ  
-        console.log("Accel Norm:", accelNorm);
-        alert("AccelNorm:", accelNorm);
-
-
-        // تشخیص پیک با استفاده از کلاس PeakDetector  
+        // استفاده از PeakDetector  
         const peakDetected = this.peakDetector.addSample(accelNorm, timestamp);
+        if (!peakDetected) return false;
 
-        if (peakDetected) {
-            // محاسبه فاصله زمانی از آخرین گام  
-            const timeSinceLastStep = timestamp - this.lastStepTime;
+        const timeSinceLast = timestamp - this.lastStepTime;
+        if (timeSinceLast < 250 || accelNorm < 0.5) return false; // فیلتر سرعت و ارتفاع  
 
-            // بررسی شرایط مناسب برای تشخیص گام:  
-            // 1. حداقل 250 میلی‌ثانیه از آخرین گام گذشته باشد (حداکثر 4 گام در ثانیه)  
-            // 2. بزرگی شتاب بزرگتر از آستانه باشد  
-            if (timeSinceLastStep > 10 && accelNorm > 0.5) {  // کاهش آستانه از 1.2 به 0.8  
-                this.stepCount++;
-                this.lastStepTime = timestamp;
+        /* ─── گام پذیرفته شد ─── */
+        this.stepCount++;
+        this.lastStepTime = timestamp;
 
-                // اطلاع‌رسانی به لیستنرها  
-                this._notify({
-                    type: 'stepDetected',
-                    stepCount: this.stepCount,
-                    timestamp: timestamp
-                });
+        // اطلاع‌رسانی به UI  
+        this._notify({
+            type: 'step',
+            stepCount: this.stepCount,
+            timestamp
+        });
 
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     /**  
