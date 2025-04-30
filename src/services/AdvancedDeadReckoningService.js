@@ -945,6 +945,9 @@ class AdvancedDeadReckoningService {
         // اگر کالیبراسیون فعال است، گام تشخیص داده نشود  
         if (this.isCalibrating) return false;
 
+        // لاگ برای دیباگ  
+        console.log("Accel Norm:", accelNorm);
+
         // تشخیص پیک با استفاده از کلاس PeakDetector  
         const peakDetected = this.peakDetector.addSample(accelNorm, timestamp);
 
@@ -955,7 +958,7 @@ class AdvancedDeadReckoningService {
             // بررسی شرایط مناسب برای تشخیص گام:  
             // 1. حداقل 250 میلی‌ثانیه از آخرین گام گذشته باشد (حداکثر 4 گام در ثانیه)  
             // 2. بزرگی شتاب بزرگتر از آستانه باشد  
-            if (timeSinceLastStep > 10 && accelNorm > 1.2) {
+            if (timeSinceLastStep > 10 && accelNorm > 0.8) {  // کاهش آستانه از 1.2 به 0.8  
                 this.stepCount++;
                 this.lastStepTime = timestamp;
 
@@ -1046,14 +1049,15 @@ class AdvancedDeadReckoningService {
             );
 
             // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
+            // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
             if (this.path.length === 0 || (
                 this._calculateDistance(
                     this.path[this.path.length - 1].x,
                     this.path[this.path.length - 1].y,
                     this.currentPosition.x,
                     this.currentPosition.y
-                ) > 0.5 && // حداقل 0.5 متر فاصله  
-                now - this.path[this.path.length - 1].timestamp > 500 // حداقل 500 میلی‌ثانیه فاصله زمانی  
+                ) > 0.1 && // کاهش از 0.5 به 0.1 متر  
+                now - this.path[this.path.length - 1].timestamp > 100 // کاهش از 500 به 100 میلی‌ثانیه  
             )) {
                 this.path.push({
                     x: this.currentPosition.x,
@@ -1073,7 +1077,8 @@ class AdvancedDeadReckoningService {
         this.lastUpdateTime = now;
 
         // اطلاع‌رسانی به لیستنرها (فقط اگر تغییر قابل توجهی رخ داده باشد یا اندازه‌گیری ورودی داشته باشیم)  
-        if (data.type === 'accelerometer' && data.stepDetected) {
+        // اطلاع‌رسانی به لیستنرها با فرکانس بیشتر  
+        if (data.type === 'accelerometer') { // حذف شرط data.stepDetected  
             this._notify({
                 type: 'positionUpdated',
                 currentPosition: this.currentPosition,

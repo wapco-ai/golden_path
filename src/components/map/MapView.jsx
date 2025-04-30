@@ -94,10 +94,7 @@ const MapView = ({
       if (data.type === 'step' || data.type === 'serviceStateChanged') {
         // به‌روزرسانی شمارنده گام  
         if (data.stepCount !== undefined && data.stepCount !== null) {
-          console.log('Step Count updated ' + data.stepCount)
           setStepCount(data.stepCount);
-          alert('Step Count updated ' + data.stepCount);  
-
         }
 
         // به‌روزرسانی وضعیت کالمن  

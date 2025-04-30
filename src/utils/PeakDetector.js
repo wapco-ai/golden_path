@@ -11,8 +11,8 @@ export class PeakDetector {
      * @param {number} options.windowSize تعداد نمونه‌هایی که برای تشخیص پیک بررسی می‌شوند  
      */  
     constructor(options = {}) {  
-      this.threshold = options.threshold || 1.0;  
-      this.minPeakDistance = options.minPeakDistance || 500;  
+      this.threshold = options.threshold || 0.7;  
+      this.minPeakDistance = options.minPeakDistance || 200;  
       this.windowSize = options.windowSize || 10;  
       
       this.samples = [];  
