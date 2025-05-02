@@ -270,7 +270,7 @@ class AdvancedDeadReckoningService {
  * @param {number} [timestamp=Date.now()]  
  */
     processAccelerometerData(data, timestamp = Date.now()) {
-        console.log('[ADRService] processAccelerometerData called with:', data);
+
 
         /* ───── ۱) پیش‌شرط‌ها ───── */
         if (!this.isActive || !data) return;
@@ -285,7 +285,7 @@ class AdvancedDeadReckoningService {
 
         /* ───── ۳) فیلتر و حذف بایاس ───── */
         const filtered = this._filterAccelerometerData(data);   // متد موجود در فایل  
-
+        console.log('[ADRService] filtered processAccelerometerData called with:', filtered);
         /* ───── ۴) محاسبه نُرم شتاب ───── */
         const accelNorm = Math.sqrt(
             filtered.x * filtered.x +
