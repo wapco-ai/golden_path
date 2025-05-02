@@ -61,7 +61,7 @@ const useIMUSensors = () => {
           timestamp: event.timeStamp || Date.now(),
           includesGravity: false
         };
-        console.log('[useIMUSensors] Accelerometer Raw Data:', accel);  
+        // console.log('[useIMUSensors] Accelerometer Raw Data:', accel);  
 
         setAcceleration(accel);
 

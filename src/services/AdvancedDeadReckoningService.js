@@ -269,89 +269,52 @@ class AdvancedDeadReckoningService {
  * @param {Object} data  {x, y, z, includesGravity}  
  * @param {number} [timestamp=Date.now()]  
  */
-    processAccelerometerData(data) {
-        // --- اضافه کنید ---  
+    processAccelerometerData(data, timestamp = Date.now()) {
         console.log('[ADRService] processAccelerometerData called with:', data);
-        // --- پایان اضافه کردن ---  
 
-        if (!this.isCalibrated) {
-            // console.log('هنوز در حال کالیبراسیون شتاب‌سنج...');  
-            this._collectCalibrationData('accelerometer', data);
+        /* ───── ۱) پیش‌شرط‌ها ───── */
+        if (!this.isActive || !data) return;
+
+        if (['x', 'y', 'z'].some(k => data[k] === undefined || isNaN(data[k]))) {
+            console.warn('داده‌های نامعتبر شتاب‌سنج:', data);
             return;
         }
 
-        const timestamp = data.timestamp || Date.now(); // استفاده از timestamp سنسور یا زمان فعلی  
-        const dt = this.lastTimestamp ? (timestamp - this.lastTimestamp) / 1000 : 0; // زمان به ثانیه  
-        this.lastTimestamp = timestamp;
+        /* ───── ۲) لاگ خام برای دیباگ ───── */
+        this._logSensorData('accelerometer_raw', data, timestamp);
 
-        /* ───── ۱) حذف بایاس ───── */
-        const unbiasedAcc = this._removeBias(data, 'accelerometer');
+        /* ───── ۳) فیلتر و حذف بایاس ───── */
+        const filtered = this._filterAccelerometerData(data);   // متد موجود در فایل  
 
-        /* ───── ۲) محاسبه نُرم و حذف گرانش ───── */
-        // const accelMagnitude = Math.sqrt(unbiasedAcc.x ** 2 + unbiasedAcc.y ** 2 + unbiasedAcc.z ** 2);  
-        // const gravity = 9.81; // مقدار تقریبی گرانش  
-        // const linearAccel = Math.abs(accelMagnitude - gravity); // روش ساده‌انگارانه حذف گرانش  
+        /* ───── ۴) محاسبه نُرم شتاب ───── */
+        const accelNorm = Math.sqrt(
+            filtered.x * filtered.x +
+            filtered.y * filtered.y +
+            filtered.z * filtered.z
+        );
 
-        // روش دقیق‌تر با فیلتر: محاسبه شتاب خطی (بدون گرانش)  
-        // اعمال فیلتر پایین‌گذر برای تخمین گرانش  
-        this.gravityEstimate = this.gravityFilter.filter(unbiasedAcc);
-        // تفریق بردار گرانش تخمینی از شتاب خام برای بدست آوردن شتاب خطی  
-        const linearAcc = {
-            x: unbiasedAcc.x - this.gravityEstimate.x,
-            y: unbiasedAcc.y - this.gravityEstimate.y,
-            z: unbiasedAcc.z - this.gravityEstimate.z,
-        };
-        // محاسبه نُرم شتاب خطی  
-        let accelNorm = Math.sqrt(linearAcc.x ** 2 + linearAcc.y ** 2 + linearAcc.z ** 2);
-
-        // --- اضافه کنید ---  
-        console.log(`[ADRService] Unbiased Acc: {x: ${unbiasedAcc.x.toFixed(3)}, y: ${unbiasedAcc.y.toFixed(3)}, z: ${unbiasedAcc.z.toFixed(3)}}`);
-        console.log(`[ADRService] Gravity Est: {x: ${this.gravityEstimate.x.toFixed(3)}, y: ${this.gravityEstimate.y.toFixed(3)}, z: ${this.gravityEstimate.z.toFixed(3)}}`);
-        console.log(`[ADRService] Linear Acc: {x: ${linearAcc.x.toFixed(3)}, y: ${linearAcc.y.toFixed(3)}, z: ${linearAcc.z.toFixed(3)}}`);
-        console.log('[ADRService] Raw Accel Norm (Linear):', accelNorm.toFixed(4));
-        // --- پایان اضافه کردن ---  
-
-        /* ───── ۳) فیلتر کردن نُرم شتاب ───── */
-        // یک فیلتر پایین‌گذر دیگر برای هموارسازی نُرم شتاب خطی  
-        accelNorm = this.accelNormFilter.filter(accelNorm);
-
-        // --- اضافه کنید ---  
-        console.log('[ADRService] Filtered Accel Norm:', accelNorm.toFixed(4));
-        // --- پایان اضافه کردن ---  
-
-        /* ───── ۴) نرمال‌سازی (اختیاری، اگر رنج مقادیر خیلی متفاوت بود) ───── */
-        // در اینجا نیازی به نرمال‌سازی اضافی نیست چون پیک‌دتکتور با مقادیر مطلق کار می‌کند  
-
-        /* ───── ۵) تشخیص گام ───── */
-        // --- اضافه کنید ---  
-        console.log(`[ADRService] Checking for step: Norm=${accelNorm.toFixed(4)}, Threshold=${this.peakDetector.threshold}`);
-        // --- پایان اضافه کردن ---  
-        const stepDetected = this._detectStep(accelNorm, timestamp);
-
-        if (stepDetected) {
-            this.stepCount++;
-            this.lastStepTime = timestamp;
-            // --- اضافه کنید ---  
-            console.log(`%c[ADRService] Step Detected! Count: ${this.stepCount}`, 'color: green; font-weight: bold;');
-            // --- پایان اضافه کردن ---  
-            // محاسبه جهت با استفاده از ژیروسکوپ یا قطب‌نما (اگر dt معتبر باشد)  
-            if (dt > 0 && dt < 1) { // فقط اگر زمان معقول باشد  
-                this._updateOrientation(dt);
-                this._updatePosition(this.stepLength, this.currentHeading);
-            } else {
-                console.warn("[ADRService] Invalid dt for orientation/position update:", dt);
-            }
-        } else {
-            // اگر گامی تشخیص داده نشد، فقط جهت را با dt به‌روز می‌کنیم (برای چرخش درجا)  
-            if (dt > 0 && dt < 1 && this.gyroAvailable) {
-                this._updateOrientation(dt);
-                // در اینجا موقعیت تغییر نمی‌کند، فقط جهت  
-                // this._notify(); // اطلاع‌رسانی تغییر جهت  
-            }
+        if (!isFinite(accelNorm)) {
+            console.warn('accelNorm غیرمعتبر:', accelNorm);
+            return;
         }
 
-        // همیشه وضعیت فعلی را اطلاع‌رسانی می‌کنیم، حتی اگر گامی نباشد (برای آپدیت جهت)  
-        this._notify();
+        /* ───── ۵) تشخیص گام ───── */
+        const stepDetected = this._detectStep(accelNorm, timestamp);
+
+        /* ───── ۶) ارسال به موتور سنسور‌فیوژن ───── */
+        this._processSensorData({
+            type: 'accelerometer',
+            data: { accelNorm },
+            stepDetected,
+            timestamp
+        });
+
+        /* ───── ۷) ذخیره آخرین شتاب ───── */
+        this.lastAccelerometer = {
+            ...filtered,
+            accelNorm,
+            timestamp
+        };
     }
 
     processAccelerometerDatabbb(data, timestamp = Date.now()) {
