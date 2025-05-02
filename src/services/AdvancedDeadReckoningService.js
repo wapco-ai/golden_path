@@ -285,7 +285,6 @@ class AdvancedDeadReckoningService {
 
         /* ───── ۳) فیلتر و حذف بایاس ───── */
         const filtered = this._filterAccelerometerData(data);   // متد موجود در فایل  
-        console.log('[ADRService] filtered processAccelerometerData called with:', filtered);
         /* ───── ۴) محاسبه نُرم شتاب ───── */
         const accelNorm = Math.sqrt(
             filtered.x * filtered.x +
@@ -300,6 +299,7 @@ class AdvancedDeadReckoningService {
 
         /* ───── ۵) تشخیص گام ───── */
         const stepDetected = this._detectStep(accelNorm, timestamp);
+        console.log('[ADRService] processAccelerometerData stepDetected:', stepDetected);
 
         /* ───── ۶) ارسال به موتور سنسور‌فیوژن ───── */
         this._processSensorData({
