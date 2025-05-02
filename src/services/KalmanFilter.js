@@ -85,95 +85,104 @@ export class KalmanFilter {
   _toDegrees(rad) {
     return (rad * 180 / Math.PI);
   }
-  /**  
-   * مرحله پیش‌بینی فیلتر کالمن با استفاده از مدل سیستم  
-   * @param {Object} u بردار ورودی کنترل {a_norm, omega}  
-   * @param {number} timestamp زمان فعلی (میلی‌ثانیه)  
-   */
+
   /**  
  * مرحله پیش‌بینی فیلتر کالمن با استفاده از مدل سیستم  
  * @param {Object} u بردار ورودی کنترل {a_norm, omega}  
  * @param {number} timestamp زمان فعلی (میلی‌ثانیه)  
- */
-  predict(u = {}, timestamp = Date.now()) {
-    // محاسبه گام زمانی (به ثانیه)  
-    const dt = Math.min(Math.max(0, (timestamp - this.lastUpdateTime) / 1000.0), 0.2);
+ */  
+predict(u = {}, timestamp = Date.now()) {  
+  // محاسبه گام زمانی (به ثانیه)  
+  const dt = Math.min(Math.max(0, (timestamp - this.lastUpdateTime) / 1000.0), 0.2);  
 
-    // اگر گام زمانی خیلی کوچک است، از پیش‌بینی صرف‌نظر کنید  
-    if (dt < 0.01) {
-      this.lastUpdateTime = timestamp;
-      return;
-    }
+  // اگر گام زمانی خیلی کوچک است، از پیش‌بینی صرف‌نظر کنید  
+  if (dt < 0.01) {  
+    this.lastUpdateTime = timestamp;  
+    return;  
+  }  
 
-    // اگر ورودی کنترل وجود ندارد، با مقادیر پیش‌فرض کار کنید  
-    const a_norm = u.a_norm || 0;  // تشخیص گام (0 یا 1)  
-    const omega = u.omega || 0;    // سرعت زاویه‌ای (رادیان بر ثانیه)  
+  // اگر ورودی کنترل وجود ندارد، با مقادیر پیش‌فرض کار کنید  
+  const a_norm = u.a_norm || 0;  // تشخیص گام (0 یا 1)  
+  const omega = u.omega || 0;    // سرعت زاویه‌ای (رادیان بر ثانیه)  
 
-    // لاگ برای دیباگ  
-    console.log('Kalman filter predict inputs:', { dt, a_norm, omega });
+  // لاگ برای دیباگ  
+  console.log('Kalman filter predict inputs:', { dt, a_norm, omega });  
 
-    // قابلیت ردیابی: اطمینان از عدم وجود مقادیر NaN  
-    if (isNaN(a_norm) || isNaN(omega)) {
-      console.warn('مقادیر نامعتبر در ورودی کنترل فیلتر کالمن:', u);
-      this.lastUpdateTime = timestamp;
-      return;
-    }
+  // قابلیت ردیابی: اطمینان از عدم وجود مقادیر NaN  
+  if (isNaN(a_norm) || isNaN(omega)) {  
+    console.warn('مقادیر نامعتبر در ورودی کنترل فیلتر کالمن:', u);  
+    this.lastUpdateTime = timestamp;  
+    return;  
+  }  
 
-    // اعمال ضریب میرایی اگر ورودی شتاب وجود ندارد  
-    // موقعیت v = سرعت خطی  
-    let velocity = this.x[3];
-    if (a_norm <= 0) {
-      velocity *= this.timeDecay; // کاهش سرعت اگر گامی تشخیص داده نشده  
-    } else {
-      // تشخیص گام - محاسبه سرعت با استفاده از طول گام  
-      const strideLength = this.x[5];
-      velocity = strideLength / 0.5; // فرض: طول گام در 0.5 ثانیه پیموده می‌شود  
-    }
+  // اعمال ضریب میرایی اگر ورودی شتاب وجود ندارد  
+  // موقعیت v = سرعت خطی  
+  let velocity = this.x[3];  
+  if (a_norm <= 0) {  
+    velocity *= this.timeDecay; // کاهش سرعت اگر گامی تشخیص داده نشده  
+  } else {  
+    // تشخیص گام - محاسبه سرعت با استفاده از طول گام  
+    const strideLength = this.x[5];  
+    velocity = strideLength / 0.5; // فرض: طول گام در 0.5 ثانیه پیموده می‌شود  
+  }  
 
-    // Change the omega detection threshold (make it more sensitive)  
-    let angularVelocity = omega;
-    if (Math.abs(omega) < 0.00001) { // Reduce this threshold by 10x  
-      // If rotation input is close to zero, use current value with decay  
-      angularVelocity = this.x[4] * this.timeDecay;
-    } else {
-      console.log('Non-zero omega detected:', omega);
-    }
+  // سرعت زاویه‌ای w  
+  let angularVelocity = omega;  
+  
+  // تست برای مقادیر غیر صفر omega  
+  if (Math.abs(omega) < 0.00001) {  
+    // اگر ورودی چرخش نزدیک به صفر است، از مقدار فعلی با میرایی استفاده کنید  
+    angularVelocity = this.x[4] * this.timeDecay;  
+  } else {  
+    console.log('Non-zero omega detected:', omega);  
+  }  
 
-    // Increase the rotation amplifier significantly  
-    const omegaScale = 15.0;  // Increase from 3.0 to 15.0  
-    const oldTheta = theta;
-    const newTheta = this._normalizeDegree(theta + angularVelocity * dt * omegaScale);
-    this.x[2] = newTheta;
+  // به‌روزرسانی بردار وضعیت (x) با استفاده از مدل حرکت غیرهولونومیک  
+  const currentTheta = this._normalizeDegree(this.x[2]);  
+  
+  // به‌روزرسانی موقعیت  
+  this.x[0] += velocity * dt * Math.cos(currentTheta);  // x  
+  this.x[1] += velocity * dt * Math.sin(currentTheta);  // y  
+  
+  // افزایش تأثیر omega بر روی theta با استفاده از ضریب تقویت  
+  const omegaScale = 15.0;  // ضریب بزرگتر برای افزایش تأثیر چرخش  
+  
+  // محاسبه تغییر زاویه  
+  const oldTheta = currentTheta;  
+  const newTheta = this._normalizeDegree(currentTheta + angularVelocity * dt * omegaScale);  
+  
+  // اعمال تغییر زاویه  
+  this.x[2] = newTheta;  
+  
+  // لاگ برای تشخیص تغییرات زاویه  
+  console.log('Theta update:',   
+      (oldTheta * 180 / Math.PI).toFixed(2), '° → ',   
+      (newTheta * 180 / Math.PI).toFixed(2), '°',  
+      'omega:', omega.toFixed(6),   
+      'effective:', (angularVelocity * omegaScale).toFixed(6),  
+      'change:', ((newTheta - oldTheta) * 180 / Math.PI).toFixed(2), '°');  
+  
+  this.x[3] = velocity;  // v  
+  this.x[4] = angularVelocity;  // w  
+  
+  console.log('Theta after update:', (this.x[2] * 180 / Math.PI).toFixed(2), '°');  
 
-    // Enhanced debugging  
-    console.log('Theta update:',
-      (oldTheta * 180 / Math.PI).toFixed(2), '° → ',
-      (newTheta * 180 / Math.PI).toFixed(2), '°',
-      'omega:', omega.toFixed(6),
-      'effective:', (angularVelocity * omegaScale).toFixed(6),
-      'change:', ((newTheta - oldTheta) * 180 / Math.PI).toFixed(2), '°');
+  // به‌روزرسانی ماتریس P با استفاده از ژاکوبین تقریبی مدل سیستم  
+  // برای سادگی، فقط Q را به P اضافه می‌کنیم  
+  for (let i = 0; i < this.stateSize; i++) {  
+    for (let j = 0; j < this.stateSize; j++) {  
+      this.P[i * this.stateSize + j] += this.Q[i * this.stateSize + j] * dt;  
+    }  
+  }  
 
-    this.x[3] = velocity;  // v  
-    this.x[4] = angularVelocity;  // w  
+  // یک افزایش کوچک در عدم قطعیت موقعیت و جهت با گذشت زمان  
+  this.P[0 * this.stateSize + 0] += dt * velocity * 0.1; // افزایش عدم قطعیت در x  
+  this.P[1 * this.stateSize + 1] += dt * velocity * 0.1; // افزایش عدم قطعیت در y  
+  this.P[2 * this.stateSize + 2] += dt * Math.abs(angularVelocity) * 0.1; // افزایش عدم قطعیت در theta  
 
-    console.log('Theta after update:', (this.x[2] * 180 / Math.PI).toFixed(2), '°');
-
-    // به‌روزرسانی ماتریس P با استفاده از ژاکوبین تقریبی مدل سیستم  
-    // برای سادگی، فقط Q را به P اضافه می‌کنیم  
-    for (let i = 0; i < this.stateSize; i++) {
-      for (let j = 0; j < this.stateSize; j++) {
-        this.P[i * this.stateSize + j] += this.Q[i * this.stateSize + j] * dt;
-      }
-    }
-
-    // یک افزایش کوچک در عدم قطعیت موقعیت و جهت با گذشت زمان  
-    this.P[0 * this.stateSize + 0] += dt * velocity * 0.1; // افزایش عدم قطعیت در x  
-    this.P[1 * this.stateSize + 1] += dt * velocity * 0.1; // افزایش عدم قطعیت در y  
-    this.P[2 * this.stateSize + 2] += dt * Math.abs(angularVelocity) * 0.1; // افزایش عدم قطعیت در theta  
-
-    // به‌روزرسانی زمان آخرین پیش‌بینی  
-    this.lastUpdateTime = timestamp;
-  }
+  // به‌روزرسانی زمان آخرین پیش‌بینی  
+  this.lastUpdateTime = timestamp;  
+}  
 
   /**  
    * مرحله به‌روزرسانی فیلتر کالمن با استفاده از اندازه‌گیری‌ها  
