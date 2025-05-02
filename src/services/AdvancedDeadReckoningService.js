@@ -507,7 +507,7 @@ class AdvancedDeadReckoningService {
             this.currentPosition.y
         );
 
-        console.log('currentGeoPosition: ' + currentGeoPosition)
+        console.log('proceccGpsData  >> currentGeoPosition: ' + currentGeoPosition)
 
         // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
         if (this.path.length === 0 || this._calculateDistance(
@@ -904,7 +904,7 @@ class AdvancedDeadReckoningService {
                 this.currentPosition.x,
                 this.currentPosition.y
             );
-            console.log('[ADRService] _processSensorData path :', this.path);
+            console.log('[ADRService] _processSensorData currentGeoPosition :', currentGeoPosition);
             // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
             if (this.path.length === 0 || (
                 this._calculateDistance(
