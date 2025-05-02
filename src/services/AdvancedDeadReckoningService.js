@@ -924,26 +924,21 @@ class AdvancedDeadReckoningService {
         let controlInputs = { a_norm: 0, omega: 0 };
 
         if (data.type === 'gyroscope') {
-            // Get raw gyro data for debugging  
-            const rawGyro = {
-                alpha: data.data.alpha,
-                beta: data.data.beta,
-                gamma: data.data.gamma
-            };
-
-            // Use heading processor to calculate effective angular velocity  
+            // استفاده از پردازنده جهت ژیروسکوپ برای محاسبه سرعت زاویه‌ای موثر  
             const effectiveOmega = this.gyroscopeHeadingProcessor.processGyroscopeData(
                 data.data,
                 now
             );
 
-            // Apply a multiplier for increased sensitivity  
-            const omegaMultiplier = 10.0;
+            // افزایش حساسیت با یک ضریب بزرگتر  
+            const omegaMultiplier = 15.0;
             controlInputs.omega = effectiveOmega * omegaMultiplier;
 
-            console.log('Gyro data:', rawGyro,
-                'Effective omega:', effectiveOmega,
-                'Applied omega:', controlInputs.omega);
+            console.log('Gyro data processed:',
+                'raw:', { alpha: data.data.alpha, beta: data.data.beta, gamma: data.data.gamma },
+                'effective omega:', effectiveOmega,
+                'applied omega:', controlInputs.omega
+            );
         }
 
         // بروزرسانی فعالیت/گام از شتاب‌سنج  
@@ -1021,6 +1016,42 @@ class AdvancedDeadReckoningService {
                 source: 'imu'
             });
         }
+    }
+
+
+    /**  
+ * تست چرخش برای دیباگ هدینگ  
+ * @param {number} degrees زاویه جدید به درجه  
+ */
+    forceRotation(degrees) {
+        if (!this.isActive || !this.kalmanFilter) return;
+
+        console.log('Forcing rotation to', degrees, 'degrees');
+
+        // تبدیل درجه به رادیان  
+        const radians = (degrees * Math.PI) / 180;
+
+        // دریافت وضعیت فعلی  
+        const state = this.kalmanFilter.getState();
+        const oldTheta = state.theta;
+
+        // تنظیم theta جدید  
+        state.theta = radians;
+
+        // مقداردهی مجدد فیلتر با وضعیت جدید  
+        this.kalmanFilter.initialize(state);
+
+        console.log('Rotation changed from',
+            (oldTheta * 180 / Math.PI).toFixed(2), '°',
+            'to', degrees.toFixed(2), '°');
+
+        // اطلاع‌رسانی به شنوندگان  
+        this._notify({
+            type: 'orientationUpdated',
+            currentPosition: this.currentPosition,
+            kalmanState: this.kalmanFilter.getState(),
+            source: 'manual'
+        });
     }
 
     /**  

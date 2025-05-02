@@ -27,49 +27,49 @@ export class GyroscopeHeadingProcessor {
     }
 
     /**  
-     * محاسبه تغییر جهت با استفاده از داده‌های ژیروسکوپ  
-     * @param {Object} gyroData داده‌های ژیروسکوپ {alpha, beta, gamma, alphaRad, betaRad, gammaRad}  
-     * @param {number} timestamp زمان فعلی (میلی‌ثانیه)  
-     * @returns {number} سرعت زاویه‌ای موثر (رادیان بر ثانیه)  
-     */
-    processGyroscopeData(gyroData, timestamp) {
-        // بررسی داده‌های ورودی  
-        if (!gyroData || !timestamp) return 0;
+ * پردازش داده‌های ژیروسکوپ و محاسبه سرعت زاویه‌ای موثر  
+ * @param {Object} gyroData داده‌های ژیروسکوپ {alpha, beta, gamma}  
+ * @param {number} timestamp زمان دریافت داده  
+ * @returns {number} سرعت زاویه‌ای موثر (رادیان بر ثانیه)  
+ */
+    processGyroscopeData(gyroData, timestamp = Date.now()) {
+        // مرحله 1: فیلتر کردن داده‌های ژیروسکوپ  
+        const filteredData = this._filterGyroscopeData(gyroData);
 
-        // اولین داده را ثبت کنید  
-        if (!this.isInitialized) {
-            this.lastTimestamp = timestamp;
-            this.isInitialized = true;
-            return 0;
+        // مرحله 2: تبدیل درجه به رادیان (اگر قبلاً در _filterGyroscopeData انجام نشده است)  
+        if (!filteredData.alphaRad) {
+            filteredData.alphaRad = (filteredData.alpha * Math.PI) / 180;
+            filteredData.betaRad = (filteredData.beta * Math.PI) / 180;
+            filteredData.gammaRad = (filteredData.gamma * Math.PI) / 180;
         }
 
-        // محاسبه اختلاف زمانی (به ثانیه)  
-        const dt = Math.min(Math.max(0, (timestamp - this.lastTimestamp) / 1000.0), 0.2);
-        if (dt < 0.001) return 0; // مقدار بسیار کوچک را نادیده بگیرید  
+        // مرحله 3: تعیین ضرایب بر اساس جهت‌گیری دستگاه  
+        const coeffs = this.coefficients[this.deviceOrientation];
 
-        // تشخیص حالت دستگاه براساس زاویه گاما  
-        // اگر گاما بزرگتر از 45 درجه است، دستگاه در حالت افقی (landscape) است  
-        this.deviceOrientation = Math.abs(gyroData.gamma || 0) > 45 ? 'landscape' : 'portrait';
-
-        // انتخاب ضرایب مناسب بر اساس حالت دستگاه  
-        const coef = this.coefficients[this.deviceOrientation];
-
-        // محاسبه سرعت زاویه‌ای موثر  
+        // مرحله 4: محاسبه سرعت زاویه‌ای موثر با ترکیب محورها  
+        // ضرایب باید برای تنظیم حساسیت هر محور تغییر کنند  
         const effectiveOmega =
-            (gyroData.alphaRad * coef.alpha) +
-            (gyroData.betaRad * coef.beta) +
-            (gyroData.gammaRad * coef.gamma);
+            coeffs.alpha * filteredData.alphaRad +
+            coeffs.beta * filteredData.betaRad +
+            coeffs.gamma * filteredData.gammaRad;
 
-        // به‌روزرسانی زمان آخرین پردازش  
-        this.lastTimestamp = timestamp;
-
-        console.log('Gyro heading processor:', {
-            orientation: this.deviceOrientation,
-            effectiveOmega: effectiveOmega,
-            dt: dt
+        // افزودن لاگ تشخیصی مهم  
+        console.log('Gyro heading processor: Calculating effective omega', {
+            alphaRad: filteredData.alphaRad.toFixed(4),
+            betaRad: filteredData.betaRad.toFixed(4),
+            gammaRad: filteredData.gammaRad.toFixed(4),
+            coeffs: coeffs,
+            effectiveOmega: effectiveOmega.toFixed(6),
+            deviceOrientation: this.deviceOrientation
         });
 
-        return effectiveOmega;
+        // افزایش حساسیت  
+        const sensitivityMultiplier = 5.0;
+        const scaledOmega = effectiveOmega * sensitivityMultiplier;
+
+        console.log('Effective omega calculated:', scaledOmega.toFixed(6), 'rad/s');
+
+        return scaledOmega;
     }
 
     /**  
