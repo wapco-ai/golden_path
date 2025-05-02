@@ -8,6 +8,8 @@ const useIMUSensors = () => {
   const [rotationRate, setRotationRate] = useState(null);
   const [orientation, setOrientation] = useState(null);
 
+
+
   // بررسی پشتیبانی سنسورها  
   useEffect(() => {
     const checkSupport = () => {
@@ -59,6 +61,8 @@ const useIMUSensors = () => {
           timestamp: event.timeStamp || Date.now(),
           includesGravity: false
         };
+        console.log('[useIMUSensors] Accelerometer Raw Data:', accel);  
+
         setAcceleration(accel);
 
         // ارسال داده به سرویس در صورت فعال بودن  
