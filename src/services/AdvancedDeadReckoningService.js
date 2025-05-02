@@ -393,6 +393,18 @@ class AdvancedDeadReckoningService {
                 this.kalmanFilter.initialize(state);
             }
         }
+        
+        // اضافه کردن تصحیح‌کننده جهت - هر 5 ثانیه  
+        const timeSinceLastCorrection = timestamp - (this._lastOrientationCorrection || 0);
+        if (orientation.absolute && timeSinceLastCorrection > 5000) {
+            // تصحیح جهت با استفاده از قطب‌نما  
+            this.kalmanFilter.update(
+                { heading: heading },
+                { heading_accuracy: 0.1 }
+            );
+            this._lastOrientationCorrection = timestamp;
+            console.log('Orientation correction applied:', heading * 180 / Math.PI);
+        }
 
         // پردازش داده‌های سنسور برای به‌روزرسانی موقعیت  
         this._processSensorData({
@@ -772,6 +784,16 @@ class AdvancedDeadReckoningService {
         const betaRad = (betaDeg * Math.PI) / 180;
         const gammaRad = (gammaDeg * Math.PI) / 180;
 
+        // اضافه کردن لاگ برای دیباگ  
+        console.log('Gyroscope filtered:', {
+            alpha: alphaDeg,
+            beta: betaDeg,
+            gamma: gammaDeg,
+            alphaRad: alphaRad,
+            betaRad: betaRad,
+            gammaRad: gammaRad
+        });
+
         return {
             alpha: alphaDeg,
             beta: betaDeg,
@@ -874,8 +896,28 @@ class AdvancedDeadReckoningService {
 
         // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
         if (data.type === 'gyroscope') {
-            // در اینجا ما از سرعت زاویه‌ای حول محور z (alpha) استفاده می‌کنیم  
-            controlInputs.omega = data.data.alphaRad || 0;
+            // ترکیب داده‌های چرخش از محورهای مختلف  
+            // در حالت معمول و نگه داشتن گوشی به صورت عمودی:  
+            // - alpha: چرخش حول محور Z (جهت)  
+            // - beta: چرخش حول محور X (پیچ)  
+            // - gamma: چرخش حول محور Y (رول)  
+
+            // بسته به نحوه نگه داشتن گوشی، ترکیب مناسبی از محورها استفاده می‌کنیم  
+            let effectiveOmega = 0;
+
+            // حالت پورتره (عمودی) - استفاده از alpha برای چرخش  
+            effectiveOmega = data.data.alphaRad || 0;
+
+            // اگر گوشی افقی است (رول بالا)، از بتا استفاده کنیم  
+            if (Math.abs(data.data.gamma || 0) > 45) {
+                effectiveOmega = data.data.betaRad || 0;
+            }
+
+            // ضریب مقیاس برای تنظیم حساسیت چرخش  
+            const rotationScale = 1.5;
+            controlInputs.omega = effectiveOmega * rotationScale;
+
+            console.log('Gyro omega:', controlInputs.omega);
         }
 
         // بروزرسانی فعالیت/گام از شتاب‌سنج  
@@ -920,15 +962,12 @@ class AdvancedDeadReckoningService {
                     y: this.currentPosition.y,
                     timestamp: now
                 });
-                
+
                 this.geoPath.push({
                     lat: currentGeoPosition.lat,
                     lng: currentGeoPosition.lng,
                     timestamp: now
                 });
-                console.log('[ADRService] _processSensorData this.currentPosition :', this.currentPosition);
-                console.log('[ADRService] _processSensorData currentGeoPosition :', currentGeoPosition);
-
             }
         }
 
@@ -937,7 +976,6 @@ class AdvancedDeadReckoningService {
 
         // اطلاع‌رسانی به لیستنرها (فقط اگر تغییر قابل توجهی رخ داده باشد یا اندازه‌گیری ورودی داشته باشیم)  
         // اطلاع‌رسانی به لیستنرها با فرکانس بیشتر 
-        console.log('[ADRService] _processSensorData :', data.type);
         if (data.type === 'accelerometer') { // حذف شرط data.stepDetected  
             this._notify({
                 type: 'positionUpdated',
