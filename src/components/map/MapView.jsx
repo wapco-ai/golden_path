@@ -73,7 +73,7 @@ const MapView = ({
   const [kalmanState, setKalmanState] = useState(null);
   const [drPosition, setDrPosition] = useState(null);
   const [stepCount, setStepCount] = useState(0);
-  // const [headingInDegrees, setHeadingInDegrees] = useState(0);  
+  const [headingInDegrees, setHeadingInDegrees] = useState(0);  
 
 
   // موقعیت مرکز نقشه (یا موقعیت فعلی GPS یا موقعیت DR)  
@@ -166,9 +166,9 @@ const MapView = ({
   };
 
   // تبدیل جهت رادیان به درجه (برای نمایش فلش)  
-  const headingInDegrees = kalmanState?.theta !== undefined
-    ? ((kalmanState.theta * 180 / Math.PI) + 360) % 360
-    : 0;
+  // headingInDegrees = kalmanState?.theta !== undefined
+  //   ? ((kalmanState.theta * 180 / Math.PI) + 360) % 360
+  //   : 0;
 
   return (
     <div className="map-fullscreen">
