@@ -3,6 +3,8 @@ import { KalmanFilter } from './KalmanFilter';
 import { LowPassFilter } from '../utils/LowPassFilter';
 import { HighPassFilter } from '../utils/HighPassFilter';
 import { PeakDetector } from '../utils/PeakDetector';
+import { GyroscopeHeadingProcessor } from '../utils/GyroscopeHeadingProcessor';  
+
 
 /**  
  * سرویس Dead Reckoning پیشرفته با Sensor Fusion  
@@ -27,6 +29,8 @@ class AdvancedDeadReckoningService {
         this.gyroscopeLowPassFilter = new LowPassFilter(0.2);
         this.orientationLowPassFilter = new LowPassFilter(0.1);
         this.accelerometerHighPassFilter = new HighPassFilter(0.8); // آلفا بزرگ‌تر = فیلترینگ قوی‌تر  
+        this.gyroscopeHeadingProcessor = new GyroscopeHeadingProcessor();  
+
 
         // تشخیص گام (Peak Detector)  
         this.peakDetector = new PeakDetector({
@@ -908,38 +912,15 @@ class AdvancedDeadReckoningService {
 
         // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
         // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
-        if (data.type === 'gyroscope') {
-            // استفاده از ترکیب محورهای مختلف برای محاسبه سرعت زاویه‌ای موثر  
-            // با توجه به جهت نگهداری گوشی  
-
-            // برای دیباگ - مقادیر محورهای مختلف را چاپ کنید  
-            console.log('Gyro data for heading:', {
-                alpha: data.data.alphaRad,
-                beta: data.data.betaRad,
-                gamma: data.data.gammaRad
-            });
-
-            // تغییر اساسی: استفاده از بتا به جای آلفا (با توجه به نحوه نگهداری گوشی)  
-            // آلفا: چرخش حول محور Z (عمود بر صفحه گوشی) - در حالت عمودی برای چرخش افقی  
-            // بتا: چرخش حول محور X - در حالت افقی برای چرخش افقی  
-
-            // روش بهتر: استفاده از ترکیبی از محورها با توجه به وضعیت گوشی  
-            let effectiveOmega = 0;
-
-            // ضرایب بزرگتر برای تأثیر بیشتر  
-            const alphaFactor = -2.0; // منفی چون جهت چرخش آلفا برعکس است  
-            const betaFactor = 2.0;
-            const gammaFactor = 2.0;
-
-            // ترکیب محورها با ضرایب مناسب  
-            effectiveOmega = (data.data.alphaRad * alphaFactor) +
-                (data.data.betaRad * betaFactor * 0.5) +
-                (data.data.gammaRad * gammaFactor * 0.5);
-
-            console.log('Calculated omega:', effectiveOmega);
-
-            // اعمال در ورودی کنترل  
-            controlInputs.omega = effectiveOmega;
+        // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
+        if (data.type === 'gyroscope') {  
+            // استفاده از پردازنده اختصاصی برای محاسبه سرعت زاویه‌ای  
+            controlInputs.omega = this.gyroscopeHeadingProcessor.processGyroscopeData(  
+                data.data,   
+                now  
+            );  
+            
+            console.log('Gyro omega applied to Kalman:', controlInputs.omega);  
         }
 
         // بروزرسانی فعالیت/گام از شتاب‌سنج  

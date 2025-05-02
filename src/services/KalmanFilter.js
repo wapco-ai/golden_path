@@ -77,7 +77,14 @@ export class KalmanFilter {
       this.x[5] = strideLength;
     }
   }
-
+  /**  
+   * تبدیل رادیان به درجه  
+   * @param {number} rad زاویه (رادیان)  
+   * @returns {number} زاویه به درجه  
+   */
+  _toDegrees(rad) {
+    return (rad * 180 / Math.PI);
+  }
   /**  
    * مرحله پیش‌بینی فیلتر کالمن با استفاده از مدل سیستم  
    * @param {Object} u بردار ورودی کنترل {a_norm, omega}  
@@ -120,9 +127,11 @@ export class KalmanFilter {
 
     // سرعت زاویه‌ای w  
     let angularVelocity = omega;
-    if (Math.abs(omega) < 0.001) {
+    if (Math.abs(omega) < 0.0001) {
       // اگر ورودی چرخش نزدیک به صفر است، از مقدار فعلی با میرایی استفاده کنید  
       angularVelocity = this.x[4] * this.timeDecay;
+      console.log('Non-zero omega detected:', omega);  
+
     }
 
     // به‌روزرسانی بردار وضعیت (x) با استفاده از مدل حرکت غیرهولونومیک  
@@ -138,8 +147,14 @@ export class KalmanFilter {
     this.x[0] += velocity * dt * Math.cos(theta);  // x  
     this.x[1] += velocity * dt * Math.sin(theta);  // y  
 
-    // **تغییر مهم**: افزایش تأثیر omega بر روی theta  
-    this.x[2] = this._normalizeDegree(theta + angularVelocity * dt * 2.0);  // theta - ضریب 2.0 برای افزایش تأثیر  
+    // افزایش ضریب حساسیت برای omega  
+    const omegaScale = 3.0;  // ضریب بزرگتر برای تأثیر بیشتر  
+    this.x[2] = this._normalizeDegree(theta + angularVelocity * dt * omegaScale);  // theta  
+
+    console.log('Theta update from:', this._toDegrees(theta),
+      'to:', this._toDegrees(this.x[2]),
+      'with omega:', angularVelocity);
+
     this.x[3] = velocity;  // v  
     this.x[4] = angularVelocity;  // w  
 
