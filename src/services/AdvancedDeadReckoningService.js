@@ -342,14 +342,26 @@ class AdvancedDeadReckoningService {
      * @param {Object} gyroscope داده‌های ژیروسکوپ {alpha, beta, gamma, timestamp}  
      * @param {number} timestamp زمان دریافت داده  
      */
+    // اصلاح تابع processGyroscopeData  
     processGyroscopeData(gyroscope, timestamp = Date.now()) {
         if (!this.isActive) return;
+
+        // بررسی اعتبار داده‌های ورودی  
+        if (!gyroscope || ['alpha', 'beta', 'gamma'].some(k => gyroscope[k] === undefined || isNaN(gyroscope[k]))) {
+            console.warn('داده‌های نامعتبر ژیروسکوپ:', gyroscope);
+            return;
+        }
+
+        // لاگ داده‌های ورودی در کنسول (برای دیباگ)  
+        console.log('Raw gyroscope data:', gyroscope);
 
         // لاگ داده‌های ورودی  
         this._logSensorData('gyroscope', gyroscope, timestamp);
 
         // فیلتر داده‌های ژیروسکوپ  
         const filteredGyro = this._filterGyroscopeData(gyroscope);
+
+        console.log('Filtered gyroscope data:', filteredGyro);
 
         // پردازش داده‌های سنسور برای به‌روزرسانی موقعیت  
         this._processSensorData({
@@ -393,7 +405,7 @@ class AdvancedDeadReckoningService {
                 this.kalmanFilter.initialize(state);
             }
         }
-        
+
         // اضافه کردن تصحیح‌کننده جهت - هر 5 ثانیه  
         const timeSinceLastCorrection = timestamp - (this._lastOrientationCorrection || 0);
         if (orientation.absolute && timeSinceLastCorrection > 5000) {
@@ -895,29 +907,39 @@ class AdvancedDeadReckoningService {
         let controlInputs = { a_norm: 0, omega: 0 };
 
         // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
+        // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
         if (data.type === 'gyroscope') {
-            // ترکیب داده‌های چرخش از محورهای مختلف  
-            // در حالت معمول و نگه داشتن گوشی به صورت عمودی:  
-            // - alpha: چرخش حول محور Z (جهت)  
-            // - beta: چرخش حول محور X (پیچ)  
-            // - gamma: چرخش حول محور Y (رول)  
+            // استفاده از ترکیب محورهای مختلف برای محاسبه سرعت زاویه‌ای موثر  
+            // با توجه به جهت نگهداری گوشی  
 
-            // بسته به نحوه نگه داشتن گوشی، ترکیب مناسبی از محورها استفاده می‌کنیم  
+            // برای دیباگ - مقادیر محورهای مختلف را چاپ کنید  
+            console.log('Gyro data for heading:', {
+                alpha: data.data.alphaRad,
+                beta: data.data.betaRad,
+                gamma: data.data.gammaRad
+            });
+
+            // تغییر اساسی: استفاده از بتا به جای آلفا (با توجه به نحوه نگهداری گوشی)  
+            // آلفا: چرخش حول محور Z (عمود بر صفحه گوشی) - در حالت عمودی برای چرخش افقی  
+            // بتا: چرخش حول محور X - در حالت افقی برای چرخش افقی  
+
+            // روش بهتر: استفاده از ترکیبی از محورها با توجه به وضعیت گوشی  
             let effectiveOmega = 0;
 
-            // حالت پورتره (عمودی) - استفاده از alpha برای چرخش  
-            effectiveOmega = data.data.alphaRad || 0;
+            // ضرایب بزرگتر برای تأثیر بیشتر  
+            const alphaFactor = -2.0; // منفی چون جهت چرخش آلفا برعکس است  
+            const betaFactor = 2.0;
+            const gammaFactor = 2.0;
 
-            // اگر گوشی افقی است (رول بالا)، از بتا استفاده کنیم  
-            if (Math.abs(data.data.gamma || 0) > 45) {
-                effectiveOmega = data.data.betaRad || 0;
-            }
+            // ترکیب محورها با ضرایب مناسب  
+            effectiveOmega = (data.data.alphaRad * alphaFactor) +
+                (data.data.betaRad * betaFactor * 0.5) +
+                (data.data.gammaRad * gammaFactor * 0.5);
 
-            // ضریب مقیاس برای تنظیم حساسیت چرخش  
-            const rotationScale = 1.5;
-            controlInputs.omega = effectiveOmega * rotationScale;
+            console.log('Calculated omega:', effectiveOmega);
 
-            console.log('Gyro omega:', controlInputs.omega);
+            // اعمال در ورودی کنترل  
+            controlInputs.omega = effectiveOmega;
         }
 
         // بروزرسانی فعالیت/گام از شتاب‌سنج  
