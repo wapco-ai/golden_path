@@ -299,7 +299,6 @@ class AdvancedDeadReckoningService {
 
         /* ───── ۵) تشخیص گام ───── */
         const stepDetected = this._detectStep(accelNorm, timestamp);
-        console.log('[ADRService] processAccelerometerData stepDetected:', stepDetected);
 
         /* ───── ۶) ارسال به موتور سنسور‌فیوژن ───── */
         this._processSensorData({
@@ -932,7 +931,8 @@ class AdvancedDeadReckoningService {
         this.lastUpdateTime = now;
 
         // اطلاع‌رسانی به لیستنرها (فقط اگر تغییر قابل توجهی رخ داده باشد یا اندازه‌گیری ورودی داشته باشیم)  
-        // اطلاع‌رسانی به لیستنرها با فرکانس بیشتر  
+        // اطلاع‌رسانی به لیستنرها با فرکانس بیشتر 
+        console.log('[ADRService] _processSensorData :', data.type); 
         if (data.type === 'accelerometer') { // حذف شرط data.stepDetected  
             this._notify({
                 type: 'positionUpdated',
