@@ -883,9 +883,10 @@ class AdvancedDeadReckoningService {
 
         // پیش‌بینی موقعیت با فیلتر کالمن  
         this.kalmanFilter.predict(controlInputs, now);
-
         // به‌روزرسانی موقعیت نسبی فعلی از فیلتر کالمن  
-        const kalmanState = this.kalmanFilter.getState();
+        const kalmanState = this.kalmanFilter.getState(); 
+        console.log('[ADRService] _processSensorData :', kalmanState);
+
         this.currentPosition = {
             x: kalmanState.x,
             y: kalmanState.y,
@@ -902,7 +903,6 @@ class AdvancedDeadReckoningService {
                 this.currentPosition.y
             );
 
-            // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
             // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
             if (this.path.length === 0 || (
                 this._calculateDistance(

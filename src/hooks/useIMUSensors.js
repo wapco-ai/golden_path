@@ -66,9 +66,9 @@ const useIMUSensors = () => {
         setAcceleration(accel);
 
         // ارسال داده به سرویس در صورت فعال بودن  
-        // if (advancedDeadReckoningService.isActive) {
-        //   advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
-        // }
+        if (advancedDeadReckoningService.isActive) {
+          advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
+        }
       } else if (event.accelerationIncludingGravity && event.accelerationIncludingGravity.x !== null) {
         // شتاب با جاذبه  
         const accel = {  
@@ -82,9 +82,9 @@ const useIMUSensors = () => {
         
 
         // ارسال داده به سرویس در صورت فعال بودن  
-        // if (advancedDeadReckoningService.isActive) {
-        //   advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
-        // }
+        if (advancedDeadReckoningService.isActive) {
+          advancedDeadReckoningService.processAccelerometerData(accel, accel.timestamp);
+        }
       }
 
       // داده‌های ژیروسکوپ  
@@ -98,9 +98,9 @@ const useIMUSensors = () => {
         setRotationRate(gyro);
 
         // ارسال داده به سرویس در صورت فعال بودن  
-        // if (advancedDeadReckoningService.isActive) {
-        //   advancedDeadReckoningService.processGyroscopeData(gyro, gyro.timestamp);
-        // }
+        if (advancedDeadReckoningService.isActive) {
+          advancedDeadReckoningService.processGyroscopeData(gyro, gyro.timestamp);
+        }
       }
     };
 
@@ -118,9 +118,9 @@ const useIMUSensors = () => {
       setOrientation(orient);
 
       // ارسال داده به سرویس در صورت فعال بودن  
-      // if (advancedDeadReckoningService.isActive) {
-      //   advancedDeadReckoningService.processOrientationData(orient, orient.timestamp);
-      // }
+      if (advancedDeadReckoningService.isActive) {
+        advancedDeadReckoningService.processOrientationData(orient, orient.timestamp);
+      }
     };
 
     // تنظیم نرخ نمونه‌برداری (در صورت امکان)  
