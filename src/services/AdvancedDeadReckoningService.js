@@ -31,6 +31,21 @@ class AdvancedDeadReckoningService {
         this.accelerometerHighPassFilter = new HighPassFilter(0.8); // آلفا بزرگ‌تر = فیلترینگ قوی‌تر  
         this.gyroscopeHeadingProcessor = new GyroscopeHeadingProcessor();
 
+        this.gyroscopeHeadingProcessor.setCoefficients({
+            portrait: {
+                alpha: -5.0,  // Increase sensitivity significantly  
+                beta: 1.0,
+                gamma: 1.0
+            },
+            landscape: {
+                alpha: -1.0,
+                beta: -5.0,
+                gamma: 1.0
+            }
+        });
+
+        console.log('Gyroscope heading processor initialized');
+
 
         // تشخیص گام (Peak Detector)  
         this.peakDetector = new PeakDetector({
@@ -908,20 +923,27 @@ class AdvancedDeadReckoningService {
         // آماده‌سازی ورودی‌های کنترل برای فیلتر کالمن  
         let controlInputs = { a_norm: 0, omega: 0 };
 
-        // و مهمتر از همه، تابع _processSensorData را اصلاح کنید  
-        // بخش مربوط به ژیروسکوپ را در تابع _processSensorData جایگزین کنید  
         if (data.type === 'gyroscope') {
-            // استفاده از پردازنده اختصاصی جهت برای محاسبه سرعت زاویه‌ای موثر  
+            // Get raw gyro data for debugging  
+            const rawGyro = {
+                alpha: data.data.alpha,
+                beta: data.data.beta,
+                gamma: data.data.gamma
+            };
+
+            // Use heading processor to calculate effective angular velocity  
             const effectiveOmega = this.gyroscopeHeadingProcessor.processGyroscopeData(
                 data.data,
                 now
             );
 
-            // اطمینان از اینکه omega صفر نیست حتی با مقادیر کوچک  
-            controlInputs.omega = effectiveOmega * 5.0; // ضریب تقویت‌کننده   
+            // Apply a multiplier for increased sensitivity  
+            const omegaMultiplier = 10.0;
+            controlInputs.omega = effectiveOmega * omegaMultiplier;
 
-            console.log('Effective omega calculated:', effectiveOmega);
-            console.log('Applied omega to Kalman:', controlInputs.omega);
+            console.log('Gyro data:', rawGyro,
+                'Effective omega:', effectiveOmega,
+                'Applied omega:', controlInputs.omega);
         }
 
         // بروزرسانی فعالیت/گام از شتاب‌سنج  
@@ -1056,6 +1078,33 @@ class AdvancedDeadReckoningService {
             stepCount: this.stepCount
         };
         this._log.result.push(result);
+    }
+
+    // Add this method to AdvancedDeadReckoningService.js  
+    forceRotation(degrees) {
+        if (!this.isActive || !this.kalmanFilter) return;
+
+        // Convert degrees to radians  
+        const radians = (degrees * Math.PI) / 180;
+
+        // Get current state  
+        const state = this.kalmanFilter.getState();
+
+        // Set new theta  
+        state.theta = radians;
+
+        // Initialize filter with new state  
+        this.kalmanFilter.initialize(state);
+
+        console.log('Forced rotation to:', degrees, 'degrees');
+
+        // Notify listeners  
+        this._notify({
+            type: 'orientationUpdated',
+            currentPosition: this.currentPosition,
+            kalmanState: state,
+            source: 'manual'
+        });
     }
 }
 

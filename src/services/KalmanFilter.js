@@ -130,41 +130,27 @@ export class KalmanFilter {
       velocity = strideLength / 0.5; // فرض: طول گام در 0.5 ثانیه پیموده می‌شود  
     }
 
-    // سرعت زاویه‌ای w  
+    // Change the omega detection threshold (make it more sensitive)  
     let angularVelocity = omega;
-
-    // تست برای مقادیر غیر صفر omega  
-    if (Math.abs(omega) > 0.00001) {
-      console.log('Non-zero omega detected:', omega);
-    } else {
-      // اگر ورودی چرخش نزدیک به صفر است، از مقدار فعلی با میرایی استفاده کنید  
+    if (Math.abs(omega) < 0.00001) { // Reduce this threshold by 10x  
+      // If rotation input is close to zero, use current value with decay  
       angularVelocity = this.x[4] * this.timeDecay;
+    } else {
+      console.log('Non-zero omega detected:', omega);
     }
 
-    // به‌روزرسانی بردار وضعیت (x) با استفاده از مدل حرکت غیرهولونومیک  
-    const theta = this._normalizeDegree(this.x[2]);
-
-    // به‌روزرسانی موقعیت  
-    this.x[0] += velocity * dt * Math.cos(theta);  // x  
-    this.x[1] += velocity * dt * Math.sin(theta);  // y  
-
-    // افزایش تأثیر omega بر روی theta با استفاده از ضریب تقویت  
-    const rotationAmplifier = 10.0;  // ضریب بزرگتر برای افزایش تأثیر چرخش (افزایش حساسیت)  
-
-    // محاسبه تغییر زاویه با امگا تقویت شده  
-    const amplifiedOmega = angularVelocity * rotationAmplifier;
+    // Increase the rotation amplifier significantly  
+    const omegaScale = 15.0;  // Increase from 3.0 to 15.0  
     const oldTheta = theta;
-    const newTheta = this._normalizeDegree(theta + amplifiedOmega * dt);
-
-    // اعمال تغییر زاویه  
+    const newTheta = this._normalizeDegree(theta + angularVelocity * dt * omegaScale);
     this.x[2] = newTheta;
 
-    // لاگ برای تشخیص تغییرات زاویه  
+    // Enhanced debugging  
     console.log('Theta update:',
       (oldTheta * 180 / Math.PI).toFixed(2), '° → ',
       (newTheta * 180 / Math.PI).toFixed(2), '°',
       'omega:', omega.toFixed(6),
-      'amplified:', amplifiedOmega.toFixed(6),
+      'effective:', (angularVelocity * omegaScale).toFixed(6),
       'change:', ((newTheta - oldTheta) * 180 / Math.PI).toFixed(2), '°');
 
     this.x[3] = velocity;  // v  
