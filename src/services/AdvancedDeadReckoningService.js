@@ -3,7 +3,7 @@ import { KalmanFilter } from './KalmanFilter';
 import { LowPassFilter } from '../utils/LowPassFilter';
 import { HighPassFilter } from '../utils/HighPassFilter';
 import { PeakDetector } from '../utils/PeakDetector';
-import { GyroscopeHeadingProcessor } from '../utils/GyroscopeHeadingProcessor';  
+import { GyroscopeHeadingProcessor } from '../utils/GyroscopeHeadingProcessor';
 
 
 /**  
@@ -29,7 +29,7 @@ class AdvancedDeadReckoningService {
         this.gyroscopeLowPassFilter = new LowPassFilter(0.2);
         this.orientationLowPassFilter = new LowPassFilter(0.1);
         this.accelerometerHighPassFilter = new HighPassFilter(0.8); // آلفا بزرگ‌تر = فیلترینگ قوی‌تر  
-        this.gyroscopeHeadingProcessor = new GyroscopeHeadingProcessor();  
+        this.gyroscopeHeadingProcessor = new GyroscopeHeadingProcessor();
 
 
         // تشخیص گام (Peak Detector)  
@@ -347,6 +347,7 @@ class AdvancedDeadReckoningService {
      * @param {number} timestamp زمان دریافت داده  
      */
     // اصلاح تابع processGyroscopeData  
+    // تابع processGyroscopeData را به صورت زیر اصلاح کنید  
     processGyroscopeData(gyroscope, timestamp = Date.now()) {
         if (!this.isActive) return;
 
@@ -356,15 +357,12 @@ class AdvancedDeadReckoningService {
             return;
         }
 
-        // لاگ داده‌های ورودی در کنسول (برای دیباگ)  
+        // لاگ داده‌های ورودی (خام)  
         console.log('Raw gyroscope data:', gyroscope);
-
-        // لاگ داده‌های ورودی  
         this._logSensorData('gyroscope', gyroscope, timestamp);
 
         // فیلتر داده‌های ژیروسکوپ  
         const filteredGyro = this._filterGyroscopeData(gyroscope);
-
         console.log('Filtered gyroscope data:', filteredGyro);
 
         // پردازش داده‌های سنسور برای به‌روزرسانی موقعیت  
@@ -910,17 +908,20 @@ class AdvancedDeadReckoningService {
         // آماده‌سازی ورودی‌های کنترل برای فیلتر کالمن  
         let controlInputs = { a_norm: 0, omega: 0 };
 
-        // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
-        // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
-        // بروزرسانی سرعت زاویه‌ای از ژیروسکوپ  
-        if (data.type === 'gyroscope') {  
-            // استفاده از پردازنده اختصاصی برای محاسبه سرعت زاویه‌ای  
-            controlInputs.omega = this.gyroscopeHeadingProcessor.processGyroscopeData(  
-                data.data,   
-                now  
-            );  
-            
-            console.log('Gyro omega applied to Kalman:', controlInputs.omega);  
+        // و مهمتر از همه، تابع _processSensorData را اصلاح کنید  
+        // بخش مربوط به ژیروسکوپ را در تابع _processSensorData جایگزین کنید  
+        if (data.type === 'gyroscope') {
+            // استفاده از پردازنده اختصاصی جهت برای محاسبه سرعت زاویه‌ای موثر  
+            const effectiveOmega = this.gyroscopeHeadingProcessor.processGyroscopeData(
+                data.data,
+                now
+            );
+
+            // اطمینان از اینکه omega صفر نیست حتی با مقادیر کوچک  
+            controlInputs.omega = effectiveOmega * 5.0; // ضریب تقویت‌کننده   
+
+            console.log('Effective omega calculated:', effectiveOmega);
+            console.log('Applied omega to Kalman:', controlInputs.omega);
         }
 
         // بروزرسانی فعالیت/گام از شتاب‌سنج  

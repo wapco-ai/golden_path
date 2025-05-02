@@ -9,23 +9,23 @@ export class GyroscopeHeadingProcessor {
         this.currentHeading = 0; // رادیان  
         this.isInitialized = false;  
         
-        // ضرایب تاثیر هر محور برای حالات مختلف دستگاه  
+        // ضرایب تاثیر هر محور برای حالات مختلف دستگاه - افزایش حساسیت  
         this.coefficients = {  
             portrait: {  
-                alpha: -1.0,  
-                beta: 0.2,  
-                gamma: 0.2  
+                alpha: -3.0, // افزایش از -1.0 به -3.0  
+                beta: 0.5,   // افزایش از 0.2 به 0.5  
+                gamma: 0.5   // افزایش از 0.2 به 0.5  
             },  
             landscape: {  
-                alpha: -0.2,  
-                beta: -1.0,  
-                gamma: 0.2  
+                alpha: -0.5, // افزایش از -0.2 به -0.5  
+                beta: -3.0,  // افزایش از -1.0 به -3.0  
+                gamma: 0.5   // افزایش از 0.2 به 0.5  
             }  
         };  
         
         // حالت پیش‌فرض دستگاه  
         this.deviceOrientation = 'portrait';  
-    }  
+    }   
     
     /**  
      * محاسبه تغییر جهت با استفاده از داده‌های ژیروسکوپ  

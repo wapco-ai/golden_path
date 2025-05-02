@@ -90,11 +90,16 @@ export class KalmanFilter {
    * @param {Object} u بردار ورودی کنترل {a_norm, omega}  
    * @param {number} timestamp زمان فعلی (میلی‌ثانیه)  
    */
+  /**  
+ * مرحله پیش‌بینی فیلتر کالمن با استفاده از مدل سیستم  
+ * @param {Object} u بردار ورودی کنترل {a_norm, omega}  
+ * @param {number} timestamp زمان فعلی (میلی‌ثانیه)  
+ */
   predict(u = {}, timestamp = Date.now()) {
     // محاسبه گام زمانی (به ثانیه)  
     const dt = Math.min(Math.max(0, (timestamp - this.lastUpdateTime) / 1000.0), 0.2);
 
-    // اگر گام زمانی خیلی کوچک است، از پیش‌بینی صرف‌نظر کنید یا زمان کوچکتر از 0.01 ثانیه است، فقط زمان را به‌روز کنید  
+    // اگر گام زمانی خیلی کوچک است، از پیش‌بینی صرف‌نظر کنید  
     if (dt < 0.01) {
       this.lastUpdateTime = timestamp;
       return;
@@ -127,42 +132,48 @@ export class KalmanFilter {
 
     // سرعت زاویه‌ای w  
     let angularVelocity = omega;
-    if (Math.abs(omega) < 0.0001) {
+
+    // تست برای مقادیر غیر صفر omega  
+    if (Math.abs(omega) > 0.00001) {
+      console.log('Non-zero omega detected:', omega);
+    } else {
       // اگر ورودی چرخش نزدیک به صفر است، از مقدار فعلی با میرایی استفاده کنید  
       angularVelocity = this.x[4] * this.timeDecay;
-      console.log('Non-zero omega detected:', omega);  
-
     }
 
     // به‌روزرسانی بردار وضعیت (x) با استفاده از مدل حرکت غیرهولونومیک  
-    // x_k+1 = x_k + v * dt * cos(theta)  
-    // y_k+1 = y_k + v * dt * sin(theta)  
-    // theta_k+1 = theta_k + w * dt  
-    // v_k+1 = v (یا با میرایی)  
-    // w_k+1 = w (یا با میرایی)  
-    // به‌روزرسانی موقعیت با تأکید بیشتر بر روی theta  
     const theta = this._normalizeDegree(this.x[2]);
 
     // به‌روزرسانی موقعیت  
     this.x[0] += velocity * dt * Math.cos(theta);  // x  
     this.x[1] += velocity * dt * Math.sin(theta);  // y  
 
-    // افزایش ضریب حساسیت برای omega  
-    const omegaScale = 3.0;  // ضریب بزرگتر برای تأثیر بیشتر  
-    this.x[2] = this._normalizeDegree(theta + angularVelocity * dt * omegaScale);  // theta  
+    // افزایش تأثیر omega بر روی theta با استفاده از ضریب تقویت  
+    const rotationAmplifier = 10.0;  // ضریب بزرگتر برای افزایش تأثیر چرخش (افزایش حساسیت)  
 
-    console.log('Theta update from:', this._toDegrees(theta),
-      'to:', this._toDegrees(this.x[2]),
-      'with omega:', angularVelocity);
+    // محاسبه تغییر زاویه با امگا تقویت شده  
+    const amplifiedOmega = angularVelocity * rotationAmplifier;
+    const oldTheta = theta;
+    const newTheta = this._normalizeDegree(theta + amplifiedOmega * dt);
+
+    // اعمال تغییر زاویه  
+    this.x[2] = newTheta;
+
+    // لاگ برای تشخیص تغییرات زاویه  
+    console.log('Theta update:',
+      (oldTheta * 180 / Math.PI).toFixed(2), '° → ',
+      (newTheta * 180 / Math.PI).toFixed(2), '°',
+      'omega:', omega.toFixed(6),
+      'amplified:', amplifiedOmega.toFixed(6),
+      'change:', ((newTheta - oldTheta) * 180 / Math.PI).toFixed(2), '°');
 
     this.x[3] = velocity;  // v  
     this.x[4] = angularVelocity;  // w  
 
-    console.log('Theta after update:', this.x[2] * 180 / Math.PI);
+    console.log('Theta after update:', (this.x[2] * 180 / Math.PI).toFixed(2), '°');
 
     // به‌روزرسانی ماتریس P با استفاده از ژاکوبین تقریبی مدل سیستم  
     // برای سادگی، فقط Q را به P اضافه می‌کنیم  
-    // P = F*P*F' + Q (در اینجا ساده‌سازی شده است)  
     for (let i = 0; i < this.stateSize; i++) {
       for (let j = 0; j < this.stateSize; j++) {
         this.P[i * this.stateSize + j] += this.Q[i * this.stateSize + j] * dt;
