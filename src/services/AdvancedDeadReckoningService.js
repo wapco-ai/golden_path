@@ -884,8 +884,7 @@ class AdvancedDeadReckoningService {
         // پیش‌بینی موقعیت با فیلتر کالمن  
         this.kalmanFilter.predict(controlInputs, now);
         // به‌روزرسانی موقعیت نسبی فعلی از فیلتر کالمن  
-        const kalmanState = this.kalmanFilter.getState(); 
-        console.log('[ADRService] _processSensorData :', kalmanState);
+        const kalmanState = this.kalmanFilter.getState();
 
         this.currentPosition = {
             x: kalmanState.x,
@@ -895,6 +894,7 @@ class AdvancedDeadReckoningService {
 
         // اگر نقطه مرجع تنظیم شده است، موقعیت جغرافیایی فعلی را محاسبه کنید  
         let currentGeoPosition = null;
+
         if (this.referencePosition) {
             currentGeoPosition = this._calculateNewLatLng(
                 this.referencePosition.lat,
@@ -902,7 +902,7 @@ class AdvancedDeadReckoningService {
                 this.currentPosition.x,
                 this.currentPosition.y
             );
-
+            console.log('[ADRService] _processSensorData currentGeoPosition :', currentGeoPosition);
             // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
             if (this.path.length === 0 || (
                 this._calculateDistance(
@@ -932,7 +932,7 @@ class AdvancedDeadReckoningService {
 
         // اطلاع‌رسانی به لیستنرها (فقط اگر تغییر قابل توجهی رخ داده باشد یا اندازه‌گیری ورودی داشته باشیم)  
         // اطلاع‌رسانی به لیستنرها با فرکانس بیشتر 
-        console.log('[ADRService] _processSensorData :', data.type); 
+        console.log('[ADRService] _processSensorData :', data.type);
         if (data.type === 'accelerometer') { // حذف شرط data.stepDetected  
             this._notify({
                 type: 'positionUpdated',
