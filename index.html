@@ -2,23 +2,13 @@
 <html lang="fa" dir="rtl">  
   <head>  
     <meta charset="UTF-8" />  
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />  
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-    <title>GPS Validity</title>
-<!-- اسکریپت ریدایرکت برای GitHub Pages -->  
-  <script type="text/javascript">  
-    // بازیابی مسیر واقعی از پارامترهای URL  
-    (function(l) {  
-      if (l.search[1] === '/' ) {  
-        var decoded = l.search.slice(1).split('&').map(function(s) {   
-          return s.replace(/~and~/g, '&')  
-        }).join('?');  
-        window.history.replaceState(null, null,  
-            l.pathname.slice(0, -1) + decoded + l.hash  
-        );  
-      }  
-    }(window.location))  
-  </script>  	
+    <!-- Add this base tag -->  
+    <base href="/" />  
+    <link rel="icon" href="/favicon.ico" />  
+    <link rel="apple-touch-icon" href="/logo192.png" />  
+    <link rel="manifest" href="/manifest.json" />  
+    <title>Your App Title</title>  
   </head>  
   <body>  
     <div id="root"></div>  
