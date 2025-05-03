@@ -129,20 +129,14 @@ export class KalmanFilter {
     // سرعت زاویه‌ای w  
     let angularVelocity = omega;
 
+    // **FIX: REMOVED DUPLICATE CONDITION**   
     // تست برای مقادیر غیر صفر omega  
     if (Math.abs(omega) < 0.00001) {
       // اگر ورودی چرخش نزدیک به صفر است، از مقدار فعلی با میرایی استفاده کنید  
       angularVelocity = this.x[4] * this.timeDecay;
     } else {
+      // **FIX: ADDED LOGGING FOR NON-ZERO OMEGA**  
       console.log('Non-zero omega detected:', omega);
-    }
-
-    // Current code:  
-    if (Math.abs(omega) > 0.00001) {
-      console.log('Non-zero omega detected:', omega);
-    } else {
-      // اگر ورودی چرخش نزدیک به صفر است، از مقدار فعلی با میرایی استفاده کنید  
-      angularVelocity = this.x[4] * this.timeDecay;
     }
 
     // به‌روزرسانی بردار وضعیت (x) با استفاده از مدل حرکت غیرهولونومیک  
@@ -153,7 +147,8 @@ export class KalmanFilter {
     this.x[1] += velocity * dt * Math.sin(currentTheta);  // y  
 
     // افزایش تأثیر omega بر روی theta با استفاده از ضریب تقویت  
-    const omegaScale = 15.0;  // ضریب بزرگتر برای افزایش تأثیر چرخش  
+    // **FIX: INCREASED OMEGA SCALE**  
+    const omegaScale = 20.0;  // ضریب بزرگتر برای افزایش تأثیر چرخش  
 
     // محاسبه تغییر زاویه  
     const oldTheta = currentTheta;

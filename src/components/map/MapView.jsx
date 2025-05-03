@@ -34,15 +34,29 @@ const drLocationIcon = new L.Icon({
 });
 
 // اصلاح تابع headingArrowIcon برای نمایش بهتر  
-const headingArrowIcon = (headingInDegrees) => new L.Icon({
-  iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">  
-    <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
-    <path fill="red" stroke="white" stroke-width="0.5" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,3L19,18H12L5,18L12,3Z"/>  
-  </svg>`)}`,
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
-  popupAnchor: [0, -20],
-});
+// const headingArrowIcon = (headingInDegrees) => new L.Icon({
+//   iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">  
+//     <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
+//     <path fill="red" stroke="white" stroke-width="0.5" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,3L19,18H12L5,18L12,3Z"/>  
+//   </svg>`)}`,
+//   iconSize: [40, 40],
+//   iconAnchor: [20, 20],
+//   popupAnchor: [0, -20],
+// });
+
+// Enhanced heading arrow icon for better visibility  
+const headingArrowIcon = (headingInDegrees) => {
+  console.log('Creating arrow icon with heading:', headingInDegrees);
+  return new L.Icon({
+    iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">  
+      <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
+      <path fill="red" stroke="white" stroke-width="1" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/>  
+    </svg>`)}`,
+    iconSize: [48, 48],
+    iconAnchor: [24, 24],
+    popupAnchor: [0, -24],
+  });
+};
 
 
 
@@ -93,46 +107,55 @@ const MapView = ({
     const removeListener = advancedDeadReckoningService.addListener((data) => {
       // به‌روزرسانی وضعیت فعال بودن سرویس  
       setIsDrActive(data.isActive);
-
+      console.log('data.type: ', data.type);
       // if (data.type === 'stepDetected' || data.type === 'serviceStateChanged') {
-        // به‌روزرسانی شمارنده گام  
-        if (data.stepCount !== undefined && data.stepCount !== null) {
-          setStepCount(data.stepCount);
-        }
+      // به‌روزرسانی شمارنده گام  
+      if (data.stepCount !== undefined && data.stepCount !== null) {
+        setStepCount(data.stepCount);
+      }
 
-        // به‌روزرسانی وضعیت کالمن  
-        if (data.kalmanState) {
-          setKalmanState(data.kalmanState);
-          // محاسبه جهت به درجه  
-          const headingRad = data.kalmanState.theta;
-          setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
-        }
+      // به‌روزرسانی وضعیت کالمن  
+      // if (data.kalmanState) {
+      //   setKalmanState(data.kalmanState);
+      //   // محاسبه جهت به درجه  
+      //   const headingRad = data.kalmanState.theta;
+      //   setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
+      // }
 
-        // به‌روزرسانی موقعیت تخمینی  
-        if (data.geoPosition) {
-          // بررسی اعتبار موقعیت  
-          if (!isNaN(data.geoPosition.lat) && !isNaN(data.geoPosition.lng)) {
-            console.log('Updating DR position:', data.geoPosition);
-            setDrPosition(data.geoPosition);
+      // به‌روزرسانی موقعیت تخمینی  
+      if (data.geoPosition) {
+        // بررسی اعتبار موقعیت  
+        if (!isNaN(data.geoPosition.lat) && !isNaN(data.geoPosition.lng)) {
+          // console.log('Updating DR position:', data.geoPosition);
+          setDrPosition(data.geoPosition);
+        }
+      }
+
+      // به‌روزرسانی مسیر جغرافیایی Dead Reckoning  
+      if (data.geoPath && data.geoPath.length > 0) {
+        const formattedPath = data.geoPath.map(point => {
+          if (isNaN(point.lat) || isNaN(point.lng)) {
+            return null;
           }
-        }
+          return [point.lat, point.lng];
+        }).filter(point => point !== null);
 
-        // به‌روزرسانی مسیر جغرافیایی Dead Reckoning  
-        if (data.geoPath && data.geoPath.length > 0) {
-          const formattedPath = data.geoPath.map(point => {
-            if (isNaN(point.lat) || isNaN(point.lng)) {
-              return null;
-            }
-            return [point.lat, point.lng];
-          }).filter(point => point !== null);
-
-          setDrGeoPath(formattedPath);
-        }
+        setDrGeoPath(formattedPath);
+      }
       // }
     });
 
     return () => removeListener();
   }, []);
+
+  // Add this useEffect for separate tracking of heading changes  
+  useEffect(() => {
+    if (kalmanState?.theta !== undefined) {
+      const degrees = ((kalmanState.theta * 180 / Math.PI) + 360) % 360;
+      console.log(`Updating heading: ${headingInDegrees.toFixed(1)}° → ${degrees.toFixed(1)}°`);
+      setHeadingInDegrees(degrees);
+    }
+  }, [kalmanState?.theta]);
 
 
   // ارسال داده‌های GPS به سرویس  
@@ -242,8 +265,9 @@ const MapView = ({
             </Marker>
 
             {/* فلش جهت‌دار */}
-            {kalmanState?.theta !== undefined && (
+            {kalmanState?.theta !== undefined && drPosition && !isNaN(drPosition.lat) && !isNaN(drPosition.lng) && (
               <Marker
+                key={`heading-${headingInDegrees.toFixed(1)}`} // Force re-render on heading change  
                 position={[drPosition.lat, drPosition.lng]}
                 icon={headingArrowIcon(headingInDegrees)}
                 zIndexOffset={1000}

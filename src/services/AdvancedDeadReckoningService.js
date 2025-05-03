@@ -378,7 +378,7 @@ class AdvancedDeadReckoningService {
 
         // فیلتر داده‌های ژیروسکوپ  
         const filteredGyro = this._filterGyroscopeData(gyroscope);
-        console.log('Filtered gyroscope data:', filteredGyro);
+        // console.log('Filtered gyroscope data:', filteredGyro);
 
         // پردازش داده‌های سنسور برای به‌روزرسانی موقعیت  
         this._processSensorData({
@@ -814,14 +814,14 @@ class AdvancedDeadReckoningService {
         const gammaRad = (gammaDeg * Math.PI) / 180;
 
         // اضافه کردن لاگ برای دیباگ  
-        console.log('Gyroscope filtered:', {
-            alpha: alphaDeg,
-            beta: betaDeg,
-            gamma: gammaDeg,
-            alphaRad: alphaRad,
-            betaRad: betaRad,
-            gammaRad: gammaRad
-        });
+        // console.log('Gyroscope filtered:', {
+        //     alpha: alphaDeg,
+        //     beta: betaDeg,
+        //     gamma: gammaDeg,
+        //     alphaRad: alphaRad,
+        //     betaRad: betaRad,
+        //     gammaRad: gammaRad
+        // });
 
         return {
             alpha: alphaDeg,
@@ -923,6 +923,8 @@ class AdvancedDeadReckoningService {
         // آماده‌سازی ورودی‌های کنترل برای فیلتر کالمن  
         let controlInputs = { a_norm: 0, omega: 0 };
 
+        // Inside _processSensorData method  
+
         if (data.type === 'gyroscope') {
             // استفاده از پردازنده جهت ژیروسکوپ برای محاسبه سرعت زاویه‌ای موثر  
             const effectiveOmega = this.gyroscopeHeadingProcessor.processGyroscopeData(
@@ -930,14 +932,25 @@ class AdvancedDeadReckoningService {
                 now
             );
 
-            // افزایش حساسیت با یک ضریب بزرگتر  
-            const omegaMultiplier = 15.0;
-            controlInputs.omega = effectiveOmega * omegaMultiplier;
+            // **FIX: INCREASED MULTIPLIER AND ADDED THRESHOLDING**  
+            const omegaMultiplier = 20.0; // Increased from 15.0  
+            let processedOmega = effectiveOmega * omegaMultiplier;
+
+            // Force small non-zero values to pass the filter's threshold  
+            if (Math.abs(processedOmega) > 0.00001 && Math.abs(processedOmega) < 0.005) {
+                processedOmega = Math.sign(processedOmega) * 0.005;
+                console.log('Boosting omega in service:',
+                    effectiveOmega.toFixed(6),
+                    '×', omegaMultiplier,
+                    '→', processedOmega.toFixed(6));
+            }
+
+            controlInputs.omega = processedOmega;
 
             console.log('Gyro data processed:',
-                'raw:', { alpha: data.data.alpha, beta: data.data.beta, gamma: data.data.gamma },
-                'effective omega:', effectiveOmega,
-                'applied omega:', controlInputs.omega
+                'raw:', { alpha: data.data.alpha.toFixed(2), beta: data.data.beta.toFixed(2), gamma: data.data.gamma.toFixed(2) },
+                'effective omega:', effectiveOmega.toFixed(6),
+                'applied omega:', controlInputs.omega.toFixed(6)
             );
         }
 
@@ -1018,41 +1031,6 @@ class AdvancedDeadReckoningService {
         }
     }
 
-
-    /**  
- * تست چرخش برای دیباگ هدینگ  
- * @param {number} degrees زاویه جدید به درجه  
- */
-    forceRotation(degrees) {
-        if (!this.isActive || !this.kalmanFilter) return;
-
-        console.log('Forcing rotation to', degrees, 'degrees');
-
-        // تبدیل درجه به رادیان  
-        const radians = (degrees * Math.PI) / 180;
-
-        // دریافت وضعیت فعلی  
-        const state = this.kalmanFilter.getState();
-        const oldTheta = state.theta;
-
-        // تنظیم theta جدید  
-        state.theta = radians;
-
-        // مقداردهی مجدد فیلتر با وضعیت جدید  
-        this.kalmanFilter.initialize(state);
-
-        console.log('Rotation changed from',
-            (oldTheta * 180 / Math.PI).toFixed(2), '°',
-            'to', degrees.toFixed(2), '°');
-
-        // اطلاع‌رسانی به شنوندگان  
-        this._notify({
-            type: 'orientationUpdated',
-            currentPosition: this.currentPosition,
-            kalmanState: this.kalmanFilter.getState(),
-            source: 'manual'
-        });
-    }
 
     /**  
        /**  

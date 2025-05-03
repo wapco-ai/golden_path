@@ -53,21 +53,38 @@ export class GyroscopeHeadingProcessor {
             coeffs.beta * filteredData.betaRad +
             coeffs.gamma * filteredData.gammaRad;
 
-        // افزودن لاگ تشخیصی مهم  
-        console.log('Gyro heading processor: Calculating effective omega', {
-            alphaRad: filteredData.alphaRad.toFixed(4),
-            betaRad: filteredData.betaRad.toFixed(4),
-            gammaRad: filteredData.gammaRad.toFixed(4),
-            coeffs: coeffs,
-            effectiveOmega: effectiveOmega.toFixed(6),
-            deviceOrientation: this.deviceOrientation
+        // **FIX: ADDED MORE DETAILED LOGGING**  
+        console.log('Gyro heading processor details:', {
+            rawAlpha: gyroData.alpha.toFixed(4),
+            rawBeta: gyroData.beta.toFixed(4),
+            rawGamma: gyroData.gamma.toFixed(4),
+            filteredAlpha: filteredData.alpha.toFixed(4),
+            filteredBeta: filteredData.beta.toFixed(4),
+            filteredGamma: filteredData.gamma.toFixed(4),
+            coeffAlpha: coeffs.alpha,
+            coeffBeta: coeffs.beta,
+            coeffGamma: coeffs.gamma,
+            contributions: {
+                alphaPart: (coeffs.alpha * filteredData.alphaRad).toFixed(6),
+                betaPart: (coeffs.beta * filteredData.betaRad).toFixed(6),
+                gammaPart: (coeffs.gamma * filteredData.gammaRad).toFixed(6)
+            },
+            rawOmega: effectiveOmega.toFixed(6)
         });
 
-        // افزایش حساسیت  
-        const sensitivityMultiplier = 5.0;
+        // **FIX: INCREASED SENSITIVITY SIGNIFICANTLY**  
+        const sensitivityMultiplier = 10.0; // Increased from 5.0  
         const scaledOmega = effectiveOmega * sensitivityMultiplier;
 
         console.log('Effective omega calculated:', scaledOmega.toFixed(6), 'rad/s');
+
+        // **FIX: ADDED ARTIFICIAL BOOST FOR SMALL MOVEMENTS**  
+        // Boost very small movements to overcome threshold  
+        if (Math.abs(scaledOmega) > 0.00001 && Math.abs(scaledOmega) < 0.001) {
+            const boostedOmega = Math.sign(scaledOmega) * 0.001;
+            console.log('Boosting small omega:', scaledOmega.toFixed(6), '→', boostedOmega.toFixed(6));
+            return boostedOmega;
+        }
 
         return scaledOmega;
     }
