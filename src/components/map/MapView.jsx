@@ -105,7 +105,7 @@ const MapView = ({
           setKalmanState(data.kalmanState);
           // محاسبه جهت به درجه  
           const headingRad = data.kalmanState.theta;
-          // setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
+          setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
         }
 
         // به‌روزرسانی موقعیت تخمینی  
