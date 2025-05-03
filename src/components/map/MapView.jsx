@@ -6,6 +6,7 @@ import DeadReckoningControls from './DeadReckoningControls';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
+// import AdvancedDeadReckoningControls from './DeadReckoningControls';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 
 // حل مشکل آیکون‌های Leaflet  
@@ -24,7 +25,7 @@ const currentLocationIcon = new L.Icon({
   popupAnchor: [0, -12],
 });
 
-// آیکون موقعیت تخمینی Dead Reckoning (قرمز)  
+// آیکون Dead Reckoning (قرمز)  
 const drLocationIcon = new L.Icon({
   iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2U1MzkzNSIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjgiLz48L3N2Zz4=',
   iconSize: [24, 24],
@@ -32,19 +33,18 @@ const drLocationIcon = new L.Icon({
   popupAnchor: [0, -12],
 });
 
-// آیکون فلش جهت (با زاویه پویا)  
-const headingArrowIcon = (headingInDegrees) => {
-  console.log('Creating arrow icon with heading:', headingInDegrees);
-  return new L.Icon({
-    iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">  
-      <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
-      <path fill="red" stroke="white" stroke-width="0.5" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/>  
-    </svg>`)}`,
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -16],
-  });
-};
+// اصلاح تابع headingArrowIcon برای نمایش بهتر  
+const headingArrowIcon = (headingInDegrees) => new L.Icon({
+  iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">  
+    <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
+    <path fill="red" stroke="white" stroke-width="0.5" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,3L19,18H12L5,18L12,3Z"/>  
+  </svg>`)}`,
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
+  popupAnchor: [0, -20],
+});
+
+
 
 // کامپوننت کنترل خودکار مرکز نقشه  
 const AutoCenterMap = ({ position, follow }) => {
@@ -75,6 +75,7 @@ const MapView = ({
   const [stepCount, setStepCount] = useState(0);
   const [headingInDegrees, setHeadingInDegrees] = useState(0);
 
+
   // موقعیت مرکز نقشه (یا موقعیت فعلی GPS یا موقعیت DR)  
   const centerPosition = drPosition && isFollowing && isDrActive
     ? [drPosition.lat, drPosition.lng]
@@ -88,48 +89,39 @@ const MapView = ({
     .map(loc => [loc.coords.lat, loc.coords.lng]);
 
   // اضافه کردن listener برای Advanced Dead Reckoning Service  
+  // Fixed listener setup  
   useEffect(() => {
     const removeListener = advancedDeadReckoningService.addListener((data) => {
-      // به‌روزرسانی وضعیت فعال بودن سرویس  
+      // Update active state  
       setIsDrActive(data.isActive);
 
-      // به‌روزرسانی تعداد گام‌ها  
+      // Update step count  
       if (data.stepCount !== undefined) {
         setStepCount(data.stepCount);
       }
 
-      // به‌روزرسانی وضعیت فیلتر کالمن  
-      // در بخش به‌روزرسانی کالمن  
+      // Update Kalman state and heading  
       if (data.kalmanState) {
-        try {
-          setKalmanState(data.kalmanState);
+        setKalmanState(data.kalmanState);
 
-          // محاسبه زاویه جهت به درجه - با validation  
-          if (data.kalmanState.theta !== undefined && isFinite(data.kalmanState.theta)) {
-            const degreeAngle = ((data.kalmanState.theta * 180 / Math.PI) + 360) % 360;
-            setHeadingInDegrees(degreeAngle);
-            console.log('MapView heading updated (degrees):', degreeAngle.toFixed(2));
-          } else {
-            console.warn('Invalid theta value in kalmanState:', data.kalmanState.theta);
-          }
-        } catch (error) {
-          console.error('Error processing kalmanState:', error);
+        // Calculate heading in degrees  
+        if (data.kalmanState.theta !== undefined) {
+          const degrees = ((data.kalmanState.theta * 180 / Math.PI) + 360) % 360;
+          setHeadingInDegrees(degrees);
+          console.log('MapView heading updated (degrees):', degrees.toFixed(2));
         }
       }
 
-      // به‌روزرسانی موقعیت تخمینی  
-      if (data.currentPosition) {
+      // Update estimated position  
+      if (data.currentPosition && !isNaN(data.currentPosition.lat) && !isNaN(data.currentPosition.lng)) {
         setDrPosition(data.currentPosition);
       }
 
-      // به‌روزرسانی مسیر جغرافیایی Dead Reckoning  
+      // Update geo path  
       if (data.geoPath && data.geoPath.length > 0) {
-        const formattedPath = data.geoPath.map(point => {
-          if (isNaN(point.lat) || isNaN(point.lng)) {
-            return null;
-          }
-          return [point.lat, point.lng];
-        }).filter(point => point !== null);
+        const formattedPath = data.geoPath
+          .filter(point => point && !isNaN(point.lat) && !isNaN(point.lng))
+          .map(point => [point.lat, point.lng]);
 
         setDrGeoPath(formattedPath);
       }
@@ -169,49 +161,10 @@ const MapView = ({
     return [35.6892, 51.3890];
   };
 
-  // اضافه کردن کامپوننت تست زاویه  
-  const DebugRotationTester = ({ onTestRotation }) => {
-    const [testDegree, setTestDegree] = useState(45);
-
-    return (
-      <div className="debug-rotation-tester">
-        <input
-          type="range"
-          min="0"
-          max="359"
-          value={testDegree}
-          onChange={(e) => setTestDegree(parseInt(e.target.value))}
-        />
-        <span>{testDegree}°</span>
-        <button onClick={() => onTestRotation(testDegree)}>
-          Set Heading
-        </button>
-      </div>
-    );
-  };
-
-  // و استفاده از آن در کامپوننت اصلی:  
-  {
-    process.env.NODE_ENV === 'development' && (
-      <div className="debug-panel">
-        <DebugRotationTester
-          onTestRotation={(degrees) => {
-            if (typeof advancedDeadReckoningService.forceRotation === 'function') {
-              advancedDeadReckoningService.forceRotation(degrees);
-            }
-          }}
-        />
-      </div>
-    )
-  }
-
-  // اضافه کردن useEffect برای مانیتورینگ تغییرات جهت  
-  useEffect(() => {
-    if (kalmanState?.theta !== undefined) {
-      const degrees = ((kalmanState.theta * 180 / Math.PI) + 360) % 360;
-      console.log('Current heading (degrees):', degrees.toFixed(2));
-    }
-  }, [kalmanState?.theta]);
+  // تبدیل جهت رادیان به درجه (برای نمایش فلش)  
+  // headingInDegrees = kalmanState?.theta !== undefined
+  //   ? ((kalmanState.theta * 180 / Math.PI) + 360) % 360
+  //   : 0;
 
   return (
     <div className="map-fullscreen">
@@ -337,10 +290,6 @@ const MapView = ({
         {centerPosition && <AutoCenterMap position={centerPosition} follow={isFollowing} />}
       </MapContainer>
 
-
-
-
-
       {/* دکمه‌های کنترل نقشه */}
       <div className="map-controls-overlay">
         {/* دکمه تعقیب موقعیت */}
@@ -356,7 +305,7 @@ const MapView = ({
         </button>
 
         {/* دکمه مرکز به موقعیت فعلی */}
-        {/* <button
+        <button
           className="map-control-button"
           onClick={() => {
             if (centerPosition && map) {
@@ -373,44 +322,28 @@ const MapView = ({
             <line x1="18" y1="12" x2="22" y2="12"></line>
             <circle cx="12" cy="12" r="4"></circle>
           </svg>
-        </button> */}
+        </button>
       </div>
 
-      {/* کنترل‌های Dead Reckoning */}
-      <DeadReckoningControls
-        isActive={isDrActive}
-        onToggle={() => {
-          if (isDrActive) {
-            advancedDeadReckoningService.stop();
-          } else {
-            if (currentLocation?.coords) {
-              advancedDeadReckoningService.start({
-                lat: currentLocation.coords.lat,
-                lng: currentLocation.coords.lng
-              });
-            }
-          }
-        }}
-        stepCount={stepCount}
-        kalmanState={kalmanState}
-        heading={headingInDegrees}
-        onReset={() => {
-          if (isDrActive && currentLocation?.coords) {
-            advancedDeadReckoningService.resetToPosition({
-              lat: currentLocation.coords.lat,
-              lng: currentLocation.coords.lng
-            });
-          }
-        }}
-        // اضافه کردن تست چرخش برای دیباگ  
-        onTestRotation={(degrees) => {
-          if (advancedDeadReckoningService.forceRotation) {
-            advancedDeadReckoningService.forceRotation(degrees);
-          } else {
-            console.warn('forceRotation method not available');
-          }
-        }}
-      />
+      {/* پنل اطلاعات موقعیت */}
+      {currentLocation?.coords && (
+        <div className="location-panel">
+          <div className="coordinates-display">
+            <div>
+              <span>عرض:</span> {currentLocation.coords.lat.toFixed(6)}
+            </div>
+            <div>
+              <span>طول:</span> {currentLocation.coords.lng.toFixed(6)}
+            </div>
+            <div>
+              <span>دقت:</span> {currentLocation.coords.accuracy.toFixed(1)} متر
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* پنل کنترل‌های Dead Reckoning */}
+      <DeadReckoningControls currentLocation={currentLocation} />
     </div>
   );
 };
