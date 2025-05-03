@@ -94,7 +94,7 @@ const MapView = ({
       // به‌روزرسانی وضعیت فعال بودن سرویس  
       setIsDrActive(data.isActive);
 
-      if (data.type === 'stepDetected') {
+      if (data.type === 'stepDetected' || data.type === 'serviceStateChanged') {
         // به‌روزرسانی شمارنده گام  
         if (data.stepCount !== undefined && data.stepCount !== null) {
           setStepCount(data.stepCount);
