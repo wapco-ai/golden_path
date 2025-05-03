@@ -933,12 +933,12 @@ class AdvancedDeadReckoningService {
             );
 
             // **FIX: INCREASED MULTIPLIER AND ADDED THRESHOLDING**  
-            const omegaMultiplier = 20.0; // Increased from 15.0  
+            const omegaMultiplier = 15.0; // Increased from 15.0  
             let processedOmega = effectiveOmega * omegaMultiplier;
 
             // Force small non-zero values to pass the filter's threshold  
-            if (Math.abs(processedOmega) > 0.00001 && Math.abs(processedOmega) < 0.005) {
-                processedOmega = Math.sign(processedOmega) * 0.005;
+            if (Math.abs(processedOmega) > 0.00001 && Math.abs(processedOmega) < 0.002) {
+                processedOmega = Math.sign(processedOmega) * 0.002;
                 console.log('Boosting omega in service:',
                     effectiveOmega.toFixed(6),
                     '×', omegaMultiplier,
@@ -947,10 +947,10 @@ class AdvancedDeadReckoningService {
 
             controlInputs.omega = processedOmega;
 
-            console.log('Gyro data processed:',
-                'raw:', { alpha: data.data.alpha.toFixed(2), beta: data.data.beta.toFixed(2), gamma: data.data.gamma.toFixed(2) },
-                'effective omega:', effectiveOmega.toFixed(6),
-                'applied omega:', controlInputs.omega.toFixed(6)
+            console.log('Gyro data processed:',  
+                'raw:', { alpha: data.data.alpha, beta: data.data.beta, gamma: data.data.gamma },  
+                'effective omega:', effectiveOmega.toFixed(6),  
+                'applied omega:', controlInputs.omega.toFixed(6)  
             );
         }
 

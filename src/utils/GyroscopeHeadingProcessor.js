@@ -73,20 +73,21 @@ export class GyroscopeHeadingProcessor {
         });
 
         // **FIX: INCREASED SENSITIVITY SIGNIFICANTLY**  
-        const sensitivityMultiplier = 10.0; // Increased from 5.0  
+        const sensitivityMultiplier = 20.0; // Increased from 5.0  
         const scaledOmega = effectiveOmega * sensitivityMultiplier;
 
-        console.log('Effective omega calculated:', scaledOmega.toFixed(6), 'rad/s');
+        // اضافه کردن تقویت مصنوعی برای حرکت‌های کوچک  
+        let finalOmega = scaledOmega;
 
-        // **FIX: ADDED ARTIFICIAL BOOST FOR SMALL MOVEMENTS**  
-        // Boost very small movements to overcome threshold  
-        if (Math.abs(scaledOmega) > 0.00001 && Math.abs(scaledOmega) < 0.001) {
-            const boostedOmega = Math.sign(scaledOmega) * 0.001;
-            console.log('Boosting small omega:', scaledOmega.toFixed(6), '→', boostedOmega.toFixed(6));
-            return boostedOmega;
+        // اگر مقدار کوچک اما غیر صفر است، آن را تقویت کنید تا از آستانه فیلتر عبور کند  
+        if (Math.abs(scaledOmega) > 0.000001 && Math.abs(scaledOmega) < 0.001) {
+            finalOmega = Math.sign(scaledOmega) * 0.002; // مقدار کوچک اما بزرگتر از آستانه 0.00001  
+            console.log('Boosting small omega:', scaledOmega.toFixed(6), '→', finalOmega.toFixed(6));
         }
 
-        return scaledOmega;
+        console.log('Effective omega calculated:', finalOmega.toFixed(6), 'rad/s');
+
+        return finalOmega;
     }
 
     /**  

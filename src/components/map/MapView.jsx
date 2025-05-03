@@ -34,29 +34,15 @@ const drLocationIcon = new L.Icon({
 });
 
 // اصلاح تابع headingArrowIcon برای نمایش بهتر  
-// const headingArrowIcon = (headingInDegrees) => new L.Icon({
-//   iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">  
-//     <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
-//     <path fill="red" stroke="white" stroke-width="0.5" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,3L19,18H12L5,18L12,3Z"/>  
-//   </svg>`)}`,
-//   iconSize: [40, 40],
-//   iconAnchor: [20, 20],
-//   popupAnchor: [0, -20],
-// });
-
-// Enhanced heading arrow icon for better visibility  
-const headingArrowIcon = (headingInDegrees) => {
-  console.log('Creating arrow icon with heading:', headingInDegrees);
-  return new L.Icon({
-    iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">  
-      <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
-      <path fill="red" stroke="white" stroke-width="1" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/>  
-    </svg>`)}`,
-    iconSize: [48, 48],
-    iconAnchor: [24, 24],
-    popupAnchor: [0, -24],
-  });
-};
+const headingArrowIcon = (headingInDegrees) => new L.Icon({
+  iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">  
+    <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
+    <path fill="red" stroke="white" stroke-width="0.5" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,3L19,18H12L5,18L12,3Z"/>  
+  </svg>`)}`,
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
+  popupAnchor: [0, -20],
+});
 
 
 
@@ -157,7 +143,10 @@ const MapView = ({
     }
   }, [kalmanState?.theta]);
 
-
+  // Inside your component, add this useEffect to log state changes  
+  useEffect(() => {
+    console.log('Heading state updated:', headingInDegrees.toFixed(2), '°');
+  }, [headingInDegrees]);
   // ارسال داده‌های GPS به سرویس  
   useEffect(() => {
     if (isDrActive && currentLocation?.coords) {
