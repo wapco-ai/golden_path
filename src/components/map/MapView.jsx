@@ -89,41 +89,45 @@ const MapView = ({
     .map(loc => [loc.coords.lat, loc.coords.lng]);
 
   // اضافه کردن listener برای Advanced Dead Reckoning Service  
-  // Fixed listener setup  
   useEffect(() => {
     const removeListener = advancedDeadReckoningService.addListener((data) => {
-      // Update active state  
+      // به‌روزرسانی وضعیت فعال بودن سرویس  
       setIsDrActive(data.isActive);
 
-      // Update step count  
-      if (data.stepCount !== undefined) {
-        setStepCount(data.stepCount);
-      }
-
-      // Update Kalman state and heading  
-      if (data.kalmanState) {
-        setKalmanState(data.kalmanState);
-
-        // Calculate heading in degrees  
-        if (data.kalmanState.theta !== undefined) {
-          const degrees = ((data.kalmanState.theta * 180 / Math.PI) + 360) % 360;
-          setHeadingInDegrees(degrees);
-          console.log('MapView heading updated (degrees):', degrees.toFixed(2));
+      if (data.type === 'stepDetected' || data.type === 'serviceStateChanged') {
+        // به‌روزرسانی شمارنده گام  
+        if (data.stepCount !== undefined && data.stepCount !== null) {
+          setStepCount(data.stepCount);
         }
-      }
 
-      // Update estimated position  
-      if (data.currentPosition && !isNaN(data.currentPosition.lat) && !isNaN(data.currentPosition.lng)) {
-        setDrPosition(data.currentPosition);
-      }
+        // به‌روزرسانی وضعیت کالمن  
+        if (data.kalmanState) {
+          setKalmanState(data.kalmanState);
+          // محاسبه جهت به درجه  
+          const headingRad = data.kalmanState.theta;
+          setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
+        }
 
-      // Update geo path  
-      if (data.geoPath && data.geoPath.length > 0) {
-        const formattedPath = data.geoPath
-          .filter(point => point && !isNaN(point.lat) && !isNaN(point.lng))
-          .map(point => [point.lat, point.lng]);
+        // به‌روزرسانی موقعیت تخمینی  
+        if (data.geoPosition) {
+          // بررسی اعتبار موقعیت  
+          if (!isNaN(data.geoPosition.lat) && !isNaN(data.geoPosition.lng)) {
+            console.log('Updating DR position:', data.geoPosition);
+            setDrPosition(data.geoPosition);
+          }
+        }
 
-        setDrGeoPath(formattedPath);
+        // به‌روزرسانی مسیر جغرافیایی Dead Reckoning  
+        if (data.geoPath && data.geoPath.length > 0) {
+          const formattedPath = data.geoPath.map(point => {
+            if (isNaN(point.lat) || isNaN(point.lng)) {
+              return null;
+            }
+            return [point.lat, point.lng];
+          }).filter(point => point !== null);
+
+          setDrGeoPath(formattedPath);
+        }
       }
     });
 
