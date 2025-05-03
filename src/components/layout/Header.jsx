@@ -3,16 +3,14 @@ import { Link } from 'react-router-dom';
 
 export const Header = () => {  
   return (  
-    <header className="app-header">  
-      <div className="logo">  
-        <Link to="/">مسیر طلایی</Link>  
-      </div>  
+    <header className="app-header">   
       <nav className="main-nav">  
         <ul>  
           <li><Link to="/">خانه</Link></li>  
           <li><Link to="/map">نقشه</Link></li>  
           <li><Link to="/qr-scan">اسکن QR</Link></li>  
-          <li><Link to="/settings">تنظیمات</Link></li>  
+          <li><Link to="/settings">تنظیمات</Link></li> 
+          <li><Link to="/Profile">پروفایل</Link></li> 
         </ul>  
       </nav>  
     </header>  
