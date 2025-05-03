@@ -94,7 +94,7 @@ const MapView = ({
       // به‌روزرسانی وضعیت فعال بودن سرویس  
       setIsDrActive(data.isActive);
 
-      if (data.type === 'stepDetected') {
+      if (data.type === 'stepDetected' || data.type === 'serviceStateChanged') {
         // به‌روزرسانی شمارنده گام  
         if (data.stepCount !== undefined && data.stepCount !== null) {
           setStepCount(data.stepCount);
@@ -105,7 +105,7 @@ const MapView = ({
           setKalmanState(data.kalmanState);
           // محاسبه جهت به درجه  
           const headingRad = data.kalmanState.theta;
-          setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
+          // setHeadingInDegrees(((headingRad * 180 / Math.PI) + 360) % 360);
         }
 
         // به‌روزرسانی موقعیت تخمینی  
