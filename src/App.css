@@ -821,10 +821,11 @@ body {
   border: 1px solid var(--primary-color);
   color: white;
   border-radius: 20px;
-  padding: 8px 20px;
-  font-size: 0.9rem;
+  padding: 8px 10px;
+  font-size: 0.8rem;
   width: 40%;
   margin-top: 0.2rem;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .complete-profile-btn:hover {
@@ -954,11 +955,6 @@ body {
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
-  }
-  
-  .complete-profile-btn {
-    width: auto;
-    padding: 8px 25px;
   }
 }
 
