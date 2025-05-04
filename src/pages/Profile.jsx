@@ -1,5 +1,6 @@
 // src/pages/Profile.jsx
 import React from 'react';
+<<<<<<< Updated upstream
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 
@@ -45,13 +46,26 @@ function Profile() {
             </svg>
           </div>
         </div>
+=======
+
+function Profile() {
+  return (
+    <div className="profile-container" style={{ direction: 'rtl', fontFamily: 'Vazir, Tahoma, sans-serif' }}>
+      {/* Profile Header */}
+      <div className="profile-header">
+        <h1 className="profile-title">حساب کاربری</h1>
+>>>>>>> Stashed changes
         <div className="user-info">
           <p className="user-name">کاربر مسیربایی آستان قدس</p>
           <p className="user-phone">98-964879789+</p>
         </div>
+<<<<<<< Updated upstream
         <button className="complete-profile-btn">
           تکمیل پروفایل
         </button>
+=======
+        <button className="complete-profile-btn">تکمیل پروفایل</button>
+>>>>>>> Stashed changes
       </div>
 
       {/* Profile Sections */}
@@ -60,6 +74,7 @@ function Profile() {
         <div className="profile-section">
           <h2 className="section-title">حساب کاربری</h2>
           <div className="section-item">
+<<<<<<< Updated upstream
             <span className="item-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
@@ -89,6 +104,18 @@ function Profile() {
             </span>
             <span className="item-text">مکان های ذخیره شده</span>
             <span className="item-arrow">›</span>
+=======
+            <span className="item-icon">8.</span>
+            <span className="item-text">اطلاعات حساب کاربری</span>
+          </div>
+          <div className="section-item">
+            <span className="item-icon">🔍</span>
+            <span className="item-text">مسیرهای پیموده شده من</span>
+          </div>
+          <div className="section-item">
+            <span className="item-icon">🔍</span>
+            <span className="item-text">مکان های ذخیره شده</span>
+>>>>>>> Stashed changes
           </div>
         </div>
 
@@ -96,6 +123,7 @@ function Profile() {
         <div className="profile-section">
           <h2 className="section-title">تنظیمات</h2>
           <div className="section-item">
+<<<<<<< Updated upstream
             <span className="item-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M4 5h7" />
@@ -117,6 +145,14 @@ function Profile() {
             </span>
             <span className="item-text">اطلاع رسانی</span>
             <span className="item-arrow">›</span>
+=======
+            <span className="item-icon">🔍</span>
+            <span className="item-text">زبان نرم افزار</span>
+          </div>
+          <div className="section-item">
+            <span className="item-icon">🔍</span>
+            <span className="item-text">اطلاع رسانی</span>
+>>>>>>> Stashed changes
           </div>
         </div>
 
@@ -124,6 +160,7 @@ function Profile() {
         <div className="profile-section">
           <h2 className="section-title">آستان قدس</h2>
           <div className="section-item">
+<<<<<<< Updated upstream
             <span className="item-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
@@ -168,10 +205,31 @@ function Profile() {
             </span>
             <span className="item-text">تماس با ما</span>
             <span className="item-arrow">›</span>
+=======
+            <span className="item-icon">🔍</span>
+            <span className="item-text">پشتیبان</span>
+          </div>
+          <div className="section-item">
+            <span className="item-icon">🔍</span>
+            <span className="item-text">سوالات متداول</span>
+          </div>
+          <div className="section-item">
+            <span className="item-icon">🔍</span>
+            <span className="item-text">قوانین و مقررات</span>
+          </div>
+          <div className="section-item">
+            <span className="item-icon">🔍</span>
+            <span className="item-text">درباره ما</span>
+          </div>
+          <div className="section-item">
+            <span className="item-icon">🔍</span>
+            <span className="item-text">تماس با ما</span>
+>>>>>>> Stashed changes
           </div>
         </div>
 
         {/* Logout Section */}
+<<<<<<< Updated upstream
         <div className="logout-section">
           <h3 className="logout-title">خروج</h3>
           <div className="logout-item">
@@ -186,6 +244,15 @@ function Profile() {
             <span className="item-arrow">›</span>
           </div>
         </div>
+=======
+        <div className="section-item logout-item">
+          <h3 className="logout-title">خروج</h3>
+          <div className="logout-item">
+              <span className="item-icon">🔍</span>
+              <span className="item-text">خروج از حساب کاربری</span>
+            </div>
+          </div>
+>>>>>>> Stashed changes
       </div>
     </div>
   );
