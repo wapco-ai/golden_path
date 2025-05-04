@@ -10,12 +10,8 @@ export const Header = () => {
           <li><Link to="/map">نقشه</Link></li>  
           <li><Link to="/qr-scan">اسکن QR</Link></li>  
           <li><Link to="/settings">تنظیمات</Link></li> 
-<<<<<<< Updated upstream
           <li><Link to="/Profile">پروفایل</Link></li> 
-=======
-          <li><Link to="/login">فرم</Link></li> 
-          <li><Link to="/Profile">پروفایل</Link></li>
->>>>>>> Stashed changes
+
         </ul>  
       </nav>  
     </header>  

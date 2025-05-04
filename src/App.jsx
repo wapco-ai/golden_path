@@ -1,10 +1,5 @@
 import React from 'react';
-<<<<<<< Updated upstream
-// import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-=======
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
->>>>>>> Stashed changes
 import { HomePage } from './pages/HomePage';
 import MapPage from './pages/MapPage';
 import Profile from './pages/Profile';
@@ -25,18 +20,8 @@ const AppContent = () => {
       {!hideHeaderFooter && <Header />}
       <main className={`main-content ${hideHeaderFooter ? 'no-header-footer-layout' : ''}`}>
         <Routes>
-<<<<<<< Updated upstream
-          {/* <Route path="/" element={
-            <RequireAuth>
-              <HomePage />
-            </RequireAuth>
-          } /> */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<HomePage />} />
-=======
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
->>>>>>> Stashed changes
           <Route path="/map" element={<MapPage />} />
           <Route path="/qr-scan" element={<QRScanPage />} />
           <Route path="/settings" element={<SettingsPage />} />
@@ -58,19 +43,4 @@ function App() {
   );
 }
 
-<<<<<<< Updated upstream
-// const RequireAuth = ({ children }) => {  
-//   // Check if user is logged in (from local storage or context)  
-//   const isLoggedIn = localStorage.getItem('user') !== null;  
-  
-//   if (!isLoggedIn) {  
-//     // Redirect to login if not logged in  
-//     return <Navigate to="/login" replace />;  
-//   }  
-  
-//   return children;  
-// };  
-
-=======
->>>>>>> Stashed changes
 export default App;
