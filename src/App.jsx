@@ -5,6 +5,7 @@ import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'reac
 import { HomePage } from './pages/HomePage';
 import MapPage from './pages/MapPage';
 import Profile from './pages/Profile';
+import LangPage from './pages/LangPage';
 import { QRScanPage } from './pages/QRScanPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -15,7 +16,7 @@ import './App.css';
 
 const AppContent = () => {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile';
+  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang';
 
   return (
     <div className="app">
@@ -33,6 +34,7 @@ const AppContent = () => {
           <Route path="/qr-scan" element={<QRScanPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/lang" element={<LangPage />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>

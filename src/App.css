@@ -667,6 +667,7 @@ body {
   font-weight: 600;
   cursor: not-allowed;
   transition: all 0.3s ease;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .login-button.active {
