@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+// import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+
 import { HomePage } from './pages/HomePage';
 import MapPage from './pages/MapPage';
 import Profile from './pages/Profile';
@@ -20,6 +22,11 @@ const AppContent = () => {
       {!hideHeaderFooter && <Header />}
       <main className={`main-content ${hideHeaderFooter ? 'no-header-footer-layout' : ''}`}>
         <Routes>
+          {/* <Route path="/" element={
+            <RequireAuth>
+              <HomePage />
+            </RequireAuth>
+          } /> */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/map" element={<MapPage />} />
@@ -42,5 +49,17 @@ function App() {
     </Router>
   );
 }
+
+// const RequireAuth = ({ children }) => {  
+//   // Check if user is logged in (from local storage or context)  
+//   const isLoggedIn = localStorage.getItem('user') !== null;  
+  
+//   if (!isLoggedIn) {  
+//     // Redirect to login if not logged in  
+//     return <Navigate to="/login" replace />;  
+//   }  
+  
+//   return children;  
+// };  
 
 export default App;
