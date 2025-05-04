@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
-import './LangPage.css';
+import '../styles/LangPage.css'; // Updated import path
+
 
 const LangPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(null);
