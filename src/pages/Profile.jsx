@@ -51,9 +51,6 @@ function Profile() {
         </div>
         <button className="complete-profile-btn">
           تکمیل پروفایل
-          <svg className="btn-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" fill="none" />
-          </svg>
         </button>
       </div>
 
