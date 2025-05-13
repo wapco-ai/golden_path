@@ -17,7 +17,7 @@ const LangPage = () => {
 
   const handleLogin = () => {
     if (selectedLanguage) {
-      navigate('/home'); // Redirect to HomePage
+      navigate('/location'); // Redirect to HomePage
     }
   };
 
