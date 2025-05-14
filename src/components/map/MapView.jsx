@@ -173,9 +173,11 @@ const MapView = ({
   // Add this useEffect for separate tracking of heading changes  
   useEffect(() => {
     if (kalmanState?.theta !== undefined) {
-      const degrees = ((kalmanState.theta * 180 / Math.PI) + 360) % 360;
-      console.log(`Updating heading: ${headingInDegrees.toFixed(1)}° → ${degrees.toFixed(1)}°`);
-      setHeadingInDegrees(degrees);
+      const heading = kalmanState?.theta ?? 0;      // fallback = 0 rad
+      // const degrees = ((kalmanState.theta * 180 / Math.PI) + 360) % 360;
+      // console.log(`Updating heading: ${headingInDegrees.toFixed(1)}° → ${degrees.toFixed(1)}°`);
+      setHeadingInDegrees(heading);
+
     }
   }, [kalmanState?.theta]);
 
@@ -389,7 +391,7 @@ const MapView = ({
 
       {/* پنل اطلاعات موقعیت */}
       {currentLocation?.coords && (
-        
+
         <div className="location-panel">
           <div className="coordinates-display">
             <div>

@@ -71,15 +71,15 @@ const useIMUSensors = () => {
         }
       } else if (event.accelerationIncludingGravity && event.accelerationIncludingGravity.x !== null) {
         // شتاب با جاذبه  
-        const accel = {  
-          x: event.accelerationIncludingGravity.x || 0,  
-          y: event.accelerationIncludingGravity.y || 0,  
-          z: event.accelerationIncludingGravity.z || 0,  
-          timestamp: event.timeStamp || Date.now(),  
-          includesGravity: true  
-        };  
-        setAcceleration(accel);  
-        
+        const accel = {
+          x: event.accelerationIncludingGravity.x || 0,
+          y: event.accelerationIncludingGravity.y || 0,
+          z: event.accelerationIncludingGravity.z || 0,
+          timestamp: event.timeStamp || Date.now(),
+          includesGravity: true
+        };
+        setAcceleration(accel);
+
 
         // ارسال داده به سرویس در صورت فعال بودن  
         if (advancedDeadReckoningService.isActive) {
@@ -106,32 +106,24 @@ const useIMUSensors = () => {
 
     // لیستنر جهت‌یابی  
     const handleOrientation = (event) => {
-      if (!event || event.alpha === null) return;
-
-      const orient = {
-        alpha: event.alpha || 0, // جهت (0-360 درجه)  
-        beta: event.beta || 0,   // شیب جلو/عقب (-180 تا 180 درجه)  
-        gamma: event.gamma || 0, // شیب چپ/راست (-90 تا 90 درجه)  
-        absolute: event.absolute || false,
-        timestamp: event.timeStamp || Date.now()
-      };
-      setOrientation(orient);
-
-      // ارسال داده به سرویس در صورت فعال بودن  
-      if (advancedDeadReckoningService.isActive) {
-        advancedDeadReckoningService.processOrientationData(orient, orient.timestamp);
-      }
+      const { alpha, beta, gamma } = event;
+      const timestamp = event.timeStamp || Date.now();
+      advancedDeadReckoningService.ingestSensor({
+        type: 'orientation',
+        data: { alpha, beta, gamma },
+        timestamp
+      });
     };
 
     // تنظیم نرخ نمونه‌برداری (در صورت امکان)  
     if (typeof DeviceMotionEvent.requestPermission === 'function') {
       // در iOS جدید  
       window.addEventListener('devicemotion', handleMotion, { frequency: 60 });
-      window.addEventListener('deviceorientation', handleOrientation, { frequency: 60 });
+      window.addEventListener('deviceorientation', handleOrientation, true);
     } else {
       // سایر دستگاه‌ها  
       window.addEventListener('devicemotion', handleMotion);
-      window.addEventListener('deviceorientation', handleOrientation);
+      window.addEventListener('deviceorientation', handleOrientation, true);
     }
 
     console.log("Sensor listeners added");

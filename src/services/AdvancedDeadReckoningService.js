@@ -98,6 +98,7 @@ class AdvancedDeadReckoningService {
             data: [],
             result: []
         };
+        this.lastGyroT = null;
     }
 
     /**  
@@ -900,16 +901,17 @@ class AdvancedDeadReckoningService {
 
         // Process different sensor types
         if (data.type === 'gyroscope') {
-            // Get gyroscope-based angular velocity (radians/sec)
+            const now = data.timestamp || Date.now();
             const omega = this.gyroscopeHeadingProcessor.processGyroscope(data.data, now);
 
-            // IMPORTANT: Always update heading even without steps
-            controlInputs.omega = omega;
-
-            // Log omega for debugging (but not too frequently)
-            if (Math.random() < 0.05) { // log ~5% of updates to avoid console flood
-                console.log(`Angular velocity (omega): ${omega.toFixed(4)} rad/s`);
+            // integrate to an absolute heading (radian)
+            if (this.lastGyroT != null) {
+                const dt = (now - this.lastGyroT) / 1000;     // s
+                this.currentHeading = (this.currentHeading || 0) + omega * dt;
             }
+            this.lastGyroT = now;
+
+            controlInputs.omega = this.currentHeading;   // <<< absolute heading
         }
 
         // Update step detection
@@ -918,9 +920,6 @@ class AdvancedDeadReckoningService {
             console.log('Step detected, updating position');
         }
 
-        // CRITICAL: Always predict with Kalman filter, even without steps
-        // This ensures heading updates even when standing still
-        this.kalmanFilter.predict(controlInputs, now);
 
         // Get updated state from Kalman filter
         const kalmanState = this.kalmanFilter.getState();
@@ -937,7 +936,7 @@ class AdvancedDeadReckoningService {
 
         // Notify listeners (do this for all updates, not just steps)
         // This is crucial to update UI even when only heading changes
-        if (data.type === 'gyroscope' || data.type === 'accelerometer' || data.type === 'orientation') {
+        if (data.type === 'gyroscope' || data.type === 'accelerometer') {
             this._notify({
                 type: data.stepDetected ? 'positionUpdated' : 'orientationUpdated',
                 currentPosition: this.currentPosition,
@@ -946,6 +945,19 @@ class AdvancedDeadReckoningService {
                 source: 'imu'
             });
         }
+        // --- absolute orientation (compass) ------------
+        if (packet.type === 'orientation') {
+            // α  = “compass” heading that the browser gives in degrees, clockwise
+            // We want a mathematical angle in radians, counter-clockwise
+            const alphaDeg = packet.data.alpha;
+            this.currentHeading = -alphaDeg * Math.PI / 180;  // → radians, CW → CCW
+            controlInputs.omega = this.currentHeading;
+        }
+
+        
+        // CRITICAL: Always predict with Kalman filter, even without steps
+        // This ensures heading updates even when standing still
+        this.kalmanFilter.predict(controlInputs, now);
     }
 
 
