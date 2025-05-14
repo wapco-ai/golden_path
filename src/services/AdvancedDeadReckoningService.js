@@ -887,156 +887,59 @@ class AdvancedDeadReckoningService {
      * پردازش داده‌های سنسور و به‌روزرسانی موقعیت  
      * @param {Object} data داده‌های پردازش شده  
      */
+    // Add this to your AdvancedDeadReckoningService.js
     _processSensorData(data) {
-        // در ابتدا بررسی کنید آیا کالیبراسیون به اتمام رسیده است  
-        if (this.isCalibrating) {
-            const now = Date.now();
-            if (now - this.calibrationStart > this.calibrationDuration) {
-                console.log('Calibration complete. Biases:', {
-                    accelerometer: this.accelerometerBias,
-                    gyroscope: this.gyroscopeBias
-                });
+        const now = data.timestamp || Date.now();
 
-                this.isCalibrating = false;
-
-                // اطلاع‌رسانی به لیستنرها  
-                this._notify({
-                    type: 'calibrationComplete',
-                    isCalibrating: false,
-                    accelerometerBias: this.accelerometerBias,
-                    gyroscopeBias: this.gyroscopeBias
-                });
-            }
-            return; // در طول کالیبراسیون، موقعیت به‌روز نشود  
-        }
-
-        // محاسبه فاصله زمانی از آخرین به‌روزرسانی  
-        let now = data.timestamp || Date.now();
-        let dt = (now - this.lastUpdateTime) / 1000; // تبدیل به ثانیه  
-
-        // اگر اولین داده است یا dt منفی است، فقط زمان را به‌روز کنید  
-        if (this.lastUpdateTime === 0 || dt <= 0) {
-            this.lastUpdateTime = now;
-            return;
-        }
-
-        // آماده‌سازی ورودی‌های کنترل برای فیلتر کالمن  
-        // Create control inputs structure (for Kalman filter)
-        let controlInputs = {
-            a_norm: 0,    // Normalized acceleration (for step detection)
-            omega: 0,     // Angular velocity
+        // Create control inputs structure
+        const controlInputs = {
+            a_norm: 0,     // Normalized acceleration magnitude (for step detection)
+            omega: 0,      // Angular velocity in radians/second
             timestamp: now
         };
 
-        // Inside _processSensorData method  
-
+        // Process different sensor types
         if (data.type === 'gyroscope') {
-            // استفاده از پردازنده جهت ژیروسکوپ برای محاسبه سرعت زاویه‌ای موثر  
-            const effectiveOmega = this.gyroscopeHeadingProcessor.processGyroscope(data.data, now);
+            // Get gyroscope-based angular velocity (radians/sec)
+            const omega = this.gyroscopeHeadingProcessor.processGyroscope(data.data, now);
 
+            // IMPORTANT: Always update heading even without steps
+            controlInputs.omega = omega;
 
-            // **FIX: INCREASED MULTIPLIER AND ADDED THRESHOLDING**  
-            const omegaMultiplier = 15.0; // Increased from 15.0  
-            // let processedOmega = effectiveOmega * omegaMultiplier;
-
-            // Force small non-zero values to pass the filter's threshold  
-            // if (Math.abs(processedOmega) > 0.00001 && Math.abs(processedOmega) < 0.002) {
-            //     processedOmega = Math.sign(processedOmega) * 0.002;
-            //     console.log('Boosting omega in service:',
-            //         effectiveOmega.toFixed(6),
-            //         '×', omegaMultiplier,
-            //         '→', processedOmega.toFixed(6));
-            // }
-
-            controlInputs.omega = omegaMultiplier;
-
-            console.log('Gyro processed:',
-                'raw:', data.data,
-                'effective ω:', effectiveOmega.toFixed(6),
-                'heading:', this._toDegrees(this.gyroscopeHeadingProcessor.currentHeading).toFixed(1) + '°'
-            );
+            // Log omega for debugging (but not too frequently)
+            if (Math.random() < 0.05) { // log ~5% of updates to avoid console flood
+                console.log(`Angular velocity (omega): ${omega.toFixed(4)} rad/s`);
+            }
         }
 
-        // Always notify about orientation changes, even without steps
-        if (data.type === 'gyroscope' || data.type === 'orientation') {
-            this._notify({
-                type: 'orientationUpdated',
-                currentPosition: this.currentPosition,
-                geoPosition: currentGeoPosition,
-                kalmanState: kalmanState,
-                source: 'imu'
-            });
-        }
-
-        // بروزرسانی فعالیت/گام از شتاب‌سنج  
+        // Update step detection
         if (data.type === 'accelerometer' && data.stepDetected) {
-            controlInputs.a_norm = 1; // گام تشخیص داده شده  
+            controlInputs.a_norm = 1; // Step detected
+            console.log('Step detected, updating position');
         }
 
-        // پیش‌بینی موقعیت با فیلتر کالمن  
+        // CRITICAL: Always predict with Kalman filter, even without steps
+        // This ensures heading updates even when standing still
         this.kalmanFilter.predict(controlInputs, now);
-        // به‌روزرسانی موقعیت نسبی فعلی از فیلتر کالمن  
+
+        // Get updated state from Kalman filter
         const kalmanState = this.kalmanFilter.getState();
 
+        // Update current position from Kalman filter state
         this.currentPosition = {
             x: kalmanState.x,
             y: kalmanState.y,
             theta: kalmanState.theta
         };
 
-        // اگر نقطه مرجع تنظیم شده است، موقعیت جغرافیایی فعلی را محاسبه کنید  
-        let currentGeoPosition = null;
+        // Calculate geographic position if needed
+        const currentGeoPosition = this._calculateGeoPosition(this.currentPosition);
 
-        if (this.referencePosition) {
-            currentGeoPosition = this._calculateNewLatLng(
-                this.referencePosition.lat,
-                this.referencePosition.lng,
-                this.currentPosition.x,
-                this.currentPosition.y
-            );
-
-            // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
-            if (this.path.length === 0 || (
-                this._calculateDistance(
-                    this.path[this.path.length - 1].x,
-                    this.path[this.path.length - 1].y,
-                    this.currentPosition.x,
-                    this.currentPosition.y
-                ) > 0.1 && // کاهش از 0.5 به 0.1 متر  
-                now - this.path[this.path.length - 1].timestamp > 200 // کاهش از 500 به 200 میلی‌ثانیه  
-            )) {
-                this.path.push({
-                    x: this.currentPosition.x,
-                    y: this.currentPosition.y,
-                    timestamp: now
-                });
-
-                this.geoPath.push({
-                    lat: currentGeoPosition.lat,
-                    lng: currentGeoPosition.lng,
-                    timestamp: now
-                });
-            }
-        }
-
-        // به‌روزرسانی زمان آخرین پردازش  
-        this.lastUpdateTime = now;
-
-        // اطلاع‌رسانی به لیستنرها (فقط اگر تغییر قابل توجهی رخ داده باشد یا اندازه‌گیری ورودی داشته باشیم)  
-        // اطلاع‌رسانی به لیستنرها با فرکانس بیشتر 
-        if (data.type === 'accelerometer') { // حذف شرط data.stepDetected  
+        // Notify listeners (do this for all updates, not just steps)
+        // This is crucial to update UI even when only heading changes
+        if (data.type === 'gyroscope' || data.type === 'accelerometer' || data.type === 'orientation') {
             this._notify({
-                type: 'positionUpdated',
-                currentPosition: this.currentPosition,
-                geoPosition: currentGeoPosition,
-                kalmanState: kalmanState,
-                path: this.path,
-                geoPath: this.geoPath,
-                source: 'imu'
-            });
-        } else if (data.type === 'orientation') {
-            this._notify({
-                type: 'orientationUpdated',
+                type: data.stepDetected ? 'positionUpdated' : 'orientationUpdated',
                 currentPosition: this.currentPosition,
                 geoPosition: currentGeoPosition,
                 kalmanState: kalmanState,
