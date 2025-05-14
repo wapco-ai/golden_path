@@ -18,7 +18,8 @@ import './App.css';
 
 const AppContent = () => {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang' || location.pathname === '/location' || location.pathname === '/Routing';
+  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang' 
+  || location.pathname === '/location' || location.pathname === '/Routing' || location.pathname === '/';
 
   return (
     <div className="app">
@@ -30,13 +31,13 @@ const AppContent = () => {
               <HomePage />
             </RequireAuth>
           } /> */}
-          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/qr-scan" element={<QRScanPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/lang" element={<LangPage />} />
+          <Route path="/" element={<LangPage />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="/location" element={<Location />} />
           <Route path="/routing" element={<Routing />} />
