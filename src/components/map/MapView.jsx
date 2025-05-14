@@ -387,7 +387,23 @@ const MapView = ({
         </button>
       </div>
 
-
+      {/* پنل اطلاعات موقعیت */}
+      {currentLocation?.coords && (
+        
+        <div className="location-panel">
+          <div className="coordinates-display">
+            <div>
+              <span>عرض:</span> {currentLocation.coords.lat.toFixed(6)}
+            </div>
+            <div>
+              <span>طول:</span> {currentLocation.coords.lng.toFixed(6)}
+            </div>
+            <div>
+              <span>دقت:</span> {currentLocation.coords.accuracy.toFixed(1)} متر
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* پنل کنترل‌های Dead Reckoning */}
       <DeadReckoningControls currentLocation={currentLocation} />
