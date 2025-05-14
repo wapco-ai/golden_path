@@ -44,6 +44,42 @@ const headingArrowIcon = (headingInDegrees) => new L.Icon({
   popupAnchor: [0, -20],
 });
 
+const DirectionIndicator = ({ position, heading }) => {
+  const map = useMap();
+  const [arrow, setArrow] = useState(null);
+
+  useEffect(() => {
+    if (!position) return;
+
+    // Remove previous arrow
+    if (arrow) {
+      map.removeLayer(arrow);
+    }
+
+    // Create a new arrow icon
+    const arrowIcon = L.divIcon({
+      html: `<div style="transform: rotate(${heading}deg); transform-origin: center; width: 100%; height: 100%;">
+               <svg width="30" height="30" viewBox="0 0 30 30">
+                 <path d="M15 0 L30 30 L15 20 L0 30 Z" fill="#ff4500" />
+               </svg>
+             </div>`,
+      className: 'direction-arrow',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    });
+
+    // Create new marker with arrow icon
+    const newArrow = L.marker([position.lat, position.lng], { icon: arrowIcon }).addTo(map);
+    setArrow(newArrow);
+
+    return () => {
+      if (arrow) map.removeLayer(arrow);
+    };
+  }, [map, position, heading]);
+
+  return null;
+};
+
 
 
 // کامپوننت کنترل خودکار مرکز نقشه  
@@ -304,6 +340,14 @@ const MapView = ({
           </Marker>
         ))}
 
+        {/* Add the new DirectionIndicator component here */}
+        {drGeoPath.length > 0 && isDrActive && kalmanState && (
+          <DirectionIndicator
+            position={drGeoPath[drGeoPath.length - 1]}
+            heading={headingInDegrees}
+          />
+        )}
+
         {/* تنظیم خودکار مرکز نقشه */}
         {centerPosition && <AutoCenterMap position={centerPosition} follow={isFollowing} />}
       </MapContainer>
@@ -343,22 +387,7 @@ const MapView = ({
         </button>
       </div>
 
-      {/* پنل اطلاعات موقعیت */}
-      {currentLocation?.coords && (
-        <div className="location-panel">
-          <div className="coordinates-display">
-            <div>
-              <span>عرض:</span> {currentLocation.coords.lat.toFixed(6)}
-            </div>
-            <div>
-              <span>طول:</span> {currentLocation.coords.lng.toFixed(6)}
-            </div>
-            <div>
-              <span>دقت:</span> {currentLocation.coords.accuracy.toFixed(1)} متر
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* پنل کنترل‌های Dead Reckoning */}
       <DeadReckoningControls currentLocation={currentLocation} />

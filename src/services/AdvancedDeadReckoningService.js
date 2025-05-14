@@ -911,8 +911,8 @@ class AdvancedDeadReckoningService {
         }
 
         // محاسبه فاصله زمانی از آخرین به‌روزرسانی  
-        const now = data.timestamp;
-        const dt = (now - this.lastUpdateTime) / 1000; // تبدیل به ثانیه  
+        let now = data.timestamp || Date.now();
+        let dt = (now - this.lastUpdateTime) / 1000; // تبدیل به ثانیه  
 
         // اگر اولین داده است یا dt منفی است، فقط زمان را به‌روز کنید  
         if (this.lastUpdateTime === 0 || dt <= 0) {
@@ -921,37 +921,51 @@ class AdvancedDeadReckoningService {
         }
 
         // آماده‌سازی ورودی‌های کنترل برای فیلتر کالمن  
-        let controlInputs = { a_norm: 0, omega: 0 };
+        // Create control inputs structure (for Kalman filter)
+        let controlInputs = {
+            a_norm: 0,    // Normalized acceleration (for step detection)
+            omega: 0,     // Angular velocity
+            timestamp: now
+        };
 
         // Inside _processSensorData method  
 
         if (data.type === 'gyroscope') {
             // استفاده از پردازنده جهت ژیروسکوپ برای محاسبه سرعت زاویه‌ای موثر  
-            const effectiveOmega = this.gyroscopeHeadingProcessor.processGyroscopeData(
-                data.data,
-                now
-            );
+            const effectiveOmega = this.gyroscopeHeadingProcessor.processGyroscope(data.data, now);
+
 
             // **FIX: INCREASED MULTIPLIER AND ADDED THRESHOLDING**  
             const omegaMultiplier = 15.0; // Increased from 15.0  
-            let processedOmega = effectiveOmega * omegaMultiplier;
+            // let processedOmega = effectiveOmega * omegaMultiplier;
 
             // Force small non-zero values to pass the filter's threshold  
-            if (Math.abs(processedOmega) > 0.00001 && Math.abs(processedOmega) < 0.002) {
-                processedOmega = Math.sign(processedOmega) * 0.002;
-                console.log('Boosting omega in service:',
-                    effectiveOmega.toFixed(6),
-                    '×', omegaMultiplier,
-                    '→', processedOmega.toFixed(6));
-            }
+            // if (Math.abs(processedOmega) > 0.00001 && Math.abs(processedOmega) < 0.002) {
+            //     processedOmega = Math.sign(processedOmega) * 0.002;
+            //     console.log('Boosting omega in service:',
+            //         effectiveOmega.toFixed(6),
+            //         '×', omegaMultiplier,
+            //         '→', processedOmega.toFixed(6));
+            // }
 
-            controlInputs.omega = processedOmega;
+            controlInputs.omega = omegaMultiplier;
 
-            console.log('Gyro data processed:',  
-                'raw:', { alpha: data.data.alpha, beta: data.data.beta, gamma: data.data.gamma },  
-                'effective omega:', effectiveOmega.toFixed(6),  
-                'applied omega:', controlInputs.omega.toFixed(6)  
+            console.log('Gyro processed:',
+                'raw:', data.data,
+                'effective ω:', effectiveOmega.toFixed(6),
+                'heading:', this._toDegrees(this.gyroscopeHeadingProcessor.currentHeading).toFixed(1) + '°'
             );
+        }
+
+        // Always notify about orientation changes, even without steps
+        if (data.type === 'gyroscope' || data.type === 'orientation') {
+            this._notify({
+                type: 'orientationUpdated',
+                currentPosition: this.currentPosition,
+                geoPosition: currentGeoPosition,
+                kalmanState: kalmanState,
+                source: 'imu'
+            });
         }
 
         // بروزرسانی فعالیت/گام از شتاب‌سنج  

@@ -32,62 +32,57 @@ export class GyroscopeHeadingProcessor {
  * @param {number} timestamp زمان دریافت داده  
  * @returns {number} سرعت زاویه‌ای موثر (رادیان بر ثانیه)  
  */
-    processGyroscopeData(gyroData, timestamp = Date.now()) {
-        // مرحله 1: فیلتر کردن داده‌های ژیروسکوپ  
-        const filteredData = this._filterGyroscopeData(gyroData);
-
-        // مرحله 2: تبدیل درجه به رادیان (اگر قبلاً در _filterGyroscopeData انجام نشده است)  
-        if (!filteredData.alphaRad) {
-            filteredData.alphaRad = (filteredData.alpha * Math.PI) / 180;
-            filteredData.betaRad = (filteredData.beta * Math.PI) / 180;
-            filteredData.gammaRad = (filteredData.gamma * Math.PI) / 180;
+    // Add/modify in GyroscopeHeadingProcessor.js
+    processGyroscope(gyroData, timestamp) {
+        if (!this.isInitialized) {
+            this.lastTimestamp = timestamp;
+            this.isInitialized = true;
+            return this.currentHeading;
         }
 
-        // مرحله 3: تعیین ضرایب بر اساس جهت‌گیری دستگاه  
-        const coeffs = this.coefficients[this.deviceOrientation];
+        // Calculate time delta in seconds
+        const dt = (timestamp - this.lastTimestamp) / 1000;
+        if (dt <= 0) return this.currentHeading;
 
-        // مرحله 4: محاسبه سرعت زاویه‌ای موثر با ترکیب محورها  
-        // ضرایب باید برای تنظیم حساسیت هر محور تغییر کنند  
-        const effectiveOmega =
-            coeffs.alpha * filteredData.alphaRad +
-            coeffs.beta * filteredData.betaRad +
-            coeffs.gamma * filteredData.gammaRad;
+        // Use appropriate coefficients based on device orientation
+        const coeff = this.coefficients[this.deviceOrientation];
 
-        // **FIX: ADDED MORE DETAILED LOGGING**  
-        console.log('Gyro heading processor details:', {
-            rawAlpha: gyroData.alpha.toFixed(4),
-            rawBeta: gyroData.beta.toFixed(4),
-            rawGamma: gyroData.gamma.toFixed(4),
-            filteredAlpha: filteredData.alpha.toFixed(4),
-            filteredBeta: filteredData.beta.toFixed(4),
-            filteredGamma: filteredData.gamma.toFixed(4),
-            coeffAlpha: coeffs.alpha,
-            coeffBeta: coeffs.beta,
-            coeffGamma: coeffs.gamma,
-            contributions: {
-                alphaPart: (coeffs.alpha * filteredData.alphaRad).toFixed(6),
-                betaPart: (coeffs.beta * filteredData.betaRad).toFixed(6),
-                gammaPart: (coeffs.gamma * filteredData.gammaRad).toFixed(6)
-            },
-            rawOmega: effectiveOmega.toFixed(6)
-        });
+        // Integrate angular velocity to get heading change
+        // The key change is here - make sure rotation is properly accumulated
+        const rotationRateAlpha = gyroData.alpha * coeff.alpha;
+        const rotationRateBeta = gyroData.beta * coeff.beta;
+        const rotationRateGamma = gyroData.gamma * coeff.gamma;
 
-        // **FIX: INCREASED SENSITIVITY SIGNIFICANTLY**  
-        const sensitivityMultiplier = 20.0; // Increased from 5.0  
-        const scaledOmega = effectiveOmega * sensitivityMultiplier;
+        // Calculate effective angular velocity (this is critical for proper heading)
+        let effectiveAngularVelocity;
 
-        // اضافه کردن تقویت مصنوعی برای حرکت‌های کوچک  
-        let finalOmega = scaledOmega;
-
-        // اگر مقدار کوچک اما غیر صفر است، آن را تقویت کنید تا از آستانه فیلتر عبور کند  
-        if (Math.abs(scaledOmega) > 0.000001 && Math.abs(scaledOmega) < 0.001) {
-            finalOmega = Math.sign(scaledOmega) * 0.002; // مقدار کوچک اما بزرگتر از آستانه 0.00001  
-            console.log('Boosting small omega:', scaledOmega.toFixed(6), '→', finalOmega.toFixed(6));
+        if (this.deviceOrientation === 'portrait') {
+            // In portrait mode, alpha is most important for horizontal rotation
+            effectiveAngularVelocity = rotationRateAlpha;
+        } else {
+            // In landscape, beta contributes more to horizontal rotation
+            effectiveAngularVelocity = rotationRateBeta;
         }
 
-        console.log('Effective omega calculated:', finalOmega.toFixed(6), 'rad/s');
+        // Convert from degrees/s to radians/s and integrate
+        const headingChange = (effectiveAngularVelocity * Math.PI / 180) * dt;
 
-        return finalOmega;
+        // Update heading (in radians)
+        this.currentHeading = (this.currentHeading + headingChange) % (2 * Math.PI);
+        if (this.currentHeading < 0) this.currentHeading += 2 * Math.PI;
+
+        // Store timestamp for next calculation
+        this.lastTimestamp = timestamp;
+
+        // Log heading changes for debugging
+        console.log('Heading updated:', this._toDegrees(this.currentHeading).toFixed(1) + '°',
+            'from gyro input:', effectiveAngularVelocity.toFixed(2));
+
+        return this.currentHeading;
+    }
+
+    _toDegrees(radians) {
+        return radians * 180 / Math.PI;
     }
 
     /**  
