@@ -17,12 +17,8 @@ import './App.css';
 
 const AppContent = () => {
   const location = useLocation();
-<<<<<<< Updated upstream
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang' 
-  || location.pathname === '/location' || location.pathname === '/Routing' || location.pathname === '/';
-=======
-  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang' || location.pathname === '/location';
->>>>>>> Stashed changes
+  || location.pathname === '/location' || location.pathname === '/';
 
   return (
     <div className="app">
