@@ -40,26 +40,32 @@
   cursor: pointer;  
 }  
 
-.carousel-container {  
-  width: 100%;  
-  overflow: hidden;  
-  position: relative;  
-  height: 290px;  
-  margin-top: 60px;  
-}  
+/* Replace existing carousel styles with these: */
+.carousel-wrapper {
+  position: relative;
+  margin-top: 60px;
+  height: 380px;
+  overflow: hidden;
+}
 
-.carousel {  
-  display: flex;  
-  transition: transform 0.3s ease;  
-  height: 100%;  
-}  
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 
-.carousel-slide {  
-  min-width: 100%;  
-  height: 100%;  
-  background-color: #ddd;  
-  flex-shrink: 0;  
-}  
+.carousel {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  position: relative;
+}
 
 .carousel-slide img {
   width: 100%;
@@ -67,43 +73,61 @@
   object-fit: cover;
 }
 
-.carousel-dots {  
-  position: absolute;  
-  bottom: 15px;  
-  left: 0;  
-  right: 0;  
-  display: flex;  
-  justify-content: center;  
-  gap: 8px;  
-}  
+.carousel-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(to top, white, transparent);
+  pointer-events: none;
+}
 
-.dot {  
-  width: 8px;  
-  height: 8px;  
-  border-radius: 50%;  
-  background-color: rgba(143, 139, 139, 0.5);  
-  cursor: pointer;  
-  border: none;  
-  padding: 0;  
-}  
+.carousel-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+  /* New background styling */
+  padding: 5px 12px;
+  background-color: rgba(4, 4, 4, 0.426); /* Semi-transparent dark grey */
+  border-radius: 20px;
+  width: fit-content;
+  margin: 0 auto;
+  backdrop-filter: blur(2px); /* Optional: adds slight blur effect */
+}
 
-.dot.active {  
-  background-color: #f8fafb;  
-  width: 8px;  
-  height: 8px;  
-  transition: all 0.3s ease;  
-}  
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.266);
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background-color: white;
+  width: 10px;
+  height: 10px;;
+  border-radius: 4px;
+}
 
 .you-are-here {  
   display: flex;  
   align-items: center;  
   justify-content: center;  
-  gap: 4px;  
+  gap: 8px;  
   background-color: transparent;  
   font-family: 'Vazir', Tahoma, sans-serif;  
   position: relative;  
-  margin-top: 2px;  
-  margin-bottom: 17px;
+  margin-bottom: 20px;
 }  
 
 .you-are-here .line {  
@@ -142,8 +166,8 @@
 }  
 
 .you-are-here .circle {  
-  width: 16px;  
-  height: 16px;  
+  width: 19px;  
+  height: 19px;  
   border-radius: 50%;  
   background-color: #f6f6f7;  
   border: 4px solid #1E90FF;  
@@ -154,7 +178,7 @@
   color: #1E90FF;  
   font-weight: bold;  
   white-space: nowrap;  
-  font-size: 1.21rem;  
+  font-size: 1.31rem;  
 }  
 
 .location-info2 {  
@@ -518,37 +542,27 @@
   margin-top: 4px;  
 }   
 
-/* Routing Overlay Styles */
-.routing-overlay {
-  position: fixed;
-  top: 120px; /* Height of search bar when expanded */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: white;
-  z-index: 900;
-  overflow-y: auto;
-  padding: 15px;
-  transition: all 0.3s ease;
-}
-
 /* Search Bar Styles */
 .search-bar-container {
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
   background: white;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
   z-index: 1000;
+  overflow: hidden;
+  height: 140px; /* Initial collapsed height */
+  bottom: 0;
 }
 
-.search-bar-container.close {
-  bottom: calc(100% - 60px);
+.search-bar-container.expanded {
+  height: 100vh;
+  bottom: 0;
   top: 0;
+  overflow-y: auto;
 }
 
 /* Routing Content Styling */
@@ -566,39 +580,6 @@
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Scrollbar Styling */
-.routing-content::-webkit-scrollbar {
-  width: 5px;
-}
-
-.routing-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.routing-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
-}
-
-.routing-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Routing Backdrop */
-.routing-backdrop {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
 .search-bar-toggle {
   height: 45px;
   display: flex;
@@ -606,6 +587,7 @@
   align-items: center;
   cursor: pointer;
   padding-top: 5px;
+  transition: all 0.3s ease;
 }
 
 .toggle-handle {
@@ -613,6 +595,41 @@
   height: 4px;
   background-color: #e0e0e0;
   border-radius: 2px;
+  transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  position: relative;
+}
+
+.search-bar-container.expanded .toggle-handle {
+  transform: rotate(180deg);
+  background-color: #888;
+}
+
+/* Add this for better visual feedback */
+.search-bar-toggle:active {
+  transform: scale(0.98);
+}
+
+.toggle-handle {
+  width: 90px;
+  height: 4px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  position: relative;
+}
+
+.search-bar-container.expanded .toggle-handle {
+  transform: rotate(180deg);
+  background-color: #888;
+}
+
+/* Optional: Add a subtle scale effect on press */
+.search-bar-toggle:active .toggle-handle {
+  transform: scale(0.95);
+}
+
+.search-bar-container.expanded .search-bar-toggle:active .toggle-handle {
+  transform: rotate(180deg) scale(0.95);
 }
 
 .search-bar {
@@ -833,16 +850,15 @@
   color: #d32f2f;
 }
 
-/* Routing Page Styles */
-.routing-page {
+/* Integrated Routing Content */
+.integrated-routing-content {
   padding: 15px;
   direction: rtl;
   font-family: 'Vazir', Tahoma, sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
+  animation: fadeIn 0.4s ease-out;
 }
 
-/* Categories Section */
+/* Routing Categories Section */
 .routing-categories-section {
   background-color: white;
   border-radius: 12px;
@@ -864,12 +880,12 @@
   gap: 15px;
   transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
   overflow: hidden;
-  max-height: 400px; /* Collapsed height */
+  max-height: 400px;
   opacity: 1;
 }
 
 .routing-categories-grid.expanded {
-  max-height: 880px; /* Expanded height */
+  max-height: 880px;
   opacity: 1;
 }
 
@@ -1058,20 +1074,7 @@
   margin-right: 5px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .routing-places-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .routing-places-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Animations */
+/* Animation for search bar toggle */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1083,6 +1086,16 @@
   }
 }
 
-.routing-category-item {
-  animation: fadeIn 0.4s ease-out forwards;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .routing-places-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .routing-places-grid{
+    grid-template-columns: 1fr;
+  }
 }

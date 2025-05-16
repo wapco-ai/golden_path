@@ -3,12 +3,12 @@
   "title": "سقاخانه رضوی",
   "location": "صحن انقلاب اسلامی | حرم مطهر رضوی",
   "images": [
-    "/assets/images/locations/saqqakhaneh/1.jpg",
-    "/assets/images/locations/saqqakhaneh/2.jpg",
-    "/assets/images/locations/saqqakhaneh/3.jpg",
-    "/assets/images/locations/saqqakhaneh/4.jpg",
-    "/assets/images/locations/saqqakhaneh/5.jpg"
-  ],
+  "https://images.irantarh.com/pr:sharp/rs:fit:0:0:0/plain/s3:/uploads/designs/1400/3/14/ax-irani/93.jpg",
+  "https://cdn.alibaba.ir/ostorage/alibaba-mag/wp-content/uploads/2021/07/SHAKHES.jpg", 
+  "https://soltansafar.com/media/attractions/1885/original/%D8%B3%D9%82%D8%A7%D8%AE%D8%A7%D9%86%D9%87.jpg",
+  "https://media.chtn.ir/old/upload/files/2022-10/12716449_652_1665388842.jpg",
+  "https://cdn.yjc.ir/files/fa/news/1403/4/30/19596378_964.jpg"
+],
   "openingHours": "۲۴ ساعت باز میباشد",
   "about": {
     "short": "در میانه صحن انقلاب اسلامی بنای زیبای سقاخانه وجود دارد. سنگاب منبع آب این سقاخانه از سنگ مرمر یکپارچه ای با گنجایش سه کر آب معادل ۱۱۳۰ لیتر است.",
