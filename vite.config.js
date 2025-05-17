@@ -14,13 +14,13 @@ export default defineConfig({
       registerType: 'autoUpdate',  
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],  
       manifest: {  
-        name: 'GPS Validity',  
-        short_name: 'GPSValid',  
+        name: 'golden path',  
+        short_name: 'gpath',  
         description: 'اپلیکیشن GPS Validity برای ردیابی موقعیت با دقت بالا',  
         theme_color: '#ffffff',  
         background_color: '#f0f2f5',  
         display: 'standalone',  
-        scope: './',  
+        scope: '/golden_path/',  
         start_url: '/golden_path/',  
         icons: [  
           {  
