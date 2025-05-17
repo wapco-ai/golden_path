@@ -1,10 +1,10 @@
 {
-	"name": "gps_validity",
+	"name": "golden_path",
 	"private": true,
 	"version": "1.0.0",
 	"type": "module",
 	"description": "GPS Validity PWA Application for location tracking",
-	"homepage": "https://gisonline.github.io/gps_validity/",
+	"homepage": "https://gisonline.github.io/golden_path/",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
