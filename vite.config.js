@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({  
   //base: process.env.BASE_URL || '/',  
-  base: './',
+  base: '/golden_path/',
   // Add this for PWA  
   publicDir: 'public',  
   //base: './', // This helps with relative paths in the production build
@@ -21,7 +21,7 @@ export default defineConfig({
         background_color: '#f0f2f5',  
         display: 'standalone',  
         scope: './',  
-        start_url: './',  
+        start_url: '/golden_path/',  
         icons: [  
           {  
             src: '/icons/pwa-192x192.png',  
