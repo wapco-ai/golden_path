@@ -3,15 +3,15 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';  
 
 export default defineConfig({  
-  base: process.env.BASE_URL || '/',  
-  // base: '/golden_path/',
+  // base: process.env.BASE_URL || '/',  
+  base: '/golden_path/',
   // Add this for PWA  
   publicDir: 'public',  
   //base: './', // This helps with relative paths in the production build
   plugins: [  
     react(),  
     VitePWA({  
-      registerType: 'autoUpdate',  
+      registerType: 'prompt',  
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],  
       manifest: {  
         name: 'golden path',  
