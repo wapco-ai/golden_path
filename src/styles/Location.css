@@ -1064,6 +1064,9 @@
   font-size: 0.9rem;
   color: #555;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .place-meta {
