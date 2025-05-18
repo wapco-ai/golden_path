@@ -8,6 +8,7 @@ import { QRScanPage } from './pages/QRScanPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
+import MapRouting from './pages/MapRouting';
 import Location from './pages/Location';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -16,7 +17,7 @@ import './App.css';
 const AppContent = () => {
   const location = useLocation();
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
-    || location.pathname === '/location' || location.pathname === '/';
+    || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr';
 
   // --- PWA Install Prompt State ---
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -77,6 +78,7 @@ const AppContent = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/" element={<LangPage />} />
           <Route path="/404" element={<NotFoundPage />} />
+          <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/location" element={<Location />} />
           <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>

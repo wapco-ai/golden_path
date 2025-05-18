@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../styles/Location.css';
 
 const Location = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const [activeSlide, setActiveSlide] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
@@ -35,6 +35,7 @@ const Location = () => {
       .then(data => setRoutingData(data))
       .catch(err => console.error('Failed to load routing-data.json', err));
   }, []);
+
   // Initialize carousel position
   useEffect(() => {
     if (carouselRef.current && locationData) {
@@ -158,7 +159,7 @@ const Location = () => {
       icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-object-scan"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 8v-2a2 2 0 0 1 2 -2h2" /><path d="M4 16v2a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v2" /><path d="M16 20h2a2 2 0 0 0 2 -2v-2" /><path d="M8 8m0 2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2z" /></svg>
     },
     {
-      name: 'چاپخانه‌ها',
+      name: 'چایخانه‌ها',
       icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-mug"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4.083 5h10.834a1.08 1.08 0 0 1 1.083 1.077v8.615c0 2.38 -1.94 4.308 -4.333 4.308h-4.334c-2.393 0 -4.333 -1.929 -4.333 -4.308v-8.615a1.08 1.08 0 0 1 1.083 -1.077" /><path d="M16 8h2.5c1 0 2.5 1.045 2.5 2.333v2.334c0 1.288 -1.12 2.333 -2.5 2.333h-1.5" /></svg>
     },
     {
@@ -497,7 +498,7 @@ const Location = () => {
         </form>
 
         {/* Integrated Routing Content */}
-        {showRouting && (
+        {showRouting && routingData && (
           <div className="integrated-routing-content">
             {/* Categories Section */}
             <div className="routing-categories-section">
@@ -547,6 +548,53 @@ const Location = () => {
               </button>
             </div>
 
+            {/* Shrine Events Section - Horizontal Scroll */}
+            <div className="shrine-events-section">
+              <div className="shrine-events-header">
+                <h2 className="shrine-events-title">برنامه‌های حرم مطهر</h2>
+                <button className="view-all-events">
+                  مشاهده همه
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M15 6l-6 6l6 6"/>
+                  </svg>
+                </button>
+              </div>
+              <div className="shrine-events-list">
+                {routingData.places.shrineEvents?.map((event, index) => (
+                  <div key={index} className="shrine-event-item">
+                    <div 
+                      className="place-image-placeholder"
+                      style={{ backgroundImage: `url(${event.image})` }}
+                    ></div>
+                    <div className="place-info">
+                      <h3 className="place-title">{event.title}</h3>
+                      <div className="place-address">{event.location}</div>
+                      <div className="place-meta">
+                        <span className="shrine-event-time">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z"/>
+                          </svg>
+                          {event.time}
+                        </span>
+                      </div>
+                      <p className="place-description">{event.description}</p>
+                      <div className="place-actions">
+                        <button className="place-action-btn">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z"/>
+                          </svg>
+                          مسیریابی
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Places Section with Tabs */}
             <div className="routing-places-section">
               <div className="routing-tabs">
@@ -566,29 +614,51 @@ const Location = () => {
 
               <div className="routing-places-content">
                 {activeTab === 'mostVisited' && (
-                  <div className="routing-places-grid">
+                  <>
                     {routingData.places.mostVisited.map((place, index) => (
                       <div key={index} className="routing-place-card">
-                        <div
+                        <div 
                           className="place-image-placeholder"
+                          style={{ backgroundImage: `url(${place.image})` }}
                           onClick={() => handlePlaceClick(place.title)}
                         ></div>
                         <div className="place-info">
-                          <h4>{place.title}</h4>
-                          <p>{place.description}</p>
+                          <h4 className="place-title">{place.title}</h4>
+                          <div className="place-address">{place.address}</div>
                           <div className="place-meta">
                             <span>{place.distance}</span>
-                            <span>|</span>
+                            <span className="place-meta-separator">|</span>
                             <span>{place.time}</span>
-                            {place.rating && (
-                              <>
-                                <span>|</span>
-                                <span className="place-rating">نظر ({place.rating}) ✅</span>
-                              </>
-                            )}
                           </div>
+                          <div className="place-rating-section">
+                            <div className="place-rating-stars">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <svg
+                                  key={star}
+                                  className={star <= Math.round(place.rating) ? 'filled' : ''}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                >
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                  <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                                </svg>
+                              ))}
+                            </div>
+                            <span className="place-views">({place.views} نظر)</span>
+                          </div>
+                          <p className="place-description">{place.description}</p>
+                          <button className="read-more-btn">
+                            بیشتر بخوانید
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M15 6l-6 6l6 6"/>
+                            </svg>
+                          </button>
                           <div className="place-actions">
-                            <button className="place-action-btn">
+                            <button className="place-action-btn2">
                               <svg
                                 className="action-icon"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -606,7 +676,7 @@ const Location = () => {
                               </svg>
                               مسیریابی
                             </button>
-                            <button className="place-action-btn">
+                            <button className="place-action-btn2">
                               <svg
                                 className="action-icon"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -630,25 +700,34 @@ const Location = () => {
                         </div>
                       </div>
                     ))}
-                  </div>
+                  </>
                 )}
 
                 {activeTab === 'closest' && (
-                  <div className="routing-places-grid">
+                  <>
                     {routingData.places.nearest.map((place, index) => (
                       <div key={index} className="routing-place-card">
-                        <div
+                        <div 
                           className="place-image-placeholder"
+                          style={{ backgroundImage: `url(${place.image})` }}
                           onClick={() => handlePlaceClick(place.title)}
                         ></div>
                         <div className="place-info">
-                          <h4>{place.title}</h4>
-                          <p>{place.description}</p>
+                          <h4 className="place-title">{place.title}</h4>
+                          <div className="place-address">{place.address}</div>
                           <div className="place-meta">
                             <span>{place.distance}</span>
-                            <span>|</span>
+                            <span className="place-meta-separator">|</span>
                             <span>{place.time}</span>
                           </div>
+                          <p className="place-description">{place.description}</p>
+                          <button className="read-more-btn">
+                            بیشتر بخوانید
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M15 6l-6 6l6 6"/>
+                            </svg>
+                          </button>
                           <div className="place-actions">
                             <button className="place-action-btn">
                               <svg
@@ -692,7 +771,7 @@ const Location = () => {
                         </div>
                       </div>
                     ))}
-                  </div>
+                  </>
                 )}
               </div>
             </div>
