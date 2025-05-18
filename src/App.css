@@ -1099,4 +1099,46 @@ body {
   padding-left: 0;
   padding-right: 10px;
 }
+/* Prompt Overlay */
+.pwa-install-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+/* Prompt Dialog */
+.pwa-install-dialog {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.15);
+  padding: 2rem 2.5rem;
+  min-width: 300px;
+  text-align: center;
+}
+
+/* Prompt Button */
+.pwa-install-btn {
+  background-color: #1d72b8;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.pwa-install-btn:hover {
+  background: #155b8a;
+}
+.pwa-install-close {
+  margin-top: 1rem;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+}

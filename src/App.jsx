@@ -15,7 +15,7 @@ import './App.css';
 
 const AppContent = () => {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang' 
+  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/';
 
   // --- PWA Install Prompt State ---
@@ -43,18 +43,29 @@ const AppContent = () => {
       });
     }
   };
+  const handleClosePrompt = () => {
+    setShowInstall(false);
+  };
   // --- END PWA Install Prompt State ---
 
   return (
     <div className="app">
       {!hideHeaderFooter && <Header />}
       <main className={`main-content ${hideHeaderFooter ? 'no-header-footer-layout' : ''}`}>
-        {/* PWA Install Button (you can style this better!) */}
+        {/* Stylish PWA Install Modal Prompt */}
         {showInstall && (
-          <div style={{ position: 'fixed', zIndex: 1000, top: 10, right: 10 }}>
-            <button onClick={handleInstallClick} style={{ padding: '10px 20px', fontSize: '16px' }}>
-              نصب اپلیکیشن
-            </button>
+          <div className="pwa-install-overlay">
+            <div className="pwa-install-dialog">
+              <h3>نصب اپلیکیشن</h3>
+              <p>برای دسترسی سریع، اپلیکیشن را روی دستگاه خود نصب کنید.</p>
+              <button className="pwa-install-btn" onClick={handleInstallClick}>
+                نصب
+              </button>
+              <br />
+              <button className="pwa-install-close" onClick={handleClosePrompt}>
+                بستن
+              </button>
+            </div>
           </div>
         )}
         <Routes>
