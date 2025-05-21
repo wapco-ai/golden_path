@@ -326,6 +326,7 @@
   display: inline-block; /* Ensure proper centering */
   padding: 8px 20px; /* Better touch target */
   margin: 0 auto; /* Center horizontally */
+  margin-left: 40px;
 }
 
 /* Events Section */

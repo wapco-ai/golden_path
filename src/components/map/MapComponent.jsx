@@ -1,81 +1,81 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const MapComponent = ({ currentLocation, destination }) => {
-  const mapRef = useRef(null);
-  const mapInstance = useRef(null);
-  const markersRef = useRef([]);
-  const routeLayerRef = useRef(null);
-
+const MapComponent = ({ setUserLocation }) => {
   useEffect(() => {
-    if (!mapRef.current) return;
-
-    // Initialize map
-    mapInstance.current = L.map(mapRef.current).setView(
-      [currentLocation.lat, currentLocation.lng], 
-      18
-    );
-
-    // Add tile layer (you might want to use a different tile provider)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(mapInstance.current);
-
-    // Add current location marker
-    const currentLocationMarker = L.marker([currentLocation.lat, currentLocation.lng], {
-      icon: L.divIcon({
-        className: 'current-location-marker',
-        html: '<div class="pulse-marker"></div>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-      })
-    }).addTo(mapInstance.current);
-    markersRef.current.push(currentLocationMarker);
-
-    return () => {
-      mapInstance.current.remove();
-    };
-  }, [currentLocation]);
-
-  useEffect(() => {
-    if (!destination || !mapInstance.current) return;
-
-    // Clear previous markers and route
-    markersRef.current.forEach(marker => mapInstance.current.removeLayer(marker));
-    markersRef.current = [];
+    // Initialize the map
+    const mapContainer = document.createElement('div');
+    mapContainer.id = 'map-container';
+    mapContainer.style.width = '100%';
+    mapContainer.style.height = '100%';
     
-    if (routeLayerRef.current) {
-      mapInstance.current.removeLayer(routeLayerRef.current);
+    const mapParent = document.querySelector('.map-routing-container');
+    mapParent.appendChild(mapContainer);
+
+    const map = L.map(mapContainer, {
+      attributionControl: false
+    }).setView([36.2880, 59.6157], 16);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    // Hide leaflet watermark
+    const style = document.createElement('style');
+    style.innerHTML = '.leaflet-control-attribution { display: none !important; }';
+    document.head.appendChild(style);
+
+    // Request user location
+    const handleLocationSuccess = (position) => {
+      const { latitude, longitude } = position.coords;
+      setUserLocation('موقعیت فعلی شما');
+      
+      // Add marker
+      L.marker([latitude, longitude], {
+        icon: L.divIcon({
+          html: `<div class="user-location-marker"></div>`,
+          className: '',
+          iconSize: [20, 20]
+        })
+      }).addTo(map).bindPopup('موقعیت فعلی شما');
+      
+      // Center map
+      map.setView([latitude, longitude], 16);
+    };
+
+    const handleLocationError = (error) => {
+      console.error('Error getting location:', error);
+      // Default to Imam Reza shrine
+      L.marker([36.2880, 59.6157]).addTo(map)
+        .bindPopup('حرم مطهر امام رضا (ع)');
+      setUserLocation('باب الرضا «ع»');
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        handleLocationSuccess,
+        handleLocationError,
+        {
+          enableHighAccuracy: true,
+          timeout: 10000
+        }
+      );
+    } else {
+      // Fallback if geolocation not supported
+      L.marker([36.2880, 59.6157]).addTo(map)
+        .bindPopup('حرم مطهر امام رضا (ع)');
+      setUserLocation('باب الرضا «ع»');
     }
 
-    // Add destination marker (you'll need proper coordinates for the destination)
-    const destMarker = L.marker([destination.lat, destination.lng], {
-      icon: L.divIcon({
-        className: 'destination-marker',
-        html: '<div class="destination-icon"></div>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-      })
-    }).addTo(mapInstance.current);
-    markersRef.current.push(destMarker);
+    return () => {
+      map.remove();
+      document.head.removeChild(style);
+      mapParent.removeChild(mapContainer);
+    };
+  }, [setUserLocation]);
 
-    // Here you would add routing logic
-    // For now, just draw a straight line (replace with actual routing)
-    routeLayerRef.current = L.polyline(
-      [[currentLocation.lat, currentLocation.lng], [destination.lat, destination.lng]],
-      { color: '#4a90e2', weight: 5 }
-    ).addTo(mapInstance.current);
-
-    // Fit map to show both points
-    mapInstance.current.fitBounds([
-      [currentLocation.lat, currentLocation.lng],
-      [destination.lat, destination.lng]
-    ]);
-
-  }, [destination, currentLocation]);
-
-  return <div ref={mapRef} className="map-container" />;
+  return null;
 };
 
 export default MapComponent;
