@@ -10,6 +10,7 @@ const FinalSearch = () => {
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
   const routeLayer = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Sample data
   const [origin, setOrigin] = useState({
@@ -89,27 +90,43 @@ const FinalSearch = () => {
       L.marker(destination.coordinates, {
         icon: L.divIcon({
           className: 'custom-marker destination-marker',
-          html: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336"><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z"/></svg>'
+          html: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="#F44336"><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z"/></svg>'
         })
       }).addTo(routeLayer.current);
     }
 
     // Draw route line
     if (origin.coordinates && destination.coordinates) {
+      // Main route
       const routeLine = L.polyline(
         [origin.coordinates, destination.coordinates],
         { color: '#2196F3', weight: 5 }
+      ).addTo(routeLayer.current);
+      
+      // Alternative route (example - in a real app you would get this from a routing API)
+      const altRouteLine = L.polyline(
+        [
+          origin.coordinates,
+          [origin.coordinates[0] + 0.0005, origin.coordinates[1] - 0.0005],
+          [destination.coordinates[0] + 0.0005, destination.coordinates[1] - 0.0005],
+          destination.coordinates
+        ],
+        { color: '#2196F3', weight: 5, dashArray: '5, 5', opacity: 0.7 }
       ).addTo(routeLayer.current);
       
       // Add time label to the map
       const center = routeLine.getBounds().getCenter();
       const timeLabel = L.divIcon({
         className: 'time-label',
-        html: `<div>${routeInfo.time} دقیقه</div>`
+        html: `<div class="time-label-box">${routeInfo.time} دقیقه</div>`
       });
-      L.marker(center, { icon: timeLabel, zIndexOffset: 1000 }).addTo(routeLayer.current);
+      L.marker(center, { 
+        icon: timeLabel, 
+        zIndexOffset: 1000,
+        interactive: false
+      }).addTo(routeLayer.current);
       
-      mapInstance.current.fitBounds(routeLine.getBounds());
+      mapInstance.current.fitBounds(routeLine.getBounds().pad(0.2));
     }
   }, [origin, destination, routeInfo.time]);
 
@@ -133,8 +150,51 @@ const FinalSearch = () => {
   };
 
   const handleRouteOverview = () => {
-    // Functionality for route overview
     console.log('Route overview clicked');
+  };
+
+  const handleSaveDestination = () => {
+    console.log('Save destination clicked');
+    setMenuOpen(false);
+  };
+
+  const handleShareRoute = () => {
+    console.log('Share route clicked');
+    setMenuOpen(false);
+  };
+
+  const getTransportIcon = () => {
+    switch(selectedTransport) {
+      case 'walking':
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#181717" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+            <path d="M7 21l3 -4" />
+            <path d="M16 21l-2 -4l-3 -3l1 -6" />
+            <path d="M6 12l2 -3l4 -1l3 3l3 1" />
+          </svg>
+        );
+      case 'electric-car':
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#181717">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M14 5a1 1 0 0 1 .694 .28l.087 .095l3.699 4.625h.52a3 3 0 0 1 2.995 2.824l.005 .176v4a1 1 0 0 1 -1 1h-1.171a3.001 3.001 0 0 1 -5.658 0h-4.342a3.001 3.001 0 0 1 -5.658 0h-1.171a1 1 0 0 1 -1 -1v-6l.007 -.117l.008 -.056l.017 -.078l.012 -.036l.014 -.05l2.014 -5.034a1 1 0 0 1 .928 -.629zm-7 11a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m10 0a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m-6 -9h-5.324l-1.2 3h6.524zm2.52 0h-.52v3h2.92z" />
+          </svg>
+        );
+      case 'wheelchair':
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#181717" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M11 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+            <path d="M11 7l0 8l4 0l4 5" />
+            <path d="M11 11l5 0" />
+            <path d="M7 11.5a5 5 0 1 0 6 7.5" />
+          </svg>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -152,47 +212,77 @@ const FinalSearch = () => {
         
         <h1>جزئيات نهايي مسير</h1>
         
-        <button className="menu-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-            <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-          </svg>
-        </button>
+        <div className="menu-container">
+          <button className={`menu-btn ${menuOpen ? 'active' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+              <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+              <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+            </svg>
+          </button>
+          
+          <div className={`menu-dropdown ${menuOpen ? 'open' : ''}`}>
+            <button className="menu-item" onClick={handleSaveDestination}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M17.286 21.09q -1.69 .001 -5.288 -2.615q -3.596 2.617 -5.288 2.616q -2.726 0 -.495 -6.8q -9.389 -6.775 2.135 -6.775h.076q 1.785 -5.516 3.574 -5.516q 1.785 0 3.574 5.516h.076q 11.525 0 2.133 6.774q 2.23 6.802 -.497 6.8" />
+              </svg>
+              ذخیره مقصد
+            </button>
+            <button className="menu-item" onClick={handleShareRoute}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                <path d="M8.7 10.7l6.6 -3.4" />
+                <path d="M8.7 13.3l6.6 3.4" />
+              </svg>
+              اشتراک گذاری
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Map Section */}
       <div className="map-container" ref={mapRef}></div>
 
       {/* Location Inputs Section */}
-      <div className="location-section">
-        <div className="location-input">
+      <div className="location-section-container">
+        <div className="location-icons-container">
           <div className="location-icon origin-icon">
             <div className="blue-circle"></div>
           </div>
-          <div className="location-details">
-            <div className="current-location-label">موقعیت فعلی شما</div>
-            <div className="location-name">{origin.name}</div>
-          </div>
-        </div>
-
-        <button className="swap-btn" onClick={swapLocations}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <path d="M3 9l4 -4l4 4m-4 -4v14" />
-            <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-          </svg>
-        </button>
-
-        <div className="location-input">
           <div className="location-icon destination-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
-              <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z"/>
+              <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z"/>
             </svg>
           </div>
-          <div className="location-details">
-            <div className="location-name">{destination.name}</div>
+        </div>
+        
+        <div className="location-section">
+          <div className="location-input origin-input">
+            <div className="location-details">
+              <div className="location-name">{origin.name}</div>
+            </div>
+            <div className="current-location-label">مکان فعلی شما</div>
+          </div>
+
+          <div className="swap-container">
+            <button className="swap-btn" onClick={swapLocations}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M3 9l4 -4l4 4m-4 -4v14" />
+                <path d="M21 15l-4 4l-4 -4m4 4v-14" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="location-input destination-input">
+            <div className="location-details">
+              <div className="location-name">{destination.name}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -272,10 +362,11 @@ const FinalSearch = () => {
         </div>
         <div className="info-details">
           <div className="info-time">
+            {getTransportIcon()}
             <span>{routeInfo.time} دقیقه</span>
           </div>
           <div className="info-distance">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2196F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#181717" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
               <path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
               <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" />
@@ -289,14 +380,14 @@ const FinalSearch = () => {
       {/* Action Buttons */}
       <div className="action-buttons">
         <button className="navigate-btn" onClick={handleNavigate}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#fff">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z"/>
           </svg>
           مسیریابی
         </button>
         <button className="overview-btn" onClick={handleRouteOverview}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2196F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2196F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
             <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" />

@@ -2,7 +2,7 @@
 .final-search-page {
   max-width: 100%;
   padding: 0;
-  background-color: #f5f5f5;
+  background-color: white;
   min-height: 100vh;
   font-family: 'Vazir', Tahoma, sans-serif;
   direction: rtl;
@@ -15,7 +15,7 @@
   align-items: center;
   padding: 15px;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: none;
   position: relative;
 }
 
@@ -30,13 +30,73 @@
 }
 
 .back-btn, .menu-btn {
-  background: none;
-  border: none;
-  padding: 5px;
+  width: 50px;  
+  height: 50px;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  background-color: rgba(255, 255, 255, 0.8);  
+  border-radius: 50%;  
+  border: 1px solid rgba(128, 128, 128, 0.721);
+  cursor: pointer;  
+  z-index: 10;
+}
+
+.menu-btn.active {
+  background-color: #f5f5f5;
+}
+
+.menu-container {
+  position: relative;
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 1000;
+  width: 180px;
+  transform: scale(0.95);
+  transform-origin: top right;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.menu-dropdown.open {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-item {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px;
+  width: 100%;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #333;
+  background: none;
+  border: none;
   cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  border: 1px solid rgba(128, 128, 128, 0.088);
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.menu-item svg {
+  width: 20px;
+  height: 20px;
 }
 
 .back-btn svg, .menu-btn svg {
@@ -46,7 +106,7 @@
 
 /* Map Styles */
 .map-container {
-  height: 300px;
+  height: 450px;
   width: calc(100% - 30px);
   margin: 15px auto;
   background-color: #e0e0e0;
@@ -61,34 +121,39 @@
 }
 
 .time-label {
-  background-color: white;
-  padding: 5px 10px;
+  background: none;
+  border: none;
+}
+
+.time-label-box {
+  background-color: #2196F3;
+  color: white;
+  height: 50px;
+  width: 50px;
   border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
-  color: #333;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Location Inputs Styles */
-.location-section {
-  padding: 0 15px;
-  background-color: white;
-  margin-top: 5px;
+.location-section-container {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 0 15px;
+  margin-top: 5px;
+  gap: 3px;
   position: relative;
+  background-color: white;
 }
 
-.location-input {
+.location-icons-container {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px 0;
 }
 
 .location-icon {
@@ -97,45 +162,75 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: -15px;
-}
-
-.origin-icon {
-  right: -15px;
-}
-
-.destination-icon {
-  right: -15px;
 }
 
 .blue-circle {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #2196F3;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
+  background-color: #f6f6f7;
+  border: 4px solid #1E90FF;
+}
+
+.location-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+}
+
+.location-input {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: white;
+  position: relative;
+  border: 1px solid #e0e0e0;
+  margin: 5px 0;
+}
+
+.origin-input {
+  margin-bottom: 0;
+  border-radius: 12px;
+  display: flex;
+}
+
+.destination-input {
+  margin-top: 0;
+  border-radius: 12px;
 }
 
 .location-details {
   flex: 1;
-  padding-right: 25px;
 }
 
 .current-location-label {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   color: #2196F3;
   margin-bottom: 2px;
+  margin-left: 10px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .location-name {
   font-size: 0.9rem;
   color: #333;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.swap-container {
+  display: flex;
+  justify-content: flex-end;
+  background-color: white;
+  padding: 0 15px;
 }
 
 .swap-btn {
   background-color: white;
-  border: none;
+  border:none;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -143,15 +238,18 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin: 0 auto;
+  margin: -20px 0;
   position: relative;
-  z-index: 1;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
 }
 
-.swap-btn svg {
-  width: 20px;
-  height: 20px;
+/* Custom Marker Styles */
+.marker-circle {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background-color: #f6f6f7;
+  border: 7px solid #1E90FF;
 }
 
 /* Options Section */
@@ -162,6 +260,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .options-row {
@@ -169,19 +268,13 @@
   gap: 10px;
 }
 
-.options-divider {
-  height: 1px;
-  background-color: #f0f0f0;
-  margin: 5px 0;
-}
-
 .transport-btn {
   flex: 1;
   padding: 10px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #edecec;
   border-radius: 8px;
-  background-color: white;
-  font-size: 0.8rem;
+  background-color: #e0e0e06e;
+  font-size: 0.9rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -189,9 +282,12 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  font-weight: 500;
 }
 
 .transport-btn.active {
+  background-color: white;
   border-color: #2196F3;
   color: #2196F3;
 }
@@ -215,11 +311,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .gender-btn.active {
   background-color: #e3f2fd;
   color: #2196F3;
+  border: 1px solid #2196F3;
 }
 
 .gender-btn:not(.active) {
@@ -247,6 +345,12 @@
   background-color: #2196F3;
 }
 
+.options-divider {
+  height: 1px;
+  background-color: #f0f0f0;
+  margin: 5px 0;
+}
+
 /* Route Info */
 .route-info {
   background-color: white;
@@ -255,18 +359,21 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border-top: 6px solid rgba(128, 128, 128, 0.115);
 }
 
 .route-summary {
-  font-size: 0.9rem;
-  color: #666;
-  text-align: center;
+  font-size: 1.0rem;
+  color: black;
+  text-align: right;
+  font-weight: 600;
+  padding-right: 10px;
 }
 
 .info-details {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  gap: 70px;
+  padding-right: 10px;
 }
 
 .info-time, .info-distance {
@@ -274,10 +381,10 @@
   align-items: center;
   gap: 5px;
   font-size: 0.9rem;
-  color: #333;
+  color: #3333338a;
 }
 
-.info-distance svg {
+.info-time svg, .info-distance svg {
   width: 18px;
   height: 18px;
 }
@@ -289,15 +396,16 @@
   padding: 15px;
   margin-top: 5px;
   background-color: white;
+  box-shadow: 0px -9px 5px rgba(0, 0, 0, 0.036);
 }
 
 .navigate-btn {
-  flex: 2;
-  padding: 12px;
+  flex: 1;
+  padding: 10px;
   background-color: #2196F3;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   font-size: 0.9rem;
   font-weight: bold;
   cursor: pointer;
@@ -305,53 +413,46 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-
-.navigate-btn svg {
-  width: 16px;
-  height: 16px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .overview-btn {
   flex: 1;
-  padding: 12px;
+  padding: 10px;
   background-color: white;
   color: #2196F3;
   border: 1px solid #2196F3;
-  border-radius: 8px;
+  border-radius: 50px;
   font-size: 0.9rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-
-.overview-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* Marker styles */
-.custom-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.marker-circle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 12px;
-  background-color: #2196F3;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 /* Hide leaflet attribution */
 .leaflet-control-attribution {
   display: none !important;
+}
+
+/* Custom marker styles */
+.custom-marker {
+  align-items: center;
+  justify-content: center;
+}
+
+.origin-marker {
+  z-index: 1000;
+}
+
+.destination-marker {
+  z-index: 1000;
+}
+
+/* Alternative route styling */
+.leaflet-overlay-pane svg path.leaflet-interactive {
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

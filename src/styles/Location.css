@@ -19,14 +19,6 @@
   background-color: white;  
 }  
 
-.profile-icon {  
-  margin-left: 15px;  
-}  
-
-.menu-icon {  
-  margin-right: 15px;  
-}  
-
 .profile-icon, .menu-icon {  
   width: 40px;  
   height: 40px;  

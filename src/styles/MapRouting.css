@@ -21,8 +21,8 @@
 }
 
 .map-profile-button, .map-back-button {
-  width: 40px;  
-  height: 40px;  
+  width: 50px;  
+  height: 50px;  
   display: flex;  
   align-items: center;  
   justify-content: center;  
@@ -33,14 +33,6 @@
   cursor: pointer;  
 }
 
-
-.map-profile-button {  
-  margin-left: 15px;  
-}  
-
-.map-back-button {  
-  margin-right: 15px;  
-}  
 
 .map-profile-button svg, .map-back-button svg {
   width: 24px;
@@ -111,19 +103,6 @@
   font-size: 12px;
   color: #333;
   text-align: center;
-}
-
-.comeone {
-  color: #d01f1f;
-  background-color: red;
-  text-align: center;
-  z-index: 1000;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  pointer-events: none;
 }
 
 
