@@ -164,6 +164,15 @@
   justify-content: center;
 }
 
+.tdots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+  gap: 0px;
+}
+
 .blue-circle {
   width: 15px;
   height: 15px;
@@ -176,7 +185,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 7px;
   position: relative;
 }
 
@@ -250,6 +259,7 @@
   border-radius: 50%;
   background-color: #f6f6f7;
   border: 7px solid #1E90FF;
+  position: absolute;
 }
 
 /* Options Section */
@@ -345,12 +355,6 @@
   background-color: #2196F3;
 }
 
-.options-divider {
-  height: 1px;
-  background-color: #f0f0f0;
-  margin: 5px 0;
-}
-
 /* Route Info */
 .route-info {
   background-color: white;
@@ -439,8 +443,15 @@
 
 /* Custom marker styles */
 .custom-marker {
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.custom-marker.destination-marker {
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
 }
 
 .origin-marker {
