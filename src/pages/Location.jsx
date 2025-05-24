@@ -22,10 +22,14 @@ const Location = () => {
   const [showRouting, setShowRouting] = useState(false);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [activeTab, setActiveTab] = useState('mostVisited');
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isSearchModalClosing, setIsSearchModalClosing] = useState(false);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
   const commentsListRef = useRef(null);
+  const searchInputRef = useRef(null);
   const [routingData, setRoutingData] = useState(null);
 
   // Fetch routingData.json from public folder
@@ -135,6 +139,37 @@ const Location = () => {
 
   const handlePlaceClick = (placeTitle) => {
     console.log('Place clicked:', placeTitle);
+  };
+
+  const handleSearchFocus = () => {
+    setIsSearchFocused(true);
+    setShowSearchModal(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleSearchBlur = () => {
+    setIsSearchFocused(false);
+  };
+
+  const closeSearchModal = () => {
+    // Clear search text if there's any
+    if (searchQuery.trim() !== '') {
+      setSearchQuery('');
+    }
+    
+    // Start closing animation
+    setIsSearchModalClosing(true);
+    
+    // Wait for animation to finish before hiding
+    setTimeout(() => {
+      setShowSearchModal(false);
+      setIsSearchModalClosing(false);
+      document.body.style.overflow = 'auto';
+    }, 300);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   const initialCategories = [
@@ -485,16 +520,33 @@ const Location = () => {
             type="text"
             placeholder="کجا میخوای بری؟"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
+            onFocus={handleSearchFocus}
+            onBlur={handleSearchBlur}
+            ref={searchInputRef}
           />
 
-          <button type="button" className="map-button" onClick={() => navigate('/mpr')}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-map-pin">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
-            </svg>
-            <span>نقشه</span>
-          </button>
+          {!isSearchFocused ? (
+            <button type="button" className="map-button" onClick={() => navigate('/mpr')}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-map-pin">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
+              </svg>
+              <span>نقشه</span>
+            </button>
+          ) : (
+            <button 
+              type="button" 
+              className="close-search-button" 
+              onClick={closeSearchModal}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M18 6l-12 12" />
+                <path d="M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </form>
 
         {/* Integrated Routing Content */}
@@ -627,8 +679,9 @@ const Location = () => {
                         ></div>
                         <div className="place-info">
                           <h4 className="place-title">{place.title}</h4>
-                          <div className="place-address">{place.address}</div>
                           <div className="place-meta">
+                            <span className="place-address">{place.address}</span>
+                            <span className="place-meta-separator">|</span>
                             <span>{place.distance}</span>
                             <span className="place-meta-separator">|</span>
                             <span>{place.time}</span>
@@ -781,6 +834,53 @@ const Location = () => {
           </div>
         )}
       </div>
+
+      {/* Search Modal */}
+      {showSearchModal && (
+        <>
+          <div 
+            className={`search-modal-overlay ${isSearchModalClosing ? 'fade-out' : 'fade-in'}`}
+            onClick={closeSearchModal}
+          ></div>
+          <div className={`search-modal ${isSearchModalClosing ? 'fade-out' : 'fade-in'}`}>
+            <div className="search-modal-header">
+              <form className="search-bar" onSubmit={handleSearchSubmit}>
+                <button type="submit" className="search-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
+                    <path d="M21 21l-6 -6" />
+                  </svg>
+                </button>
+
+                <input
+                  type="text"
+                  placeholder="کجا میخوای بری؟"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  autoFocus
+                  ref={searchInputRef}
+                />
+
+                <button 
+                  type="button" 
+                  className="close-search-button" 
+                  onClick={closeSearchModal}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+            <div className="search-modal-content">
+              {/* Search results would go here */}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
