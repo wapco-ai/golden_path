@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'reac
 import { HomePage } from './pages/HomePage';
 import MapPage from './pages/MapPage';
 import Profile from './pages/Profile';
+import FinalSearch from './pages/FinalSearch';
 import LangPage from './pages/LangPage';
 import { QRScanPage } from './pages/QRScanPage';
 import { SettingsPage } from './pages/SettingsPage';
@@ -17,7 +18,7 @@ import './App.css';
 const AppContent = () => {
   const location = useLocation();
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
-    || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr';
+    || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs';
 
   // --- PWA Install Prompt State ---
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -76,6 +77,7 @@ const AppContent = () => {
           <Route path="/qr-scan" element={<QRScanPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/fs" element={<FinalSearch />} />
           <Route path="/" element={<LangPage />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="/mpr" element={<MapRouting/>} />

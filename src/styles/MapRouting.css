@@ -102,6 +102,9 @@
   width: 24px;
   height: 24px;
   color: #555;
+  width: 24px;
+  height: 24px;
+  color: #555;
 }
 
 .map-category-name {
@@ -109,6 +112,20 @@
   color: #333;
   text-align: center;
 }
+
+.comeone {
+  color: #d01f1f;
+  background-color: red;
+  text-align: center;
+  z-index: 1000;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  pointer-events: none;
+}
+
 
 /* Map Container */
 .map-routing-container {
@@ -119,7 +136,7 @@
 
 .map-gps-button {
   position: absolute;
-  bottom: 20px;
+  bottom: 200px;
   right: 16px;
   width: 48px;
   height: 48px;
@@ -142,103 +159,114 @@
 
 /* Destination Input */
 .map-destination-input-container {
-  padding: 16px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
   background-color: white;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  z-index: 1000;
+  transition: transform 0.3s ease-out;
+}
+
+.map-destination-input-container.expanded {
+  transform: translateY(calc(-100vh + 100%));
+  height: 100vh;
+  overflow-y: auto;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 .map-current-location {
-  background-color: white;
   display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  width: 85vw;
+  position: relative;
   font-family: 'Vazir', Arial, sans-serif;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #8e8a8a;
+}
+
+.map-location-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #f6f6f7;
+  border: 4px solid #1E90FF;
+  margin-left: 10px;
+}
+
+.map-location-text {
+  display: flex;
+  flex-grow: 1;
+  font-family: 'Vazir', Arial, sans-serif
 }
 
 .map-location-label {
-  font-size: 17px;
+  font-size: 15px;
   color: #4285F4;
-  margin-bottom: 4px;
-  margin-right: 170px;
+  margin-bottom: 2px;
   font-family: 'Vazir', Arial, sans-serif;
+  margin-right: 190px;
+  position: absolute;
 }
 
 .map-location-name {
-  font-size: 17px;
+  font-size: 14px;
   color: #333;
   font-weight: 500;
   font-family: 'Vazir', Arial, sans-serif;
+  font-size: 15px;
 }
 
-.map-location-circle {  
-  width: 19px;  
-  height: 19px;  
-  border-radius: 50%;  
-  background-color: #f6f6f7;  
-  border: 4px solid #1E90FF;  
-  flex-shrink: 0;  
-}  
 
 .map-destination-input {
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  background-color: #f5f5f5;
+  background-color: white;
+  border: 1px solid #ddd;
   border-radius: 12px;
   cursor: pointer;
 }
 
+.map-destination-input svg {
+  width: 20px;
+  height: 20px;
+  color: #f10f0f;
+  margin-left: 8px;
+}
+
 .map-destination-input input {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
+  flex-grow: 1;
+  border: none;
+  background: transparent;
   font-size: 14px;
   color: #333;
-  background-color: #f5f5f5;
+  padding: 0;
 }
 
 .map-destination-input input::placeholder {
   color: #999;
 }
 
-.map-destination-input svg {
-  width: 16px;
-  height: 16px;
+.map-swap-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-right: 350px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.map-swap-button svg {
+  width: 20px;
+  height: 20px;
   color: #666;
-  transform: rotate(180deg);
-  margin-right: 8px;
-}
-
-/* Destination Modal */
-.map-destination-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-
-.map-destination-modal {
-  width: 100%;
-  height: 85vh;
-  background-color: white;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  padding: 16px;
-  overflow-y: auto;
-  animation: mapSlideUp 0.3s ease-out;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Animation */
@@ -272,6 +300,7 @@
   color: #333;
 }
 
+
 .map-modal-input {
   margin-bottom: 20px;
   padding: 0 8px;
@@ -279,16 +308,25 @@
 
 
 .map-recent-title {
-  font-size: 14px;
-  color: #666;
+  font-size: 18px;
+  color: black;
   margin-bottom: 16px;
   font-weight: 500;
+  font-family: 'Vazir', Arial, sans-serif;
+  font-weight: bold;
 }
+
+.map-recent-option{
+  background-color: transparent;
+  border: none;
+}
+
 
 .map-recent-searches {
   flex: 1;
   padding: 0 8px;
   overflow-y: auto;
+  font-family: 'Vazir', Arial, sans-serif;
 }
 
 
@@ -305,6 +343,7 @@
   padding: 16px 0;
   border-bottom: 1px solid #eee;
   cursor: pointer;
+  font-family: 'Vazir', Arial, sans-serif;
 }
 
 .map-destination-info {
@@ -312,13 +351,16 @@
   flex-direction: column;
   flex: 1;
   margin-right: 12px;
+  font-family: 'Vazir', Arial, sans-serif;
 }
 
 .map-destination-name {
-  font-size: 15px;
-  color: #333;
+  font-size: 17px;
+  color: black;
   font-weight: 500;
   margin-bottom: 4px;
+  font-family: 'Vazir', Arial, sans-serif;
+  font-weight: 100;
 }
 
 .map-destination-location {
@@ -341,4 +383,8 @@
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.map-search-results {
+  margin-top: 20px;
 }

@@ -1,0 +1,357 @@
+/* src/styles/FinalSearch.css */
+.final-search-page {
+  max-width: 100%;
+  padding: 0;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  direction: rtl;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.header h1 {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: bold;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.back-btn, .menu-btn {
+  background: none;
+  border: none;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.back-btn svg, .menu-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Map Styles */
+.map-container {
+  height: 300px;
+  width: calc(100% - 30px);
+  margin: 15px auto;
+  background-color: #e0e0e0;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-container .leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.time-label {
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Location Inputs Styles */
+.location-section {
+  padding: 0 15px;
+  background-color: white;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.location-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.location-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: -15px;
+}
+
+.origin-icon {
+  right: -15px;
+}
+
+.destination-icon {
+  right: -15px;
+}
+
+.blue-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #2196F3;
+  border-radius: 50%;
+}
+
+.location-details {
+  flex: 1;
+  padding-right: 25px;
+}
+
+.current-location-label {
+  font-size: 0.7rem;
+  color: #2196F3;
+  margin-bottom: 2px;
+}
+
+.location-name {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.swap-btn {
+  background-color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.swap-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Options Section */
+.options-section {
+  background-color: white;
+  padding: 15px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.options-row {
+  display: flex;
+  gap: 10px;
+}
+
+.options-divider {
+  height: 1px;
+  background-color: #f0f0f0;
+  margin: 5px 0;
+}
+
+.transport-btn {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.transport-btn.active {
+  border-color: #2196F3;
+  color: #2196F3;
+}
+
+.transport-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.gender-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #f5f5f5;
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gender-btn.active {
+  background-color: #e3f2fd;
+  color: #2196F3;
+}
+
+.gender-btn:not(.active) {
+  opacity: 0.7;
+}
+
+.gender-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gender-btn.active .gender-circle {
+  border-color: #2196F3;
+}
+
+.gender-circle-fill {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #2196F3;
+}
+
+/* Route Info */
+.route-info {
+  background-color: white;
+  padding: 15px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.route-summary {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+.info-details {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.info-time, .info-distance {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.info-distance svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  margin-top: 5px;
+  background-color: white;
+}
+
+.navigate-btn {
+  flex: 2;
+  padding: 12px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.navigate-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.overview-btn {
+  flex: 1;
+  padding: 12px;
+  background-color: white;
+  color: #2196F3;
+  border: 1px solid #2196F3;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.overview-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Marker styles */
+.custom-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  background-color: #2196F3;
+}
+
+/* Hide leaflet attribution */
+.leaflet-control-attribution {
+  display: none !important;
+}

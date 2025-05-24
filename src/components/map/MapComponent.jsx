@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const MapComponent = ({ setUserLocation }) => {
+const MapComponent = ({ setUserLocation, selectedDestination }) => {
+  const mapRef = useRef(null);
+  const userMarkerRef = useRef(null);
+  const destinationMarkerRef = useRef(null);
+  const polylineRef = useRef(null);
+
   useEffect(() => {
     // Initialize the map
     const mapContainer = document.createElement('div');
@@ -14,11 +19,18 @@ const MapComponent = ({ setUserLocation }) => {
     mapParent.appendChild(mapContainer);
 
     const map = L.map(mapContainer, {
-      attributionControl: false
+      attributionControl: false,
+      zoomControl: false
     }).setView([36.2880, 59.6157], 16);
+    mapRef.current = map;
     
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
+    }).addTo(map);
+
+    // Custom zoom control
+    L.control.zoom({
+      position: 'bottomright'
     }).addTo(map);
 
     // Hide leaflet watermark
@@ -26,54 +38,266 @@ const MapComponent = ({ setUserLocation }) => {
     style.innerHTML = '.leaflet-control-attribution { display: none !important; }';
     document.head.appendChild(style);
 
-    // Request user location
+    // Custom marker icons
+    const userIcon = L.divIcon({
+      html: `
+        <div style="
+          width: 20px;
+          height: 20px;
+          background-color: #4285F4;
+          border-radius: 50%;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+          <div style="
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+          "></div>
+        </div>
+      `,
+      className: '',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
+    });
+
+    const destinationIcon = L.divIcon({
+      html: `
+        <div style="
+          width: 20px;
+          height: 20px;
+          background-color: #EA4335;
+          border-radius: 50%;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+          <div style="
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+          "></div>
+        </div>
+      `,
+      className: '',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
+    });
+
+    // Request user location without high accuracy (to avoid Google APIs)
     const handleLocationSuccess = (position) => {
       const { latitude, longitude } = position.coords;
       setUserLocation('موقعیت فعلی شما');
       
-      // Add marker
-      L.marker([latitude, longitude], {
-        icon: L.divIcon({
-          html: `<div class="user-location-marker"></div>`,
-          className: '',
-          iconSize: [20, 20]
-        })
+      // Remove previous marker if exists
+      if (userMarkerRef.current) {
+        map.removeLayer(userMarkerRef.current);
+      }
+      
+      // Add new marker
+      userMarkerRef.current = L.marker([latitude, longitude], {
+        icon: userIcon
       }).addTo(map).bindPopup('موقعیت فعلی شما');
       
       // Center map
       map.setView([latitude, longitude], 16);
+
+      // If we have a destination, draw the route
+      if (selectedDestination) {
+        updateDestinationMarker();
+      }
     };
 
     const handleLocationError = (error) => {
       console.error('Error getting location:', error);
       // Default to Imam Reza shrine
-      L.marker([36.2880, 59.6157]).addTo(map)
+      if (userMarkerRef.current) {
+        map.removeLayer(userMarkerRef.current);
+      }
+      userMarkerRef.current = L.marker([36.2880, 59.6157], {
+        icon: userIcon
+      }).addTo(map)
         .bindPopup('حرم مطهر امام رضا (ع)');
       setUserLocation('باب الرضا «ع»');
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        handleLocationSuccess,
-        handleLocationError,
-        {
-          enableHighAccuracy: true,
-          timeout: 10000
-        }
-      );
-    } else {
-      // Fallback if geolocation not supported
-      L.marker([36.2880, 59.6157]).addTo(map)
-        .bindPopup('حرم مطهر امام رضا (ع)');
-      setUserLocation('باب الرضا «ع»');
-    }
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        // Use standard accuracy to avoid Google API calls
+        navigator.geolocation.getCurrentPosition(
+          handleLocationSuccess,
+          handleLocationError,
+          {
+            enableHighAccuracy: false, // Changed from true to false
+            timeout: 10000,
+            maximumAge: 60000
+          }
+        );
+      } else {
+        // Fallback if geolocation not supported
+        userMarkerRef.current = L.marker([36.2880, 59.6157], {
+          icon: userIcon
+        }).addTo(map)
+          .bindPopup('حرم مطهر امام رضا (ع)');
+        setUserLocation('باب الرضا «ع»');
+      }
+    };
+
+    // Initial location fetch
+    getLocation();
+
+    // Set up watch position for updates
+    const watchId = navigator.geolocation.watchPosition(
+      handleLocationSuccess,
+      handleLocationError,
+      {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: 10000
+      }
+    );
+
+    const updateDestinationMarker = () => {
+      if (!selectedDestination || !mapRef.current) return;
+
+      // For demo purposes, we'll use a fixed location offset from user position
+      // In a real app, you would use the actual coordinates of the destination
+      let destCoords;
+      if (userMarkerRef.current) {
+        const userLatLng = userMarkerRef.current.getLatLng();
+        destCoords = [userLatLng.lat + 0.001, userLatLng.lng + 0.001];
+      } else {
+        destCoords = [36.2880, 59.6157];
+      }
+      
+      if (destinationMarkerRef.current) {
+        mapRef.current.removeLayer(destinationMarkerRef.current);
+      }
+      
+      destinationMarkerRef.current = L.marker(destCoords, {
+        icon: destinationIcon
+      }).addTo(mapRef.current)
+        .bindPopup(selectedDestination.name);
+      
+      // Draw route between user location and destination
+      if (polylineRef.current) {
+        mapRef.current.removeLayer(polylineRef.current);
+      }
+      
+      if (userMarkerRef.current) {
+        const userLatLng = userMarkerRef.current.getLatLng();
+        polylineRef.current = L.polyline([userLatLng, destCoords], {
+          color: '#4285F4',
+          weight: 4,
+          opacity: 0.7
+        }).addTo(mapRef.current);
+        
+        // Fit bounds to show both markers
+        mapRef.current.fitBounds([userLatLng, destCoords], {
+          padding: [50, 50]
+        });
+      }
+    };
+
+    // Handle map click for destination selection
+    const handleMapClick = (e) => {
+      if (!selectedDestination) {
+        // Here you can add logic to handle destination selection from map
+        console.log('Map clicked at:', e.latlng);
+      }
+    };
+
+    map.on('click', handleMapClick);
 
     return () => {
+      navigator.geolocation.clearWatch(watchId);
+      map.off('click', handleMapClick);
       map.remove();
       document.head.removeChild(style);
       mapParent.removeChild(mapContainer);
     };
   }, [setUserLocation]);
+
+  // Update destination marker when selectedDestination changes
+  useEffect(() => {
+    if (mapRef.current) {
+      updateDestinationMarker();
+    }
+  }, [selectedDestination]);
+
+  // Function to update destination marker (defined inside useEffect to use refs)
+  const updateDestinationMarker = () => {
+    if (!selectedDestination || !mapRef.current) return;
+
+    // For demo purposes, we'll use a fixed location offset from user position
+    // In a real app, you would use the actual coordinates of the destination
+    let destCoords;
+    if (userMarkerRef.current) {
+      const userLatLng = userMarkerRef.current.getLatLng();
+      destCoords = [userLatLng.lat + 0.001, userLatLng.lng + 0.001];
+    } else {
+      destCoords = [36.2880, 59.6157];
+    }
+    
+    if (destinationMarkerRef.current) {
+      mapRef.current.removeLayer(destinationMarkerRef.current);
+    }
+    
+    destinationMarkerRef.current = L.marker(destCoords, {
+      icon: L.divIcon({
+        html: `
+          <div style="
+            width: 20px;
+            height: 20px;
+            background-color: #EA4335;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <div style="
+              width: 8px;
+              height: 8px;
+              background-color: white;
+              border-radius: 50%;
+            "></div>
+          </div>
+        `,
+        className: '',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+      })
+    }).addTo(mapRef.current)
+      .bindPopup(selectedDestination.name);
+    
+    // Draw route between user location and destination
+    if (polylineRef.current) {
+      mapRef.current.removeLayer(polylineRef.current);
+    }
+    
+    if (userMarkerRef.current) {
+      const userLatLng = userMarkerRef.current.getLatLng();
+      polylineRef.current = L.polyline([userLatLng, destCoords], {
+        color: '#4285F4',
+        weight: 4,
+        opacity: 0.7
+      }).addTo(mapRef.current);
+      
+      // Fit bounds to show both markers
+      mapRef.current.fitBounds([userLatLng, destCoords], {
+        padding: [50, 50]
+      });
+    }
+  };
 
   return null;
 };
