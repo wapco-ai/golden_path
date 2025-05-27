@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../styles/Location.css';
 
 const Location = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [activeSlide, setActiveSlide] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
@@ -156,10 +156,10 @@ const Location = () => {
     if (searchQuery.trim() !== '') {
       setSearchQuery('');
     }
-    
+
     // Start closing animation
     setIsSearchModalClosing(true);
-    
+
     // Wait for animation to finish before hiding
     setTimeout(() => {
       setShowSearchModal(false);
@@ -535,13 +535,13 @@ const Location = () => {
               <span>نقشه</span>
             </button>
           ) : (
-            <button 
-              type="button" 
-              className="close-search-button" 
+            <button
+              type="button"
+              className="close-search-button"
               onClick={closeSearchModal}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M18 6l-12 12" />
                 <path d="M6 6l12 12" />
               </svg>
@@ -607,29 +607,29 @@ const Location = () => {
                 <button className="view-all-events">
                   مشاهده همه
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M15 6l-6 6l6 6"/>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M15 6l-6 6l6 6" />
                   </svg>
                 </button>
               </div>
               <div className="shrine-events-list">
                 {routingData.places.shrineEvents?.map((event, index) => (
                   <div key={index} className="shrine-event-item">
-                    <div 
+                    <div
                       className="place-image-placeholder"
                       style={{ backgroundImage: `url(${event.image})` }}
                     ></div>
                     <div className="place-info">
                       <h3 className="place-title">{event.title}</h3>
                       <span className="place-address">
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
                         {event.location}
                       </span>
                       <div className="place-meta">
                         <span className="shrine-event-time">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z"/>
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z" />
                           </svg>
                           {event.time}
                         </span>
@@ -638,8 +638,8 @@ const Location = () => {
                       <div className="place-actions">
                         <button className="place-action-btn">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z"/>
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
                           </svg>
                           مسیریابی
                         </button>
@@ -672,7 +672,7 @@ const Location = () => {
                   <>
                     {routingData.places.mostVisited.map((place, index) => (
                       <div key={index} className="routing-place-card">
-                        <div 
+                        <div
                           className="place-image-placeholder"
                           style={{ backgroundImage: `url(${place.image})` }}
                           onClick={() => handlePlaceClick(place.title)}
@@ -709,8 +709,8 @@ const Location = () => {
                           <button className="read-more-btn">
                             بیشتر بخوانید
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M15 6l-6 6l6 6"/>
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M15 6l-6 6l6 6" />
                             </svg>
                           </button>
                           <div className="place-actions">
@@ -763,7 +763,7 @@ const Location = () => {
                   <>
                     {routingData.places.nearest.map((place, index) => (
                       <div key={index} className="routing-place-card">
-                        <div 
+                        <div
                           className="place-image-placeholder"
                           style={{ backgroundImage: `url(${place.image})` }}
                           onClick={() => handlePlaceClick(place.title)}
@@ -780,8 +780,8 @@ const Location = () => {
                           <button className="read-more-btn">
                             بیشتر بخوانید
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M15 6l-6 6l6 6"/>
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M15 6l-6 6l6 6" />
                             </svg>
                           </button>
                           <div className="place-actions">
@@ -836,15 +836,16 @@ const Location = () => {
       </div>
 
       {/* Search Modal */}
+      {/* Search Modal */}
       {showSearchModal && (
         <>
-          <div 
+          <div
             className={`search-modal-overlay ${isSearchModalClosing ? 'fade-out' : 'fade-in'}`}
             onClick={closeSearchModal}
           ></div>
           <div className={`search-modal ${isSearchModalClosing ? 'fade-out' : 'fade-in'}`}>
             <div className="search-modal-header">
-              <form className="search-bar" onSubmit={handleSearchSubmit}>
+              <form className="search-bar expanded-search" onSubmit={handleSearchSubmit}>
                 <button type="submit" className="search-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -860,15 +861,16 @@ const Location = () => {
                   onChange={handleSearchChange}
                   autoFocus
                   ref={searchInputRef}
+                  className="expanded-search-input"
                 />
 
-                <button 
-                  type="button" 
-                  className="close-search-button" 
+                <button
+                  type="button"
+                  className="close-search-button"
                   onClick={closeSearchModal}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M18 6l-12 12" />
                     <path d="M6 6l12 12" />
                   </svg>

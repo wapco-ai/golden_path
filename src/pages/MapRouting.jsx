@@ -73,6 +73,10 @@ const MapRoutingPage = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -120,7 +124,7 @@ const MapRoutingPage = () => {
 
       {/* Map Container */}
       <div className="map-routing-container">
-        <MapComponent setUserLocation={setUserLocation} />
+        <MapComponent setUserLocation={setUserLocation} selectedDestination={selectedDestination} />
         <button className="map-gps-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -135,12 +139,12 @@ const MapRoutingPage = () => {
       </div>
 
       {/* Destination Input */}
-      <div className={`map-destination-input-container ${showDestinationModal ? 'expanded' : ''}`}>
+      <div className={`map-destination-input-container ${showDestinationModal ? 'expanded' : ''}`} ref={modalRef}>
         <div className="map-current-location">
           <div className="map-location-circle"></div>
           <div className="map-location-text">
             <span className="map-location-name">{userLocation}</span>
-            <span className="map-location-label">مکان فعلی شما</span>
+            <span className="map-location-label">مبداء فعلی شما</span>
           </div>
           {showDestinationModal && (
             <button className="map-modal-back-button" onClick={() => setShowDestinationModal(false)}>
@@ -151,41 +155,45 @@ const MapRoutingPage = () => {
             </button>
           )}
         </div>
-        <button className="map-swap-button">
+
+        <div className="map-destination-input-wrapper">
+          <div className="map-destination-input" onClick={() => setShowDestinationModal(true)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
+            </svg>
+            <input
+              type="text"
+              placeholder="مقصد را انتخاب کنید"
+              ref={destinationInputRef}
+              onChange={handleInputChange}
+              value={searchQuery}
+              className="destination-input"
+            />
+          </div>
+          <button className="map-swap-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
               <path d="M3 9l4 -4l4 4m-4 -4v14" />
               <path d="M21 15l-4 4l-4 -4m4 4v-14" />
             </svg>
           </button>
-        <div className="map-destination-input" onClick={() => setShowDestinationModal(true)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
-          </svg>
-          <input
-            type="text"
-            placeholder="مقصد را انتخاب کنید"
-            ref={destinationInputRef}
-            readOnly
-          />
         </div>
 
         {/* Search Results */}
         {showDestinationModal && (
           <div className="map-search-results">
-            <h2 className="map-recent-title">جستوجوهای اخیر شما </h2>
+            <h2 className="map-recent-title">جستوجوهای اخیر شما</h2>
             <ul className="map-destination-list">
               {filteredDestinations.map((destination) => (
-                <li>
+                <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
                   <div className="map-destination-info">
                     <span className="map-destination-name">{destination.name}</span>
                     <span className="map-destination-location">{destination.location}</span>
                   </div>
-                  <button className="map-recent-option" >
-                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                  <button className="map-recent-option">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                   </button>
-                  
                 </li>
               ))}
             </ul>
