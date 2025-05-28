@@ -1,0 +1,229 @@
+/* RouteOverview.css */
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Main Container */
+.route-overview-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f5f5f5;
+  position: relative;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+/* Header */
+.route-overview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #e3ddd2  ;
+  z-index: 1000;
+}
+
+.route-back-button, .map-profile-button {
+  width: 50px;  
+  height: 50px;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  background-color: rgba(255, 255, 255, 0.8);  
+  border-radius: 50%;  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  
+  border: none;  
+  cursor: pointer;  
+}
+
+.route-header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.route-header-spacer {
+  width: 40px; /* Matches button width for alignment */
+}
+
+/* Map Container */
+.route-map-container {
+  flex: 1;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Start Routing Button */
+.start-routing-btn {
+  position: absolute;
+  bottom: 240px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+/* Route Info Container */
+.route-info-container {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.route-stats {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+.route-distance, .route-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.distance-value, .time-value {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.time-value {
+  font-size: 16px;
+}
+
+
+.route-time .time-value {
+  color: #3498db;
+}
+
+.direction-icon svg {
+  width: 30px;
+  height: 30px;
+  margin-top: 5px;
+}
+
+/* Instruction Container */
+.route-instruction-container {
+  margin-top: 15px;
+}
+
+.instruction-text {
+  font-size: 20px;
+  color: black;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.carousel-prev, .carousel-next {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  color: #080909;
+  cursor: pointer;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.carousel-prev svg, .carousel-next svg {
+  width: 18px;
+  height: 18px;
+}
+
+.carousel-prev[disabled], .carousel-next[disabled] {
+  color: #929090;
+  cursor: not-allowed;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #3498db;
+}
+
+/* Map Marker Styles */
+.blue-circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #f6f6f7;
+  border: 4px solid #1E90FF;
+}
+
+.time-marker {
+  position: relative;
+  width: 60px;
+  height: 30px;
+}
+
+.time-marker svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.time-marker .time-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: white;
+  font-weight: 600;
+}
+
+
+.time-marker span {
+  font-size: 12px;
+  color:white;
+  font-weight: 600;
+}
+
+.des-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
