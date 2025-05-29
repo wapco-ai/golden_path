@@ -71,7 +71,7 @@ const RouteOverview = () => {
 
       // Add origin and destination markers
       const originIcon = L.divIcon({
-        html: '<div class="blue-circle"></div>',
+        html: '<div class="c-circle"></div>',
         className: '',
       });
 
@@ -97,7 +97,7 @@ const RouteOverview = () => {
         const timeIcon = L.divIcon({
           html: `
             <div class="time-marker">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60" height="30" viewBox="0 0 24 24" fill="#3498db" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100" height="70" viewBox="0 0 24 24" fill="#3498db" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                 <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/>
               </svg>
@@ -105,6 +105,7 @@ const RouteOverview = () => {
             </div>
           `,
           className: '',
+          iconAnchor: [20, 20] // This fixes the marker positioning
         });
 
         if (index === currentSlide) {

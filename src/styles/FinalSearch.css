@@ -259,7 +259,7 @@
   border-radius: 50%;
   background-color: #f6f6f7;
   border: 7px solid #1E90FF;
-  position: absolute;
+  box-sizing: border-box;
 }
 
 /* Options Section */
@@ -353,6 +353,12 @@
   height: 10px;
   border-radius: 50%;
   background-color: #2196F3;
+}
+
+.options-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 5px 0;
 }
 
 /* Route Info */
@@ -464,6 +470,12 @@
 
 /* Alternative route styling */
 .leaflet-overlay-pane svg path.leaflet-interactive {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Route line styling */
+.leaflet-pane .leaflet-overlay-pane svg path {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
