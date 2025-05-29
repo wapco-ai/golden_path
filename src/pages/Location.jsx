@@ -679,9 +679,8 @@ const Location = () => {
                         ></div>
                         <div className="place-info">
                           <h4 className="place-title">{place.title}</h4>
+                          <div className="place-address">{place.address}</div>
                           <div className="place-meta">
-                            <span className="place-address">{place.address}</span>
-                            <span className="place-meta-separator">|</span>
                             <span>{place.distance}</span>
                             <span className="place-meta-separator">|</span>
                             <span>{place.time}</span>
@@ -835,7 +834,6 @@ const Location = () => {
         )}
       </div>
 
-      {/* Search Modal */}
       {/* Search Modal */}
       {showSearchModal && (
         <>

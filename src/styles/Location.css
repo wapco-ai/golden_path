@@ -1474,3 +1474,65 @@
   width: 24px;
   height: 24px;
 }
+
+/* Search Modal Styles */
+.search-modal .search-bar {
+  width: 100%;
+  max-width: 600px; /* Set a max-width for larger screens */
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+/* Regular search bar in the footer */
+.search-bar-container .search-bar {
+  width: auto;
+  transition: all 0.3s ease;
+}
+
+/* Expanded search bar in modal */
+.search-modal .search-bar input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 16px;
+}
+
+/* Regular search bar input */
+.search-bar-container .search-bar input {
+  width: auto;
+}
+
+/* Search Bar Width Transitions */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  background-color: #f5f5f5;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+/* Regular search bar in footer */
+.search-bar-container .search-bar {
+  width: auto;
+  margin: 10px 15px 20px;
+}
+
+/* Expanded search bar in modal */
+.search-modal .search-bar {
+  width: 100%;
+  max-width: 600px;
+  margin: 15px auto;
+  padding: 10px 15px;
+}
+
+.search-modal .search-bar input {
+  flex: 1;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Animation for width change */
+.search-bar {
+  transition: width 0.3s ease, padding 0.3s ease;
+}
