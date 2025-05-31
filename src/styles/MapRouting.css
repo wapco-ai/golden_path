@@ -18,7 +18,18 @@
   padding: 16px;
   background-color: #e3ddd2  ;
   z-index: 1000;
+  position: relative;
 }
+
+.headers-gradient {
+  height: 80px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(227, 221, 210, 1), rgba(227, 221, 210, 0));
+  position: absolute;
+  bottom: -130px;
+  left: 0;
+}
+
 
 .map-profile-button, .map-back-button {
   width: 50px;  
@@ -56,7 +67,6 @@
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;
-  
 }
 
 .map-categories-scroll::-webkit-scrollbar {
@@ -100,9 +110,10 @@
 }
 
 .map-category-name {
-  font-size: 12px;
+  font-size: 14px;
   color: #333;
   text-align: center;
+  font-weight: 600;
 }
 
 
@@ -204,13 +215,6 @@
   font-size: 15px;
 }
 
-.map-destination-input-wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-top: 8px;
-}
-
 .destination-input {
   outline: none !important; /* Remove yellow highlight */
   box-shadow: none !important; /* Remove any focus shadows */
@@ -254,18 +258,7 @@
   font-size: 16px;
 }
 
-.map-swap-button {
-  background: white;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
 
-.map-swap-button svg {
-  width: 20px;
-  height: 20px;
-  color: #666;
-}
 
 /* Animation */
 @keyframes mapSlideUp {
@@ -389,3 +382,69 @@
 .map-search-results {
   margin-top: 24px;
 }
+
+/* Add these new styles */
+.map-location-inputs-container {
+  position: relative;
+  width: 100%;
+}
+
+.map-swap-button {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+.map-swap-button svg {
+  width: 22px;
+  height: 22px;
+  color: #666;
+}
+
+.map-destination-input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+.map-destination-input-wrapper svg {
+  width: 20px;
+  height: 20px;
+  color: #f10f0f;
+  margin-left: 8px;
+}
+
+.map-destination-input-wrapper input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #333;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.map-destination-input-wrapper input::placeholder {
+  color: #999999c0;
+  font-family: 'Vazir', Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Remove these old styles */
+.map-destination-input-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 8px;
+}
+
