@@ -54,11 +54,6 @@ const FinalSearch = () => {
         attribution: '© OpenStreetMap contributors'
       }).addTo(mapInstance.current);
 
-      // Add zoom controls
-      L.control.zoom({
-        position: 'topright'
-      }).addTo(mapInstance.current);
-
       routeLayer.current = L.layerGroup().addTo(mapInstance.current);
     }
 
@@ -108,7 +103,7 @@ const FinalSearch = () => {
         [36.2973, 59.6071], // intermediate point 2
         destination.coordinates
       ];
-      
+
       const mainRouteLine = L.polyline(mainRoutePoints, {
         color: '#2196F3',
         weight: 6,
@@ -122,7 +117,7 @@ const FinalSearch = () => {
         [36.2972, 59.6073], // intermediate point 2
         destination.coordinates
       ];
-      
+
       const altRouteLine = L.polyline(altRoutePoints, {
         color: '#64B5F6',
         weight: 4,
@@ -134,7 +129,14 @@ const FinalSearch = () => {
       const mainRouteCenter = mainRouteLine.getBounds().getCenter();
       const timeLabel = L.divIcon({
         className: 'time-label',
-        html: `<div class="time-label-box">${routeInfo.time} دقیقه</div>`
+        html: `
+        <div class="time-marker">
+          <div class="time-bubble">${routeInfo.time} دقیقه</div>
+        </div>
+      `,
+        className: 'time-marker-container',
+        iconSize: [60, 30],
+        iconAnchor: [30, 15]
       });
 
       L.marker(mainRouteCenter, {
@@ -149,12 +151,11 @@ const FinalSearch = () => {
         .extend(mainRoutePoints[2])
         .extend(altRoutePoints[1])
         .extend(altRoutePoints[2]);
-      
+
       mapInstance.current.fitBounds(bounds.pad(0.2));
     }
   }, [origin, destination, routeInfo.time]);
 
-  // Rest of your component code remains the same...
   const swapLocations = () => {
     const temp = origin;
     setOrigin(destination);
@@ -415,7 +416,7 @@ const FinalSearch = () => {
           </svg>
           مسیریابی
         </button>
-        <button className="overview-btn" onClick={handleRouteOverview}>
+        <button className="overview-btn" onClick={() => navigate('/rop')}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2196F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />

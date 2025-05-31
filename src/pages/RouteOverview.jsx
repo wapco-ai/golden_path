@@ -12,7 +12,7 @@ const RouteOverview = () => {
   const [distance, setDistance] = useState('580 متر');
   const [time, setTime] = useState('4 دقیقه');
 
-  // Sample route data - this would come from backend in real app
+  // Sample route data
   const routeData = [
     {
       id: 1,
@@ -20,13 +20,13 @@ const RouteOverview = () => {
       distance: "35 متر",
       time: "1 دقیقه",
       direction: "up",
-      coordinates: [[36.2880, 59.6157], [36.2885, 59.6162]] // Sample coordinates
+      coordinates: [[36.2880, 59.6157], [36.2885, 59.6162]]
     },
     {
       id: 2,
       instruction: "از قسمت ستون شماره‌ی 40 صحن پیامبر اعظم به سمت صحن قدس بپیچید و وارد آن شوید.",
-      distance: "40 متر",
-      time: "60 ثانیه",
+      distance: "120 متر",
+      time: "5 دقیقه",
       direction: "up",
       coordinates: [[36.2885, 59.6162], [36.2890, 59.6167]]
     },
@@ -56,20 +56,30 @@ const RouteOverview = () => {
     }
   ];
 
-  // Initialize map
+  // Initialize map - runs only once on component mount
   useEffect(() => {
     if (!mapRef.current) {
-      mapRef.current = L.map('route-map').setView([36.2880, 59.6157], 18);
+      mapRef.current = L.map('route-map', {
+        zoomControl: false
+      });
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(mapRef.current);
 
-      // Add route polyline
+      // Store references to map elements
       const routeCoordinates = routeData.flatMap(segment => segment.coordinates);
-      L.polyline(routeCoordinates, { color: '#3498db', weight: 5 }).addTo(mapRef.current);
+      const routePolyline = L.polyline(routeCoordinates, { 
+        color: '#3498db', 
+        weight: 5 
+      }).addTo(mapRef.current);
 
-      // Add origin and destination markers
+      // Fit bounds once initially
+      mapRef.current.fitBounds(routePolyline.getBounds(), {
+        padding: [50, 50]
+      });
+
+      // Add permanent markers
       const originIcon = L.divIcon({
         html: '<div class="c-circle"></div>',
         className: '',
@@ -79,66 +89,60 @@ const RouteOverview = () => {
         html: `<div class="des-marker"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" class="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg></div>`,
         className: '',
         iconSize: [35, 35],
-        iconAnchor: [24, 24] // This fixes the marker positioning
+        iconAnchor: [24, 24]
       });
-
+      
       L.marker(routeCoordinates[0], { icon: originIcon }).addTo(mapRef.current)
         .bindPopup("مبدأ");
       L.marker(routeCoordinates[routeCoordinates.length - 1], { icon: destinationIcon }).addTo(mapRef.current)
         .bindPopup("مقصد");
+    }
+  }, []); // Empty dependency array means this runs only once
 
-      // Add time markers along the route
-      routeData.forEach((segment, index) => {
-        const midPoint = [
-          (segment.coordinates[0][0] + segment.coordinates[1][0]) / 2,
-          (segment.coordinates[0][1] + segment.coordinates[1][1]) / 2
-        ];
+  // Update route highlights - runs when currentSlide changes
+  useEffect(() => {
+    if (!mapRef.current || !routeData[currentSlide]) return;
 
-        const timeIcon = L.divIcon({
-          html: `
-            <div class="time-marker">
-              <svg xmlns="http://www.w3.org/2000/svg" width="100" height="70" viewBox="0 0 24 24" fill="#3498db" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/>
-              </svg>
-              <span class="time-text">${segment.time}</span>
-            </div>
-          `,
-          className: '',
-          iconAnchor: [20, 20] // This fixes the marker positioning
-        });
-
-        if (index === currentSlide) {
-          L.marker(midPoint, { icon: timeIcon }).addTo(mapRef.current);
-        }
-      });
+    const segment = routeData[currentSlide].coordinates;
+    
+    // Clear previous highlights
+    if (mapRef.current._highlightLayer) {
+      mapRef.current.removeLayer(mapRef.current._highlightLayer);
+    }
+    if (mapRef.current._timeMarker) {
+      mapRef.current.removeLayer(mapRef.current._timeMarker);
     }
 
-    // Highlight current segment
-    if (mapRef.current && routeData[currentSlide]) {
-      const segment = routeData[currentSlide].coordinates;
-      const segmentLayer = L.polyline(segment, { color: '#e74c3c', weight: 8 });
+    // Add new highlight
+    const segmentLayer = L.polyline(segment, { 
+      color: '#e74c3c', 
+      weight: 8 
+    }).addTo(mapRef.current);
+    mapRef.current._highlightLayer = segmentLayer;
 
-      // Clear previous highlight
-      mapRef.current.eachLayer(layer => {
-        if (layer.options.highlight) {
-          mapRef.current.removeLayer(layer);
-        }
-      });
+    // Add time marker
+    const progress = 0.6;
+    const labelPoint = [
+      segment[0][0] + (segment[1][0] - segment[0][0]) * progress + 0.00003,
+      segment[0][1] + (segment[1][1] - segment[0][1]) * progress
+    ];
 
-      segmentLayer.options.highlight = true;
-      segmentLayer.addTo(mapRef.current);
+    const timeIcon = L.divIcon({
+      html: `
+        <div class="time-marker">
+          <div class="time-bubble">${routeData[currentSlide].time}</div>
+        </div>
+      `,
+      className: 'time-marker-container',
+      iconSize: [60, 30],
+      iconAnchor: [30, 15]
+    });
 
-      // Center map on this segment
-      mapRef.current.fitBounds(segment);
-    }
+    const timeMarker = L.marker(labelPoint, { 
+      icon: timeIcon 
+    }).addTo(mapRef.current);
+    mapRef.current._timeMarker = timeMarker;
 
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
-      }
-    };
   }, [currentSlide]);
 
   // Update distance and time when slide changes
@@ -158,7 +162,7 @@ const RouteOverview = () => {
 
   const prevSlide = () => {
     if (currentSlide > 0) {
-      setCurrentSlide(currentSlide + 1);
+      setCurrentSlide(currentSlide - 1);
     }
   };
 
@@ -177,7 +181,7 @@ const RouteOverview = () => {
       case 'bend-left':
         return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-merge-alt-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M16 7l-4 -4l-4 4" /><path d="M6 21v.01" /><path d="M6 18.01v.01" /><path d="M7 15.02v.01" /><path d="M10 13.03v.01" /><path d="M12 3v5.394a6.737 6.737 0 0 0 3 5.606a6.737 6.737 0 0 1 3 5.606v1.394" /></svg>;
       case 'arrived':
-        return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l5 5l10 -10" /></svg>;
+        return <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>;
       default:
         return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>;
     }
@@ -185,16 +189,19 @@ const RouteOverview = () => {
 
   return (
     <div className="route-overview-container fade-in">
-      {/* Header */}
-      <header className="route-overview-header">
-        <button className="route-back-button" onClick={() => navigate(-1)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-        </button>
-        <h1 className="route-header-title">مسیر در یک نگاه</h1>
-        <button className="map-profile-button" onClick={() => navigate('/Profile')}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
-        </button>
-      </header>
+      {/* Header with gradient bottom */}
+      <div className="header-container">
+        <header className="route-overview-header">
+          <button className="route-back-button" onClick={() => navigate(-1)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+          </button>
+          <h1 className="route-header-title">مسیر در یک نگاه</h1>
+          <button className="map-profile-button" onClick={() => navigate('/Profile')}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
+          </button>
+        </header>
+        <div className="header-gradient"></div>
+      </div>
 
       {/* Map Section */}
       <div id="route-map" className="route-map-container"></div>
@@ -228,7 +235,7 @@ const RouteOverview = () => {
           <div className="carousel-controls">
             <button className="carousel-prev" onClick={prevSlide} disabled={currentSlide === 0}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M9 6l6 6l-6 6" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M9 6l6 6l-6 6" stroke="currentColor" strokeWidth="2" fill="none" />
               </svg>
               قبلی
             </button>

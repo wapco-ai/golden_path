@@ -120,25 +120,6 @@
   width: 100%;
 }
 
-.time-label {
-  background: none;
-  border: none;
-}
-
-.time-label-box {
-  background-color: #2196F3;
-  color: white;
-  height: 50px;
-  width: 50px;
-  border-radius: 15px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
 /* Location Inputs Styles */
 .location-section-container {
   display: flex;
@@ -478,4 +459,16 @@
 .leaflet-pane .leaflet-overlay-pane svg path {
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.time-bubble {
+  background-color: #3498db;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  position: relative;
+  white-space: nowrap;
 }
