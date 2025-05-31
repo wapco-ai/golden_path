@@ -130,7 +130,6 @@ const MapRoutingPage = () => {
             </div>
           ))}
         </div>
-        <div className="headers-gradient"></div>
       </div>
 
       {/* Map Container */}
