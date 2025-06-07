@@ -44,9 +44,9 @@ const MapComponent = ({ setUserLocation, selectedDestination }) => {
         <div style="
           width: 20px;
           height: 20px;
-          background-color: #4285F4;
+          background-color: white;
           border-radius: 50%;
-          border: 2px solid white;
+          border: 6px solid  #4285F4;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           display: flex;
           align-items: center;
