@@ -6,11 +6,15 @@ import '../styles/MapRouting.css';
 const MapRoutingPage = () => {
   const navigate = useNavigate();
   const [showDestinationModal, setShowDestinationModal] = useState(false);
+  const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [userLocation, setUserLocation] = useState('باب الرضا «ع»');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
+  const [activeInput, setActiveInput] = useState(null);
+  const [isGPSEnabled, setIsGPSEnabled] = useState(false);
   const destinationInputRef = useRef(null);
+  const originInputRef = useRef(null);
   const modalRef = useRef(null);
   const searchInputRef = useRef(null);
 
@@ -67,11 +71,14 @@ const MapRoutingPage = () => {
   );
 
   const handleDestinationSelect = (destination) => {
-    setSelectedDestination(destination);
-    setShowDestinationModal(false);
-    if (destinationInputRef.current) {
-      destinationInputRef.current.value = destination.name;
+    if (activeInput === 'destination') {
+      setSelectedDestination(destination);
+      setShowDestinationModal(false);
+    } else {
+      setUserLocation(destination.name);
+      setShowOriginModal(false);
     }
+    setSearchQuery('');
   };
 
   const handleInputChange = (e) => {
@@ -79,17 +86,55 @@ const MapRoutingPage = () => {
   };
 
   const handleSwapLocations = () => {
+    const temp = userLocation;
+    setUserLocation(selectedDestination ? selectedDestination.name : 'باب الرضا «ع»');
+    setSelectedDestination(temp !== 'باب الرضا «ع»' ? { name: temp, location: '' } : null);
     setIsSwapped(!isSwapped);
-    if (selectedDestination) {
-      setUserLocation(selectedDestination.name);
-      setSelectedDestination({ name: userLocation, location: '' });
+  };
+
+  const handleInputClick = (inputType) => {
+    setActiveInput(inputType);
+    if (inputType === 'destination') {
+      setShowDestinationModal(true);
+    } else {
+      setShowOriginModal(true);
+      // Check if GPS is enabled
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          () => setIsGPSEnabled(true),
+          () => setIsGPSEnabled(false)
+        );
+      }
     }
+  };
+
+  const handleCurrentLocationSelect = () => {
+    setShowOriginModal(false);
+  };
+
+  const handleMapSelection = () => {
+    if (activeInput === 'destination') {
+      setShowDestinationModal(false);
+    } else {
+      setShowOriginModal(false);
+    }
+    // Here you would implement the map selection logic
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+  };
+
+  const handleBackToModal = () => {
+    setSearchQuery('');
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setShowDestinationModal(false);
+        setShowOriginModal(false);
+        setSearchQuery('');
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -99,10 +144,10 @@ const MapRoutingPage = () => {
   }, []);
 
   useEffect(() => {
-    if (showDestinationModal && searchInputRef.current) {
+    if ((showDestinationModal || showOriginModal) && searchInputRef.current) {
       searchInputRef.current.focus();
     }
-  }, [showDestinationModal]);
+  }, [showDestinationModal, showOriginModal]);
 
   return (
     <div className="map-routing-page">
@@ -134,7 +179,11 @@ const MapRoutingPage = () => {
 
       {/* Map Container */}
       <div className="map-routing-container">
-        <MapComponent setUserLocation={setUserLocation} selectedDestination={selectedDestination} />
+        <MapComponent
+          setUserLocation={setUserLocation}
+          selectedDestination={selectedDestination}
+          isSwapped={isSwapped}
+        />
         <button className="map-gps-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -148,64 +197,125 @@ const MapRoutingPage = () => {
         </button>
       </div>
 
-      {/* Destination Input */}
-      <div className={`map-destination-input-container ${showDestinationModal ? 'expanded' : ''}`} ref={modalRef}>
-        <div className="location-icons-container">
-          <div className="location-icon origin-icon">
-            <div className="n-circle"></div>
-          </div>
-          <div className="tdots">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-          </div>
-          <div className="location-icon destination-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
-              <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
-            </svg>
-          </div>
-        </div>
-        <div className="map-location-inputs-container">
-          <div className={`map-current-location ${isSwapped ? 'swapped' : ''}`}>
-            <div className="map-location-text">
-              <span className="map-location-name">{isSwapped ? (selectedDestination ? selectedDestination.name : 'مقصد را انتخاب کنید') : userLocation}</span>
-              <span className="map-location-label">'مبداء فعلی شما'</span>
+      {/* Destination Input - Only shown when modal is NOT open */}
+      {!showDestinationModal && !showOriginModal && (
+        <div className="map-destination-input-container" ref={modalRef}>
+          <div className="location-icons-container">
+            <div className="location-icon origin-icon">
+              <div className="n-circle"></div>
             </div>
-            {showDestinationModal && (
-              <button className="map-modal-back-button" onClick={() => setShowDestinationModal(false)}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M15 6l-6 6l6 6" />
-                </svg>
-              </button>
-            )}
+            <div className="tdots">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+            </div>
+            <div className="location-icon destination-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
+                <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
+              </svg>
+            </div>
           </div>
+          <div className="map-location-inputs-container">
+            {/* Origin Input (always top) */}
+            <div
+              className="map-current-location"
+              onClick={() => handleInputClick('origin')}
+            >
+              <div className="map-location-text">
+                <span className="map-location-name">
+                  {isSwapped ? (selectedDestination ? selectedDestination.name : 'مقصد را انتخاب کنید') : userLocation}
+                </span>
+                <span className={`map-location-label ${isSwapped ? 'hidden' : ''}`}>
+                  مبداء فعلی شما
+                </span>
+              </div>
+            </div>
 
-          <button className="map-swap-button" onClick={handleSwapLocations}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M3 9l4 -4l4 4m-4 -4v14" />
-              <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-            </svg>
-          </button>
+            <button className="map-swap-button" onClick={handleSwapLocations}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M3 9l4 -4l4 4m-4 -4v14" />
+                <path d="M21 15l-4 4l-4 -4m4 4v-14" />
+              </svg>
+            </button>
 
-          <div className={`map-destination-input-wrapper ${isSwapped ? 'swapped' : ''}`} onClick={() => setShowDestinationModal(true)}>
-            <input
-              type="text"
-              placeholder={isSwapped ? 'مبداء را انتخاب کنید' : 'مقصد را انتخاب کنید'}
-              ref={destinationInputRef}
-              onChange={handleInputChange}
-              value={isSwapped ? userLocation : (selectedDestination ? selectedDestination.name : '')}
-              className="destination-input"
-              readOnly
-            />
+            {/* Destination Input (always bottom) */}
+            <div
+              className="map-destination-input-wrapper"
+              onClick={() => handleInputClick('destination')}
+            >
+              <input
+                type="text"
+                placeholder="مقصد را انتخاب کنید"
+                value={isSwapped ? userLocation : (selectedDestination ? selectedDestination.name : '')}
+                readOnly
+              />
+              <span className={`map-location-label ${isSwapped ? '' : 'hidden'}`}>
+                مبداء فعلی شما
+              </span>
+            </div>
           </div>
-
         </div>
+      )}
 
-        {/* Search Results */}
-        {showDestinationModal && (
-          <div className="map-search-results">
-            <h2 className="map-recent-title">جستوجوهای اخیر شما</h2>
+      {/* Destination Modal */}
+      {showDestinationModal && (
+        <div className="map-search-modal" ref={modalRef}>
+          <div className="map-search-header">
+            <form className="map-search-form">
+              <button className="map-modal-back-button" onClick={() => setShowDestinationModal(false)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
+              </button>
+              <input
+                type="text"
+                placeholder="جستجوی مقصد"
+                value={searchQuery}
+                onChange={handleInputChange}
+                autoFocus
+                ref={searchInputRef}
+              />
+              {searchQuery && (
+                <button type="button" className="map-clear-search" onClick={handleClearSearch}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </form>
+          </div>
+
+          {!searchQuery && (
+            <div className="map-options-section">
+              <div className="map-option-item" onClick={handleMapSelection}>
+                <div className="map-option-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-photo-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8h.01" /><path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v5.5" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l2.5 2.5" /><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z" /><path d="M19 18v.01" /></svg>
+                </div>
+                <span className="map-option-text">انتخاب از روی نقشه</span>
+              </div>
+            </div>
+          )}
+
+          {!searchQuery && (
+            <>
+              <h2 className="map-recent-title">جستوجوهای اخیر شما</h2>
+              <ul className="map-destination-list">
+                {destinations.map((destination) => (
+                  <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
+                    <div className="map-destination-info">
+                      <span className="map-destination-name">{destination.name}</span>
+                      <span className="map-destination-location">{destination.location}</span>
+                    </div>
+                    <button className="map-recent-option">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          {searchQuery && filteredDestinations.length > 0 && (
             <ul className="map-destination-list">
               {filteredDestinations.map((destination) => (
                 <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
@@ -219,9 +329,93 @@ const MapRoutingPage = () => {
                 </li>
               ))}
             </ul>
+          )}
+        </div>
+      )}
+
+      {/* Origin Modal */}
+      {showOriginModal && (
+        <div className="map-search-modal" ref={modalRef}>
+          <div className="map-search-header">
+            <form className="map-search-form">
+              <button className="map-modal-back-button" onClick={() => setShowOriginModal(false)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
+              </button>
+              <input
+                type="text"
+                placeholder="جستجوی مبدا"
+                value={searchQuery}
+                onChange={handleInputChange}
+                autoFocus
+                ref={searchInputRef}
+              />
+              {searchQuery && (
+                <button type="button" className="map-clear-search" onClick={handleClearSearch}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </form>
           </div>
-        )}
-      </div>
+
+          {!searchQuery && (
+            <div className="map-options-section">
+              <div className="map-option-item" onClick={handleMapSelection}>
+                <div className="map-option-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-photo-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8h.01" /><path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v5.5" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l2.5 2.5" /><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z" /><path d="M19 18v.01" /></svg>
+                </div>
+                <span className="map-option-text">انتخاب از روی نقشه</span>
+              </div>
+              {isGPSEnabled && (
+                <div className="map-option-item" onClick={handleCurrentLocationSelect}>
+                  <div className="map-option-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-current-location"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg>
+                  </div>
+                  <span className="map-option-text">مکان فعلی شما ({userLocation})</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!searchQuery && (
+            <>
+              <h2 className="map-recent-title">جستوجوهای اخیر شما</h2>
+              <ul className="map-destination-list">
+                {destinations.map((destination) => (
+                  <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
+                    <div className="map-destination-info">
+                      <span className="map-destination-name">{destination.name}</span>
+                      <span className="map-destination-location">{destination.location}</span>
+                    </div>
+                    <button className="map-recent-option">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          {searchQuery && filteredDestinations.length > 0 && (
+            <ul className="map-destination-list">
+              {filteredDestinations.map((destination) => (
+                <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
+                  <div className="map-destination-info">
+                    <span className="map-destination-name">{destination.name}</span>
+                    <span className="map-destination-location">{destination.location}</span>
+                  </div>
+                  <button className="map-recent-option">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 };
