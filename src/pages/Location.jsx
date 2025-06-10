@@ -357,7 +357,7 @@ const Location = () => {
 
       {/* Events Section */}
       <section className="events-section">
-        <h3>رویدادهای این مکان</h3>
+        <h3>محتواهای صوتی و متنی {locationData.title}</h3>
         <div className="events-list">
           {locationData.events.map(event => (
             <div key={event.id} className="event-item">

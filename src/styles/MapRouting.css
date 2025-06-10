@@ -180,9 +180,8 @@
   padding-bottom: 15px;
   width: 85vw;
   position: relative;
-  padding: 12px 0;
+  padding: 12px 0px;
   font-family: 'Vazir', Arial, sans-serif;
-  border-bottom: 1px solid #8e8a8a4d;
 }
 
 .map-location-text {
@@ -210,14 +209,6 @@
   margin-top: 4px;
   font-family: 'Vazir', Arial, sans-serif;
 }
-
-.mapll {
-  font-size: 15px;
-  color: #4285F4;
-  margin-top: 4px;
-  font-family: 'Vazir', Arial, sans-serif;
-}
-
 
 .map-location-name {
   font-size: 16px;
@@ -611,4 +602,61 @@
   background-color: white;
   z-index: 1000;
   transition: transform 0.3s ease-out;
+}
+
+/* Swap button animation */
+.map-swap-button.rotate svg {
+  animation: rotate180 0.5s ease-in-out;
+}
+
+@keyframes rotate180 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+/* Modal fade-in animation */
+.map-search-modal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.map-search-modal.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Input transition */
+.map-current-location,
+.map-destination-input-wrapper {
+  transition: transform 0.3s ease;
+}
+
+/* Destination marker styling */
+.location-icon.destination-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.map-inputs-divider {
+  position: absolute;
+  left: 50px; /* Adjust based on your icon container width */
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-color: #8e8a8a4d;
+  z-index: 1;
+}
+
+.map-current-location.swapped {
+  padding:  0px 0px;
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  width: 85vw;
+  position: relative;
 }

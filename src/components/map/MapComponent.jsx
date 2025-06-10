@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const MapComponent = ({ setUserLocation, selectedDestination }) => {
+const MapComponent = ({ setUserLocation, selectedDestination, isSwapped }) => {
   const mapRef = useRef(null);
   const userMarkerRef = useRef(null);
   const destinationMarkerRef = useRef(null);
@@ -46,7 +46,7 @@ const MapComponent = ({ setUserLocation, selectedDestination }) => {
           height: 20px;
           background-color: white;
           border-radius: 50%;
-          border: 6px solid  #4285F4;
+          border: 6px solid #4285F4;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           display: flex;
           align-items: center;
@@ -67,28 +67,13 @@ const MapComponent = ({ setUserLocation, selectedDestination }) => {
 
     const destinationIcon = L.divIcon({
       html: `
-        <div style="
-          width: 20px;
-          height: 20px;
-          background-color: #EA4335;
-          border-radius: 50%;
-          border: 2px solid white;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        ">
-          <div style="
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-          "></div>
-        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
+          <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
+        </svg>
       `,
       className: '',
-      iconSize: [20, 20],
-      iconAnchor: [10, 10]
+      iconSize: [24, 24],
+      iconAnchor: [12, 24]
     });
 
     // Request user location without high accuracy (to avoid Google APIs)
@@ -135,7 +120,7 @@ const MapComponent = ({ setUserLocation, selectedDestination }) => {
           handleLocationSuccess,
           handleLocationError,
           {
-            enableHighAccuracy: false, // Changed from true to false
+            enableHighAccuracy: false,
             timeout: 10000,
             maximumAge: 60000
           }
@@ -168,7 +153,6 @@ const MapComponent = ({ setUserLocation, selectedDestination }) => {
       if (!selectedDestination || !mapRef.current) return;
 
       // For demo purposes, we'll use a fixed location offset from user position
-      // In a real app, you would use the actual coordinates of the destination
       let destCoords;
       if (userMarkerRef.current) {
         const userLatLng = userMarkerRef.current.getLatLng();
@@ -225,19 +209,33 @@ const MapComponent = ({ setUserLocation, selectedDestination }) => {
     };
   }, [setUserLocation]);
 
-  // Update destination marker when selectedDestination changes
+  // Update destination marker when selectedDestination changes or when swapped
   useEffect(() => {
     if (mapRef.current) {
       updateDestinationMarker();
+      
+      // If swapped, swap the markers visually
+      if (isSwapped && userMarkerRef.current && destinationMarkerRef.current) {
+        const userLatLng = userMarkerRef.current.getLatLng();
+        const destLatLng = destinationMarkerRef.current.getLatLng();
+        
+        // Swap positions
+        userMarkerRef.current.setLatLng(destLatLng);
+        destinationMarkerRef.current.setLatLng(userLatLng);
+        
+        // Update polyline
+        if (polylineRef.current) {
+          polylineRef.current.setLatLngs([destLatLng, userLatLng]);
+        }
+      }
     }
-  }, [selectedDestination]);
+  }, [selectedDestination, isSwapped]);
 
   // Function to update destination marker (defined inside useEffect to use refs)
   const updateDestinationMarker = () => {
     if (!selectedDestination || !mapRef.current) return;
 
     // For demo purposes, we'll use a fixed location offset from user position
-    // In a real app, you would use the actual coordinates of the destination
     let destCoords;
     if (userMarkerRef.current) {
       const userLatLng = userMarkerRef.current.getLatLng();
@@ -253,28 +251,13 @@ const MapComponent = ({ setUserLocation, selectedDestination }) => {
     destinationMarkerRef.current = L.marker(destCoords, {
       icon: L.divIcon({
         html: `
-          <div style="
-            width: 20px;
-            height: 20px;
-            background-color: #EA4335;
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          ">
-            <div style="
-              width: 8px;
-              height: 8px;
-              background-color: white;
-              border-radius: 50%;
-            "></div>
-          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
+            <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
+          </svg>
         `,
         className: '',
-        iconSize: [20, 20],
-        iconAnchor: [10, 10]
+        iconSize: [24, 24],
+        iconAnchor: [12, 24]
       })
     }).addTo(mapRef.current)
       .bindPopup(selectedDestination.name);
