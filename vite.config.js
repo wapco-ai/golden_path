@@ -11,11 +11,11 @@ export default defineConfig({
   plugins: [  
     react(),  
     VitePWA({  
-      registerType: 'prompt',  
+      registerType: 'autoUpdate',  
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],  
       manifest: {  
         name: 'golden path',  
-        short_name: 'gpath',  
+        short_name: 'goldenPath',  
         description: 'اپلیکیشن GPS Validity برای ردیابی موقعیت با دقت بالا',  
         theme_color: '#ffffff',  
         background_color: '#f0f2f5',  
