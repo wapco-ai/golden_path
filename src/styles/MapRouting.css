@@ -319,6 +319,7 @@
 .map-recent-option {
   background-color: transparent;
   border: none;
+  
 }
 
 
@@ -597,7 +598,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  top:0;
+  top: 0;
   padding: 12px;
   background-color: white;
   z-index: 1000;
@@ -613,6 +614,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(180deg);
   }
@@ -644,7 +646,8 @@
 
 .map-inputs-divider {
   position: absolute;
-  left: 50px; /* Adjust based on your icon container width */
+  left: 50px;
+  /* Adjust based on your icon container width */
   right: 0;
   top: 50%;
   height: 1px;
@@ -653,10 +656,14 @@
 }
 
 .map-current-location.swapped {
-  padding:  0px 0px;
+  padding: 0px 0px;
   margin-top: 35px;
   display: flex;
   align-items: center;
   width: 85vw;
   position: relative;
+}
+
+.map-recent-icon {
+  margin-top: 15px;
 }

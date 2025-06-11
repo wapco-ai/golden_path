@@ -28,11 +28,6 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped }) => {
       maxZoom: 19,
     }).addTo(map);
 
-    // Custom zoom control
-    L.control.zoom({
-      position: 'bottomright'
-    }).addTo(map);
-
     // Hide leaflet watermark
     const style = document.createElement('style');
     style.innerHTML = '.leaflet-control-attribution { display: none !important; }';
