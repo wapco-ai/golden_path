@@ -1,0 +1,43 @@
+
+{
+  "route": {
+    "totalTime": "14:39",
+    "totalDistance": "600 متر",
+    "currentLocation": "صحن پیامبر اعظم (ص)",
+    "destination": "صحن قدس",
+    "steps": [
+      {
+        "id": 1,
+        "time": "1 دقیقه",
+        "distance": "570 متر",
+        "instruction": "در صحن پیامبر اعظم (ص) به سمت میدانگاه آن به مسیرتان ادامه دهید",
+        "direction": "right",
+        "coordinates": [36.2880, 59.6157]
+      },
+      {
+        "id": 2,
+        "time": "35 ثانیه",
+        "distance": "45 متر",
+        "instruction": "در میدانگاه صحن پیامبر اعظم (ص) به سمت صحن قدس ببچید و وارد آن شوید",
+        "direction": "bend-right",
+        "coordinates": [36.2882, 59.6160]
+      },
+      {
+        "id": 3,
+        "time": "1 دقیقه",
+        "distance": "75 متر",
+        "instruction": "در صحن پیامبر اعظم (ص) به سمت میدانگاه آن به مسیرتان ادامه دهید",
+        "direction": "left",
+        "coordinates": [36.2885, 59.6163]
+      },
+      {
+        "id": 4,
+        "time": "35 ثانیه",
+        "distance": "45 متر",
+        "instruction": "در میدانگاه صحن پیامبر اعظم (ص) به سمت صحن قدس ببچید و وارد آن شوید",
+        "direction": "arrived",
+        "coordinates": [36.2888, 59.6166]
+      }
+    ]
+  }
+}

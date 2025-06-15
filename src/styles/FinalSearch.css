@@ -105,7 +105,7 @@
 }
 
 /* Map Styles */
-.map-container {
+.mpr {
   height: 450px;
   width: calc(100% - 30px);
   margin: 15px auto;

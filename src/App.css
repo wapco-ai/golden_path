@@ -4,10 +4,10 @@
   --secondary-color: #2ecc71;  
   --danger-color: #e74c3c;  
   --info-color: #9b59b6;  
-  --bg-color: #f5f5f5;  
+  --bg-color: white;  
   --text-color: #333;  
-  --header-bg: #fff;  
-  --card-bg: #fff;  
+  --header-bg: white;   
+  --card-bg: white;  
   --border-radius: 8px;  
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.15);  
 }  

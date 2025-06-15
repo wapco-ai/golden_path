@@ -156,6 +156,12 @@ const FinalSearch = () => {
     }
   }, [origin, destination, routeInfo.time]);
 
+  const swapLocations = () => {
+    const temp = origin;
+    setOrigin(destination);
+    setDestination(temp);
+  };
+
   const handleNavigate = () => {
     navigate('/navigation', {
       state: {
@@ -266,7 +272,7 @@ const FinalSearch = () => {
       </div>
 
       {/* Map Section */}
-      <div className="map-container" ref={mapRef}></div>
+      <div className="mpr" ref={mapRef}></div>
 
       {/* Location Inputs Section */}
       <div className="location-section-container">
@@ -294,7 +300,7 @@ const FinalSearch = () => {
           </div>
 
           <div className="swap-container">
-            <button className="swap-btn" >
+            <button className="swap-btn" onClick={swapLocations}>
               <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M3 9l4 -4l4 4m-4 -4v14" />
@@ -403,7 +409,7 @@ const FinalSearch = () => {
 
       {/* Action Buttons */}
       <div className="action-buttons">
-        <button className="navigate-btn" onClick={handleNavigate}>
+        <button className="navigate-btn" onClick={() => navigate('/rng')}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
