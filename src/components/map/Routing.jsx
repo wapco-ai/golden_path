@@ -11,6 +11,9 @@ const Routing = ({ userLocation, routeSteps, currentStep, isInfoModalOpen }) => 
   useEffect(() => {
     if (!mapRef.current) return;
 
+    mapInstance.current = L.map(mapRef.current, {
+      preferCanvas: true,
+    }).setView([36.2880, 59.6157], 18);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -94,18 +97,6 @@ const Routing = ({ userLocation, routeSteps, currentStep, isInfoModalOpen }) => 
       userMarker.remove();
     };
   }, [userLocation]);
-
-  // Apply dark overlay when info modal is open
-  useEffect(() => {
-    if (!mapRef.current) return;
-    
-    const mapElement = mapRef.current;
-    if (isInfoModalOpen) {
-      mapElement.classList.add('dark-overlay');
-    } else {
-      mapElement.classList.remove('dark-overlay');
-    }
-  }, [isInfoModalOpen]);
 
   return <div ref={mapRef} className="route-map" />;
 };
