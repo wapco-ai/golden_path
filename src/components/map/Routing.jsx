@@ -15,6 +15,13 @@ const Routing = ({ userLocation, routeSteps, currentStep, isInfoModalOpen }) => 
       preferCanvas: true,
     }).setView([36.2880, 59.6157], 18);
 
+    // Disable zoom with scroll
+    mapInstance.current.touchZoom.disable();
+    mapInstance.current.doubleClickZoom.disable();
+    mapInstance.current.scrollWheelZoom.disable();
+    mapInstance.current.boxZoom.disable();
+    mapInstance.current.keyboard.disable();
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mapInstance.current);

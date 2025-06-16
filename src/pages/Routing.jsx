@@ -9,6 +9,13 @@ const RoutingPage = () => {
   const [routeData, setRouteData] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [userLocation, setUserLocation] = useState(null);
+  const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+  const [showSoundModal, setShowSoundModal] = useState(false);
+  const [selectedEmergency, setSelectedEmergency] = useState(null);
+  const [selectedSoundOption, setSelectedSoundOption] = useState('روشن');
+  const [isRoutingActive, setIsRoutingActive] = useState(false);
+  const [isClosingEmergency, setIsClosingEmergency] = useState(false);
+  const [isClosingSound, setIsClosingSound] = useState(false);
   const navigate = useNavigate();
 
   // Load route data from JSON
@@ -37,18 +44,20 @@ const RoutingPage = () => {
     }
   }, []);
 
-  // Auto-advance steps
+  // Auto-advance steps when routing is active
   useEffect(() => {
-    if (!routeData) return;
+    if (!routeData || !isRoutingActive) return;
 
     const timer = setInterval(() => {
       if (currentStep < routeData.steps.length - 1) {
         setCurrentStep(prev => prev + 1);
+      } else {
+        setIsRoutingActive(false);
       }
     }, 30000);
 
     return () => clearInterval(timer);
-  }, [currentStep, routeData]);
+  }, [currentStep, routeData, isRoutingActive]);
 
   const toggleMapModal = () => {
     setIsMapModalOpen(!isMapModalOpen);
@@ -56,6 +65,59 @@ const RoutingPage = () => {
 
   const toggleInfoModal = () => {
     setIsInfoModalOpen(!isInfoModalOpen);
+  };
+
+  const toggleEmergencyModal = () => {
+    if (showEmergencyModal) {
+      setIsClosingEmergency(true);
+      setTimeout(() => {
+        setShowEmergencyModal(false);
+        setIsClosingEmergency(false);
+      }, 300);
+    } else {
+      setShowEmergencyModal(true);
+      if (showSoundModal) {
+        setIsClosingSound(true);
+        setTimeout(() => {
+          setShowSoundModal(false);
+          setIsClosingSound(false);
+        }, 300);
+      }
+    }
+  };
+
+  const toggleSoundModal = () => {
+    if (showSoundModal) {
+      setIsClosingSound(true);
+      setTimeout(() => {
+        setShowSoundModal(false);
+        setIsClosingSound(false);
+      }, 300);
+    } else {
+      setShowSoundModal(true);
+      if (showEmergencyModal) {
+        setIsClosingEmergency(true);
+        setTimeout(() => {
+          setShowEmergencyModal(false);
+          setIsClosingEmergency(false);
+        }, 300);
+      }
+    }
+  };
+
+  const toggleRouting = () => {
+    setIsRoutingActive(!isRoutingActive);
+    if (!isRoutingActive && currentStep >= routeData?.steps?.length - 1) {
+      setCurrentStep(0);
+    }
+  };
+
+  const handleEmergencySelect = (type) => {
+    setSelectedEmergency(type);
+  };
+
+  const handleSoundOptionSelect = (option) => {
+    setSelectedSoundOption(option);
   };
 
   const renderDirectionArrow = (direction) => {
@@ -85,12 +147,113 @@ const RoutingPage = () => {
 
   return (
     <div className="routing-page">
-      {/* Main Guide Text Layer */}
+      {/* Separate overlay for info modal */}
+      {isInfoModalOpen && isMapModalOpen && (
+        <div className="info-modal-overlay" onClick={toggleInfoModal} />
+      )}
+
+      {/* Existing overlay for other modals */}
+      {(showEmergencyModal || showSoundModal) && (
+        <div className="modal-overlay" onClick={() => {
+          if (showEmergencyModal) toggleEmergencyModal();
+          if (showSoundModal) toggleSoundModal();
+        }} />
+      )}
+
+      {/* Emergency Modal */}
+      {(showEmergencyModal || isClosingEmergency) && (
+        <div className={`emergency-modal ${isClosingEmergency ? 'closing' : ''}`}>
+          <div className="modal-toggle2 emergency-toggle" onClick={toggleEmergencyModal}>
+            <div className="toggle-handle2"></div>
+          </div>
+          <div className="emergency-modal-content">
+            <h3 className="emergency-modal-title">درخواست کمک‌های فوریتی حرم مطهر</h3>
+            <p className="emergency-modal-subtitle">
+              لطفا نوع درخواست خود را انتخاب کنید و توضیحاتی<br />
+              درباره آن بنویسید. در سریع‌ترین زمان ممکن خادمین<br />
+              به مکان شما خواهند رسید.
+            </p>
+
+            <div className="emergency-options">
+              <button
+                className={`emergency-option ${selectedEmergency === 'fire' ? 'selected' : ''}`}
+                onClick={() => handleEmergencySelect('fire')}
+              >
+                اعلام حریق
+              </button>
+              <button
+                className={`emergency-option ${selectedEmergency === 'theft' ? 'selected' : ''}`}
+                onClick={() => handleEmergencySelect('theft')}
+              >
+                اعلام سرقت
+              </button>
+              <button
+                className={`emergency-option ${selectedEmergency === 'medical' ? 'selected' : ''}`}
+                onClick={() => handleEmergencySelect('medical')}
+              >
+                درخواست خدمات پزشکی
+              </button>
+              <button
+                className={`emergency-option ${selectedEmergency === 'missing' ? 'selected' : ''}`}
+                onClick={() => handleEmergencySelect('missing')}
+              >
+                اعلام مفقودی
+              </button>
+            </div>
+
+            <div className="emergency-description">
+              <textarea placeholder="توضیحات بیشتر..." className="emergency-textarea" />
+            </div>
+
+            <button className="emergency-submit-button">
+              تایید و ارسال درخواست
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Sound Settings Modal */}
+      {(showSoundModal || isClosingSound) && (
+        <div className={`sound-modal ${isClosingSound ? 'closing' : ''}`}>
+          <div className="modal-toggle2 sound-toggle" onClick={toggleSoundModal}>
+            <div className="toggle-handle2"></div>
+          </div>
+          <div className="sound-modal-content">
+            <h3 className="sound-modal-title">تنظیمات صدا</h3>
+            <div className="sound-options">
+              <button
+                className={`sound-option ${selectedSoundOption === 'روشن' ? 'selected' : ''}`}
+                onClick={() => handleSoundOptionSelect('روشن')}
+              > 
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="34"  height="34"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-volume"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
+              </button>
+              <button
+                className={`sound-option ${selectedSoundOption === 'فقط هشدار' ? 'selected' : ''}`}
+                onClick={() => handleSoundOptionSelect('فقط هشدار')}
+              >
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="34"  height="34"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-alert-triangle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v4" /><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" /><path d="M12 16h.01" /></svg>
+              </button>
+              <button
+                className={`sound-option ${selectedSoundOption === 'خاموش' ? 'selected' : ''}`}
+                onClick={() => handleSoundOptionSelect('خاموش')}
+              >
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="34"  height="34"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-volume-off"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8a5 5 0 0 1 1.912 4.934m-1.377 2.602a5 5 0 0 1 -.535 .464" /><path d="M17.7 5a9 9 0 0 1 2.362 11.086m-1.676 2.299a9 9 0 0 1 -.686 .615" /><path d="M9.069 5.054l.431 -.554a.8 .8 0 0 1 1.5 .5v2m0 4v8a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l1.294 -1.664" /><path d="M3 3l18 18" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main Guide Text Layer - Updated to show all steps in column */}
       <div className="guide-text-layer">
         {routeData.steps.map((step, index) => (
           <div
             key={step.id}
             className={`guide-step ${index === currentStep ? 'active' : ''}`}
+            style={{
+              display: index < currentStep ? 'none' : 'block',
+              order: index === currentStep ? -1 : index
+            }}
           >
             <div className="step-header">
               <div className="step-distance-container">
@@ -107,7 +270,7 @@ const RoutingPage = () => {
         ))}
       </div>
 
-      {/* Map Modal */}
+      {/* Map Modal with faded line when closed */}
       <div className={`map-modal ${isMapModalOpen ? 'open' : 'closed'}`}>
         <div className="modal-toggle map-toggle" onClick={toggleMapModal}>
           <div className="toggle-handle"></div>
@@ -123,8 +286,8 @@ const RoutingPage = () => {
             />
 
             {/* Emergency Button */}
-            <button className="emergency-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-alert-triangle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 1.67c.955 0 1.845 .467 2.39 1.247l.105 .16l8.114 13.548a2.914 2.914 0 0 1 -2.307 4.363l-.195 .008h-16.225a2.914 2.914 0 0 1 -2.582 -4.2l.099 -.185l8.11 -13.538a2.914 2.914 0 0 1 2.491 -1.403zm.01 13.33l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -7a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z" /></svg>
+            <button className="emergency-button" onClick={toggleEmergencyModal}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-alert-triangle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 1.67c.955 0 1.845 .467 2.39 1.247l.105 .16l8.114 13.548a2.914 2.914 0 0 1 -2.307 4.363l-.195 .008h-16.225a2.914 2.914 0 0 1 -2.582 -4.2l.099 -.185l8.11 -13.538a2.914 2.914 0 0 1 2.491 -1.403zm.01 13.33l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -7a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z" /></svg>
               <span>فوریت‌های حرم</span>
             </button>
 
@@ -166,7 +329,7 @@ const RoutingPage = () => {
                       </div>
                     </div>
 
-                    <button className="sound-button">
+                    <button className="sound-button" onClick={toggleSoundModal}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-volume"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
                     </button>
                   </div>
@@ -174,25 +337,24 @@ const RoutingPage = () => {
 
                 {isInfoModalOpen && (
                   <>
-
                     <div className="route-buttons">
                       <button className="route-button" onClick={() => navigate('/rop')}>
                         <div className="button-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
                         </div>
                         <span>مسیر در یک نگاه</span>
                       </button>
                       <span className="sdivider"></span>
                       <button className="route-button">
                         <div className="button-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
                         </div>
-                        <span>همه مسیرها</span>
+                        <span>همه مسیر</span>
                       </button>
                       <span className="sdivider"></span>
                       <button className="route-button">
                         <div className="button-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
                         </div>
                         <span>سایر مسیرها</span>
                       </button>
@@ -201,20 +363,20 @@ const RoutingPage = () => {
                 )}
 
                 <div className="bottom-controls">
-
-                  <button className="start-routing-button">
-                    شروع مسیریابی
+                  <button
+                    className={`start-routing-button ${isRoutingActive ? 'stop-routing' : ''}`}
+                    onClick={toggleRouting}
+                  >
+                    {isRoutingActive ? 'پایان و بستن سفر' : 'شروع مسیریابی'}
                   </button>
 
                   <div className="pc-container">
-
                     <button className="expand-button" onClick={toggleInfoModal}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-compact-down"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 11l8 3l8 -3" /></svg>
                     </button>
                     <button className="profile-button" onClick={() => navigate('/Profile')}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
                     </button>
-
                   </div>
                 </div>
               </div>
@@ -232,7 +394,6 @@ const RoutingPage = () => {
           </svg>
           <span className="return-to-route-text">برگرد به مسیر</span>
         </button>
-
       )}
     </div>
   );

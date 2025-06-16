@@ -42,7 +42,6 @@
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border: none;
-  cursor: pointer;
 }
 
 
@@ -139,7 +138,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   z-index: 1000;
 }
 
@@ -232,9 +230,7 @@
   padding: 10px 5px;
   background-color: white;
   border: none;
-  cursor: pointer;
   flex-grow: 1;
-  cursor: pointer;
 }
 
 .map-destination-input svg {
@@ -252,7 +248,6 @@
   font-size: 20px;
   color: #333;
   padding: 0;
-  cursor: pointer;
 }
 
 
@@ -290,7 +285,6 @@
   background: none;
   border: none;
   padding: 0;
-  cursor: pointer;
 }
 
 .map-modal-back-button svg {
@@ -342,7 +336,6 @@
   align-items: center;
   padding: 16px 0;
   border-bottom: 1px solid #eee;
-  cursor: pointer;
   font-family: 'Vazir', Arial, sans-serif;
 }
 
@@ -435,7 +428,6 @@
   font-size: 16px;
   color: #333;
   padding: 0;
-  cursor: pointer;
   font-family: 'Vazir', Arial, sans-serif;
 }
 
@@ -446,7 +438,6 @@
   font-size: 16px;
   color: #333;
   padding: 0;
-  cursor: pointer;
   font-family: 'Vazir', Arial, sans-serif;
 }
 
@@ -465,7 +456,6 @@
   font-family: 'Vazir', Arial, sans-serif;
   display: flex;
   padding: 5px 0;
-  cursor: pointer;
   margin-right: 10px;
   width: 75vw;
 }
@@ -559,7 +549,6 @@
   align-items: center;
   padding: 16px 0;
   border-bottom: 1px solid #eee;
-  cursor: pointer;
 }
 
 .map-option-icon {
