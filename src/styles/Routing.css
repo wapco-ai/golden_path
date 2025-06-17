@@ -661,3 +661,21 @@
   border-radius: 3px;
   margin-bottom: 10px;
 }
+
+.option-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.option-text {
+  font-family: 'Vazir', Tahoma, sans-serif;
+  margin-top: 10px;
+  font-size: 1.1rem;;
+}
+
+.option-text.selected {
+  color: #1d80e3;
+}
+
