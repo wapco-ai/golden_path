@@ -8,7 +8,7 @@ const RoutingPage = () => {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
   const [routeData, setRouteData] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState([36.2880, 59.6157]);
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [showSoundModal, setShowSoundModal] = useState(false);
   const [selectedEmergency, setSelectedEmergency] = useState(null);
@@ -16,31 +16,112 @@ const RoutingPage = () => {
   const [isRoutingActive, setIsRoutingActive] = useState(false);
   const [isClosingEmergency, setIsClosingEmergency] = useState(false);
   const [isClosingSound, setIsClosingSound] = useState(false);
+  const [showAllRoutesView, setShowAllRoutesView] = useState(false);
   const navigate = useNavigate();
+
+  // Calculate total time in minutes from all steps
+  const calculateTotalTime = (steps) => {
+    if (!steps) return 0;
+
+    let totalMinutes = 0;
+    steps.forEach(step => {
+      const timeStr = step.time;
+      if (timeStr.includes('دقیقه')) {
+        totalMinutes += parseInt(timeStr.split(' ')[0]);
+      } else if (timeStr.includes('ثانیه')) {
+        totalMinutes += Math.ceil(parseInt(timeStr.split(' ')[0]) / 60);
+      }
+    });
+
+    return totalMinutes;
+  };
+
+  // Format total time as "X دقیقه Y ثانیه"
+  const formatTotalTime = (totalMinutes) => {
+    if (totalMinutes < 1) {
+      const seconds = totalMinutes * 60;
+      return `${Math.round(seconds)} ثانیه`;
+    }
+    const minutes = Math.floor(totalMinutes);
+    const seconds = Math.round((totalMinutes - minutes) * 60);
+
+    if (seconds > 0) {
+      return `${minutes} دقیقه ${seconds} ثانیه`;
+    }
+    return `${minutes} دقیقه`;
+  };
+
+  // Calculate arrival time in HH:MM format with AM/PM indicator
+  const calculateArrivalTime = (totalMinutes) => {
+    const now = new Date();
+    const arrival = new Date(now.getTime() + totalMinutes * 60000);
+
+    let hours = arrival.getHours();
+    const minutes = arrival.getMinutes().toString().padStart(2, '0');
+
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    return `${hours}:${minutes}`;
+  };
 
   // Load route data from JSON
   useEffect(() => {
     fetch('./data/routeData.json')
       .then(response => response.json())
-      .then(data => setRouteData(data.route))
+      .then(data => {
+        const steps = data.route.steps;
+        const totalMinutes = calculateTotalTime(steps);
+        const formattedTotalTime = formatTotalTime(totalMinutes);
+        const arrivalTime = calculateArrivalTime(totalMinutes);
+
+        setRouteData({
+          ...data.route,
+          totalTime: formattedTotalTime,
+          arrivalTime: arrivalTime
+        });
+      })
       .catch(error => console.error('Error loading route data:', error));
   }, []);
+
+  // Update arrival time every minute
+  useEffect(() => {
+    if (!routeData) return;
+
+    const timer = setInterval(() => {
+      const totalMinutes = calculateTotalTime(routeData.steps);
+      const arrivalTime = calculateArrivalTime(totalMinutes);
+
+      setRouteData(prev => ({
+        ...prev,
+        arrivalTime: arrivalTime
+      }));
+    }, 60000);
+
+    return () => clearInterval(timer);
+  }, [routeData]);
 
   // Get user's current location
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        position => {
-          setUserLocation([position.coords.latitude, position.coords.longitude]);
-        },
-        error => {
-          console.error('Error getting location:', error);
-          setUserLocation([36.2880, 59.6157]);
-        },
-        { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
-      );
-    } else {
-      setUserLocation([36.2880, 59.6157]);
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      };
+
+      const success = (position) => {
+        setUserLocation([position.coords.latitude, position.coords.longitude]);
+      };
+
+      const error = (err) => {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+        setUserLocation([36.2880, 59.6157]);
+      };
+
+      const watchId = navigator.geolocation.watchPosition(success, error, options);
+
+      return () => navigator.geolocation.clearWatch(watchId);
     }
   }, []);
 
@@ -120,6 +201,15 @@ const RoutingPage = () => {
     setSelectedSoundOption(option);
   };
 
+  const handleAllRoutesClick = () => {
+    setShowAllRoutesView(true);
+    setIsInfoModalOpen(true); // Ensure info modal is open when showing all routes
+  };
+
+  const handleReturnToRoute = () => {
+    setShowAllRoutesView(false);
+  };
+
   const renderDirectionArrow = (direction) => {
     switch (direction) {
       case 'right':
@@ -141,14 +231,14 @@ const RoutingPage = () => {
     }
   };
 
-  if (!routeData || !userLocation) {
+  if (!routeData) {
     return <div className="loading">در حال بارگذاری...</div>;
   }
 
   return (
     <div className="routing-page">
       {/* Separate overlay for info modal */}
-      {isInfoModalOpen && isMapModalOpen && (
+      {isInfoModalOpen && isMapModalOpen && !showAllRoutesView && (
         <div className="info-modal-overlay" onClick={toggleInfoModal} />
       )}
 
@@ -259,7 +349,7 @@ const RoutingPage = () => {
         </div>
       )}
 
-      {/* Main Guide Text Layer - Updated to show all steps in column */}
+      {/* Main Guide Text Layer */}
       <div className="guide-text-layer">
         {routeData.steps.map((step, index) => (
           <div
@@ -308,93 +398,131 @@ const RoutingPage = () => {
 
             {/* Info Modal - Only visible when map modal is open */}
             <div className={`info-modal-wrapper ${isMapModalOpen ? 'visible' : 'hidden'}`}>
-              <div className={`info-modal ${isInfoModalOpen ? 'open' : 'closed'}`}>
-                <div className="modal-toggle info-toggle" onClick={toggleInfoModal}>
-                  <div className="toggle-handle"></div>
-                </div>
-
-                <div className="info-content">
-                  <div className="info-header">
-                    <button className="close-button" onClick={toggleInfoModal}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                    </button>
-                    <div className="info-title">
-                      <div className="info-stat">
+              {showAllRoutesView ? (
+                <div className="all-routes-view">
+                  <div className="all-routes-content">
+                    <div className="all-routes-header">
+                      <div className="all-routes-info">
                         <span>زمان رسیدن</span>
-                        <span className="arrival-time">{routeData.totalTime}</span>
+                        <span className="all-routes-arrival-time">{routeData.arrivalTime}</span>
                       </div>
-                      <div className="info-details">
-                        <div className="info-item">
-                          <div className="info-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M7 21l3 -4" /><path d="M16 21l-2 -4l-3 -3l1 -6" /><path d="M6 12l2 -3l4 -1l3 3l3 1" /></svg>
+                      <div className="all-routes-details">
+                        <div className="all-routes-item">
+                          <div className="all-routes-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M7 21l3 -4" /><path d="M16 21l-2 -4l-3 -3l1 -6" /><path d="M6 12l2 -3l4 -1l3 3l3 1" /></svg>
                           </div>
-                          <div className="info-text">
-                            <span className="info-value">{routeData.totalTime}</span>
+                          <div className="all-routes-text">
+                            <span className="all-routes-value">{routeData.totalTime}</span>
                           </div>
                         </div>
+                        <div className="all-routes-item">
+                          <div className="all-routes-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
+                          </div>
+                          <div className="all-routes-text">
+                            <span className="all-routes-value">{routeData.totalDistance}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="return-to-route-button2" onClick={handleReturnToRoute}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
+                      </svg>
+                      <span className="return-to-route-text">برگرد به مسیر</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={`info-modal ${isInfoModalOpen ? 'open' : 'closed'}`}>
+                  <div className="modal-toggle info-toggle" onClick={toggleInfoModal}>
+                    <div className="toggle-handle"></div>
+                  </div>
 
-                        <div className="info-item">
-                          <div className="info-icon">
+                  <div className="info-content">
+                    <div className="info-header">
+                      <button className="close-button" onClick={toggleInfoModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                      </button>
+                      <div className="info-title">
+                        <div className="info-stat">
+                          <span>زمان رسیدن</span>
+                          <span className="arrival-time">{routeData.arrivalTime}</span>
+                        </div>
+                        <div className="info-details">
+                          <div className="info-item">
+                            <div className="info-icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M7 21l3 -4" /><path d="M16 21l-2 -4l-3 -3l1 -6" /><path d="M6 12l2 -3l4 -1l3 3l3 1" /></svg>
+                            </div>
+                            <div className="info-text">
+                              <span className="info-value">{routeData.totalTime}</span>
+                            </div>
+                          </div>
+
+                          <div className="info-item">
+                            <div className="info-icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
+                            </div>
+                            <div className="info-text">
+                              <span className="info-value">{routeData.totalDistance}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button className="sound-button" onClick={toggleSoundModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-volume"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  {isInfoModalOpen && (
+                    <>
+                      <div className="route-buttons">
+                        <button className="route-button" onClick={() => navigate('/rop')}>
+                          <div className="button-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
                           </div>
-                          <div className="info-text">
-                            <span className="info-value">{routeData.totalDistance}</span>
+                          <span>مسیر در یک نگاه</span>
+                        </button>
+                        <span className="sdivider"></span>
+                        <button className="route-button" onClick={handleAllRoutesClick}>
+                          <div className="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
                           </div>
-                        </div>
+                          <span>همه مسیر</span>
+                        </button>
+                        <span className="sdivider"></span>
+                        <button className="route-button">
+                          <div className="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
+                          </div>
+                          <span>سایر مسیرها</span>
+                        </button>
                       </div>
-                    </div>
+                    </>
+                  )}
 
-                    <button className="sound-button" onClick={toggleSoundModal}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-volume"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
+                  <div className="bottom-controls">
+                    <button
+                      className={`start-routing-button ${isRoutingActive ? 'stop-routing' : ''}`}
+                      onClick={toggleRouting}
+                    >
+                      {isRoutingActive ? 'پایان و بستن سفر' : 'شروع مسیریابی'}
                     </button>
-                  </div>
-                </div>
 
-                {isInfoModalOpen && (
-                  <>
-                    <div className="route-buttons">
-                      <button className="route-button" onClick={() => navigate('/rop')}>
-                        <div className="button-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
-                        </div>
-                        <span>مسیر در یک نگاه</span>
+                    <div className="pc-container">
+                      <button className="expand-button" onClick={toggleInfoModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-compact-down"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 11l8 3l8 -3" /></svg>
                       </button>
-                      <span className="sdivider"></span>
-                      <button className="route-button">
-                        <div className="button-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
-                        </div>
-                        <span>همه مسیر</span>
-                      </button>
-                      <span className="sdivider"></span>
-                      <button className="route-button">
-                        <div className="button-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
-                        </div>
-                        <span>سایر مسیرها</span>
+                      <button className="profile-button" onClick={() => navigate('/Profile')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
                       </button>
                     </div>
-                  </>
-                )}
-
-                <div className="bottom-controls">
-                  <button
-                    className={`start-routing-button ${isRoutingActive ? 'stop-routing' : ''}`}
-                    onClick={toggleRouting}
-                  >
-                    {isRoutingActive ? 'پایان و بستن سفر' : 'شروع مسیریابی'}
-                  </button>
-
-                  <div className="pc-container">
-                    <button className="expand-button" onClick={toggleInfoModal}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-compact-down"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 11l8 3l8 -3" /></svg>
-                    </button>
-                    <button className="profile-button" onClick={() => navigate('/Profile')}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
-                    </button>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         )}
