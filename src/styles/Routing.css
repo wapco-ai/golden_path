@@ -95,7 +95,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #fff;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   transition: transform 0.3s ease;
@@ -771,3 +770,9 @@
     padding: 12px 10px;
   }
 }
+
+.map-container.dark-overlay {
+  filter: brightness(0.4);
+}
+
+
