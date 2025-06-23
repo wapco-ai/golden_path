@@ -390,9 +390,10 @@ const RoutingPage = () => {
               isInfoModalOpen={isInfoModalOpen}
             />
 
-            {/* Emergency Button */}
+
           </div>
         )}
+        {/* Emergency Button */}
         <button className="emergency-button" onClick={toggleEmergencyModal}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-alert-triangle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 1.67c.955 0 1.845 .467 2.39 1.247l.105 .16l8.114 13.548a2.914 2.914 0 0 1 -2.307 4.363l-.195 .008h-16.225a2.914 2.914 0 0 1 -2.582 -4.2l.099 -.185l8.11 -13.538a2.914 2.914 0 0 1 2.491 -1.403zm.01 13.33l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -7a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z" /></svg>
           <span>فوریت‌های حرم</span>
@@ -401,7 +402,7 @@ const RoutingPage = () => {
         {/* Info Modal - Only visible when map modal is open */}
         <div className={`info-modal-wrapper ${isMapModalOpen ? 'visible' : 'hidden'}`}>
           {showAllRoutesView ? (
-            <div className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${isInfoModalOpen ? 'dark-overlay' : ''}`}>
+            <div className="all-routes-view">
               <div className="all-routes-content">
                 <div className="all-routes-header">
                   <div className="all-routes-info">
@@ -438,11 +439,11 @@ const RoutingPage = () => {
             </div>
           ) : (
             <div className={`info-modal ${isInfoModalOpen ? 'open' : 'closed'}`}>
-              <div className="modal-toggle info-toggle" onClick={toggleInfoModal}>
-                <div className="toggle-handle"></div>
-              </div>
 
               <div className="info-content">
+                <div className="modal-toggle3 info-toggle" onClick={toggleInfoModal}>
+                  <div className="toggle-handle3"></div>
+                </div>
                 <div className="info-header">
                   <button className="close-button" onClick={toggleInfoModal}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
@@ -526,18 +527,20 @@ const RoutingPage = () => {
             </div>
           )}
         </div>
-      </div>
 
-      {/* Return to Route Button */}
-      {!isMapModalOpen && (
-        <button className="return-to-route-button" onClick={toggleMapModal}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
-          </svg>
-          <span className="return-to-route-text">برگرد به مسیر</span>
-        </button>
-      )}
+        {/* Return to Route Button */}
+        {
+          !isMapModalOpen && (
+            <button className="return-to-route-button" onClick={toggleMapModal}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
+              </svg>
+              <span className="return-to-route-text">برگرد به مسیر</span>
+            </button>
+          )
+        }
+      </div >
     </div>
   );
 };

@@ -5,7 +5,9 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/FinalSearch.css';
 
+
 const FinalSearch = () => {
+  const [isSwapButton, setSwapButton] = useState(true);
   const navigate = useNavigate();
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
@@ -157,6 +159,7 @@ const FinalSearch = () => {
   }, [origin, destination, routeInfo.time]);
 
   const swapLocations = () => {
+    setSwapButton(!isSwapButton);
     const temp = origin;
     setOrigin(destination);
     setDestination(temp);
@@ -296,7 +299,7 @@ const FinalSearch = () => {
             <div className="location-details">
               <div className="location-name">{origin.name}</div>
             </div>
-            <div className="current-location-label">مکان فعلی شما</div>
+            <div className={`current-location-label ${isSwapButton ? 'visible' : 'hidden'}`}>مکان فعلی شما</div>
           </div>
 
           <div className="swap-container">
@@ -313,6 +316,7 @@ const FinalSearch = () => {
             <div className="location-details">
               <div className="location-name">{destination.name}</div>
             </div>
+            <div className={`current-location-label2 ${isSwapButton ? 'visible' : 'hidden'}`}>مکان فعلی شما</div>
           </div>
         </div>
       </div>
@@ -407,8 +411,11 @@ const FinalSearch = () => {
         </div>
       </div>
 
+      <div className="action-gap">
+      </div>
+
       {/* Action Buttons */}
-      <div className="action-buttons">
+      <div className="action-buttons2">
         <button className="navigate-btn" onClick={() => navigate('/rng')}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
