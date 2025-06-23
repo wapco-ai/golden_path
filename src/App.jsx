@@ -15,7 +15,7 @@ import RouteOverview from './pages/RouteOverview';
 import Location from './pages/Location';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-
+import './App.css';
 
 const AppContent = () => {
   const location = useLocation();
