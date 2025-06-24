@@ -805,13 +805,14 @@
 }
 
 /* Updated profile avatar styling */
-.profile-avatar {
-  width: 25px;
-  height: 25px;
+.profile-avatar2 {
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  margin-right: 8px;
+  border: 1px solid #1977b6;
+  border-style: solid;
+  margin: 0 auto; 
 }
 
 /* Rating stars in comments */
@@ -1025,6 +1026,25 @@
 
 .place-info {
   padding: 12px;
+  font-family: 'IranSans', Arial, sans-serif;  
+}
+
+.place-info2 {
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.place-address {
+  align-items: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 8px;
+  font-family: 'IranSans', Arial, sans-serif;  
 }
 
 

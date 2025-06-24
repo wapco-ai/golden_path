@@ -17,6 +17,7 @@ const RoutingPage = () => {
   const [isClosingEmergency, setIsClosingEmergency] = useState(false);
   const [isClosingSound, setIsClosingSound] = useState(false);
   const [showAllRoutesView, setShowAllRoutesView] = useState(false);
+  const [showAlternativeRoutes, setShowAlternativeRoutes] = useState(false);
   const navigate = useNavigate();
 
   // Calculate total time in minutes from all steps
@@ -203,11 +204,20 @@ const RoutingPage = () => {
 
   const handleAllRoutesClick = () => {
     setShowAllRoutesView(true);
-    setIsInfoModalOpen(true); // Ensure info modal is open when showing all routes
+    setIsInfoModalOpen(true);
   };
 
   const handleReturnToRoute = () => {
     setShowAllRoutesView(false);
+  };
+
+  const handleShowAlternativeRoutes = () => {
+    setShowAlternativeRoutes(true);
+    setIsInfoModalOpen(true);
+  };
+
+  const handleReturnFromAlternativeRoutes = () => {
+    setShowAlternativeRoutes(false);
   };
 
   const renderDirectionArrow = (direction) => {
@@ -238,7 +248,7 @@ const RoutingPage = () => {
   return (
     <div className="routing-page">
       {/* Separate overlay for info modal */}
-      {isInfoModalOpen && isMapModalOpen && !showAllRoutesView && (
+      {isInfoModalOpen && isMapModalOpen && !showAllRoutesView && !showAlternativeRoutes && (
         <div className="info-modal-overlay" onClick={toggleInfoModal} />
       )}
 
@@ -382,17 +392,16 @@ const RoutingPage = () => {
         </div>
 
         {isMapModalOpen && (
-          <div className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${isInfoModalOpen ? 'dark-overlay' : ''} ${showAllRoutesView ? 'No-dark-overlay' : ''}`}>
+          <div className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${isInfoModalOpen ? 'dark-overlay' : ''} ${showAllRoutesView ? 'No-dark-overlay' : ''} ${isInfoModalOpen ? 'dark-overlay' : ''} ${showAlternativeRoutes ? 'No-dark-overlay' : ''}`}>
             <RouteMap
               userLocation={userLocation}
               routeSteps={routeData.steps}
               currentStep={currentStep}
               isInfoModalOpen={isInfoModalOpen}
             />
-
-
           </div>
         )}
+
         {/* Emergency Button */}
         <button className="emergency-button" onClick={toggleEmergencyModal}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-alert-triangle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 1.67c.955 0 1.845 .467 2.39 1.247l.105 .16l8.114 13.548a2.914 2.914 0 0 1 -2.307 4.363l-.195 .008h-16.225a2.914 2.914 0 0 1 -2.582 -4.2l.099 -.185l8.11 -13.538a2.914 2.914 0 0 1 2.491 -1.403zm.01 13.33l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -7a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z" /></svg>
@@ -437,9 +446,64 @@ const RoutingPage = () => {
                 </button>
               </div>
             </div>
+          ) : showAlternativeRoutes ? (
+            <div className="alternative-routes-view">
+              <button className="return-to-route-button5" onClick={handleReturnFromAlternativeRoutes}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
+                </svg>
+                <span className="return-to-route-text">برگرد به مسیر</span>
+              </button>
+
+              <div className="alternative-routes-container">
+                {routeData.alternativeRoutes.map(route => (
+                  <div key={route.id} className="alternative-route-card">
+                    <div className="route-title">
+                      <span>از {route.from}</span>
+                      <span >به {route.to}</span>
+                    </div>
+
+                    <div className="route-via">
+                      {route.via.join(" – ")}
+                    </div>
+
+                    <div className="route-stats">
+                      <div className="route-stat">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                          <path d="M7 21l3 -4" />
+                          <path d="M16 21l-2 -4l-3 -3l1 -6" />
+                          <path d="M6 12l2 -3l4 -1l3 3l3 1" />
+                        </svg>
+                        <span>{route.totalTime}</span>
+                      </div>
+
+                      <div className="route-stat">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                          <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" />
+                          <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
+                        </svg>
+                        <span>{route.totalDistance}</span>
+                      </div>
+                    </div>
+
+                    <button className="start-route-button">
+                      <svg className="rbt" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
+                      </svg>
+                      شروع مسیریابی
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
             <div className={`info-modal ${isInfoModalOpen ? 'open' : 'closed'}`}>
-
               <div className="info-content">
                 <div className="modal-toggle3 info-toggle" onClick={toggleInfoModal}>
                   <div className="toggle-handle3"></div>
@@ -497,7 +561,7 @@ const RoutingPage = () => {
                       <span>همه مسیر</span>
                     </button>
                     <span className="sdivider"></span>
-                    <button className="route-button">
+                    <button className="route-button" onClick={handleShowAlternativeRoutes}>
                       <div className="button-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
                       </div>
@@ -540,7 +604,7 @@ const RoutingPage = () => {
             </button>
           )
         }
-      </div >
+      </div>
     </div>
   );
 };

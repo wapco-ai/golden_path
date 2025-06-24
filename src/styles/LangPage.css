@@ -44,7 +44,6 @@
   margin: 8px 0;
   background-color: #f8f8f8;
   border-radius: 8px;
-  cursor: pointer;
   transition: all 0.2s;
   position: relative;
 }
@@ -88,11 +87,9 @@
   border: none;
   border-radius: 8px;
   font-size: 1rem;
-  cursor: pointer;
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .lang-login-btn.disabled {
   background-color: #bdc3c7;
-  cursor: not-allowed;
 }

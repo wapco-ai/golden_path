@@ -411,7 +411,7 @@ const Location = () => {
             <div key={index} className="comment-item">
               <div className="comment-header">
                 <div className="comment-author-section">
-                  <div className="profile-avatar" />
+                  <div className="profile-avatar2" />
                   <span className="comment-author">{item.author}</span>
                 </div>
                 <span className="comment-date">{item.date}</span>
@@ -620,20 +620,23 @@ const Location = () => {
                     ></div>
                     <div className="place-info">
                       <h3 className="place-title">{event.title}</h3>
-                      <span className="place-address">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
-                        {event.location}
-                      </span>
-                      <div className="place-meta">
-                        <span className="shrine-event-time">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z" />
-                          </svg>
-                          {event.time}
-                        </span>
-                      </div>
                       <p className="place-description">{event.description}</p>
+                      <div className="place-info2">
+                        <span className="place-address">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
+                          {event.location}
+                        </span>
+                        <div className="place-meta">
+                          <span className="shrine-event-time">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z" />
+                            </svg>
+                            {event.time}
+                          </span>
+                        </div>
+                      </div>
+
                       <div className="place-actions">
                         <button className="place-action-btn" onClick={() => navigate('/fs')}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

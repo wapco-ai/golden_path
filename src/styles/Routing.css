@@ -37,7 +37,8 @@
   background-color: white;
   border-radius: 8px;
   padding: 10px;
-  order: -1; /* Bring active step to top */
+  order: -1;
+  /* Bring active step to top */
 }
 
 .step-header {
@@ -385,7 +386,7 @@
 
 .start-routing-button.stop-routing {
   background-color: #e74c3c;
-  padding:  15px;
+  padding: 15px;
   flex: 0.7;
 }
 
@@ -482,7 +483,7 @@
   font-family: 'Vazir', Tahoma, sans-serif;
   direction: rtl;
   text-align: right;
-} 
+}
 
 /* Modal Overlay */
 .modal-overlay {
@@ -576,7 +577,8 @@
   padding: 10px;
   border: none;
   border-radius: 10px;
-  background-color: #f0f2f2e3;;
+  background-color: #f0f2f2e3;
+  ;
   font-size: 1.0rem;
   resize: none;
   font-family: 'Vazir', Tahoma, sans-serif;
@@ -659,7 +661,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1; 
+  z-index: 1;
   transition: opacity 0.3s ease;
 }
 
@@ -693,7 +695,8 @@
 .option-text {
   font-family: 'Vazir', Tahoma, sans-serif;
   margin-top: 10px;
-  font-size: 1.1rem;;
+  font-size: 1.1rem;
+  ;
 }
 
 .option-text.selected {
@@ -756,7 +759,7 @@
   justify-content: center;
 }
 
-.all-routes-arrival-time{
+.all-routes-arrival-time {
   font-size: 1.4rem;
   margin-top: 8px;
 }
@@ -784,6 +787,103 @@
   display: flex;
 }
 
+/* Alternative Routes View */
+.alternative-routes-view {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: transparent;
+  z-index: 110;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.alternative-routes-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  scrollbar-width: none;
+  margin-top: 65px;
+  /* For Firefox */
+}
+
+.alternative-routes-container::-webkit-scrollbar {
+  display: none;
+  /* For Chrome, Safari, and Opera */
+}
+
+.alternative-route-card {
+  flex: 0 0 90%;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.route-title {
+  display: flex;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.6;
+  gap: 8px;
+}
+
+.route-via {
+  font-size: 0.9rem;
+  color: #666;
+  padding: 10px 0;
+}
+
+.route-stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.route-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.start-route-button {
+  width: 60%;
+  padding: 10px;
+  background-color: #1E90FF;
+  color: white;
+  border-radius: 25px;
+  font-size: 1.0rem;
+  margin-top: 10px;
+  border: none;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  display: flex;
+  gap: 5px;
+}
+
+.rbt {
+  margin-right: 15px;
+}
+
+/* Adjust the return button position in alternative routes view */
+
+.return-to-route-button5 {
+  position: fixed;
+  left: 20px;
+  padding: 12px 20px;
+  background-color: #1E90FF;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+
 @media (max-width: 400px) {
   .return-to-route-button2 {
     padding: 12px 10px;
@@ -797,6 +897,3 @@
 .map-container.No-dark-overlay {
   filter: brightness(1);
 }
-
-
-
