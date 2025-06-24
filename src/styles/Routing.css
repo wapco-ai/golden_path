@@ -794,7 +794,7 @@
   filter: brightness(0.4);
 }
 
-.map-container.dark-overlay2 {
+.map-container.No-dark-overlay {
   filter: brightness(1);
 }
 
