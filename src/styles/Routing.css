@@ -791,7 +791,12 @@
 }
 
 .map-container.dark-overlay {
+  filter: brightness(0.4);
+}
+
+.map-container.dark-overlay2 {
   filter: brightness(1);
 }
+
 
 

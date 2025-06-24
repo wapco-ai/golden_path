@@ -382,7 +382,7 @@ const RoutingPage = () => {
         </div>
 
         {isMapModalOpen && (
-          <div className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${isInfoModalOpen ? 'dark-overlay' : ''}`}>
+          <div className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${isInfoModalOpen ? 'dark-overlay' : ''} ${showAllRoutesView ? 'dark-overlay2' : ''}`}>
             <RouteMap
               userLocation={userLocation}
               routeSteps={routeData.steps}
