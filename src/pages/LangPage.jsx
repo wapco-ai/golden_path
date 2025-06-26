@@ -9,10 +9,10 @@ const LangPage = () => {
   const navigate = useNavigate();
   
   const languages = [
-    { id: 1, name: 'فارسی' },
-    { id: 2, name: 'اردو' },
-    { id: 3, name: 'العربیة' },
-    { id: 4, name: 'English' }
+    { id: 1, name: ' فارسی      (FA)' },
+    { id: 2, name:' اردو      (Ur)' },
+    { id: 3, name: ' العربیة      (AR)'  },
+    { id: 4, name: ' English      (EN)'  }
   ];
 
   const handleLogin = () => {

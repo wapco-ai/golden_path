@@ -4,12 +4,19 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 20px;
   background: linear-gradient(to top, #ffffff 70%, #86d9f2);
   font-family: 'Vazir', Tahoma, sans-serif;
   text-align: right;
   direction: rtl;
 }
+
+@media (max-width: 400px) {
+  .lang-page-container {
+    max-height: 95vh;
+    min-height: 95vh;
+  }
+}
+
 
 
 .lang-logo {
@@ -89,6 +96,13 @@
   font-size: 1rem;
   font-family: 'Vazir', Tahoma, sans-serif;
 }
+
+@media (max-width: 400px) {
+  .lang-login-btn {
+    margin-top: 10px;
+  }
+}
+
 
 .lang-login-btn.disabled {
   background-color: #bdc3c7;
