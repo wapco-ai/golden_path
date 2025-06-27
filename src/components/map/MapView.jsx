@@ -1,99 +1,53 @@
 // src/components/map/MapView.jsx  
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, useMap, ZoomControl } from 'react-leaflet';
+import Map, { Marker, Popup, Source, Layer } from 'react-map-gl';
+import maplibregl from 'maplibre-gl';
 import DeadReckoningControls from './DeadReckoningControls';
 
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './Map.css';
-// import AdvancedDeadReckoningControls from './DeadReckoningControls';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 
 // حل مشکل آیکون‌های Leaflet  
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
-});
+// Custom icons implemented as simple divs for MapLibre markers
+const currentLocationIcon = (
+  <div style={{
+    width: 20,
+    height: 20,
+    backgroundColor: '#0085ff',
+    borderRadius: '50%',
+    border: '3px solid white'
+  }} />
+);
 
-// آیکون موقعیت فعلی GPS (آبی)  
-const currentLocationIcon = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwODVmZiIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjgiLz48L3N2Zz4=',
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
-  popupAnchor: [0, -12],
-});
+const drLocationIcon = (
+  <div style={{
+    width: 20,
+    height: 20,
+    backgroundColor: '#e53935',
+    borderRadius: '50%',
+    border: '3px solid white'
+  }} />
+);
 
-// آیکون Dead Reckoning (قرمز)  
-const drLocationIcon = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2U1MzkzNSIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjgiLz48L3N2Zz4=',
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
-  popupAnchor: [0, -12],
-});
+const DirectionIndicator = ({ position, heading }) => (
+  <Marker longitude={position.lng} latitude={position.lat} anchor="center">
+    {headingArrowIcon(heading)}
+  </Marker>
+);
 
-// اصلاح تابع headingArrowIcon برای نمایش بهتر  
-const headingArrowIcon = (headingInDegrees) => new L.Icon({
-  iconUrl: `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">  
-    <circle cx="12" cy="12" r="10" fill="rgba(255,0,0,0.2)" />  
-    <path fill="red" stroke="white" stroke-width="0.5" transform="rotate(${headingInDegrees}, 12, 12)" d="M12,3L19,18H12L5,18L12,3Z"/>  
-  </svg>`)}`,
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
-  popupAnchor: [0, -20],
-});
-
-const DirectionIndicator = ({ position, heading }) => {
-  const map = useMap();
-  const [arrow, setArrow] = useState(null);
-
-  useEffect(() => {
-    if (!position) return;
-
-    // Remove previous arrow
-    if (arrow) {
-      map.removeLayer(arrow);
-    }
-
-    // Create a new arrow icon
-    const arrowIcon = L.divIcon({
-      html: `<div style="transform: rotate(${heading}deg); transform-origin: center; width: 100%; height: 100%;">
-               <svg width="30" height="30" viewBox="0 0 30 30">
-                 <path d="M15 0 L30 30 L15 20 L0 30 Z" fill="#ff4500" />
-               </svg>
-             </div>`,
-      className: 'direction-arrow',
-      iconSize: [30, 30],
-      iconAnchor: [15, 15]
-    });
-
-    // Create new marker with arrow icon
-    const newArrow = L.marker([position.lat, position.lng], { icon: arrowIcon }).addTo(map);
-    setArrow(newArrow);
-
-    return () => {
-      if (arrow) map.removeLayer(arrow);
-    };
-  }, [map, position, heading]);
-
-  return null;
-};
+const headingArrowIcon = (headingInDegrees) => (
+  <div style={{
+    transform: `rotate(${headingInDegrees}deg)`
+  }}>
+    <svg width="30" height="30" viewBox="0 0 30 30">
+      <path d="M15 0 L30 30 L15 20 L0 30 Z" fill="#ff4500" />
+    </svg>
+  </div>
+);
 
 
 
-// کامپوننت کنترل خودکار مرکز نقشه  
-const AutoCenterMap = ({ position, follow }) => {
-  const map = useMap();
-
-  useEffect(() => {
-    if (position && follow) {
-      map.setView(position, map.getZoom());
-    }
-  }, [position, follow, map]);
-
-  return null;
-};
 
 const MapView = ({
   currentLocation,
@@ -102,7 +56,6 @@ const MapView = ({
   followUser = true,
   initialZoom = 15
 }) => {
-  const [map, setMap] = useState(null);
   const [isFollowing, setIsFollowing] = useState(followUser);
   const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
   const [drGeoPath, setDrGeoPath] = useState([]);
@@ -110,6 +63,28 @@ const MapView = ({
   const [drPosition, setDrPosition] = useState(null);
   const [stepCount, setStepCount] = useState(0);
   const [headingInDegrees, setHeadingInDegrees] = useState(0);
+
+  const getInitialCenter = () => {
+    if (currentLocation?.coords) {
+      return [currentLocation.coords.lat, currentLocation.coords.lng];
+    }
+    if (locationHistory.length > 0 && locationHistory[0]?.coords) {
+      return [locationHistory[0].coords.lat, locationHistory[0].coords.lng];
+    }
+    return [35.6892, 51.3890];
+  };
+
+  const [viewState, setViewState] = useState({
+    latitude: getInitialCenter()[0],
+    longitude: getInitialCenter()[1],
+    zoom: initialZoom
+  });
+
+  useEffect(() => {
+    if (centerPosition && isFollowing) {
+      setViewState(v => ({ ...v, latitude: centerPosition[0], longitude: centerPosition[1] }));
+    }
+  }, [centerPosition, isFollowing]);
 
 
   // موقعیت مرکز نقشه (یا موقعیت فعلی GPS یا موقعیت DR)  
@@ -199,8 +174,8 @@ const MapView = ({
   // تغییر وضعیت تعقیب کاربر  
   const toggleFollow = () => {
     setIsFollowing(prev => !prev);
-    if (!isFollowing && centerPosition && map) {
-      map.setView(centerPosition, map.getZoom() || initialZoom);
+    if (!isFollowing && centerPosition) {
+      setViewState(v => ({ ...v, latitude: centerPosition[0], longitude: centerPosition[1] }));
     }
   };
 
@@ -223,136 +198,68 @@ const MapView = ({
 
   return (
     <div className="map-fullscreen">
-      <MapContainer
-        center={getInitialCenter()}
-        zoom={initialZoom}
-        className="map-container"
-        whenCreated={setMap}
-        zoomControl={false}
+      <Map
+        mapLib={maplibregl}
+        mapStyle="https://demotiles.maplibre.org/style.json"
+        style={{ width: '100%', height: '100%' }}
+        viewState={viewState}
+        onMove={evt => setViewState(evt.viewState)}
       >
-        <ZoomControl position="topright" />
-
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-
-        {/* نمایش موقعیت فعلی کاربر (از GPS) */}
         {currentLocation?.coords && (
-          <>
-            <Marker
-              position={[currentLocation.coords.lat, currentLocation.coords.lng]}
-              icon={currentLocationIcon}
-              zIndexOffset={500}
-            >
-              <Popup>
-                <div>
-                  <h3>موقعیت GPS</h3>
-                  <p>طول جغرافیایی: {currentLocation.coords.lng.toFixed(6)}</p>
-                  <p>عرض جغرافیایی: {currentLocation.coords.lat.toFixed(6)}</p>
-                  <p>دقت: {currentLocation.coords.accuracy.toFixed(1)} متر</p>
-                </div>
-              </Popup>
-            </Marker>
-
-            {/* دایره دقت GPS */}
-            <Circle
-              center={[currentLocation.coords.lat, currentLocation.coords.lng]}
-              radius={currentLocation.coords.accuracy}
-              color="#0085ff"
-              fillColor="#0085ff"
-              fillOpacity={0.1}
-              weight={1}
-            />
-          </>
+          <Marker longitude={currentLocation.coords.lng} latitude={currentLocation.coords.lat} anchor="center">
+            {currentLocationIcon}
+          </Marker>
         )}
 
-        {/* نمایش موقعیت تخمینی Dead Reckoning */}
         {isDrActive && drPosition && !isNaN(drPosition.lat) && !isNaN(drPosition.lng) && (
           <>
-            <Marker
-              position={[drPosition.lat, drPosition.lng]}
-              icon={drLocationIcon}
-              zIndexOffset={600}
-            >
-              <Popup>
-                <div>
-                  <h3>موقعیت تخمینی (DR)</h3>
-                  <p>طول جغرافیایی: {drPosition.lng.toFixed(6)}</p>
-                  <p>عرض جغرافیایی: {drPosition.lat.toFixed(6)}</p>
-                  {kalmanState && (
-                    <>
-                      <p>جهت (درجه): {headingInDegrees.toFixed(2)}</p>
-                      <p>سرعت: {kalmanState.v.toFixed(2)} متر بر ثانیه</p>
-                      <p>طول گام: {kalmanState.stride.toFixed(2)} متر</p>
-                    </>
-                  )}
-                </div>
-              </Popup>
+            <Marker longitude={drPosition.lng} latitude={drPosition.lat} anchor="center">
+              {drLocationIcon}
             </Marker>
-
-            {/* فلش جهت‌دار */}
-            {kalmanState?.theta !== undefined && drPosition && !isNaN(drPosition.lat) && !isNaN(drPosition.lng) && (
-              <Marker
-                key={`heading-${headingInDegrees.toFixed(1)}`} // Force re-render on heading change  
-                position={[drPosition.lat, drPosition.lng]}
-                icon={headingArrowIcon(headingInDegrees)}
-                zIndexOffset={1000}
-              />
+            {kalmanState?.theta !== undefined && (
+              <DirectionIndicator position={drPosition} heading={headingInDegrees} />
             )}
           </>
         )}
 
-        {/* مسیر GPS طی شده */}
         {pathPoints.length > 1 && (
-          <Polyline
-            positions={pathPoints}
-            color="#0085ff"
-            weight={3}
-            opacity={0.7}
-          />
-        )}
-
-        {/* مسیر Dead Reckoning */}
-        {isDrActive && drGeoPath.length > 1 && (
-          <Polyline
-            positions={drGeoPath.filter(point =>
-              !isNaN(point[0]) && !isNaN(point[1])
-            )}
-            color="#e53935"
-            weight={3}
-            opacity={0.7}
-          />
-        )}
-
-        {/* نقاط ذخیره شده */}
-        {savedLocations.map((location, index) => (
-          <Marker
-            key={location.id || index}
-            position={[location.coords.lat, location.coords.lng]}
+          <Source
+            id="gps-path"
+            type="geojson"
+            data={{
+              type: 'Feature',
+              geometry: {
+                type: 'LineString',
+                coordinates: pathPoints.map(p => [p[1], p[0]])
+              }
+            }}
           >
-            <Popup>
-              <div>
-                <h3>{location.name || `نقطه ${index + 1}`}</h3>
-                <p>طول جغرافیایی: {location.coords.lng.toFixed(6)}</p>
-                <p>عرض جغرافیایی: {location.coords.lat.toFixed(6)}</p>
-                {location.timestamp && <p>زمان: {new Date(location.timestamp).toLocaleString()}</p>}
-              </div>
-            </Popup>
+            <Layer id="gps-line" type="line" paint={{ 'line-color': '#0085ff', 'line-width': 3, 'line-opacity': 0.7 }} />
+          </Source>
+        )}
+
+        {isDrActive && drGeoPath.length > 1 && (
+          <Source
+            id="dr-path"
+            type="geojson"
+            data={{
+              type: 'Feature',
+              geometry: {
+                type: 'LineString',
+                coordinates: drGeoPath.map(p => [p[1], p[0]])
+              }
+            }}
+          >
+            <Layer id="dr-line" type="line" paint={{ 'line-color': '#e53935', 'line-width': 3, 'line-opacity': 0.7 }} />
+          </Source>
+        )}
+
+        {savedLocations.map((location, index) => (
+          <Marker key={location.id || index} longitude={location.coords.lng} latitude={location.coords.lat} anchor="bottom">
+            <div className="saved-marker" />
           </Marker>
         ))}
-
-        {/* Add the new DirectionIndicator component here */}
-        {drGeoPath.length > 0 && isDrActive && kalmanState && (
-          <DirectionIndicator
-            position={drGeoPath[drGeoPath.length - 1]}
-            heading={headingInDegrees}
-          />
-        )}
-
-        {/* تنظیم خودکار مرکز نقشه */}
-        {centerPosition && <AutoCenterMap position={centerPosition} follow={isFollowing} />}
-      </MapContainer>
+      </Map>
 
       {/* دکمه‌های کنترل نقشه */}
       <div className="map-controls-overlay">
@@ -372,8 +279,8 @@ const MapView = ({
         <button
           className="map-control-button"
           onClick={() => {
-            if (centerPosition && map) {
-              map.setView(centerPosition, map.getZoom());
+            if (centerPosition) {
+              setViewState(v => ({ ...v, latitude: centerPosition[0], longitude: centerPosition[1] }));
               setIsFollowing(true);
             }
           }}
