@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const MapComponent = ({ setUserLocation, selectedDestination, isSwapped }) => {
+const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapClick, isSelectingLocation }) => {
   const mapRef = useRef(null);
   const userMarkerRef = useRef(null);
   const destinationMarkerRef = useRef(null);
   const polylineRef = useRef(null);
+  const [clickMarker, setClickMarker] = useState(null);
 
   useEffect(() => {
     // Initialize the map
@@ -69,6 +70,32 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped }) => {
       className: '',
       iconSize: [24, 24],
       iconAnchor: [12, 24]
+    });
+
+    const selectionIcon = L.divIcon({
+      html: `
+        <div style="
+          width: 24px;
+          height: 24px;
+          background-color: #1E90FF;
+          border-radius: 50%;
+          border: 3px solid white;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+          <div style="
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+          "></div>
+        </div>
+      `,
+      className: '',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
     });
 
     // Request user location without high accuracy (to avoid Google APIs)
@@ -187,8 +214,25 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped }) => {
 
     // Handle map click for destination selection
     const handleMapClick = (e) => {
-      if (!selectedDestination) {
-        // Here you can add logic to handle destination selection from map
+      if (isSelectingLocation) {
+        // Remove previous selection marker if exists
+        if (clickMarker) {
+          map.removeLayer(clickMarker);
+        }
+        
+        // Add new marker at clicked location
+        const newMarker = L.marker(e.latlng, {
+          icon: selectionIcon
+        }).addTo(map)
+          .bindPopup('موقعیت انتخاب شده');
+        
+        setClickMarker(newMarker);
+        
+        // Call the callback with the selected location
+        if (onMapClick) {
+          onMapClick(e.latlng);
+        }
+      } else if (!selectedDestination) {
         console.log('Map clicked at:', e.latlng);
       }
     };
@@ -202,7 +246,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped }) => {
       document.head.removeChild(style);
       mapParent.removeChild(mapContainer);
     };
-  }, [setUserLocation]);
+  }, [setUserLocation, isSelectingLocation]);
 
   // Update destination marker when selectedDestination changes or when swapped
   useEffect(() => {

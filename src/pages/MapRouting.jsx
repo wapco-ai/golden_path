@@ -13,6 +13,9 @@ const MapRoutingPage = () => {
   const [isSwapped, setIsSwapped] = useState(false);
   const [activeInput, setActiveInput] = useState(null);
   const [isGPSEnabled, setIsGPSEnabled] = useState(false);
+  const [isSelectingFromMap, setIsSelectingFromMap] = useState(false);
+  const [mapSelectedLocation, setMapSelectedLocation] = useState(null);
+
   const destinationInputRef = useRef(null);
   const originInputRef = useRef(null);
   const modalRef = useRef(null);
@@ -71,6 +74,13 @@ const MapRoutingPage = () => {
     dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
   );
 
+  // Handle navigation when both origin and destination are selected
+  useEffect(() => {
+    if (userLocation && selectedDestination) {
+      navigate('/fs');
+    }
+  }, [userLocation, selectedDestination, navigate]);
+
   const handleDestinationSelect = (destination) => {
     if (activeInput === 'destination') {
       setSelectedDestination(destination);
@@ -80,12 +90,6 @@ const MapRoutingPage = () => {
       setShowOriginModal(false);
     }
     setSearchQuery('');
-
-    // Check if both origin and destination are selected
-    if ((activeInput === 'destination' && userLocation !== 'باب الرضا «ع»') ||
-      (activeInput === 'origin' && selectedDestination)) {
-      navigate('/fs');
-    }
   };
 
   const handleInputChange = (e) => {
@@ -93,7 +97,6 @@ const MapRoutingPage = () => {
   };
 
   const handleSwapLocations = () => {
-    // Add rotation animation to swap button
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
       setTimeout(() => {
@@ -112,7 +115,6 @@ const MapRoutingPage = () => {
       setShowDestinationModal(true);
     } else {
       setShowOriginModal(true);
-      // Check if GPS is enabled
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           () => setIsGPSEnabled(true),
@@ -123,19 +125,38 @@ const MapRoutingPage = () => {
   };
 
   const handleCurrentLocationSelect = () => {
+    setUserLocation('موقعیت فعلی شما');
     setShowOriginModal(false);
   };
 
   const handleMapSelection = () => {
-    if (activeInput === 'destination') {
-      setShowDestinationModal(false);
-    } else {
-      setShowOriginModal(false);
+    setIsSelectingFromMap(true);
+    setShowDestinationModal(false);
+    setShowOriginModal(false);
+  };
+
+  const handleMapClick = (latlng) => {
+    if (isSelectingFromMap) {
+      if (activeInput === 'destination') {
+        setSelectedDestination({ name: "موقعیت انتخاب شده", location: "موقعیت انتخاب شده از روی نقشه" });
+      } else {
+        setUserLocation("موقعیت انتخاب شده");
+      }
+      setIsSelectingFromMap(false);
     }
   };
 
   const handleClearSearch = () => {
     setSearchQuery('');
+  };
+
+  const handleCancelMapSelection = () => {
+    setIsSelectingFromMap(false);
+    if (activeInput === 'destination') {
+      setShowDestinationModal(true);
+    } else {
+      setShowOriginModal(true);
+    }
   };
 
   useEffect(() => {
@@ -162,29 +183,39 @@ const MapRoutingPage = () => {
     <div className="map-routing-page">
       {/* Header */}
       <header className="map-routing-header">
-        <button className="map-back-button" onClick={() => navigate(-1)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
-        </button>
-        <h1 className="map-header-title">مسیریابی حرم مطهر</h1>
+        {isSelectingFromMap ? (
+          <button className="map-back-button" onClick={handleCancelMapSelection}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
+          </button>
+        ) : (
+          <button className="map-back-button" onClick={() => navigate(-1)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
+          </button>
+        )}
+        <h1 className="map-header-title">
+          {isSelectingFromMap ? 'انتخاب موقعیت از روی نقشه' : 'مسیریابی حرم مطهر'}
+        </h1>
         <button className="map-profile-button" onClick={() => navigate('/Profile')}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
         </button>
         <div className="headers-gradient"></div>
       </header>
 
-      {/* Categories Scroll */}
-      <div className="map-categories-scroll">
-        <div className="map-categories-list">
-          {categories.map((category, index) => (
-            <div key={index} className="map-category-item">
-              <div className={`map-category-icon ${category.icon}`}>
-                {category.svg}
+      {/* Categories Scroll - Hidden when selecting from map */}
+      {!isSelectingFromMap && (
+        <div className="map-categories-scroll">
+          <div className="map-categories-list">
+            {categories.map((category, index) => (
+              <div key={index} className="map-category-item">
+                <div className={`map-category-icon ${category.icon}`}>
+                  {category.svg}
+                </div>
+                <span className="map-category-name">{category.name}</span>
               </div>
-              <span className="map-category-name">{category.name}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Map Container */}
       <div className="map-routing-container">
@@ -192,6 +223,8 @@ const MapRoutingPage = () => {
           setUserLocation={setUserLocation}
           selectedDestination={selectedDestination}
           isSwapped={isSwapped}
+          onMapClick={handleMapClick}
+          isSelectingLocation={isSelectingFromMap}
         />
         <button className="map-gps-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -206,8 +239,8 @@ const MapRoutingPage = () => {
         </button>
       </div>
 
-      {/* Destination Input - Only shown when modal is NOT open */}
-      {!showDestinationModal && !showOriginModal && (
+      {/* Destination Input - Only shown when modal is NOT open and not selecting from map */}
+      {!showDestinationModal && !showOriginModal && !isSelectingFromMap && (
         <div className="map-destination-input-container" ref={modalRef}>
           <div className="location-icons-container">
             <div className="location-icon origin-icon">
@@ -385,6 +418,7 @@ const MapRoutingPage = () => {
               </ul>
             </>
           )}
+
 
           {searchQuery && filteredDestinations.length > 0 && (
             <ul className="map-destination-list">

@@ -285,6 +285,7 @@
   display: inline;  
   transition: all 0.3s ease;  
   position: relative;  
+  margin-right: 6px;
 }  
 
 .read-more:hover {  
