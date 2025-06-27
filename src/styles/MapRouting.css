@@ -30,7 +30,6 @@
   left: 0;
 }
 
-
 .map-profile-button,
 .map-back-button {
   width: 50px;
@@ -43,7 +42,6 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border: none;
 }
-
 
 .map-profile-button svg,
 .map-back-button svg {
@@ -105,9 +103,6 @@
   width: 24px;
   height: 24px;
   color: #555;
-  width: 24px;
-  height: 24px;
-  color: #555;
 }
 
 .map-category-name {
@@ -116,7 +111,6 @@
   text-align: center;
   font-weight: 600;
 }
-
 
 /* Map Container */
 .map-routing-container {
@@ -160,16 +154,6 @@
   border-top-right-radius: 24px;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  transition: transform 0.3s ease-out;
-}
-
-.map-destination-input-container.expanded {
-  transform: translateY(calc(-100vh + 100%));
-  height: 100vh;
-  overflow-y: auto;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  display: inline-block;
 }
 
 .map-current-location {
@@ -197,17 +181,6 @@
   font-family: 'Vazir', Arial, sans-serif;
 }
 
-.map-location-label.hidden {
-  display: none;
-}
-
-.map-location-label {
-  font-size: 15px;
-  color: #4285F4;
-  margin-top: 4px;
-  font-family: 'Vazir', Arial, sans-serif;
-}
-
 .map-location-name {
   font-size: 16px;
   color: #333;
@@ -215,14 +188,6 @@
   font-family: 'Vazir', Arial, sans-serif;
   font-size: 15px;
 }
-
-.destination-input {
-  outline: none !important;
-  /* Remove yellow highlight */
-  box-shadow: none !important;
-  /* Remove any focus shadows */
-}
-
 
 .map-destination-input {
   display: flex;
@@ -240,7 +205,6 @@
   margin-left: 8px;
 }
 
-
 .map-destination-input input {
   flex-grow: 1;
   border: none;
@@ -250,148 +214,29 @@
   padding: 0;
 }
 
-
 .map-destination-input input::placeholder {
   color: #999999c0;
   font-family: 'Vazir', Arial, sans-serif;
   font-size: 16px;
 }
 
-
-
-/* Animation */
-@keyframes mapSlideUp {
-  from {
-    transform: translateY(100%);
-  }
-
-  to {
-    transform: translateY(0);
-  }
-}
-
-.map-modal-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 0 8px;
-}
-
-
-.map-modal-back-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.map-modal-back-button svg {
-  width: 24px;
-  height: 24px;
-  color: #333;
-}
-
-
-.map-modal-input {
-  margin-bottom: 20px;
-  padding: 0 8px;
-}
-
-
-.map-recent-title {
-  font-size: 18px;
-  color: black;
-  margin-bottom: 16px;
-  margin-top: 24px;
-  font-weight: 500;
-  font-family: 'Vazir', Arial, sans-serif;
-  font-weight: bold;
-}
-
-.map-recent-option {
-  background-color: transparent;
-  border: none;
-}
-
-
-.map-recent-searches {
-  flex: 1;
-  padding: 0 8px;
-  overflow-y: auto;
-  font-family: 'Vazir', Arial, sans-serif;
-}
-
-
-.map-destination-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.map-destination-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid #eee;
-  font-family: 'Vazir', Arial, sans-serif;
-}
-
-.map-destination-icon {
-  margin-top: 15px;
-}
-
-.map-destination-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-right: 12px;
-  font-family: 'Vazir', Arial, sans-serif;
-}
-
-.map-destination-name {
-  font-size: 17px;
-  color: black;
-  font-weight: 500;
-  margin-bottom: 4px;
-  font-family: 'Vazir', Arial, sans-serif;
-  font-weight: 100;
-}
-
-.map-destination-location {
-  font-size: 13px;
-  color: #666;
-}
-
-.map-destination-list svg {
-  width: 16px;
-  height: 16px;
-  color: #999;
-  transform: rotate(180deg);
-}
-
-/* User Location Marker */
-.user-location-marker {
-  width: 20px;
-  height: 20px;
-  background-color: #4285F4;
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.map-search-results {
-  margin-top: 24px;
-}
-
-/* Add these new styles */
+/* Inputs Container */
 .map-location-inputs-container {
   position: relative;
   width: 100%;
 }
 
+.map-inputs-divider {
+  position: absolute;
+  left: 50px;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-color: #8e8a8a4d;
+  z-index: 1;
+}
+
+/* Swap Button */
 .map-swap-button {
   position: absolute;
   top: 50%;
@@ -414,24 +259,20 @@
   color: #666;
 }
 
-.map-destination-input-wrapper svg {
-  width: 20px;
-  height: 20px;
-  color: #f10f0f;
-  margin-left: 8px;
+/* Destination Input Wrapper */
+.map-destination-input-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 15px;
+  font-family: 'Vazir', Arial, sans-serif;
+  display: flex;
+  padding: 5px 0;
+  margin-right: 10px;
+  width: 75vw;
 }
 
 .map-destination-input-wrapper input {
-  flex-grow: 1;
-  border: none;
-  background: transparent;
-  font-size: 16px;
-  color: #333;
-  padding: 0;
-  font-family: 'Vazir', Arial, sans-serif;
-}
-
-.mapln {
   flex-grow: 1;
   border: none;
   background: transparent;
@@ -447,20 +288,7 @@
   font-size: 16px;
 }
 
-/* Remove these old styles */
-.map-destination-input-wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-top: 15px;
-  font-family: 'Vazir', Arial, sans-serif;
-  display: flex;
-  padding: 5px 0;
-  margin-right: 10px;
-  width: 75vw;
-}
-
-
+/* Location Icons */
 .location-icons-container {
   display: flex;
   flex-direction: column;
@@ -493,10 +321,30 @@
   border: 5px solid #1E90FF;
 }
 
-/* New styles for search modals */
-.map-search-results {
-  margin-top: 24px;
-  padding: 0 16px;
+/* Modal Styles */
+.map-search-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 12px;
+  background-color: white;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.map-search-modal.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.map-search-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
 }
 
 .map-search-form {
@@ -538,6 +386,7 @@
   margin-right: 8px;
 }
 
+/* Options Section */
 .map-options-section {
   margin-bottom: 24px;
   border-bottom: 5px solid #f5f5f5;
@@ -563,37 +412,64 @@
   font-weight: bold;
 }
 
-/* Adjust existing styles for the expanded modal */
-.map-destination-input-container.expanded {
-  transform: translateY(calc(-100vh + 100%));
-  height: 100vh;
-  overflow-y: auto;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  padding-top: 16px;
-  background-color: white;
+/* Recent Searches */
+.map-recent-title {
+  font-size: 18px;
+  color: black;
+  margin-bottom: 16px;
+  margin-top: 24px;
+  font-weight: 500;
+  font-family: 'Vazir', Arial, sans-serif;
+  font-weight: bold;
 }
 
-/* Make sure the search bar is properly aligned */
-.map-search-header {
+.map-destination-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.map-destination-list li {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding-bottom: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+  font-family: 'Vazir', Arial, sans-serif;
 }
 
-.map-search-modal {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  padding: 12px;
-  background-color: white;
-  z-index: 1000;
-  transition: transform 0.3s ease-out;
+.map-recent-icon {
+  margin-top: 15px;
 }
 
-/* Swap button animation */
+.map-destination-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 12px;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.map-destination-name {
+  font-size: 17px;
+  color: black;
+  font-weight: 500;
+  margin-bottom: 4px;
+  font-family: 'Vazir', Arial, sans-serif;
+  font-weight: 100;
+}
+
+.map-destination-location {
+  font-size: 13px;
+  color: #666;
+}
+
+.map-recent-option {
+  background-color: transparent;
+  border: none;
+}
+
+/* Swap Button Animation */
 .map-swap-button.rotate svg {
   animation: rotate180 0.5s ease-in-out;
 }
@@ -602,56 +478,24 @@
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(180deg);
   }
 }
 
-/* Modal fade-in animation */
-.map-search-modal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.map-origin-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #999;
+  padding: 0;
+  font-family: 'Vazir', Arial, sans-serif;
+  text-align: right;
+  direction: rtl;
 }
 
-.map-search-modal.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Input transition */
-.map-current-location,
-.map-destination-input-wrapper {
-  transition: transform 0.3s ease;
-}
-
-/* Destination marker styling */
-.location-icon.destination-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.map-inputs-divider {
-  position: absolute;
-  left: 50px;
-  /* Adjust based on your icon container width */
-  right: 0;
-  top: 50%;
-  height: 1px;
-  background-color: #8e8a8a4d;
-  z-index: 1;
-}
-
-.map-current-location.swapped {
-  padding: 0px 0px;
-  margin-top: 35px;
-  display: flex;
-  align-items: center;
-  width: 85vw;
-  position: relative;
-}
-
-.map-recent-icon {
-  margin-top: 15px;
+.map-origin-input::placeholder {
+  color: #999999c0;
+  font-family: 'Vazir', Arial, sans-serif;
 }

@@ -54,6 +54,7 @@
   width: 100%;
   transition: transform 0.5s ease;
   border-bottom: none;
+  will-change: transform; /* Optimize for performance */
 }
 
 .carousel-slide {
@@ -262,7 +263,7 @@
 }  
 
 .about-content.expanded {  
-  max-height: 500px;  
+  max-height: 90vh;  
 }  
 
 .about-location p {  
@@ -312,7 +313,7 @@
 
 .close-button-container {
   text-align: center; /* Changed from right to center */
-  margin-top: 15px;
+  margin-top: 10px;
   margin-right: 0; /* Removed right margin */
   width: 100%;
 }
@@ -322,6 +323,7 @@
   padding: 8px 20px; /* Better touch target */
   margin: 0 auto; /* Center horizontally */
   margin-left: 40px;
+  transition: all 0.3s ease;
 }
 
 /* Events Section */
@@ -877,7 +879,6 @@
   background-color: white;
   border-radius: 12px;
   padding: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
 }
 
@@ -966,16 +967,19 @@
 }
 
 .routing-tab {
+  flex: 1;
   padding: 10px 15px;
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
   font-family: 'Vazir', Tahoma, sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.87rem;
   color: #666;
   transition: all 0.3s ease;
   position: relative;
+  font-weight: bold;
 }
+
 
 .routing-tab.active {
   color: #4285F4;
@@ -1027,7 +1031,7 @@
 
 .place-info {
   padding: 12px;
-  font-family: 'IranSans', Arial, sans-serif;  
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .place-info2 {
@@ -1035,6 +1039,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .place-address {
@@ -1042,10 +1047,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   color: #666;
-  margin-bottom: 8px;
-  font-family: 'IranSans', Arial, sans-serif;  
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 
@@ -1054,6 +1058,7 @@
   color: #333;
   margin-bottom: 8px;
   font-weight: bold;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .place-info p {
@@ -1061,6 +1066,7 @@
   color: #666;
   margin-bottom: 12px;
   line-height: 1.5;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .place-title {
@@ -1068,7 +1074,7 @@
   color: #333;
   margin-bottom: 8px;
   font-weight: bold;
-  font-family: 'IranSans', Arial, sans-serif;  
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .place-meta {
@@ -1078,7 +1084,7 @@
   font-size: 0.9rem;
   color: #666;
   margin-bottom: 8px;
-  font-family: 'IranSans', Arial, sans-serif;  
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .place-meta-separator {
@@ -1175,6 +1181,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .shrine-events-title {
@@ -1218,6 +1225,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   flex-shrink: 0;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 

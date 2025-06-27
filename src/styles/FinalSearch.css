@@ -104,9 +104,10 @@
 
 /* Map Styles */
 .mpr {
-  height: 450px;
-  width: calc(100% - 30px);
+  height: 380px;
+  width: calc(100% - 60px);
   margin: 15px auto;
+  margin-top: 0px;
   background-color: #e0e0e0;
   position: relative;
   border-radius: 12px;

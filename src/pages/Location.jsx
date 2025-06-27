@@ -25,6 +25,7 @@ const Location = () => {
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isSearchModalClosing, setIsSearchModalClosing] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -48,10 +49,16 @@ const Location = () => {
   }, [locationData, activeSlide]);
 
   const handleSlideChange = (index) => {
+    // Prevent rapid changes during transition
+    if (isTransitioning || index === activeSlide) return;
+    
+    setIsTransitioning(true);
     setActiveSlide(index);
-    if (carouselRef.current) {
-      carouselRef.current.style.transform = `translateX(-${index * 100}%)`;
-    }
+    
+    // Reset transitioning state after the animation completes
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 500); // Match this with your CSS transition duration
   };
 
   // Auto-advance carousel (optional)
@@ -659,7 +666,7 @@ const Location = () => {
                   className={`routing-tab ${activeTab === 'mostVisited' ? 'active' : ''}`}
                   onClick={() => setActiveTab('mostVisited')}
                 >
-                  پربازدیدترین‌های حرم مطهر
+                  پربازدیدترین‌های حرم 
                 </button>
                 <button
                   className={`routing-tab ${activeTab === 'closest' ? 'active' : ''}`}
@@ -681,8 +688,9 @@ const Location = () => {
                         ></div>
                         <div className="place-info">
                           <h4 className="place-title">{place.title}</h4>
-                          <div className="place-address">{place.address}</div>
                           <div className="place-meta">
+                            <div className="place-address">{place.address}</div>
+                            <span className="place-meta-separator">|</span>
                             <span>{place.distance}</span>
                             <span className="place-meta-separator">|</span>
                             <span>{place.time}</span>
@@ -715,7 +723,7 @@ const Location = () => {
                             </svg>
                           </button>
                           <div className="place-actions">
-                            <button className="place-action-btn2">
+                            <button className="place-action-btn2" onClick={() => navigate('/fs')}>
                               <svg
                                 className="action-icon"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -786,7 +794,7 @@ const Location = () => {
                             </svg>
                           </button>
                           <div className="place-actions">
-                            <button className="place-action-btn">
+                            <button className="place-action-btn" onClick={() => navigate('/fs')}>
                               <svg
                                 className="action-icon"
                                 xmlns="http://www.w3.org/2000/svg"

@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
-import '../styles/LangPage.css'; // Updated import path
-
+import '../styles/LangPage.css';
 
 const LangPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const navigate = useNavigate();
   
   const languages = [
-    { id: 1, name: ' فارسی      (FA)' },
-    { id: 2, name:' اردو      (Ur)' },
-    { id: 3, name: ' العربیة      (AR)'  },
-    { id: 4, name: ' English      (EN)'  }
+    { id: 1, name:  'فارسی', code: '(FA)' },
+    { id: 2, name: 'اردو', code: '(Ur)' },
+    { id: 3, name: 'العربیة', code: '(AR)' },
+    { id: 4, name: 'English', code: '(EN)' }
   ];
 
   const handleLogin = () => {
     if (selectedLanguage) {
-      navigate('/location'); // Redirect to HomePage
+      navigate('/location');
     }
   };
 
@@ -28,7 +27,7 @@ const LangPage = () => {
       <div className="lang-welcome-text">
         <h1>خوش آمدید!</h1>
         <p>
-          برای ورود به نرم افزار مسیرهای حرم مطهر رضوی<br />
+          برای ورود به نرم افزار مسیرپایی حرم مطهر رضوی ابتدا<br />
           زبان برنامه را انتخاب کنید و وارد برنامه شوید.
         </p>
       </div>
@@ -43,7 +42,10 @@ const LangPage = () => {
             <div className="selection-circle">
               {selectedLanguage === lang.id && <div className="inner-circle" />}
             </div>
-            <span className="lang-name">{lang.name}</span>
+            <div className="lang-text-container">
+              <span className="lang-code">{lang.code}</span>
+              <span className="lang-name">{lang.name}</span>
+            </div>
           </div>
         ))}
       </div>

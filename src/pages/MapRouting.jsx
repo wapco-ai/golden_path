@@ -10,7 +10,6 @@ const MapRoutingPage = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [userLocation, setUserLocation] = useState('باب الرضا «ع»');
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSwapped, setIsSwapped] = useState(false);
   const [activeInput, setActiveInput] = useState(null);
   const [isGPSEnabled, setIsGPSEnabled] = useState(false);
   const [isSelectingFromMap, setIsSelectingFromMap] = useState(false);
@@ -52,7 +51,7 @@ const MapRoutingPage = () => {
     {
       name: 'کفشداری‌ها',
       icon: 'shoe',
-      svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-flip-flops"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 4c2.21 0 4 1.682 4 3.758c0 .078 0 .156 -.008 .234l-.6 9.014c-.11 1.683 -1.596 3 -3.392 3s-3.28 -1.311 -3.392 -3l-.6 -9.014c-.138 -2.071 1.538 -3.855 3.743 -3.985a4.15 4.15 0 0 1 .25 -.007z" /><path d="M14.5 14c1 -3.333 2.167 -5 3.5 -5c1.333 0 2.5 1.667 3.5 5" /><path d="M18 16v1" /><path d="M6 4c2.21 0 4 1.682 4 3.758c0 .078 0 .156 -.008 .234l-.6 9.014c-.11 1.683 -1.596 3 -3.392 3s-3.28 -1.311 -3.392 -3l-.6 -9.014c-.138 -2.071 1.538 -3.855 3.742 -3.985c.084 0 .167 -.007 .25 -.007z" /><path d="M2.5 14c1 -3.333 2.167 -5 3.5 -5c1.333 0 2.5 1.667 3.5 5" /><path d="M6 16v1" /></svg>
+      svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-flip-flops"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 4c2.21 0 4 1.682 4 3.758c0 .078 0 .156 -.008 .234l-.6 9.014c-.11 1.683 -1.596 3 -3.392 3s-3.28 -1.311 -3.392 -3l-.6 -9.014c-.138 -2.071 1.538 -3.855 3.743 -3.985a4.15 4.15 0 0 1 .25 -.007z" /><path d="M14.5 14c1 -3.333 2.167 -5 3.5 -5c1.333 0 2.5 1.667 3.5 5" /><path d="M18 16v1" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /><path d="M6 4c2.21 0 4 1.682 4 3.758c0 .078 0 .156 -.008 .234l-.6 9.014c-.11 1.683 -1.596 3 -3.392 3s-3.28 -1.311 -3.392 -3l-.6 -9.014c-.138 -2.071 1.538 -3.855 3.742 -3.985c.084 0 .167 -.007 .25 -.007z" /><path d="M2.5 14c1 -3.333 2.167 -5 3.5 -5c1.333 0 2.5 1.667 3.5 5" /><path d="M6 16v1" /></svg>
     },
     {
       name: 'سرویس بهداشتی',
@@ -97,6 +96,12 @@ const MapRoutingPage = () => {
   };
 
   const handleSwapLocations = () => {
+    // Only swap the values between origin and destination
+    const temp = userLocation;
+    setUserLocation(selectedDestination ? selectedDestination.name : '');
+    setSelectedDestination(temp ? { name: temp, location: temp } : null);
+
+    // Add animation to swap button
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
       setTimeout(() => {
@@ -105,8 +110,6 @@ const MapRoutingPage = () => {
         }
       }, 500);
     }
-
-    setIsSwapped(!isSwapped);
   };
 
   const handleInputClick = (inputType) => {
@@ -222,7 +225,6 @@ const MapRoutingPage = () => {
         <MapComponent
           setUserLocation={setUserLocation}
           selectedDestination={selectedDestination}
-          isSwapped={isSwapped}
           onMapClick={handleMapClick}
           isSelectingLocation={isSelectingFromMap}
         />
@@ -260,92 +262,56 @@ const MapRoutingPage = () => {
             {/* Fixed divider line */}
             <div className="map-inputs-divider"></div>
 
-            {/* Conditionally render inputs based on swap state */}
-            {isSwapped ? (
-              <>
-                {/* Destination Input (top when swapped) */}
-                <div
-                  className="map-destination-input-wrapper"
-                  onClick={() => handleInputClick('destination')}
-                >
-                  <input
-                    type="text"
-                    placeholder="مقصد را انتخاب کنید"
-                    value={selectedDestination ? selectedDestination.name : ''}
-                    readOnly
-                  />
-                </div>
-
-                <button
-                  className="map-swap-button"
-                  onClick={handleSwapLocations}
-                  ref={swapButtonRef}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 9l4 -4l4 4m-4 -4v14" />
-                    <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-                  </svg>
-                </button>
-
-                {/* Origin Input (bottom when swapped) */}
-                <div
-                  className={`map-current-location ${isSwapped ? 'swapped' : ''}`}
-                  onClick={() => handleInputClick('origin')}
-                >
-                  <div className="map-location-text">
+            {/* Origin Input */}
+            <div
+              className="map-current-location"
+              onClick={() => handleInputClick('origin')}
+            >
+              <div className="map-location-text">
+                {userLocation ? (
+                  <>
                     <span className="map-location-name">
                       {userLocation}
                     </span>
                     <span className="map-location-label">
                       مبداء فعلی شما
                     </span>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* Origin Input (top when not swapped) */}
-                <div
-                  className={`map-current-location ${isSwapped ? 'swapped' : ''}`}
-                  onClick={() => handleInputClick('origin')}
-                >
-                  <div className="map-location-text">
-                    <span className="map-location-name">
-                      {userLocation}
-                    </span>
-                    <span className="map-location-label">
-                      مبداء فعلی شما
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  className="map-swap-button"
-                  onClick={handleSwapLocations}
-                  ref={swapButtonRef}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 9l4 -4l4 4m-4 -4v14" />
-                    <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-                  </svg>
-                </button>
-
-                {/* Destination Input (bottom when not swapped) */}
-                <div
-                  className="map-destination-input-wrapper"
-                  onClick={() => handleInputClick('destination')}
-                >
+                  </>
+                ) : (
                   <input
                     type="text"
-                    placeholder="مقصد را انتخاب کنید"
-                    value={selectedDestination ? selectedDestination.name : ''}
+                    className="map-origin-input"
+                    placeholder="مبدا را انتخاب کنید"
                     readOnly
                   />
-                </div>
-              </>
-            )}
+                )}
+              </div>
+            </div>
+
+            <button
+              className="map-swap-button"
+              onClick={handleSwapLocations}
+              ref={swapButtonRef}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M3 9l4 -4l4 4m-4 -4v14" />
+                <path d="M21 15l-4 4l-4 -4m4 4v-14" />
+              </svg>
+            </button>
+
+            {/* Destination Input */}
+            <div
+              className="map-destination-input-wrapper"
+              onClick={() => handleInputClick('destination')}
+            >
+              <input
+                type="text"
+                placeholder="مقصد را انتخاب کنید"
+                value={selectedDestination ? selectedDestination.name : ''}
+                readOnly
+              />
+            </div>
           </div>
         </div>
       )}

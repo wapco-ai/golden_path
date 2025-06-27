@@ -35,8 +35,9 @@
 .lang-welcome-text p {
   color: #555;
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.8;
   margin-bottom: 30px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .lang-options-list {
@@ -106,4 +107,24 @@
 
 .lang-login-btn.disabled {
   background-color: #bdc3c7;
+}
+
+.lang-text-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 45%;
+}
+
+.lang-name {
+  text-align: right;
+  font-size: 1rem;
+}
+
+.lang-code {
+  color: #555;
+  font-size: 0.8rem;
+  margin-left: 10px;
+  margin-top: 2px;
+  
 }
