@@ -660,9 +660,18 @@
 }  
 
 /* برای دستگاه‌های موبایل در حالت افقی */  
-@media screen and (max-height: 500px) {  
-  .alerts-container {  
-    bottom: auto;  
-    top: 70px;  
-  }  
-}  
+@media screen and (max-height: 500px) {
+  .alerts-container {
+    bottom: auto;
+    top: 70px;
+  }
+}
+
+/* Marker styles for MapLibre implementation */
+.saved-marker {
+  width: 20px;
+  height: 20px;
+  background-color: #2e7d32;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
