@@ -180,16 +180,6 @@ const MapView = ({
   };
 
   // محاسبه مرکز اولیه نقشه  
-  const getInitialCenter = () => {
-    if (currentLocation?.coords) {
-      return [currentLocation.coords.lat, currentLocation.coords.lng];
-    }
-    if (locationHistory.length > 0 && locationHistory[0]?.coords) {
-      return [locationHistory[0].coords.lat, locationHistory[0].coords.lng];
-    }
-    // مرکز پیش‌فرض - تهران  
-    return [35.6892, 51.3890];
-  };
 
   // تبدیل جهت رادیان به درجه (برای نمایش فلش)  
   // headingInDegrees = kalmanState?.theta !== undefined
