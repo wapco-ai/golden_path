@@ -22,12 +22,6 @@ const FinalSearch = () => {
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const initialViewState = {
-    latitude: 36.2972,
-    longitude: 59.6070,
-    zoom: 18
-  };
-
   React.useEffect(() => {
     if (selectedTransport === 'walking') {
       setRouteInfo({ time: '9', distance: '75' });
@@ -179,7 +173,7 @@ const FinalSearch = () => {
           mapLib={maplibregl}
           mapStyle="https://demotiles.maplibre.org/style.json"
           style={{ width: '100%', height: '100%' }}
-          initialViewState={initialViewState}
+
         >
           <Marker longitude={origin.coordinates[1]} latitude={origin.coordinates[0]} anchor="bottom">
             <div className="marker-circle"></div>

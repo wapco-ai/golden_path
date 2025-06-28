@@ -7,13 +7,6 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
   const initial = routeSteps && routeSteps.length > 0 ? routeSteps[0].coordinates : [36.2880, 59.6157];
   const [viewState, setViewState] = useState({ latitude: initial[0], longitude: initial[1], zoom: 18 });
 
-  const handleMove = React.useCallback((e) => {
-    const ns = e.viewState;
-    setViewState(v =>
-      v.latitude === ns.latitude && v.longitude === ns.longitude && v.zoom === ns.zoom ? v : ns
-    );
-  }, []);
-
   useEffect(() => {
     if (currentStep != null && routeSteps && routeSteps[currentStep]) {
       const coord = routeSteps[currentStep].coordinates;
@@ -40,7 +33,6 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
         mapStyle="https://demotiles.maplibre.org/style.json"
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
-        onMove={handleMove}
       >
         {userLocation && (
           <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
