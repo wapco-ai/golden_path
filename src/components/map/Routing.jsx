@@ -1,111 +1,71 @@
-import React, { useEffect, useRef } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import React, { useEffect, useState } from 'react';
+import Map, { Marker, Source, Layer } from 'react-map-gl';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
-const Routing = ({ userLocation, routeSteps, currentStep, isInfoModalOpen }) => {
-  const mapRef = useRef(null);
-  const mapInstance = useRef(null);
-  const markersRef = useRef([]);
-  const polylineRef = useRef(null);
+const Routing = ({ userLocation, routeSteps, currentStep }) => {
+  const initial = routeSteps && routeSteps.length > 0 ? routeSteps[0].coordinates : [36.2880, 59.6157];
+  const [viewState, setViewState] = useState({ latitude: initial[0], longitude: initial[1], zoom: 18 });
 
-  useEffect(() => {
-    if (!mapRef.current) return;
-
-    mapInstance.current = L.map(mapRef.current, {
-      preferCanvas: true,
-    }).setView([36.2880, 59.6157], 18);
-
-    // Disable zoom with scroll
-    mapInstance.current.touchZoom.disable();
-    mapInstance.current.doubleClickZoom.disable();
-    mapInstance.current.scrollWheelZoom.disable();
-    mapInstance.current.boxZoom.disable();
-    mapInstance.current.keyboard.disable();
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(mapInstance.current);
-
-    // Add 3D buildings effect
-    const add3DBuildings = () => {
-      const shrineArea = L.polygon([
-        [36.2878, 59.6155],
-        [36.2878, 59.6168],
-        [36.2889, 59.6168],
-        [36.2889, 59.6155]
-      ], {
-        color: '#a67c52',
-        fillColor: '#d4a76a',
-        fillOpacity: 0.8,
-        weight: 2
-      }).addTo(mapInstance.current);
-
-      shrineArea.bindTooltip("حرم امام رضا (ع)", { permanent: false, direction: 'top' });
-    };
-
-    add3DBuildings();
-
-    return () => {
-      mapInstance.current.remove();
-    };
+  const handleMove = React.useCallback((e) => {
+    const ns = e.viewState;
+    setViewState(v =>
+      v.latitude === ns.latitude && v.longitude === ns.longitude && v.zoom === ns.zoom ? v : ns
+    );
   }, []);
 
   useEffect(() => {
-    if (!mapInstance.current || !routeSteps || routeSteps.length === 0) return;
-
-    // Clear previous markers
-    markersRef.current.forEach(marker => marker.remove());
-    markersRef.current = [];
-
-    // Add markers for each step
-    routeSteps.forEach((step, index) => {
-      const marker = L.marker(step.coordinates, {
-        icon: L.divIcon({
-          className: `custom-marker ${index === currentStep ? 'active' : ''}`,
-          html: `<div>${index + 1}</div>`,
-          iconSize: [30, 30]
-        })
-      }).addTo(mapInstance.current);
-
-      if (index === currentStep) {
-        marker.bindPopup(step.instruction).openPopup();
-        mapInstance.current.setView(step.coordinates, 18);
-      }
-
-      markersRef.current.push(marker);
-    });
-
-    // Draw route path
-    const routePath = routeSteps.map(step => step.coordinates);
-    if (polylineRef.current) {
-      polylineRef.current.remove();
+    if (currentStep != null && routeSteps && routeSteps[currentStep]) {
+      const coord = routeSteps[currentStep].coordinates;
+      setViewState(v => ({ ...v, latitude: coord[0], longitude: coord[1] }));
     }
-    polylineRef.current = L.polyline(routePath, {
-      color: '#3498db',
-      weight: 4,
-      opacity: 0.7,
-      dashArray: '10, 10'
-    }).addTo(mapInstance.current);
+  }, [currentStep, routeSteps]);
 
-  }, [routeSteps, currentStep]);
+  const routePath = routeSteps ? routeSteps.map(s => [s.coordinates[1], s.coordinates[0]]) : [];
 
-  useEffect(() => {
-    if (!mapInstance.current || !userLocation) return;
+  const currentSegment =
+    routeSteps && routeSteps[currentStep]
+      ? {
+          type: 'Feature',
+          geometry: { type: 'LineString', coordinates: routeSteps[currentStep].coordinates.map(p => [p[1], p[0]]) }
+        }
+      : null;
 
-    const userMarker = L.marker(userLocation, {
-      icon: L.divIcon({
-        className: 'user-marker',
-        html: '<div>👤</div>',
-        iconSize: [30, 30]
-      })
-    }).addTo(mapInstance.current);
+  const fullGeo = { type: 'Feature', geometry: { type: 'LineString', coordinates: routePath } };
 
-    return () => {
-      userMarker.remove();
-    };
-  }, [userLocation]);
-
-  return <div ref={mapRef} className="route-map" />;
+  return (
+    <div ref={null} className="route-map">
+      <Map
+        mapLib={maplibregl}
+        mapStyle="https://demotiles.maplibre.org/style.json"
+        style={{ width: '100%', height: '100%' }}
+        viewState={viewState}
+        onMove={handleMove}
+      >
+        {userLocation && (
+          <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
+            <div>👤</div>
+          </Marker>
+        )}
+        {routeSteps &&
+          routeSteps.map((step, idx) => (
+            <Marker key={idx} longitude={step.coordinates[1]} latitude={step.coordinates[0]} anchor="bottom">
+              <div className={`custom-marker ${idx === currentStep ? 'active' : ''}`}>{idx + 1}</div>
+            </Marker>
+          ))}
+        {routeSteps && (
+          <Source id="route" type="geojson" data={fullGeo}>
+            <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 4, 'line-dasharray': [10, 10] }} />
+          </Source>
+        )}
+        {currentSegment && (
+          <Source id="segment" type="geojson" data={currentSegment}>
+            <Layer id="segment-line" type="line" paint={{ 'line-color': '#e74c3c', 'line-width': 6 }} />
+          </Source>
+        )}
+      </Map>
+    </div>
+  );
 };
 
 export default Routing;
