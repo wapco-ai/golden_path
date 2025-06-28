@@ -33,7 +33,6 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
         mapStyle="https://demotiles.maplibre.org/style.json"
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
-        onMove={(e) => setViewState(e.viewState)}
       >
         {userLocation && (
           <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">

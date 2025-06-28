@@ -80,6 +80,15 @@ const MapView = ({
     zoom: initialZoom
   });
 
+  const handleMove = React.useCallback((evt) => {
+    const ns = evt.viewState;
+    setViewState((v) =>
+      v.latitude === ns.latitude && v.longitude === ns.longitude && v.zoom === ns.zoom
+        ? v
+        : ns
+    );
+  }, []);
+
   useEffect(() => {
     if (centerPosition && isFollowing) {
       setViewState(v => ({ ...v, latitude: centerPosition[0], longitude: centerPosition[1] }));
@@ -193,7 +202,7 @@ const MapView = ({
         mapStyle="https://demotiles.maplibre.org/style.json"
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
-        onMove={evt => setViewState(evt.viewState)}
+        onMove={handleMove}
       >
         {currentLocation?.coords && (
           <Marker longitude={currentLocation.coords.lng} latitude={currentLocation.coords.lat} anchor="center">

@@ -63,6 +63,7 @@ const RouteOverview = () => {
     zoom: 18
   });
 
+
   const highlightGeo = useMemo(() => {
     const seg = routeData[currentSlide]?.coordinates;
     return seg
@@ -133,11 +134,7 @@ const RouteOverview = () => {
       <div className="route-map-container">
         <Map
           mapLib={maplibregl}
-          mapStyle="https://demotiles.maplibre.org/style.json"
-          style={{ width: '100%', height: '100%' }}
-          viewState={viewState}
-          onMove={(e) => setViewState(e.viewState)}
-        >
+
           <Marker longitude={routeCoordinates[0][1]} latitude={routeCoordinates[0][0]} anchor="bottom">
             <div className="c-circle"></div>
           </Marker>

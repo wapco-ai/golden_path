@@ -79,7 +79,6 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       mapStyle="https://demotiles.maplibre.org/style.json"
       style={{ width: '100%', height: '100%' }}
       viewState={viewState}
-      // onMove={(evt) => setViewState(evt.viewState)}
       onClick={handleClick}
     >
       {userCoords && (
