@@ -121,10 +121,30 @@
   font-size: 1rem;
 }
 
-.lang-code {
+.lang-code-fa {
   color: #555;
   font-size: 0.8rem;
-  margin-left: 10px;
-  margin-top: 2px;
-  
+  margin-left: 25px;
+  margin-top: 2px; /* Adjust as needed for فارسی (FA) */
+}
+
+.lang-code-ur {
+  color: #555;
+  font-size: 0.8rem;
+  margin-left: 45px;
+  margin-top: 2px; /* Adjust as needed for اردو (Ur) */
+}
+
+.lang-code-ar {
+  color: #555;
+  font-size: 0.8rem;
+  margin-left: 25px;
+  margin-top: 2px; /* Adjust as needed for العربية (AR) */
+}
+
+.lang-code-en {
+  color: #555;
+  font-size: 0.8rem;
+  margin-left: 15px;
+  margin-top: 2px; /* Adjust as needed for English (EN) */
 }
