@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import osmStyle from '../../services/osmStyle';
 
 const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapClick, isSelectingLocation }) => {
   const [viewState, setViewState] = useState({
@@ -76,7 +77,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   return (
     <Map
       mapLib={maplibregl}
-      mapStyle="https://demotiles.maplibre.org/style.json"
+      mapStyle={osmStyle}
       style={{ width: '100%', height: '100%' }}
       viewState={viewState}
       onClick={handleClick}

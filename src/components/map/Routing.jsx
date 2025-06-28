@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import osmStyle from '../../services/osmStyle';
 
 const Routing = ({ userLocation, routeSteps, currentStep }) => {
   const initial = routeSteps && routeSteps.length > 0 ? routeSteps[0].coordinates : [36.2880, 59.6157];
@@ -30,7 +31,7 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
     <div ref={null} className="route-map">
       <Map
         mapLib={maplibregl}
-        mapStyle="https://demotiles.maplibre.org/style.json"
+        mapStyle={osmStyle}
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
       >
