@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import osmWMSStyle from '../services/osmWMSStyle';
 import '../styles/FinalSearch.css';
 
 const FinalSearch = () => {
@@ -171,7 +172,7 @@ const FinalSearch = () => {
       <div className="mpr">
         <Map
           mapLib={maplibregl}
-          mapStyle="https://demotiles.maplibre.org/style.json"
+          mapStyle={osmWMSStyle}
           style={{ width: '100%', height: '100%' }}
 
         >

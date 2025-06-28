@@ -3,6 +3,7 @@ import React from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import osmWMSStyle from '../../services/osmWMSStyle';
 
 const RouteMap = ({ origin, destination, routeOptions }) => {
   const center = origin?.coordinates || [36.297, 59.606];
@@ -17,7 +18,7 @@ const RouteMap = ({ origin, destination, routeOptions }) => {
     <div id="route-map" className="route-map-container">
       <Map
         mapLib={maplibregl}
-        mapStyle="https://demotiles.maplibre.org/style.json"
+        mapStyle={osmWMSStyle}
         style={{ width: '100%', height: '100%' }}
         initialViewState={{
           latitude: center[0],
