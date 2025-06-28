@@ -134,7 +134,7 @@ const RouteOverview = () => {
       <div className="route-map-container">
         <Map
           mapLib={maplibregl}
-
+        >
           <Marker longitude={routeCoordinates[0][1]} latitude={routeCoordinates[0][0]} anchor="bottom">
             <div className="c-circle"></div>
           </Marker>
