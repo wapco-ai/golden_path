@@ -8,7 +8,12 @@ export default defineConfig({
   // base: process.env.BASE_URL || '/',
   base: isProd ? '/golden_path/' : '/',
   // Add this for PWA  
-  publicDir: 'public',  
+  publicDir: 'public',
+  resolve: {
+    alias: {
+      'mapbox-gl': 'maplibre-gl'
+    }
+  },
   //base: './', // This helps with relative paths in the production build
   plugins: [  
     react(),  
