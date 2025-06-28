@@ -8,7 +8,7 @@ const LangPage = () => {
   const navigate = useNavigate();
   
   const languages = [
-    { id: 1, name:  'فارسی', code: '(FA)' },
+    { id: 1, name: 'فارسی', code: '(FA)' },
     { id: 2, name: 'اردو', code: '(Ur)' },
     { id: 3, name: 'العربیة', code: '(AR)' },
     { id: 4, name: 'English', code: '(EN)' }
@@ -43,7 +43,9 @@ const LangPage = () => {
               {selectedLanguage === lang.id && <div className="inner-circle" />}
             </div>
             <div className="lang-text-container">
-              <span className="lang-code">{lang.code}</span>
+              <span className={`lang-code lang-code-${lang.code.replace(/[()]/g, '').toLowerCase()}`}>
+                {lang.code}
+              </span>
               <span className="lang-name">{lang.name}</span>
             </div>
           </div>

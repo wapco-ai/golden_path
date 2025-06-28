@@ -447,6 +447,7 @@ const RoutingPage = () => {
               routeSteps={routeData.steps}
               currentStep={currentStep}
               isInfoModalOpen={isInfoModalOpen}
+              isMapModalOpen={isMapModalOpen}
             />
           </div>
         )}
