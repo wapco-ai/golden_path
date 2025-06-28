@@ -1,5 +1,5 @@
 // src/components/map/RouteMap.jsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -16,6 +16,9 @@ const RouteMap = ({
 }) => {
   const mapRef = useRef(null);
   const routeLayerRef = useRef(null);
+  const center = userLocation && userLocation.length === 2 
+        ? userLocation 
+        : [36.297, 59.606]; // Default to Imam Reza Shrine coordinates
 
   // Handle map resize when modal opens/closes
   useEffect(() => {
@@ -54,11 +57,7 @@ const RouteMap = ({
             <div>🔴</div>
           </Marker>
         )}
-        {route && (
-          <Source id="route" type="geojson" data={{ type: 'Feature', geometry: { type: 'LineString', coordinates: route } }}>
-            <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 5 }} />
-          </Source>
-        )}
+
       </Map>
     </div>
   );
