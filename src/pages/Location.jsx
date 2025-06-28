@@ -280,7 +280,7 @@ const Location = () => {
             ref={carouselRef}
             style={{ transform: `translateX(-${activeSlide * 100}%)` }}
           >
-            {locationData.images.map((image, index) => (
+            {locationData.images?.map((image, index) => (
               <div key={index} className="carousel-slide">
                 <img
                   src={image}
@@ -294,7 +294,7 @@ const Location = () => {
           <div className="carousel-fade"></div>
         </div>
         <div className="carousel-dots">
-          {locationData.images.map((_, index) => (
+          {locationData.images?.map((_, index) => (
             <button
               key={index}
               className={`dot ${index === activeSlide ? 'active' : ''}`}
@@ -359,7 +359,7 @@ const Location = () => {
       <section className="events-section">
         <h3>محتواهای صوتی و متنی {locationData.title}</h3>
         <div className="events-list">
-          {locationData.events.map(event => (
+          {locationData.events?.map(event => (
             <div key={event.id} className="event-item">
               <h4>{event.title}</h4>
               <span className="event-date">{event.date}</span>
