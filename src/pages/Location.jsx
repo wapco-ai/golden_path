@@ -35,7 +35,7 @@ const Location = () => {
 
   // Fetch routingData.json from public folder
   useEffect(() => {
-    fetch('./data/routing-data.json')
+    fetch('/data/routing-data.json')
       .then(res => res.json())
       .then(data => setRoutingData(data))
       .catch(err => console.error('Failed to load routing-data.json', err));
@@ -236,7 +236,7 @@ const Location = () => {
   useEffect(() => {
     const fetchLocationData = async () => {
       try {
-        const response = await axios.get('./data/locationData.json');
+        const response = await axios.get('/data/locationData.json');
         setLocationData(response.data);
         setComments(response.data.comments || []);
         setViews(response.data.views || 0);
@@ -287,7 +287,7 @@ const Location = () => {
             ref={carouselRef}
             style={{ transform: `translateX(-${activeSlide * 100}%)` }}
           >
-            {locationData.images.map((image, index) => (
+            {locationData.images?.map((image, index) => (
               <div key={index} className="carousel-slide">
                 <img
                   src={image}
@@ -301,7 +301,7 @@ const Location = () => {
           <div className="carousel-fade"></div>
         </div>
         <div className="carousel-dots">
-          {locationData.images.map((_, index) => (
+          {locationData.images?.map((_, index) => (
             <button
               key={index}
               className={`dot ${index === activeSlide ? 'active' : ''}`}
@@ -366,7 +366,7 @@ const Location = () => {
       <section className="events-section">
         <h3>محتواهای صوتی و متنی {locationData.title}</h3>
         <div className="events-list">
-          {locationData.events.map(event => (
+          {locationData.events?.map(event => (
             <div key={event.id} className="event-item">
               <h4>{event.title}</h4>
               <span className="event-date">{event.date}</span>
@@ -630,7 +630,23 @@ const Location = () => {
                       <p className="place-description">{event.description}</p>
                       <div className="place-info2">
                         <span className="place-address">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="black"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="icon icon-tabler icons-tabler-outline icon-tabler-door"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M14 12v.01" />
+                            <path d="M3 21h18" />
+                            <path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" />
+                          </svg>
                           {event.location}
                         </span>
                         <div className="place-meta">

@@ -1,12 +1,19 @@
-import { defineConfig } from 'vite';  
-import react from '@vitejs/plugin-react';  
-import { VitePWA } from 'vite-plugin-pwa';  
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 
-export default defineConfig({  
-  // base: process.env.BASE_URL || '/',  
-  base: '/golden_path/',
+const isProd = process.env.NODE_ENV === 'production';
+
+export default defineConfig({
+  // base: process.env.BASE_URL || '/',
+  base: isProd ? '/golden_path/' : '/',
   // Add this for PWA  
-  publicDir: 'public',  
+  publicDir: 'public',
+  resolve: {
+    alias: {
+      'mapbox-gl': 'maplibre-gl'
+    }
+  },
   //base: './', // This helps with relative paths in the production build
   plugins: [  
     react(),  
