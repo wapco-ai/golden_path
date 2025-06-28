@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Map, { Marker, Popup, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import DeadReckoningControls from './DeadReckoningControls';
-import osmStyle from '../../services/osmStyle';
+
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './Map.css';
@@ -200,7 +200,7 @@ const MapView = ({
     <div className="map-fullscreen">
       <Map
         mapLib={maplibregl}
-        mapStyle={osmStyle}
+
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
         onMove={handleMove}
