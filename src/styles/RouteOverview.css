@@ -15,6 +15,11 @@
   z-index: 1000;
 }
 
+.route-map-container .maplibregl-control-container {
+  display: none;
+}
+
+
 .header-gradient {
   height: 60px;
   width: 100%;
@@ -79,6 +84,7 @@
   flex: 1;
   width: 100%;
   z-index: 1;
+  position: relative;
 }
 
 /* Start Routing Button */

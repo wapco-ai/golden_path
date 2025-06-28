@@ -24,6 +24,11 @@ const FinalSearch = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   React.useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, []);
+
+  React.useEffect(() => {
     if (selectedTransport === 'walking') {
       setRouteInfo({ time: '9', distance: '75' });
     } else if (selectedTransport === 'electric-car') {
@@ -174,7 +179,12 @@ const FinalSearch = () => {
           mapLib={maplibregl}
           mapStyle={osmStyle}
           style={{ width: '100%', height: '100%' }}
-
+          initialViewState={{
+            longitude: (origin.coordinates[1] + destination.coordinates[1]) / 2,
+            latitude: (origin.coordinates[0] + destination.coordinates[0]) / 2,
+            zoom: 18
+          }}
+          attributionControl={false}
         >
           <Marker longitude={origin.coordinates[1]} latitude={origin.coordinates[0]} anchor="bottom">
             <div className="marker-circle"></div>

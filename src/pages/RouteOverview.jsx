@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
@@ -59,11 +59,15 @@ const RouteOverview = () => {
   const routeCoordinates = routeData.flatMap(s => s.coordinates);
 
   const [viewState, setViewState] = useState({
-    latitude: routeCoordinates[0][0],
-    longitude: routeCoordinates[0][1],
-    zoom: 18
+    latitude: routeCoordinates[5][0],
+    longitude: routeCoordinates[4][1],
+    zoom: 16
   });
 
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const highlightGeo = useMemo(() => {
     const seg = routeData[currentSlide]?.coordinates;
@@ -72,11 +76,21 @@ const RouteOverview = () => {
       : null;
   }, [currentSlide]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (routeData[currentSlide]) {
       setDistance(routeData[currentSlide].distance);
       setTime(routeData[currentSlide].time);
       setDirectionArrow(routeData[currentSlide].direction);
+      
+      // Update map view to center on current segment
+      const segment = routeData[currentSlide].coordinates;
+      const centerLat = (segment[0][0] + segment[1][0]) / 2;
+      const centerLng = (segment[0][1] + segment[1][1]) / 2;
+      setViewState({
+        latitude: centerLat,
+        longitude: centerLng,
+        zoom: 18
+      });
     }
   }, [currentSlide]);
 
@@ -136,6 +150,9 @@ const RouteOverview = () => {
         <Map
           mapLib={maplibregl}
           mapStyle={osmStyle}
+          initialViewState={viewState}
+          attributionControl={false}
+          style={{ width: '100%', height: '100%' }}
         >
           <Marker longitude={routeCoordinates[0][1]} latitude={routeCoordinates[0][0]} anchor="bottom">
             <div className="c-circle"></div>
