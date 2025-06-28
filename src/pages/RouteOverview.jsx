@@ -4,6 +4,7 @@ import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/RouteOverview.css';
+import osmStyle from '../services/osmStyle';
 
 const RouteOverview = () => {
   const navigate = useNavigate();
@@ -134,6 +135,7 @@ const RouteOverview = () => {
       <div className="route-map-container">
         <Map
           mapLib={maplibregl}
+          mapStyle={osmStyle}
         >
           <Marker longitude={routeCoordinates[0][1]} latitude={routeCoordinates[0][0]} anchor="bottom">
             <div className="c-circle"></div>
