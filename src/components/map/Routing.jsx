@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import osmStyle from '../../services/osmStyle';
 
 
 const Routing = ({ userLocation, routeSteps, currentStep }) => {
@@ -31,7 +32,7 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
     <div ref={null} className="route-map">
       <Map
         mapLib={maplibregl}
-
+        mapStyle={osmStyle}
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
       >

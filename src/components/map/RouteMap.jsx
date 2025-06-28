@@ -3,6 +3,7 @@ import React from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import osmStyle from '../../services/osmStyle';
 
 
 const RouteMap = ({ origin, destination, routeOptions }) => {
@@ -18,7 +19,7 @@ const RouteMap = ({ origin, destination, routeOptions }) => {
     <div id="route-map" className="route-map-container">
       <Map
         mapLib={maplibregl}
-
+        mapStyle={osmStyle}
         style={{ width: '100%', height: '100%' }}
         initialViewState={{
           latitude: center[0],
