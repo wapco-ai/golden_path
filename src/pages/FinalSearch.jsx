@@ -136,7 +136,6 @@ const FinalSearch = () => {
           <div class="time-bubble">${routeInfo.time} دقیقه</div>
         </div>
       `,
-        className: 'time-marker-container',
         iconSize: [60, 30],
         iconAnchor: [30, 15]
       });

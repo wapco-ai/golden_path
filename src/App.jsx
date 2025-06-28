@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { HomePage } from './pages/HomePage';
-import MapPage from './pages/MapPage';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Profile from './pages/Profile';
 import FinalSearch from './pages/FinalSearch';
 import LangPage from './pages/LangPage';
-import { QRScanPage } from './pages/QRScanPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { NotFoundPage } from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
 import MapRouting from './pages/MapRouting';
 import Routing from './pages/Routing';
@@ -74,20 +69,14 @@ const AppContent = () => {
           </div>
         )}
         <Routes>
-          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/map" element={<MapPage />} />
-          <Route path="/qr-scan" element={<QRScanPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/fs" element={<FinalSearch />} />
           <Route path="/rop" element={<RouteOverview />} />
           <Route path="/" element={<LangPage />} />
-          <Route path="/404" element={<NotFoundPage />} />
           <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/rng" element={<Routing/>} />
           <Route path="/location" element={<Location />} />
-          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </main>
       {!hideHeaderFooter && <Footer />}
