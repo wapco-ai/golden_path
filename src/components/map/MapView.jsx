@@ -4,6 +4,7 @@ import Map, { Marker, Popup, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import DeadReckoningControls from './DeadReckoningControls';
 
+
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './Map.css';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
@@ -79,6 +80,15 @@ const MapView = ({
     longitude: getInitialCenter()[1],
     zoom: initialZoom
   });
+
+  const handleMove = React.useCallback((evt) => {
+    const ns = evt.viewState;
+    setViewState((v) =>
+      v.latitude === ns.latitude && v.longitude === ns.longitude && v.zoom === ns.zoom
+        ? v
+        : ns
+    );
+  }, []);
 
   useEffect(() => {
     if (centerPosition && isFollowing) {
@@ -190,10 +200,10 @@ const MapView = ({
     <div className="map-fullscreen">
       <Map
         mapLib={maplibregl}
-        mapStyle="https://demotiles.maplibre.org/style.json"
+
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
-        onMove={evt => setViewState(evt.viewState)}
+        onMove={handleMove}
       >
         {currentLocation?.coords && (
           <Marker longitude={currentLocation.coords.lng} latitude={currentLocation.coords.lat} anchor="center">

@@ -1,7 +1,8 @@
 // src/components/map/RouteMap.jsx
-import React, { useEffect, useRef } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import React from 'react';
+import Map, { Marker, Source, Layer } from 'react-map-gl';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 const RouteMap = ({ 
   origin, 
