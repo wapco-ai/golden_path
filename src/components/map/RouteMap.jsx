@@ -1,64 +1,48 @@
 // src/components/map/RouteMap.jsx
-import React, { useEffect, useRef } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
+import React from 'react';
+import Map, { Marker, Source, Layer } from 'react-map-gl';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 const RouteMap = ({ origin, destination, routeOptions }) => {
-  const mapRef = useRef(null);
-  const routeLayerRef = useRef(null);
+  const center = origin?.coordinates || [36.297, 59.606];
+  const route = origin?.coordinates && destination?.coordinates
+    ? [
+        [origin.coordinates[1], origin.coordinates[0]],
+        [destination.coordinates[1], destination.coordinates[0]]
+      ]
+    : null;
 
-  useEffect(() => {
-    if (!mapRef.current) {
-      // Initialize map
-      mapRef.current = L.map('route-map').setView([36.297, 59.606], 18); // Approximate coordinates for Imam Reza Shrine
-      
-      // Add tile layer
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(mapRef.current);
-      
-      // Initialize route layer
-      routeLayerRef.current = L.layerGroup().addTo(mapRef.current);
-    }
-
-    // Clear previous route
-    routeLayerRef.current.clearLayers();
-
-    // Add markers for origin and destination
-    if (origin && origin.coordinates) {
-      L.marker(origin.coordinates, {
-        icon: L.divIcon({
-          className: 'custom-marker origin-marker',
-          html: '🟢'
-        })
-      }).addTo(routeLayerRef.current);
-    }
-
-    if (destination && destination.coordinates) {
-      L.marker(destination.coordinates, {
-        icon: L.divIcon({
-          className: 'custom-marker destination-marker',
-          html: '🔴'
-        })
-      }).addTo(routeLayerRef.current);
-    }
-
-    // Here you would normally fetch the route from a routing API
-    // For now, we'll just draw a straight line between points
-    if (origin?.coordinates && destination?.coordinates) {
-      const routeLine = L.polyline(
-        [origin.coordinates, destination.coordinates],
-        { color: '#3498db', weight: 5 }
-      ).addTo(routeLayerRef.current);
-      
-      // Fit map to route bounds
-      mapRef.current.fitBounds(routeLine.getBounds());
-    }
-
-  }, [origin, destination, routeOptions]);
-
-  return <div id="route-map" className="route-map-container"></div>;
+  return (
+    <div id="route-map" className="route-map-container">
+      <Map
+        mapLib={maplibregl}
+        mapStyle="https://demotiles.maplibre.org/style.json"
+        style={{ width: '100%', height: '100%' }}
+        initialViewState={{
+          latitude: center[0],
+          longitude: center[1],
+          zoom: 18
+        }}
+      >
+        {origin?.coordinates && (
+          <Marker longitude={origin.coordinates[1]} latitude={origin.coordinates[0]} anchor="bottom">
+            <div>🟢</div>
+          </Marker>
+        )}
+        {destination?.coordinates && (
+          <Marker longitude={destination.coordinates[1]} latitude={destination.coordinates[0]} anchor="bottom">
+            <div>🔴</div>
+          </Marker>
+        )}
+        {route && (
+          <Source id="route" type="geojson" data={{ type: 'Feature', geometry: { type: 'LineString', coordinates: route } }}>
+            <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 5 }} />
+          </Source>
+        )}
+      </Map>
+    </div>
+  );
 };
 
 export default RouteMap;

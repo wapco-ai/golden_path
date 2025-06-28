@@ -1,152 +1,76 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import Map, { Marker, Source, Layer } from 'react-map-gl';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/RouteOverview.css';
 
 const RouteOverview = () => {
   const navigate = useNavigate();
-  const mapRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [directionArrow, setDirectionArrow] = useState('right');
   const [distance, setDistance] = useState('580 متر');
   const [time, setTime] = useState('4 دقیقه');
 
-  // Sample route data
   const routeData = [
     {
       id: 1,
-      instruction: "در صحن پیامبر اعظم به سمت مرکز صحن و ستون شماره ی بیست آن حرکت کنید.",
-      distance: "35 متر",
-      time: "1 دقیقه",
-      direction: "up",
+      instruction: 'در صحن پیامبر اعظم به سمت مرکز صحن و ستون شماره ی بیست آن حرکت کنید.',
+      distance: '35 متر',
+      time: '1 دقیقه',
+      direction: 'up',
       coordinates: [[36.2880, 59.6157], [36.2885, 59.6162]]
     },
     {
       id: 2,
-      instruction: "از قسمت ستون شماره‌ی 40 صحن پیامبر اعظم به سمت صحن قدس بپیچید و وارد آن شوید.",
-      distance: "120 متر",
-      time: "5 دقیقه",
-      direction: "up",
+      instruction: 'از قسمت ستون شماره‌ی 40 صحن پیامبر اعظم به سمت صحن قدس بپیچید و وارد آن شوید.',
+      distance: '120 متر',
+      time: '5 دقیقه',
+      direction: 'up',
       coordinates: [[36.2885, 59.6162], [36.2890, 59.6167]]
     },
     {
       id: 3,
-      instruction: "در صحن گوهوشاد به سمت چپ حرکت کنید و از آن خارج و به صحن جمهوری وارد شوید.",
-      distance: "60 متر",
-      time: "2 دقیقه",
-      direction: "straight",
+      instruction: 'در صحن گوهوشاد به سمت چپ حرکت کنید و از آن خارج و به صحن جمهوری وارد شوید.',
+      distance: '60 متر',
+      time: '2 دقیقه',
+      direction: 'straight',
       coordinates: [[36.2890, 59.6167], [36.2895, 59.6172]]
     },
     {
       id: 4,
-      instruction: "به سمت صحن آزادی ادامه دهید و از درب غربی خارج شوید.",
-      distance: "80 متر",
-      time: "3 دقیقه",
-      direction: "right",
+      instruction: 'به سمت صحن آزادی ادامه دهید و از درب غربی خارج شوید.',
+      distance: '80 متر',
+      time: '3 دقیقه',
+      direction: 'right',
       coordinates: [[36.2895, 59.6172], [36.2900, 59.6177]]
     },
     {
       id: 5,
-      instruction: "وارد صحن انتقاب شوید. شما به مقصد خود رسیده اید.",
-      distance: "100 متر",
-      time: "4 دقیقه",
-      direction: "arrived",
+      instruction: 'وارد صحن انتقاب شوید. شما به مقصد خود رسیده اید.',
+      distance: '100 متر',
+      time: '4 دقیقه',
+      direction: 'arrived',
       coordinates: [[36.2900, 59.6177], [36.2905, 59.6182]]
     }
   ];
 
-  // Initialize map - runs only once on component mount
-  useEffect(() => {
-    if (!mapRef.current) {
-      mapRef.current = L.map('route-map', {
-        zoomControl: false
-      });
+  const routeCoordinates = routeData.flatMap(s => s.coordinates);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(mapRef.current);
+  const [viewState, setViewState] = useState({
+    latitude: routeCoordinates[0][0],
+    longitude: routeCoordinates[0][1],
+    zoom: 18
+  });
 
-      // Store references to map elements
-      const routeCoordinates = routeData.flatMap(segment => segment.coordinates);
-      const routePolyline = L.polyline(routeCoordinates, { 
-        color: '#3498db', 
-        weight: 5 
-      }).addTo(mapRef.current);
-
-      // Fit bounds once initially
-      mapRef.current.fitBounds(routePolyline.getBounds(), {
-        padding: [50, 50]
-      });
-
-      // Add permanent markers
-      const originIcon = L.divIcon({
-        html: '<div class="c-circle"></div>',
-        className: '',
-      });
-
-      const destinationIcon = L.divIcon({
-        html: `<div class="des-marker"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" class="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg></div>`,
-        className: '',
-        iconSize: [35, 35],
-        iconAnchor: [24, 24]
-      });
-      
-      L.marker(routeCoordinates[0], { icon: originIcon }).addTo(mapRef.current)
-        .bindPopup("مبدأ");
-      L.marker(routeCoordinates[routeCoordinates.length - 1], { icon: destinationIcon }).addTo(mapRef.current)
-        .bindPopup("مقصد");
-    }
-  }, []); // Empty dependency array means this runs only once
-
-  // Update route highlights - runs when currentSlide changes
-  useEffect(() => {
-    if (!mapRef.current || !routeData[currentSlide]) return;
-
-    const segment = routeData[currentSlide].coordinates;
-    
-    // Clear previous highlights
-    if (mapRef.current._highlightLayer) {
-      mapRef.current.removeLayer(mapRef.current._highlightLayer);
-    }
-    if (mapRef.current._timeMarker) {
-      mapRef.current.removeLayer(mapRef.current._timeMarker);
-    }
-
-    // Add new highlight
-    const segmentLayer = L.polyline(segment, { 
-      color: '#e74c3c', 
-      weight: 8 
-    }).addTo(mapRef.current);
-    mapRef.current._highlightLayer = segmentLayer;
-
-    // Add time marker
-    const progress = 0.6;
-    const labelPoint = [
-      segment[0][0] + (segment[1][0] - segment[0][0]) * progress + 0.00003,
-      segment[0][1] + (segment[1][1] - segment[0][1]) * progress
-    ];
-
-    const timeIcon = L.divIcon({
-      html: `
-        <div class="time-marker">
-          <div class="time-bubble">${routeData[currentSlide].time}</div>
-        </div>
-      `,
-      className: 'time-marker-container',
-      iconSize: [60, 30],
-      iconAnchor: [30, 15]
-    });
-
-    const timeMarker = L.marker(labelPoint, { 
-      icon: timeIcon 
-    }).addTo(mapRef.current);
-    mapRef.current._timeMarker = timeMarker;
-
+  const highlightGeo = useMemo(() => {
+    const seg = routeData[currentSlide]?.coordinates;
+    return seg
+      ? { type: 'Feature', geometry: { type: 'LineString', coordinates: seg.map(p => [p[1], p[0]]) } }
+      : null;
   }, [currentSlide]);
 
-  // Update distance and time when slide changes
-  useEffect(() => {
+  React.useEffect(() => {
     if (routeData[currentSlide]) {
       setDistance(routeData[currentSlide].distance);
       setTime(routeData[currentSlide].time);
@@ -154,12 +78,16 @@ const RouteOverview = () => {
     }
   }, [currentSlide]);
 
+  const allGeo = {
+    type: 'Feature',
+    geometry: { type: 'LineString', coordinates: routeCoordinates.map(p => [p[1], p[0]]) }
+  };
+
   const nextSlide = () => {
     if (currentSlide < routeData.length - 1) {
       setCurrentSlide(currentSlide + 1);
     }
   };
-
   const prevSlide = () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
@@ -189,7 +117,6 @@ const RouteOverview = () => {
 
   return (
     <div className="route-overview-container fade-in">
-      {/* Header with gradient bottom */}
       <div className="header-container">
         <header className="route-overview-header">
           <button className="route-back-button" onClick={() => navigate(-1)}>
@@ -203,10 +130,33 @@ const RouteOverview = () => {
         <div className="header-gradient"></div>
       </div>
 
-      {/* Map Section */}
-      <div id="route-map" className="route-map-container"></div>
+      <div className="route-map-container">
+        <Map
+          mapLib={maplibregl}
+          mapStyle="https://demotiles.maplibre.org/style.json"
+          style={{ width: '100%', height: '100%' }}
+          viewState={viewState}
+          onMove={(e) => setViewState(e.viewState)}
+        >
+          <Marker longitude={routeCoordinates[0][1]} latitude={routeCoordinates[0][0]} anchor="bottom">
+            <div className="c-circle"></div>
+          </Marker>
+          <Marker longitude={routeCoordinates[routeCoordinates.length - 1][1]} latitude={routeCoordinates[routeCoordinates.length - 1][0]} anchor="bottom">
+            <div className="des-marker">
+              <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>
+            </div>
+          </Marker>
+          <Source id="route" type="geojson" data={allGeo}>
+            <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 5 }} />
+          </Source>
+          {highlightGeo && (
+            <Source id="highlight" type="geojson" data={highlightGeo}>
+              <Layer id="highlight-line" type="line" paint={{ 'line-color': '#e74c3c', 'line-width': 8 }} />
+            </Source>
+          )}
+        </Map>
+      </div>
 
-      {/* Start Routing Button */}
       <button className="start-routing-btn" onClick={() => navigate('/rng')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="currentColor">
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -215,7 +165,6 @@ const RouteOverview = () => {
         شروع مسیریابی
       </button>
 
-      {/* Route Info Section */}
       <div className="route-info-container">
         <div className="route-stats">
           <div className="route-distance">
