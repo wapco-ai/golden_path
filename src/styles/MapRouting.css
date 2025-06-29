@@ -179,18 +179,14 @@
 }
 
 .map-location-label {
-  font-size: 15px;
   color: #4285F4;
   margin-bottom: 4px;
   font-family: 'Vazir', Arial, sans-serif;
 }
 
 .map-location-name {
-  font-size: 16px;
   color: #333;
-  font-weight: 600;
   font-family: 'Vazir', Arial, sans-serif;
-  font-size: 15px;
 }
 
 .map-destination-input {
