@@ -1,29 +1,43 @@
 // src/pages/FinalSearch.jsx
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../services/osmStyle';
 import '../styles/FinalSearch.css';
+import { useRouteStore } from '../store/routeStore';
 
 const FinalSearch = () => {
   const [isSwapButton, setSwapButton] = useState(true);
   const navigate = useNavigate();
-  const [origin, setOrigin] = useState({
-    name: 'باب الرضا (ع)',
-    coordinates: [36.2970, 59.6069]
-  });
-  const [destination, setDestination] = useState({
-    name: 'صحن انقلاب',
-    coordinates: [36.2975, 59.6072]
-  });
+  const {
+    origin: storedOrigin,
+    destination: storedDestination,
+    routeGeo: storedRouteGeo,
+    setOrigin: storeSetOrigin,
+    setDestination: storeSetDestination,
+    setRouteGeo: storeSetRouteGeo
+  } = useRouteStore();
+  const [origin, setOrigin] = useState(
+    storedOrigin || { name: 'باب الرضا (ع)', coordinates: [36.2970, 59.6069] }
+  );
+  const [destination, setDestination] = useState(
+    storedDestination || { name: 'صحن انقلاب', coordinates: [36.2975, 59.6072] }
+  );
+  const routeGeo = storedRouteGeo;
+  useEffect(() => {
+    storeSetOrigin(origin);
+  }, [origin, storeSetOrigin]);
+  useEffect(() => {
+    storeSetDestination(destination);
+  }, [destination, storeSetDestination]);
   const [selectedTransport, setSelectedTransport] = useState('walking');
   const [selectedGender, setSelectedGender] = useState('male');
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
   const [menuOpen, setMenuOpen] = useState(false);
   const [geoData, setGeoData] = useState(null);
-  const [routeGeo, setRouteGeo] = useState(null);
 
   React.useEffect(() => {
     // Scroll to top when component mounts
@@ -40,12 +54,36 @@ const FinalSearch = () => {
     }
   }, [selectedTransport]);
 
+  // Fallback to current GPS coordinates if origin coords not provided
+  useEffect(() => {
+    if (!origin.coordinates) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) =>
+          setOrigin((o) => ({
+            ...o,
+            coordinates: [pos.coords.latitude, pos.coords.longitude]
+          })),
+        (err) => console.error('gps error', err)
+      );
+    }
+  }, [origin.coordinates]);
+
   useEffect(() => {
     fetch('/data14040404.geojson')
       .then(res => res.json())
       .then(setGeoData)
       .catch(err => console.error('failed to load geojson', err));
   }, []);
+
+  useEffect(() => {
+    if (!destination.coordinates) {
+      // fallback to a default location if none provided
+      setDestination((d) => ({
+        ...d,
+        coordinates: [36.2975, 59.6072]
+      }));
+    }
+  }, [destination.coordinates]);
 
   useEffect(() => {
     if (!geoData) return;
@@ -86,8 +124,8 @@ const FinalSearch = () => {
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
     };
-    setRouteGeo(geo);
-  }, [geoData, origin, destination]);
+    storeSetRouteGeo(geo);
+  }, [geoData, origin, destination, storeSetRouteGeo]);
 
   const swapLocations = () => {
     setSwapButton(!isSwapButton);
@@ -201,20 +239,37 @@ const FinalSearch = () => {
           mapStyle={osmStyle}
           style={{ width: '100%', height: '100%' }}
           initialViewState={{
-            longitude: (origin.coordinates[1] + destination.coordinates[1]) / 2,
-            latitude: (origin.coordinates[0] + destination.coordinates[0]) / 2,
+            longitude:
+              ((origin.coordinates?.[1] ?? 0) + (destination.coordinates?.[1] ?? 0)) /
+                2,
+            latitude:
+              ((origin.coordinates?.[0] ?? 0) + (destination.coordinates?.[0] ?? 0)) /
+                2,
             zoom: 18
           }}
           attributionControl={false}
         >
-          <Marker longitude={origin.coordinates[1]} latitude={origin.coordinates[0]} anchor="bottom">
-            <div className="marker-circle"></div>
-          </Marker>
-          <Marker longitude={destination.coordinates[1]} latitude={destination.coordinates[0]} anchor="bottom">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#F44336">
-              <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
-            </svg>
-          </Marker>
+          {origin.coordinates && (
+            <Marker
+              longitude={origin.coordinates[1]}
+              latitude={origin.coordinates[0]}
+              anchor="bottom"
+            >
+              <div className="marker-circle"></div>
+            </Marker>
+          )}
+          {destination.coordinates && (
+            <Marker
+              longitude={destination.coordinates[1]}
+              latitude={destination.coordinates[0]}
+              anchor="bottom"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#F44336">
+                <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
+              </svg>
+            </Marker>
+          )}
+
           {routeGeo && (
             <Source id="main-route" type="geojson" data={routeGeo}>
               <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />

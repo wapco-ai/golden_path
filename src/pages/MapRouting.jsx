@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
+import { useRouteStore } from '../store/routeStore';
 import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
@@ -9,13 +10,19 @@ const MapRoutingPage = () => {
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
-  const [userLocation, setUserLocation] = useState('باب الرضا «ع»');
+  const [userLocation, setUserLocation] = useState({
+    name: 'باب الرضا «ع»',
+    coordinates: [36.297, 59.6069]
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [activeInput, setActiveInput] = useState(null);
   const [isGPSEnabled, setIsGPSEnabled] = useState(false);
   const [isSelectingFromMap, setIsSelectingFromMap] = useState(false);
   const [mapSelectedLocation, setMapSelectedLocation] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const setOriginStore = useRouteStore(state => state.setOrigin);
+  const setDestinationStore = useRouteStore(state => state.setDestination);
 
   const destinationInputRef = useRef(null);
   const originInputRef = useRef(null);
@@ -79,17 +86,26 @@ const MapRoutingPage = () => {
 
   // Handle navigation when both origin and destination are selected
   useEffect(() => {
-    if (userLocation && selectedDestination) {
+    if (userLocation?.coordinates && selectedDestination?.coordinates) {
+      setOriginStore({
+        name: userLocation.name,
+
+        coordinates: userLocation.coordinates
+      });
+      setDestinationStore({
+        name: selectedDestination.name,
+        coordinates: selectedDestination.coordinates
+      });
       navigate('/fs');
     }
-  }, [userLocation, selectedDestination, navigate]);
+  }, [userLocation, selectedDestination, navigate, setOriginStore, setDestinationStore]);
 
   const handleDestinationSelect = (destination) => {
     if (activeInput === 'destination') {
       setSelectedDestination(destination);
       setShowDestinationModal(false);
     } else {
-      setUserLocation(destination.name);
+      setUserLocation({ name: destination.name, coordinates: destination.coordinates });
       setShowOriginModal(false);
     }
     setSearchQuery('');
@@ -126,8 +142,14 @@ const MapRoutingPage = () => {
   const handleSwapLocations = () => {
     // Only swap the values between origin and destination
     const temp = userLocation;
-    setUserLocation(selectedDestination ? selectedDestination.name : '');
-    setSelectedDestination(temp ? { name: temp, location: temp } : null);
+    setUserLocation(
+      selectedDestination
+        ? { name: selectedDestination.name, coordinates: selectedDestination.coordinates }
+        : null
+    );
+    setSelectedDestination(
+      temp ? { name: temp.name, location: temp.name, coordinates: temp.coordinates } : null
+    );
 
     // Add animation to swap button
     if (swapButtonRef.current) {
@@ -162,7 +184,7 @@ const MapRoutingPage = () => {
   };
 
   const handleCurrentLocationSelect = () => {
-    setUserLocation('موقعیت فعلی شما');
+    setUserLocation((prev) => ({ ...prev, name: 'موقعیت فعلی شما' }));
     setShowOriginModal(false);
   };
 
@@ -181,7 +203,7 @@ const MapRoutingPage = () => {
           coordinates: [latlng.lat, latlng.lng]
         });
       } else {
-        setUserLocation('موقعیت انتخاب شده');
+        setUserLocation({ name: 'موقعیت انتخاب شده', coordinates: [latlng.lat, latlng.lng] });
       }
       setIsSelectingFromMap(false);
     }
@@ -323,7 +345,7 @@ const MapRoutingPage = () => {
                 {userLocation ? (
                   <>
                     <span className="map-location-name">
-                      {userLocation}
+                      {userLocation.name}
                     </span>
                     <span className="map-location-label">
                       مبداء فعلی شما
@@ -409,7 +431,7 @@ const MapRoutingPage = () => {
                   <div className="map-option-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-current-location"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg>
                   </div>
-                  <span className="map-option-text">مکان فعلی شما ({userLocation})</span>
+                  <span className="map-option-text">مکان فعلی شما ({userLocation.name})</span>
                 </div>
               )}
             </div>
