@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
+import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/RouteOverview.css';
@@ -139,6 +140,7 @@ const RouteOverview = () => {
               <Layer id="highlight-line" type="line" paint={{ 'line-color': '#e74c3c', 'line-width': 8 }} />
             </Source>
           )}
+          <GeoJsonOverlay />
         </Map>
       </div>
 
