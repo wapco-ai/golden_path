@@ -23,6 +23,39 @@ const MapRoutingPage = () => {
   const searchInputRef = useRef(null);
   const swapButtonRef = useRef(null);
 
+  // Lazy loaded geojson data for destination search
+  const [geoData, setGeoData] = useState(null);
+  const [geoResults, setGeoResults] = useState([]);
+
+  const getPolygonCenter = (coords) => {
+    const pts = [];
+    const collect = (c) => {
+      if (typeof c[0] === 'number') {
+        pts.push(c);
+      } else {
+        c.forEach(collect);
+      }
+    };
+    collect(coords);
+    const lats = pts.map((p) => p[1]);
+    const lngs = pts.map((p) => p[0]);
+    return [
+      (Math.min(...lngs) + Math.max(...lngs)) / 2,
+      (Math.min(...lats) + Math.max(...lats)) / 2,
+    ];
+  };
+
+  const getFeatureCenter = (feature) => {
+    if (!feature) return null;
+    const { geometry } = feature;
+    if (geometry.type === 'Point') return geometry.coordinates;
+    if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
+      return getPolygonCenter(geometry.coordinates);
+    }
+    return null;
+  };
+
+
   // Destinations data
   const destinations = [
     { id: 1, name: 'صحن انقلاب', location: 'حرم مطهر امام رضا عليه السلام، صحن انقلاب' },
@@ -32,9 +65,17 @@ const MapRoutingPage = () => {
     { id: 5, name: 'صحن پیامبر اعظم', location: 'حرم مطهر امام رضا عليه السلام، صحن پیامبر...' }
   ];
 
-  const filteredDestinations = destinations.filter(dest =>
-    dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
-  );
+  const filteredDestinations = searchQuery
+    ? geoResults.map((f) => ({
+        id: f.properties?.uniqueId || f.id,
+        name: f.properties?.name || '',
+        location: f.properties?.subGroup || '',
+        coordinates: getFeatureCenter(f)
+
+      }))
+    : destinations.filter(
+        (dest) => dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
+      );
 
   // Handle navigation when both origin and destination are selected
   useEffect(() => {
@@ -58,6 +99,30 @@ const MapRoutingPage = () => {
     setSearchQuery(e.target.value);
   };
 
+  // Lazy load geojson data on first search
+  useEffect(() => {
+    if (searchQuery && !geoData) {
+      fetch('/data14040404.geojson')
+        .then((res) => res.json())
+        .then(setGeoData)
+        .catch((err) => console.error('failed to load geojson', err));
+    }
+  }, [searchQuery, geoData]);
+
+  // Filter geojson features based on search query
+  useEffect(() => {
+    if (geoData && searchQuery) {
+      const results = geoData.features.filter((f) => {
+        const name = f.properties?.name || '';
+        const subGroup = f.properties?.subGroup || '';
+        return name.includes(searchQuery) || subGroup.includes(searchQuery);
+      });
+      setGeoResults(results);
+    } else {
+      setGeoResults([]);
+    }
+  }, [searchQuery, geoData]);
+
   const handleSwapLocations = () => {
     // Only swap the values between origin and destination
     const temp = userLocation;
@@ -76,7 +141,9 @@ const MapRoutingPage = () => {
   };
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+    setSelectedCategory((current) =>
+      current && current.value === category.value ? null : category
+    );
   };
 
   const handleInputClick = (inputType) => {
@@ -108,9 +175,13 @@ const MapRoutingPage = () => {
   const handleMapClick = (latlng) => {
     if (isSelectingFromMap) {
       if (activeInput === 'destination') {
-        setSelectedDestination({ name: "موقعیت انتخاب شده", location: "موقعیت انتخاب شده از روی نقشه" });
+        setSelectedDestination({
+          name: 'موقعیت انتخاب شده',
+          location: 'موقعیت انتخاب شده از روی نقشه',
+          coordinates: [latlng.lat, latlng.lng]
+        });
       } else {
-        setUserLocation("موقعیت انتخاب شده");
+        setUserLocation('موقعیت انتخاب شده');
       }
       setIsSelectingFromMap(false);
     }
@@ -180,10 +251,14 @@ const MapRoutingPage = () => {
       {!isSelectingFromMap && (
         <div className="map-categories-scroll">
           <div className="map-categories-list">
-            {groups.map((category, index) => (
+            {groups.map((category) => (
               <div
-                key={index}
-                className="map-category-item"
+                key={category.value}
+                className={`map-category-item ${
+                  selectedCategory && selectedCategory.value === category.value
+                    ? 'active'
+                    : ''
+                }`}
                 onClick={() => handleCategoryClick(category)}
               >
                 <div className={`map-category-icon ${category.icon}`}>
