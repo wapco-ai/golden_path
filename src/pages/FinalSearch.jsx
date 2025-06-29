@@ -1,6 +1,5 @@
 // src/pages/FinalSearch.jsx
 import React, { useState, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
@@ -270,8 +269,6 @@ const FinalSearch = () => {
               </svg>
             </Marker>
           )}
-
-          <GeoJsonOverlay />
 
           {routeGeo && (
             <Source id="main-route" type="geojson" data={routeGeo}>

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
@@ -7,6 +8,7 @@ import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
   const navigate = useNavigate();
+  const intl = useIntl();
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -73,13 +75,15 @@ const MapRoutingPage = () => {
   ];
 
   const filteredDestinations = searchQuery
-    ? geoResults.map((f) => ({
-        id: f.properties?.uniqueId || f.id,
-        name: f.properties?.name || '',
-        location: f.properties?.subGroup || '',
-        coordinates: getFeatureCenter(f)
-
-      }))
+    ? geoResults.map((f) => {
+        const center = getFeatureCenter(f);
+        return {
+          id: f.properties?.uniqueId || f.id,
+          name: f.properties?.name || '',
+          location: f.properties?.subGroup || '',
+          coordinates: center ? [center[1], center[0]] : null
+        };
+      })
     : destinations.filter(
         (dest) => dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
       );
@@ -355,7 +359,7 @@ const MapRoutingPage = () => {
                   <input
                     type="text"
                     className="map-origin-input"
-                    placeholder="مبدا را انتخاب کنید"
+                    placeholder={intl.formatMessage({ id: 'originPlaceholder' })}
                     readOnly
                   />
                 )}
@@ -381,7 +385,7 @@ const MapRoutingPage = () => {
             >
               <input
                 type="text"
-                placeholder="مقصد را انتخاب کنید"
+                placeholder={intl.formatMessage({ id: 'destinationPlaceholder' })}
                 value={selectedDestination ? selectedDestination.name : ''}
                 readOnly
               />
@@ -400,7 +404,11 @@ const MapRoutingPage = () => {
               </button>
               <input
                 type="text"
-                placeholder={activeInput === 'destination' ? "جستجوی مقصد" : "جستجوی مبدا"}
+                placeholder={
+                  activeInput === 'destination'
+                    ? intl.formatMessage({ id: 'destinationSearchPlaceholder' })
+                    : intl.formatMessage({ id: 'originSearchPlaceholder' })
+                }
                 value={searchQuery}
                 onChange={handleInputChange}
                 autoFocus
@@ -424,7 +432,9 @@ const MapRoutingPage = () => {
                 <div className="map-option-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-photo-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8h.01" /><path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v5.5" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l2.5 2.5" /><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z" /><path d="M19 18v.01" /></svg>
                 </div>
-                <span className="map-option-text">انتخاب از روی نقشه</span>
+                <span className="map-option-text">
+                  <FormattedMessage id="chooseFromMap" />
+                </span>
               </div>
               {isGPSEnabled && activeInput === 'origin' && (
                 <div className="map-option-item" onClick={handleCurrentLocationSelect}>

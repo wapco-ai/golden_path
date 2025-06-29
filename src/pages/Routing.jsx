@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import RouteMap from '../components/map/RouteMap';
 import '../styles/Routing.css';
 
 const RoutingPage = () => {
+  const intl = useIntl();
   const [isMapModalOpen, setIsMapModalOpen] = useState(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
   const [routeData, setRouteData] = useState(null);
@@ -318,11 +320,14 @@ const RoutingPage = () => {
             </div>
 
             <div className="emergency-description">
-              <textarea placeholder="توضیحات بیشتر..." className="emergency-textarea" />
+              <textarea
+                placeholder={intl.formatMessage({ id: 'emergencyPlaceholder' })}
+                className="emergency-textarea"
+              />
             </div>
 
             <button className="emergency-submit-button">
-              تایید و ارسال درخواست
+              <FormattedMessage id="emergencySubmit" />
             </button>
           </div>
         </div>
