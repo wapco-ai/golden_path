@@ -4,6 +4,57 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 
+// Colors for different location groups
+const groupColors = {
+  sahn: '#4caf50',
+  eyvan: '#2196f3',
+  ravaq: '#9c27b0',
+  masjed: '#ff9800',
+  madrese: '#3f51b5',
+  khadamat: '#607d8b',
+  elmi: '#00bcd4',
+  cemetery: '#795548',
+  other: '#757575'
+};
+
+// Icons for different node functions
+const functionIcons = {
+  door: '🚪',
+  connection: '🔗',
+  elevator: '🛗',
+  escalator: '↕️',
+  ramp: '♿',
+  stairs: '🪜',
+  service: '🚾',
+  other: '📍'
+};
+
+// Create a composite icon element based on group and nodeFunction
+const getCompositeIcon = (group, nodeFunction) => {
+  const color = groupColors[group] || '#999';
+  const icon = functionIcons[nodeFunction] || '📌';
+
+  return (
+    <div
+      style={{
+        width: 35,
+        height: 35,
+        backgroundColor: color,
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
+      }}
+    >
+      {icon}
+    </div>
+  );
+};
+
 const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapClick, isSelectingLocation, selectedCategory }) => {
   const [viewState, setViewState] = useState({
     latitude: 36.2880,
@@ -87,6 +138,15 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       ]
     : null;
 
+  const pointFeatures = geoData
+    ? geoData.features.filter(f => f.geometry.type === 'Point')
+    : [];
+  const polygonFeatures = geoData
+    ? geoData.features.filter(
+        f => f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon'
+      )
+    : [];
+
   return (
     <Map
       mapLib={maplibregl}
@@ -119,19 +179,39 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
           <Layer id="route-line" type="line" paint={{ 'line-color': '#4285F4', 'line-width': 4, 'line-opacity': 0.7 }} />
         </Source>
       )}
-      {geoData && (
-        <Source id="poi" type="geojson" data={geoData}>
-          <Layer id="poi-base" type="circle" paint={{ 'circle-radius': 4, 'circle-color': '#666' }} />
-          {selectedCategory && (
-            <Layer
-              id="poi-highlight"
-              type="circle"
-              paint={{ 'circle-radius': 6, 'circle-color': '#e53935', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff' }}
-              filter={['==', ['get', selectedCategory.property], selectedCategory.value]}
-            />
-          )}
+      {polygonFeatures.length > 0 && (
+        <Source id="polygons" type="geojson" data={{ type: 'FeatureCollection', features: polygonFeatures }}>
+          <Layer id="polygon-lines" type="line" paint={{ 'line-color': '#333', 'line-width': 2 }} />
         </Source>
       )}
+      {pointFeatures.map((feature, idx) => {
+        const [lng, lat] = feature.geometry.coordinates;
+        const { group, nodeFunction } = feature.properties || {};
+        const highlight =
+          selectedCategory &&
+          feature.properties &&
+          feature.properties[selectedCategory.property] === selectedCategory.value;
+        return (
+          <Marker key={idx} longitude={lng} latitude={lat} anchor="center">
+            <div style={{ position: 'relative' }}>
+              {getCompositeIcon(group, nodeFunction)}
+              {highlight && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: -4,
+                    left: -4,
+                    right: -4,
+                    bottom: -4,
+                    border: '2px solid #e53935',
+                    borderRadius: '50%'
+                  }}
+                />
+              )}
+            </div>
+          </Marker>
+        );
+      })}
     </Map>
   );
 };
