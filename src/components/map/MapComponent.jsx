@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -13,6 +13,11 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   const [userCoords, setUserCoords] = useState(null);
   const [destCoords, setDestCoords] = useState(null);
   const [selectedCoords, setSelectedCoords] = useState(null);
+
+  // Add this handler for view state changes
+  const onMove = useCallback((evt) => {
+    setViewState(evt.viewState);
+  }, []);
 
   const updateDestination = (coords) => {
     if (!selectedDestination) return;
@@ -79,8 +84,10 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       mapLib={maplibregl}
       mapStyle={osmStyle}
       style={{ width: '100%', height: '100%' }}
-      viewState={viewState}
+      {...viewState}
+      onMove={onMove}
       onClick={handleClick}
+      interactive={true} // Ensure this is true
     >
       {userCoords && (
         <Marker longitude={userCoords.lng} latitude={userCoords.lat} anchor="center">
