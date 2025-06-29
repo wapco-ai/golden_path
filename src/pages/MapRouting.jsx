@@ -55,6 +55,7 @@ const MapRoutingPage = () => {
     return null;
   };
 
+
   // Destinations data
   const destinations = [
     { id: 1, name: 'صحن انقلاب', location: 'حرم مطهر امام رضا عليه السلام، صحن انقلاب' },
@@ -70,6 +71,7 @@ const MapRoutingPage = () => {
         name: f.properties?.name || '',
         location: f.properties?.subGroup || '',
         coordinates: getFeatureCenter(f)
+
       }))
     : destinations.filter(
         (dest) => dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
@@ -249,9 +251,9 @@ const MapRoutingPage = () => {
       {!isSelectingFromMap && (
         <div className="map-categories-scroll">
           <div className="map-categories-list">
-            {groups.map((category, index) => (
+            {groups.map((category) => (
               <div
-                key={index}
+                key={category.value}
                 className={`map-category-item ${
                   selectedCategory && selectedCategory.value === category.value
                     ? 'active'

@@ -224,8 +224,9 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
         const hasFilter = !!selectedCategory;
         const iconSize = hasFilter ? (highlight ? 40 : 25) : 35;
         const iconOpacity = hasFilter ? (highlight ? 1 : 0.4) : 1;
+        const key = feature.properties?.uniqueId || idx;
         return (
-          <Marker key={idx} longitude={lng} latitude={lat} anchor="center">
+          <Marker key={key} longitude={lng} latitude={lat} anchor="center">
             <div style={{ position: 'relative' }}>
               {getCompositeIcon(group, nodeFunction, iconSize, iconOpacity)}
               {highlight && (
