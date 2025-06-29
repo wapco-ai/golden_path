@@ -30,16 +30,18 @@ const functionIcons = {
 };
 
 // Create a composite icon element based on group and nodeFunction
-const getCompositeIcon = (group, nodeFunction) => {
+// Additional size and opacity params allow styling when filters are active
+const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   const color = groupColors[group] || '#999';
   const icon = functionIcons[nodeFunction] || '📌';
 
   return (
     <div
       style={{
-        width: 35,
-        height: 35,
+        width: size,
+        height: size,
         backgroundColor: color,
+        opacity,
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
@@ -191,10 +193,13 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
           selectedCategory &&
           feature.properties &&
           feature.properties[selectedCategory.property] === selectedCategory.value;
+        const hasFilter = !!selectedCategory;
+        const iconSize = hasFilter ? (highlight ? 40 : 25) : 35;
+        const iconOpacity = hasFilter ? (highlight ? 1 : 0.4) : 1;
         return (
           <Marker key={idx} longitude={lng} latitude={lat} anchor="center">
             <div style={{ position: 'relative' }}>
-              {getCompositeIcon(group, nodeFunction)}
+              {getCompositeIcon(group, nodeFunction, iconSize, iconOpacity)}
               {highlight && (
                 <div
                   style={{

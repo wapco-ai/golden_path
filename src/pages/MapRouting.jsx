@@ -76,7 +76,9 @@ const MapRoutingPage = () => {
   };
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+    setSelectedCategory((current) =>
+      current && current.value === category.value ? null : category
+    );
   };
 
   const handleInputClick = (inputType) => {
@@ -183,7 +185,11 @@ const MapRoutingPage = () => {
             {groups.map((category, index) => (
               <div
                 key={index}
-                className="map-category-item"
+                className={`map-category-item ${
+                  selectedCategory && selectedCategory.value === category.value
+                    ? 'active'
+                    : ''
+                }`}
                 onClick={() => handleCategoryClick(category)}
               >
                 <div className={`map-category-icon ${category.icon}`}>
