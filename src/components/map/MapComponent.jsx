@@ -4,7 +4,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 
-const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapClick, isSelectingLocation }) => {
+const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapClick, isSelectingLocation, selectedCategory }) => {
   const [viewState, setViewState] = useState({
     latitude: 36.2880,
     longitude: 59.6157,
@@ -13,6 +13,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   const [userCoords, setUserCoords] = useState(null);
   const [destCoords, setDestCoords] = useState(null);
   const [selectedCoords, setSelectedCoords] = useState(null);
+  const [geoData, setGeoData] = useState(null);
 
   // Add this handler for view state changes
   const onMove = useCallback((evt) => {
@@ -63,6 +64,13 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
     }
   }, [isSwapped]);
 
+  useEffect(() => {
+    fetch('/data14040404.geojson')
+      .then((res) => res.json())
+      .then(setGeoData)
+      .catch((err) => console.error('failed to load geojson', err));
+  }, []);
+
   const handleClick = (e) => {
     if (isSelectingLocation) {
       const { lng, lat } = e.lngLat;
@@ -109,6 +117,19 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       {routeCoords && (
         <Source id="route" type="geojson" data={{ type: 'Feature', geometry: { type: 'LineString', coordinates: routeCoords } }}>
           <Layer id="route-line" type="line" paint={{ 'line-color': '#4285F4', 'line-width': 4, 'line-opacity': 0.7 }} />
+        </Source>
+      )}
+      {geoData && (
+        <Source id="poi" type="geojson" data={geoData}>
+          <Layer id="poi-base" type="circle" paint={{ 'circle-radius': 4, 'circle-color': '#666' }} />
+          {selectedCategory && (
+            <Layer
+              id="poi-highlight"
+              type="circle"
+              paint={{ 'circle-radius': 6, 'circle-color': '#e53935', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff' }}
+              filter={['==', ['get', selectedCategory.property], selectedCategory.value]}
+            />
+          )}
         </Source>
       )}
     </Map>
