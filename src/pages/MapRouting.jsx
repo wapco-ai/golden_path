@@ -23,6 +23,10 @@ const MapRoutingPage = () => {
   const searchInputRef = useRef(null);
   const swapButtonRef = useRef(null);
 
+  // Lazy loaded geojson data for destination search
+  const [geoData, setGeoData] = useState(null);
+  const [geoResults, setGeoResults] = useState([]);
+
   // Destinations data
   const destinations = [
     { id: 1, name: 'صحن انقلاب', location: 'حرم مطهر امام رضا عليه السلام، صحن انقلاب' },
@@ -32,9 +36,15 @@ const MapRoutingPage = () => {
     { id: 5, name: 'صحن پیامبر اعظم', location: 'حرم مطهر امام رضا عليه السلام، صحن پیامبر...' }
   ];
 
-  const filteredDestinations = destinations.filter(dest =>
-    dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
-  );
+  const filteredDestinations = searchQuery
+    ? geoResults.map((f) => ({
+        id: f.properties?.uniqueId || f.id,
+        name: f.properties?.name || '',
+        location: f.properties?.subGroup || ''
+      }))
+    : destinations.filter(
+        (dest) => dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
+      );
 
   // Handle navigation when both origin and destination are selected
   useEffect(() => {
@@ -57,6 +67,30 @@ const MapRoutingPage = () => {
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
+  // Lazy load geojson data on first search
+  useEffect(() => {
+    if (searchQuery && !geoData) {
+      fetch('/data14040404.geojson')
+        .then((res) => res.json())
+        .then(setGeoData)
+        .catch((err) => console.error('failed to load geojson', err));
+    }
+  }, [searchQuery, geoData]);
+
+  // Filter geojson features based on search query
+  useEffect(() => {
+    if (geoData && searchQuery) {
+      const results = geoData.features.filter((f) => {
+        const name = f.properties?.name || '';
+        const subGroup = f.properties?.subGroup || '';
+        return name.includes(searchQuery) || subGroup.includes(searchQuery);
+      });
+      setGeoResults(results);
+    } else {
+      setGeoResults([]);
+    }
+  }, [searchQuery, geoData]);
 
   const handleSwapLocations = () => {
     // Only swap the values between origin and destination
