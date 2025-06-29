@@ -1,5 +1,5 @@
 // src/pages/FinalSearch.jsx
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
@@ -22,6 +22,8 @@ const FinalSearch = () => {
   const [selectedGender, setSelectedGender] = useState('male');
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
   const [menuOpen, setMenuOpen] = useState(false);
+  const [geoData, setGeoData] = useState(null);
+  const [routeGeo, setRouteGeo] = useState(null);
 
   React.useEffect(() => {
     // Scroll to top when component mounts
@@ -38,35 +40,54 @@ const FinalSearch = () => {
     }
   }, [selectedTransport]);
 
-  const mainRoutePoints = useMemo(
-    () => [
-      origin.coordinates,
-      [36.2971, 59.6070],
-      [36.2973, 59.6071],
-      destination.coordinates
-    ],
-    [origin, destination]
-  );
+  useEffect(() => {
+    fetch('/data14040404.geojson')
+      .then(res => res.json())
+      .then(setGeoData)
+      .catch(err => console.error('failed to load geojson', err));
+  }, []);
 
-  const altRoutePoints = useMemo(
-    () => [
-      origin.coordinates,
-      [36.2970, 59.6070],
-      [36.2972, 59.6073],
-      destination.coordinates
-    ],
-    [origin, destination]
-  );
+  useEffect(() => {
+    if (!geoData) return;
+    const doors = geoData.features.filter(
+      f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'door'
+    );
+    const connections = geoData.features.filter(
+      f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'connection'
+    );
 
-  const routeGeo = {
-    type: 'Feature',
-    geometry: { type: 'LineString', coordinates: mainRoutePoints.map(p => [p[1], p[0]]) }
-  };
+    const nearest = (coords, pts) => {
+      let best = null;
+      let dmin = Infinity;
+      pts.forEach(p => {
+        const [lng, lat] = p.geometry.coordinates;
+        const d = Math.hypot(lng - coords[1], lat - coords[0]);
+        if (d < dmin) {
+          dmin = d;
+          best = [lat, lng];
+        }
+      });
+      return best;
+    };
 
-  const altRouteGeo = {
-    type: 'Feature',
-    geometry: { type: 'LineString', coordinates: altRoutePoints.map(p => [p[1], p[0]]) }
-  };
+    const startDoor = nearest(origin.coordinates, doors);
+    const endDoor = nearest(destination.coordinates, doors);
+    const startConn = startDoor ? nearest(startDoor, connections) : null;
+    const endConn = endDoor ? nearest(endDoor, connections) : null;
+
+    const path = [origin.coordinates];
+    if (startDoor) path.push(startDoor);
+    if (startConn) path.push(startConn);
+    if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) path.push(endConn);
+    if (endDoor) path.push(endDoor);
+    path.push(destination.coordinates);
+
+    const geo = {
+      type: 'Feature',
+      geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
+    };
+    setRouteGeo(geo);
+  }, [geoData, origin, destination]);
 
   const swapLocations = () => {
     setSwapButton(!isSwapButton);
@@ -194,12 +215,11 @@ const FinalSearch = () => {
               <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
             </svg>
           </Marker>
-          <Source id="main-route" type="geojson" data={routeGeo}>
-            <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />
-          </Source>
-          <Source id="alt-route" type="geojson" data={altRouteGeo}>
-            <Layer id="alt-line" type="line" paint={{ 'line-color': '#64B5F6', 'line-width': 4, 'line-dasharray': [5, 5], 'line-opacity': 0.8 }} />
-          </Source>
+          {routeGeo && (
+            <Source id="main-route" type="geojson" data={routeGeo}>
+              <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />
+            </Source>
+          )}
         </Map>
       </div>
 
