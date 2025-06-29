@@ -5,62 +5,30 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/RouteOverview.css';
 import osmStyle from '../services/osmStyle';
+import { useRouteStore } from '../store/routeStore';
 
 const RouteOverview = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [directionArrow, setDirectionArrow] = useState('right');
-  const [distance, setDistance] = useState('580 متر');
-  const [time, setTime] = useState('4 دقیقه');
+  const [distance, setDistance] = useState('');
+  const [time, setTime] = useState('');
 
-  const routeData = [
-    {
-      id: 1,
-      instruction: 'در صحن پیامبر اعظم به سمت مرکز صحن و ستون شماره ی بیست آن حرکت کنید.',
-      distance: '35 متر',
-      time: '1 دقیقه',
-      direction: 'up',
-      coordinates: [[36.2880, 59.6157], [36.2885, 59.6162]]
-    },
-    {
-      id: 2,
-      instruction: 'از قسمت ستون شماره‌ی 40 صحن پیامبر اعظم به سمت صحن قدس بپیچید و وارد آن شوید.',
-      distance: '120 متر',
-      time: '5 دقیقه',
-      direction: 'up',
-      coordinates: [[36.2885, 59.6162], [36.2890, 59.6167]]
-    },
-    {
-      id: 3,
-      instruction: 'در صحن گوهوشاد به سمت چپ حرکت کنید و از آن خارج و به صحن جمهوری وارد شوید.',
-      distance: '60 متر',
-      time: '2 دقیقه',
-      direction: 'straight',
-      coordinates: [[36.2890, 59.6167], [36.2895, 59.6172]]
-    },
-    {
-      id: 4,
-      instruction: 'به سمت صحن آزادی ادامه دهید و از درب غربی خارج شوید.',
-      distance: '80 متر',
-      time: '3 دقیقه',
-      direction: 'right',
-      coordinates: [[36.2895, 59.6172], [36.2900, 59.6177]]
-    },
-    {
-      id: 5,
-      instruction: 'وارد صحن انتقاب شوید. شما به مقصد خود رسیده اید.',
-      distance: '100 متر',
-      time: '4 دقیقه',
-      direction: 'arrived',
-      coordinates: [[36.2900, 59.6177], [36.2905, 59.6182]]
-    }
-  ];
+  const { routeGeo } = useRouteStore();
+  const routeCoordinates = routeGeo?.geometry?.coordinates || [];
 
-  const routeCoordinates = routeData.flatMap(s => s.coordinates);
+  const routeData = useMemo(
+    () =>
+      routeCoordinates.slice(1).map((c, idx) => ({
+        id: idx + 1,
+        coordinates: [routeCoordinates[idx], c]
+      })),
+    [routeCoordinates]
+  );
 
   const [viewState, setViewState] = useState({
-    latitude: routeCoordinates[5][0],
-    longitude: routeCoordinates[4][1],
+    latitude: routeCoordinates[0]?.[1] || 0,
+    longitude: routeCoordinates[0]?.[0] || 0,
     zoom: 16
   });
 
@@ -71,32 +39,29 @@ const RouteOverview = () => {
 
   const highlightGeo = useMemo(() => {
     const seg = routeData[currentSlide]?.coordinates;
-    return seg
-      ? { type: 'Feature', geometry: { type: 'LineString', coordinates: seg.map(p => [p[1], p[0]]) } }
-      : null;
-  }, [currentSlide]);
+    return seg ? { type: 'Feature', geometry: { type: 'LineString', coordinates: seg } } : null;
+  }, [currentSlide, routeData]);
 
   useEffect(() => {
     if (routeData[currentSlide]) {
-      setDistance(routeData[currentSlide].distance);
-      setTime(routeData[currentSlide].time);
-      setDirectionArrow(routeData[currentSlide].direction);
-      
-      // Update map view to center on current segment
       const segment = routeData[currentSlide].coordinates;
-      const centerLat = (segment[0][0] + segment[1][0]) / 2;
-      const centerLng = (segment[0][1] + segment[1][1]) / 2;
+      const [lng1, lat1] = segment[0];
+      const [lng2, lat2] = segment[1];
+      const d = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
+      setDistance(`${Math.round(d)} متر`);
+      setTime(`${Math.max(1, Math.round(d / 60))} دقیقه`);
+      setDirectionArrow(currentSlide === routeData.length - 1 ? 'arrived' : 'right');
       setViewState({
-        latitude: centerLat,
-        longitude: centerLng,
+        latitude: (lat1 + lat2) / 2,
+        longitude: (lng1 + lng2) / 2,
         zoom: 18
       });
     }
-  }, [currentSlide]);
+  }, [currentSlide, routeData]);
 
   const allGeo = {
     type: 'Feature',
-    geometry: { type: 'LineString', coordinates: routeCoordinates.map(p => [p[1], p[0]]) }
+    geometry: { type: 'LineString', coordinates: routeCoordinates }
   };
 
   const nextSlide = () => {
@@ -154,10 +119,14 @@ const RouteOverview = () => {
           attributionControl={false}
           style={{ width: '100%', height: '100%' }}
         >
-          <Marker longitude={routeCoordinates[0][1]} latitude={routeCoordinates[0][0]} anchor="bottom">
+          <Marker longitude={routeCoordinates[0]?.[0]} latitude={routeCoordinates[0]?.[1]} anchor="bottom">
             <div className="c-circle"></div>
           </Marker>
-          <Marker longitude={routeCoordinates[routeCoordinates.length - 1][1]} latitude={routeCoordinates[routeCoordinates.length - 1][0]} anchor="bottom">
+          <Marker
+            longitude={routeCoordinates[routeCoordinates.length - 1]?.[0]}
+            latitude={routeCoordinates[routeCoordinates.length - 1]?.[1]}
+            anchor="bottom"
+          >
             <div className="des-marker">
               <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>
             </div>
@@ -194,7 +163,7 @@ const RouteOverview = () => {
 
         <div className="route-instruction-container">
           <div className="route-instruction">
-            <p className="instruction-text">{routeData[currentSlide]?.instruction}</p>
+            <p className="instruction-text">گام {currentSlide + 1}</p>
           </div>
 
           <div className="carousel-controls">
