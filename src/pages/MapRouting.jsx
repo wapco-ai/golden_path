@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
+import { useRouteStore } from '../store/routeStore';
 import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
@@ -16,6 +17,9 @@ const MapRoutingPage = () => {
   const [isSelectingFromMap, setIsSelectingFromMap] = useState(false);
   const [mapSelectedLocation, setMapSelectedLocation] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const setOriginStore = useRouteStore(state => state.setOrigin);
+  const setDestinationStore = useRouteStore(state => state.setDestination);
 
   const destinationInputRef = useRef(null);
   const originInputRef = useRef(null);
@@ -80,9 +84,17 @@ const MapRoutingPage = () => {
   // Handle navigation when both origin and destination are selected
   useEffect(() => {
     if (userLocation && selectedDestination) {
+      setOriginStore({
+        name: userLocation.name || userLocation,
+        coordinates: userLocation.coordinates
+      });
+      setDestinationStore({
+        name: selectedDestination.name,
+        coordinates: selectedDestination.coordinates
+      });
       navigate('/fs');
     }
-  }, [userLocation, selectedDestination, navigate]);
+  }, [userLocation, selectedDestination, navigate, setOriginStore, setDestinationStore]);
 
   const handleDestinationSelect = (destination) => {
     if (activeInput === 'destination') {
