@@ -35,18 +35,17 @@
   ,"termsRegulation": "Terms and Conditions"
   ,"logoutTitle": "Logout"
   ,"logoutAccount": "Sign out"
-
-  ,"commentPlaceholder": "Write your comment...",
-  ,"commentModalTitle": "Write your opinion",
-  ,"commentModalInstruction": "Write your comment about this place. After approval, your comment will be published.",
-  ,"ratingPrompt": "Rate:",
-  ,"submitComment": "Submit Comment",
-  ,"searchPlaceholder": "Where do you want to go?",
-  ,"originPlaceholder": "Select origin",
-  ,"destinationPlaceholder": "Select destination",
-  ,"destinationSearchPlaceholder": "Search destination",
-  ,"originSearchPlaceholder": "Search origin",
-  ,"chooseFromMap": "Choose from map",
-  ,"emergencyPlaceholder": "More details...",
+  ,"commentPlaceholder": "Write your comment..."
+  ,"commentModalTitle": "Write your opinion"
+  ,"commentModalInstruction": "Write your comment about this place. After approval, your comment will be published."
+  ,"ratingPrompt": "Rate:"
+  ,"submitComment": "Submit Comment"
+  ,"searchPlaceholder": "Where do you want to go?"
+  ,"originPlaceholder": "Select origin"
+  ,"destinationPlaceholder": "Select destination"
+  ,"destinationSearchPlaceholder": "Search destination"
+  ,"originSearchPlaceholder": "Search origin"
+  ,"chooseFromMap": "Choose from map"
+  ,"emergencyPlaceholder": "More details..."
   ,"emergencySubmit": "Confirm and send request"
 }

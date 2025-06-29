@@ -1,52 +1,51 @@
 {
-  "welcome": "خوش آمدید!",
-  "selectLanguage": "برای ورود به نرم افزار مسیرپایی حرم مطهر رضوی ابتدا<br />زبان برنامه را انتخاب کنید و وارد برنامه شوید.",
-  "loginButton": "ورود به برنامه",
-  "loginTitle": "ورود به نرم افزار!",
-  "enterPhone": "برای ورود و استفاده از امکانات بیشتر نرم افزار، شماره موبایل خود را وارد کنید.",
-  "terms": "ورود شما به معنی پذیرش <a href=\"/terms\">قوانین</a> و <a href=\"/privacy\">شرایط خصوصی</a> است",
-  "home": "خانه",
-  "map": "نقشه",
-  "qrScan": "اسکن QR",
-  "settings": "تنظیمات",
-  "profile": "پروفایل",
-  "copyright": "© {year} مسیر طلایی - تمامی حقوق محفوظ است",
-  "aboutUs": "درباره ما",
-  "contactUs": "تماس با ما",
-  "privacy": "حریم خصوصی",
-  "language": "زبان نرم افزار",
-  "enterVerification": "کد تایید را وارد کنید",
-  "sentCode": "کد تایید را به شماره {phone} ارسال کردیم",
-  "wrongPhone": "شماره موبایل اشتباه است؟",
-  "edit": "ویرایش",
-  "resendCode": "ارسال دوباره کد تایید تا ۵۰ ثانیه",
-  "phonePlaceholder": "شماره موبایل"
-  ,"profileTitle": "حساب کاربری"
-  ,"completeProfile": "تکمیل پروفایل"
-  ,"accountSection": "حساب کاربری"
-  ,"accountInfo": "اطلاعات حساب کاربری"
-  ,"myRoutes": "مسیرهای پیموده شده من"
-  ,"savedPlaces": "مکان های ذخیره شده"
-  ,"settingsSection": "تنظیمات"
-  ,"notifications": "اطلاع رسانی"
-  ,"supportSection": "آستان قدس"
-  ,"support": "پشتیبان"
-  ,"faq": "سوالات متداول"
-  ,"termsRegulation": "قوانین و مقررات"
-  ,"logoutTitle": "خروج"
-  ,"logoutAccount": "خروج از حساب کاربری"
-
-  ,"commentPlaceholder": "دیدگاه خود را بنویسید...",
-  ,"commentModalTitle": "دیدگاه و نظر خود را بنویسید",
-  ,"commentModalInstruction": "دیدگاه خودتان را که مربوط به این مکان می‌باشد را بنویسید. پس از تایید شدن، دیدگاه شما منتشر خواهد شد.",
-  ,"ratingPrompt": "امتیاز دهید:",
-  ,"submitComment": "ارسال و ثبت دیدگاه",
-  ,"searchPlaceholder": "کجا میخوای بری؟",
-  ,"originPlaceholder": "مبدا را انتخاب کنید",
-  ,"destinationPlaceholder": "مقصد را انتخاب کنید",
-  ,"destinationSearchPlaceholder": "جستجوی مقصد",
-  ,"originSearchPlaceholder": "جستجوی مبدا",
-  ,"chooseFromMap": "انتخاب از روی نقشه",
-  ,"emergencyPlaceholder": "توضیحات بیشتر...",
-  ,"emergencySubmit": "تایید و ارسال درخواست"
+  "welcome": "مرحبا بك!",
+  "selectLanguage": "للدخول إلى تطبيق مسار المشاة الخاص بالحر الحرم الرضوي الشريف، أولاً<br />اختر لغة التطبيق ثم ادخل إلى التطبيق.",
+  "loginButton": "تسجيل الدخول إلى التطبيق",
+  "loginTitle": "تسجيل الدخول إلى التطبيق!",
+  "enterPhone": "للدخول واستخدام الميزات الإضافية للتطبيق، أدخل رقم هاتفك المحمول.",
+  "terms": "دخولك يعني الموافقة على <a href=\"/terms\">القوانين</a> و <a href=\"/privacy\">سياسة الخصوصية</a>",
+  "home": "الرئيسية",
+  "map": "الخريطة",
+  "qrScan": "مسح رمز الاستجابة السريعة",
+  "settings": "الإعدادات",
+  "profile": "الملف الشخصي",
+  "copyright": "© {year} طريق الذهب - جميع الحقوق محفوظة",
+  "aboutUs": "نبذة عنا",
+  "contactUs": "اتصل بنا",
+  "privacy": "الخصوصية",
+  "language": "لغة التطبيق",
+  "enterVerification": "أدخل رمز التحقق",
+  "sentCode": "أرسلنا رمز التحقق إلى الرقم {phone}",
+  "wrongPhone": "رقم الهاتف المحمول خاطئ؟",
+  "edit": "تعديل",
+  "resendCode": "إعادة إرسال رمز التحقق بعد ٥٠ ثانية",
+  "phonePlaceholder": "رقم الهاتف المحمول",
+  "profileTitle": "الحساب الشخصي",
+  "completeProfile": "إكمال الملف الشخصي",
+  "accountSection": "قسم الحساب",
+  "accountInfo": "معلومات الحساب",
+  "myRoutes": "مساراتي المقطوعة",
+  "savedPlaces": "أماكن محفوظة",
+  "settingsSection": "قسم الإعدادات",
+  "notifications": "الإشعارات",
+  "supportSection": "قسم الدعم",
+  "support": "الدعم",
+  "faq": "الأسئلة الشائعة",
+  "termsRegulation": "الأحكام واللوائح",
+  "logoutTitle": "تسجيل الخروج",
+  "logoutAccount": "تسجيل الخروج من الحساب",
+  "commentPlaceholder": "اكتب تعليقك...",
+  "commentModalTitle": "اكتب رأيك وتعليقك",
+  "commentModalInstruction": "اكتب تعليقك المتعلق بهذا المكان. بعد الموافقة، سيتم نشر تعليقك.",
+  "ratingPrompt": "قيم:",
+  "submitComment": "إرسال وتسجيل التعليق",
+  "searchPlaceholder": "أين تريد الذهاب؟",
+  "originPlaceholder": "اختر نقطة البداية",
+  "destinationPlaceholder": "اختر الوجهة",
+  "destinationSearchPlaceholder": "البحث عن الوجهة",
+  "originSearchPlaceholder": "البحث عن نقطة البداية",
+  "chooseFromMap": "اختر من الخريطة",
+  "emergencyPlaceholder": "مزيد من التفاصيل...",
+  "emergencySubmit": "تأكيد وإرسال الطلب"
 }

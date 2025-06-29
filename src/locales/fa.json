@@ -35,18 +35,17 @@
   ,"termsRegulation": "قوانین و مقررات"
   ,"logoutTitle": "خروج"
   ,"logoutAccount": "خروج از حساب کاربری"
-
-  ,"commentPlaceholder": "دیدگاه خود را بنویسید...",
-  ,"commentModalTitle": "دیدگاه و نظر خود را بنویسید",
-  ,"commentModalInstruction": "دیدگاه خودتان را که مربوط به این مکان می‌باشد را بنویسید. پس از تایید شدن، دیدگاه شما منتشر خواهد شد.",
-  ,"ratingPrompt": "امتیاز دهید:",
-  ,"submitComment": "ارسال و ثبت دیدگاه",
-  ,"searchPlaceholder": "کجا میخوای بری؟",
-  ,"originPlaceholder": "مبدا را انتخاب کنید",
-  ,"destinationPlaceholder": "مقصد را انتخاب کنید",
-  ,"destinationSearchPlaceholder": "جستجوی مقصد",
-  ,"originSearchPlaceholder": "جستجوی مبدا",
-  ,"chooseFromMap": "انتخاب از روی نقشه",
-  ,"emergencyPlaceholder": "توضیحات بیشتر...",
+  ,"commentPlaceholder": "دیدگاه خود را بنویسید..."
+  ,"commentModalTitle": "دیدگاه و نظر خود را بنویسید"
+  ,"commentModalInstruction": "دیدگاه خودتان را که مربوط به این مکان می‌باشد را بنویسید. پس از تایید شدن، دیدگاه شما منتشر خواهد شد."
+  ,"ratingPrompt": "امتیاز دهید:"
+  ,"submitComment": "ارسال و ثبت دیدگاه"
+  ,"searchPlaceholder": "کجا میخوای بری؟"
+  ,"originPlaceholder": "مبدا را انتخاب کنید"
+  ,"destinationPlaceholder": "مقصد را انتخاب کنید"
+  ,"destinationSearchPlaceholder": "جستجوی مقصد"
+  ,"originSearchPlaceholder": "جستجوی مبدا"
+  ,"chooseFromMap": "انتخاب از روی نقشه"
+  ,"emergencyPlaceholder": "توضیحات بیشتر..."
   ,"emergencySubmit": "تایید و ارسال درخواست"
 }
