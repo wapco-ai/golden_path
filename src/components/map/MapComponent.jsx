@@ -88,14 +88,14 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
     const success = (pos) => {
       const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       setUserCoords(c);
-      setUserLocation('موقعیت فعلی شما');
+      setUserLocation({ name: 'موقعیت فعلی شما', coordinates: [c.lat, c.lng] });
       setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng }));
     };
     const err = (e) => {
       console.error('Error getting location', e);
       const fallback = { lat: 36.2880, lng: 59.6157 };
       setUserCoords(fallback);
-      setUserLocation('باب الرضا «ع»');
+      setUserLocation({ name: 'باب الرضا «ع»', coordinates: [fallback.lat, fallback.lng] });
     };
     navigator.geolocation.getCurrentPosition(success, err, {
       enableHighAccuracy: false,
