@@ -1,5 +1,5 @@
 // src/pages/FinalSearch.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
@@ -37,6 +37,8 @@ const FinalSearch = () => {
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
   const [menuOpen, setMenuOpen] = useState(false);
   const [geoData, setGeoData] = useState(null);
+
+  const [routeGeo, setRouteGeo] = useState(null);
 
   React.useEffect(() => {
     // Scroll to top when component mounts
@@ -85,6 +87,7 @@ const FinalSearch = () => {
   }, [destination.coordinates]);
 
   useEffect(() => {
+
     if (!geoData) return;
     const doors = geoData.features.filter(
       f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'door'
@@ -125,6 +128,7 @@ const FinalSearch = () => {
     };
     storeSetRouteGeo(geo);
   }, [geoData, origin, destination, storeSetRouteGeo]);
+
 
   const swapLocations = () => {
     setSwapButton(!isSwapButton);
