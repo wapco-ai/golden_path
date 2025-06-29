@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
+import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../services/osmStyle';
@@ -268,6 +269,7 @@ const FinalSearch = () => {
               </svg>
             </Marker>
           )}
+
           {routeGeo && (
             <Source id="main-route" type="geojson" data={routeGeo}>
               <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />

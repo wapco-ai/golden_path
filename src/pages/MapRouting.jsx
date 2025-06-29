@@ -91,6 +91,7 @@ const MapRoutingPage = () => {
     if (userLocation?.coordinates && selectedDestination?.coordinates) {
       setOriginStore({
         name: userLocation.name,
+
         coordinates: userLocation.coordinates
       });
       setDestinationStore({

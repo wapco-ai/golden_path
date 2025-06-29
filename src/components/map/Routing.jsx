@@ -3,6 +3,7 @@ import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
+import GeoJsonOverlay from './GeoJsonOverlay';
 
 
 const Routing = ({ userLocation, routeSteps, currentStep }) => {
@@ -57,6 +58,8 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
             <Layer id="segment-line" type="line" paint={{ 'line-color': '#e74c3c', 'line-width': 6 }} />
           </Source>
         )}
+
+        <GeoJsonOverlay />
       </Map>
     </div>
   );

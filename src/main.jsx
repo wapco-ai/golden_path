@@ -1,8 +1,9 @@
 // main.jsx  
-import React from 'react';  
-import ReactDOM from 'react-dom/client';  
-import App from './App.jsx';  
-import './index.css';  
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import IntlProviderWrapper from './IntlProviderWrapper.jsx';
+import './index.css';
 
 import { registerSW } from 'virtual:pwa-register';
 
@@ -18,8 +19,10 @@ const updateSW = registerSW({
   }
 }); 
 
-ReactDOM.createRoot(document.getElementById('root')).render(  
-  <React.StrictMode>  
-    <App />  
-  </React.StrictMode>,  
-);  
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <IntlProviderWrapper>
+      <App />
+    </IntlProviderWrapper>
+  </React.StrictMode>,
+);

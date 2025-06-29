@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const PhoneIcon = () => (
   <svg 
@@ -19,6 +20,7 @@ const PhoneIcon = () => (
 );
 
 const LoginForm = () => {
+  const intl = useIntl();
   const [phone, setPhone] = useState('');
   const [showVerification, setShowVerification] = useState(false);
   const [formattedPhone, setFormattedPhone] = useState('');
@@ -58,19 +60,24 @@ const LoginForm = () => {
   if (showVerification) {
     return (
       <div className="verification-container">
-        <h2 className="verification-title">کد تایید را وارد کنید</h2>
+        <h2 className="verification-title">
+          <FormattedMessage id="enterVerification" />
+        </h2>
         <p className="verification-description">
-          کد تایید را به شماره <span dir="ltr" style={{display: 'inline-block'}}>{formattedPhone}</span> ارسال کردیم
+          <FormattedMessage
+            id="sentCode"
+            values={{ phone: <span dir="ltr" style={{ display: 'inline-block' }}>{formattedPhone}</span> }}
+          />
         </p>
         
         <div className="verification-edit">
-          <span>شماره موبایل اشتباه است؟</span>
-          <button 
-            type="button" 
+          <span><FormattedMessage id="wrongPhone" /></span>
+          <button
+            type="button"
             className="edit-button"
             onClick={() => setShowVerification(false)}
           >
-            ویرایش
+            <FormattedMessage id="edit" />
           </button>
         </div>
         
@@ -90,7 +97,7 @@ const LoginForm = () => {
         </div>
         
         <div className="verification-resend">
-          <span>ارسال دوباره کد تایید تا ۵۰ ثانیه</span>
+          <span><FormattedMessage id="resendCode" /></span>
         </div>
       </div>
     );
@@ -105,19 +112,19 @@ const LoginForm = () => {
             type="tel"
             value={phone}
             onChange={handlePhoneChange}
-            placeholder="شماره موبایل"
+            placeholder={intl.formatMessage({ id: 'phonePlaceholder' })}
             dir="ltr"
             className="phone-input"
             maxLength="11"
           />
         </div>
       </div>
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         className={`login-button ${isValidIranianPhone(phone) ? 'active' : ''}`}
         disabled={!isValidIranianPhone(phone)}
       >
-        ورود به برنامه
+        <FormattedMessage id="loginButton" />
       </button>
     </form>
   );
