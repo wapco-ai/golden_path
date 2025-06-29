@@ -91,6 +91,11 @@
   font-family: 'Vazir', Arial, sans-serif;
 }
 
+.map-category-item.active {
+  background-color: #ffe082;
+  font-weight: bold;
+}
+
 .map-category-icon {
   width: 48px;
   height: 48px;
