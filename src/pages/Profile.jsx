@@ -1,6 +1,7 @@
 // src/pages/Profile.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import logo from '../assets/images/logo.png';
 
 function Profile() {
@@ -16,7 +17,9 @@ function Profile() {
           </svg>
         </button>
 
-        <h1 className="profile-title">حساب کاربری</h1>
+        <h1 className="profile-title">
+          <FormattedMessage id="profileTitle" />
+        </h1>
         <div className="profile-avatar-container">
           <div className="profile-avatar">
             <svg
@@ -50,7 +53,7 @@ function Profile() {
           <p className="user-phone">98-964879789+</p>
         </div>
         <button className="complete-profile-btn">
-          تکمیل پروفایل
+          <FormattedMessage id="completeProfile" />
         </button>
       </div>
 
@@ -58,7 +61,9 @@ function Profile() {
       <div className="profile-sections">
         {/* Account Section */}
         <div className="profile-section">
-          <h2 className="section-title">حساب کاربری</h2>
+          <h2 className="section-title">
+            <FormattedMessage id="accountSection" />
+          </h2>
           <div className="section-item">
             <span className="item-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -66,7 +71,9 @@ function Profile() {
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
               </svg>
             </span>
-            <span className="item-text">اطلاعات حساب کاربری</span>
+            <span className="item-text">
+              <FormattedMessage id="accountInfo" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
           <div className="section-item">
@@ -77,7 +84,9 @@ function Profile() {
                 <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
               </svg>
             </span>
-            <span className="item-text">مسیرهای پیموده شده من</span>
+            <span className="item-text">
+              <FormattedMessage id="myRoutes" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
           <div className="section-item">
@@ -87,14 +96,18 @@ function Profile() {
                 <path d="M12 4v7l2 -2l2 2v-7" />
               </svg>
             </span>
-            <span className="item-text">مکان های ذخیره شده</span>
+            <span className="item-text">
+              <FormattedMessage id="savedPlaces" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
         </div>
 
         {/* Settings Section */}
         <div className="profile-section">
-          <h2 className="section-title">تنظیمات</h2>
+          <h2 className="section-title">
+            <FormattedMessage id="settingsSection" />
+          </h2>
           <div className="section-item">
             <span className="item-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -105,7 +118,9 @@ function Profile() {
                 <path d="M19.1 18h-6.2" />
               </svg>
             </span>
-            <span className="item-text">زبان نرم افزار</span>
+            <span className="item-text">
+              <FormattedMessage id="language" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
           <div className="section-item">
@@ -115,21 +130,27 @@ function Profile() {
                 <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
               </svg>
             </span>
-            <span className="item-text">اطلاع رسانی</span>
+            <span className="item-text">
+              <FormattedMessage id="notifications" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
         </div>
 
         {/* Support Section */}
         <div className="profile-section">
-          <h2 className="section-title">آستان قدس</h2>
+          <h2 className="section-title">
+            <FormattedMessage id="supportSection" />
+          </h2>
           <div className="section-item">
             <span className="item-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
               </svg>
             </span>
-            <span className="item-text">پشتیبان</span>
+            <span className="item-text">
+              <FormattedMessage id="support" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
           <div className="section-item">
@@ -140,7 +161,9 @@ function Profile() {
                 <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
               </svg>
             </span>
-            <span className="item-text">سوالات متداول</span>
+            <span className="item-text">
+              <FormattedMessage id="faq" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
           <div className="section-item">
@@ -152,28 +175,36 @@ function Profile() {
                 <path d="M9 16h6" />
               </svg>
             </span>
-            <span className="item-text">قوانین و مقررات</span>
+            <span className="item-text">
+              <FormattedMessage id="termsRegulation" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
           <div className="section-item">
             <span className="item-icon">
               <img src={logo} alt="لوگو" className="custom-logo-icon" />
             </span>
-            <span className="item-text">درباره ما</span>
+            <span className="item-text">
+              <FormattedMessage id="aboutUs" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
           <div className="section-item">
             <span className="item-icon">
               <img src={logo} alt="لوگو" className="custom-logo-icon" />
             </span>
-            <span className="item-text">تماس با ما</span>
+            <span className="item-text">
+              <FormattedMessage id="contactUs" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
         </div>
 
         {/* Logout Section */}
         <div className="logout-section">
-          <h3 className="logout-title">خروج</h3>
+          <h3 className="logout-title">
+            <FormattedMessage id="logoutTitle" />
+          </h3>
           <div className="logout-item">
             <span className="item-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -182,7 +213,9 @@ function Profile() {
                 <path d="M18 15l3 -3" />
               </svg>
             </span>
-            <span className="item-text">خروج از حساب کاربری</span>
+            <span className="item-text">
+              <FormattedMessage id="logoutAccount" />
+            </span>
             <span className="item-arrow">›</span>
           </div>
         </div>
