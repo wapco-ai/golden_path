@@ -14,6 +14,9 @@ export default defineConfig({
       'mapbox-gl': 'maplibre-gl'
     }
   },
+  server: {
+    host: '0.0.0.0'
+  },
   //base: './', // This helps with relative paths in the production build
   plugins: [  
     react(),  
