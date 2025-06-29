@@ -21,10 +21,10 @@ const FinalSearch = () => {
     setRouteGeo: storeSetRouteGeo
   } = useRouteStore();
   const [origin, setOrigin] = useState(
-    storedOrigin || { name: 'باب الرضا (ع)', coordinates: [36.2970, 59.6069] }
+    storedOrigin || { name: 'Bab al-Reza Entrance', coordinates: [36.2970, 59.6069] }
   );
   const [destination, setDestination] = useState(
-    storedDestination || { name: 'صحن انقلاب', coordinates: [36.2975, 59.6072] }
+    storedDestination || { name: 'Enghelab Courtyard', coordinates: [36.2975, 59.6072] }
   );
   const routeGeo = storedRouteGeo;
   useEffect(() => {

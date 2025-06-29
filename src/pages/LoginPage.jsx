@@ -9,7 +9,7 @@ const LoginPage = () => {
     <div className="login-page">
       <div className="login-container">
         <div className="logo-container">
-          <img src={logo} alt="لوگو نرم افزار" className="login-logo" />
+          <img src={logo} alt="App Logo" className="login-logo" />
         </div>
         
         <div className="login-text-content">

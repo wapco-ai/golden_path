@@ -279,7 +279,7 @@ const MapView = ({
           </svg>
         </button>
 
-        {/* دکمه مرکز به موقعیت فعلی */}
+        {/* Center to current location button */}
         <button
           className="map-control-button"
           onClick={() => {
@@ -288,7 +288,7 @@ const MapView = ({
               setIsFollowing(true);
             }
           }}
-          title="مرکز به موقعیت فعلی"
+          title="Center to current location"
         >
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="2" x2="12" y2="6"></line>
@@ -306,13 +306,13 @@ const MapView = ({
         <div className="location-panel">
           <div className="coordinates-display">
             <div>
-              <span>عرض:</span> {currentLocation.coords.lat.toFixed(6)}
+              <span>Lat:</span> {currentLocation.coords.lat.toFixed(6)}
             </div>
             <div>
-              <span>طول:</span> {currentLocation.coords.lng.toFixed(6)}
+              <span>Lng:</span> {currentLocation.coords.lng.toFixed(6)}
             </div>
             <div>
-              <span>دقت:</span> {currentLocation.coords.accuracy.toFixed(1)} متر
+              <span>Accuracy:</span> {currentLocation.coords.accuracy.toFixed(1)} m
             </div>
           </div>
         </div>

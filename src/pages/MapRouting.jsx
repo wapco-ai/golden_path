@@ -13,7 +13,7 @@ const MapRoutingPage = () => {
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [userLocation, setUserLocation] = useState({
-    name: 'باب الرضا «ع»',
+    name: 'Bab al-Reza Entrance',
     coordinates: [36.297, 59.6069]
   });
   const [searchQuery, setSearchQuery] = useState('');
@@ -67,11 +67,11 @@ const MapRoutingPage = () => {
 
   // Destinations data
   const destinations = [
-    { id: 1, name: 'صحن انقلاب', location: 'حرم مطهر امام رضا عليه السلام، صحن انقلاب' },
-    { id: 2, name: 'ایوان طلا', location: 'حرم مطهر امام رضا عليه السلام، بین طبرسی و ...' },
-    { id: 3, name: 'رواق حضرت معصومه «س»', location: 'حرم مطهر امام رضا عليه السلام، صحن آیت الله ...' },
-    { id: 4, name: 'مسجد جامع گوهرشاد', location: 'حرم مطهر امام رضا عليه السلام، صحن گوهرشاد' },
-    { id: 5, name: 'صحن پیامبر اعظم', location: 'حرم مطهر امام رضا عليه السلام، صحن پیامبر...' }
+    { id: 1, name: 'Enghelab Courtyard', location: 'Holy Shrine of Imam Reza, Enghelab Courtyard' },
+    { id: 2, name: 'Golden Iwan', location: 'Holy Shrine of Imam Reza, between Tabarsi ...' },
+    { id: 3, name: 'Lady Masoumeh Hall', location: 'Holy Shrine of Imam Reza, Ayatollah Courtyard ...' },
+    { id: 4, name: 'Goharshad Mosque', location: 'Holy Shrine of Imam Reza, Goharshad Courtyard' },
+    { id: 5, name: 'Great Prophet Courtyard', location: 'Holy Shrine of Imam Reza, Prophet Courtyard ...' }
   ];
 
   const filteredDestinations = searchQuery

@@ -17,7 +17,7 @@ const IntlProviderWrapper = ({ children }) => {
   }, [language]);
 
   return (
-    <IntlProvider locale={language} messages={messages[language]} defaultLocale="fa">
+    <IntlProvider locale={language} messages={messages[language]} defaultLocale="en">
       {children}
     </IntlProvider>
   );

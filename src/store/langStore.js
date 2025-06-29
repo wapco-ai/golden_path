@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 export const useLangStore = create(
   persist(
     (set) => ({
-      language: 'fa',
+      language: 'en',
       setLanguage: (lang) => set({ language: lang })
     }),
     {

@@ -182,7 +182,7 @@ function Profile() {
           </div>
           <div className="section-item">
             <span className="item-icon">
-              <img src={logo} alt="لوگو" className="custom-logo-icon" />
+              <img src={logo} alt="Logo" className="custom-logo-icon" />
             </span>
             <span className="item-text">
               <FormattedMessage id="aboutUs" />
@@ -191,7 +191,7 @@ function Profile() {
           </div>
           <div className="section-item">
             <span className="item-icon">
-              <img src={logo} alt="لوگو" className="custom-logo-icon" />
+              <img src={logo} alt="Logo" className="custom-logo-icon" />
             </span>
             <span className="item-text">
               <FormattedMessage id="contactUs" />

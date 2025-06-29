@@ -55,15 +55,15 @@ const AppContent = () => {
         {/* Stylish PWA Install Modal Prompt */}
         {showInstall && (
           <div className="pwa-install-overlay">
-            <div className="pwa-install-dialog">
-              <h3>نصب اپلیکیشن</h3>
-              <p>برای دسترسی سریع، اپلیکیشن را روی دستگاه خود نصب کنید.</p>
+            <div className="pwa-install-dialog" dir="ltr">
+              <h3>Install App</h3>
+              <p>For quick access, install the app on your device.</p>
               <button className="pwa-install-btn" onClick={handleInstallClick}>
-                نصب
+                Install
               </button>
               <br />
               <button className="pwa-install-close" onClick={handleClosePrompt}>
-                بستن
+                Close
               </button>
             </div>
           </div>
