@@ -216,9 +216,9 @@ const MapRoutingPage = () => {
       {!isSelectingFromMap && (
         <div className="map-categories-scroll">
           <div className="map-categories-list">
-            {groups.map((category, index) => (
+            {groups.map((category) => (
               <div
-                key={index}
+                key={category.value}
                 className={`map-category-item ${
                   selectedCategory && selectedCategory.value === category.value
                     ? 'active'
