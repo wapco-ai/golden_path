@@ -27,6 +27,35 @@ const MapRoutingPage = () => {
   const [geoData, setGeoData] = useState(null);
   const [geoResults, setGeoResults] = useState([]);
 
+  const getPolygonCenter = (coords) => {
+    const pts = [];
+    const collect = (c) => {
+      if (typeof c[0] === 'number') {
+        pts.push(c);
+      } else {
+        c.forEach(collect);
+      }
+    };
+    collect(coords);
+    const lats = pts.map((p) => p[1]);
+    const lngs = pts.map((p) => p[0]);
+    return [
+      (Math.min(...lngs) + Math.max(...lngs)) / 2,
+      (Math.min(...lats) + Math.max(...lats)) / 2,
+    ];
+  };
+
+  const getFeatureCenter = (feature) => {
+    if (!feature) return null;
+    const { geometry } = feature;
+    if (geometry.type === 'Point') return geometry.coordinates;
+    if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
+      return getPolygonCenter(geometry.coordinates);
+    }
+    return null;
+  };
+
+
   // Destinations data
   const destinations = [
     { id: 1, name: 'صحن انقلاب', location: 'حرم مطهر امام رضا عليه السلام، صحن انقلاب' },
@@ -40,7 +69,9 @@ const MapRoutingPage = () => {
     ? geoResults.map((f) => ({
         id: f.properties?.uniqueId || f.id,
         name: f.properties?.name || '',
-        location: f.properties?.subGroup || ''
+        location: f.properties?.subGroup || '',
+        coordinates: getFeatureCenter(f)
+
       }))
     : destinations.filter(
         (dest) => dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
@@ -144,9 +175,13 @@ const MapRoutingPage = () => {
   const handleMapClick = (latlng) => {
     if (isSelectingFromMap) {
       if (activeInput === 'destination') {
-        setSelectedDestination({ name: "موقعیت انتخاب شده", location: "موقعیت انتخاب شده از روی نقشه" });
+        setSelectedDestination({
+          name: 'موقعیت انتخاب شده',
+          location: 'موقعیت انتخاب شده از روی نقشه',
+          coordinates: [latlng.lat, latlng.lng]
+        });
       } else {
-        setUserLocation("موقعیت انتخاب شده");
+        setUserLocation('موقعیت انتخاب شده');
       }
       setIsSelectingFromMap(false);
     }

@@ -67,34 +67,35 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   const [destCoords, setDestCoords] = useState(null);
   const [selectedCoords, setSelectedCoords] = useState(null);
   const [geoData, setGeoData] = useState(null);
+  const [routeCoords, setRouteCoords] = useState(null);
 
   // Add this handler for view state changes
   const onMove = useCallback((evt) => {
     setViewState(evt.viewState);
   }, []);
 
-  const updateDestination = (coords) => {
-    if (!selectedDestination) return;
-    const d = coords
-      ? { lat: coords.lat + 0.001, lng: coords.lng + 0.001 }
-      : { lat: 36.2880, lng: 59.6157 };
-    setDestCoords(d);
-  };
+  // Update destination marker when selection changes
+  useEffect(() => {
+    if (selectedDestination && selectedDestination.coordinates) {
+      const [lat, lng] = selectedDestination.coordinates;
+      setDestCoords({ lat, lng });
+    } else {
+      setDestCoords(null);
+    }
+  }, [selectedDestination]);
 
   useEffect(() => {
     const success = (pos) => {
       const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       setUserCoords(c);
       setUserLocation('موقعیت فعلی شما');
-      setViewState(v => ({ ...v, latitude: c.lat, longitude: c.lng }));
-      updateDestination(c);
+      setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng }));
     };
     const err = (e) => {
       console.error('Error getting location', e);
       const fallback = { lat: 36.2880, lng: 59.6157 };
       setUserCoords(fallback);
       setUserLocation('باب الرضا «ع»');
-      updateDestination(fallback);
     };
     navigator.geolocation.getCurrentPosition(success, err, {
       enableHighAccuracy: false,
@@ -107,7 +108,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       timeout: 10000
     });
     return () => navigator.geolocation.clearWatch(watchId);
-  }, [setUserLocation, selectedDestination]);
+  }, [setUserLocation]);
 
   useEffect(() => {
     if (isSwapped && userCoords && destCoords) {
@@ -133,12 +134,39 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
     }
   };
 
-  const routeCoords = userCoords && destCoords
-    ? [
+  useEffect(() => {
+    if (userCoords && destCoords && geoData) {
+      const points = geoData.features.filter(
+        (f) =>
+          f.geometry.type === 'Point' &&
+          ['door', 'connection'].includes(f.properties?.nodeFunction)
+      );
+      const nearest = (coords) => {
+        let best = null;
+        let dmin = Infinity;
+        points.forEach((p) => {
+          const [lng, lat] = p.geometry.coordinates;
+          const d = Math.hypot(lng - coords.lng, lat - coords.lat);
+          if (d < dmin) {
+            dmin = d;
+            best = { lng, lat };
+          }
+        });
+        return best;
+      };
+      const start = nearest(userCoords);
+      const end = nearest(destCoords);
+      const coords = [
         [userCoords.lng, userCoords.lat],
+        ...(start ? [[start.lng, start.lat]] : []),
+        ...(end ? [[end.lng, end.lat]] : []),
         [destCoords.lng, destCoords.lat]
-      ]
-    : null;
+      ];
+      setRouteCoords(coords);
+    } else {
+      setRouteCoords(null);
+    }
+  }, [userCoords, destCoords, geoData]);
 
   const pointFeatures = geoData
     ? geoData.features.filter(f => f.geometry.type === 'Point')
