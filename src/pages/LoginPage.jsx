@@ -1,8 +1,10 @@
 import React from 'react';
 import LoginForm from '../components/auth/LoginForm';
+import { FormattedMessage, useIntl } from 'react-intl';
 import logo from '../assets/images/logo.png';
 
 const LoginPage = () => {
+  const intl = useIntl();
   return (
     <div className="login-page">
       <div className="login-container">
@@ -11,17 +13,25 @@ const LoginPage = () => {
         </div>
         
         <div className="login-text-content">
-          <h1 className="login-title">ورود به نرم افزار!</h1>
-          <p className="login-description">
-            برای ورود و استفاده از امکانات بیشتر نرم افزار،
-            شماره موبایل خود را وارد کنید.
-          </p>
+          <h1 className="login-title">
+            <FormattedMessage id="loginTitle" />
+          </h1>
+          <p
+            className="login-description"
+            dangerouslySetInnerHTML={{
+              __html: intl.formatMessage({ id: 'enterPhone' })
+            }}
+          />
         </div>
 
         <LoginForm />
 
         <div className="login-terms">
-          <p>ورود شما به معنی پذیرش <a href="/terms">قوانین</a> و <a href="/privacy">شرایط خصوصی</a> است</p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: intl.formatMessage({ id: 'terms' })
+            }}
+          />
         </div>
       </div>
     </div>
