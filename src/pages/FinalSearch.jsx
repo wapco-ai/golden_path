@@ -6,23 +6,38 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../services/osmStyle';
 import '../styles/FinalSearch.css';
+import { useRouteStore } from '../store/routeStore';
 
 const FinalSearch = () => {
   const [isSwapButton, setSwapButton] = useState(true);
   const navigate = useNavigate();
-  const [origin, setOrigin] = useState({
-    name: 'باب الرضا (ع)',
-    coordinates: [36.2970, 59.6069]
-  });
-  const [destination, setDestination] = useState({
-    name: 'صحن انقلاب',
-    coordinates: [36.2975, 59.6072]
-  });
+  const {
+    origin: storedOrigin,
+    destination: storedDestination,
+    routeGeo: storedRouteGeo,
+    setOrigin: storeSetOrigin,
+    setDestination: storeSetDestination,
+    setRouteGeo: storeSetRouteGeo
+  } = useRouteStore();
+  const [origin, setOrigin] = useState(
+    storedOrigin || { name: 'باب الرضا (ع)', coordinates: [36.2970, 59.6069] }
+  );
+  const [destination, setDestination] = useState(
+    storedDestination || { name: 'صحن انقلاب', coordinates: [36.2975, 59.6072] }
+  );
+  const routeGeo = storedRouteGeo;
+  useEffect(() => {
+    storeSetOrigin(origin);
+  }, [origin, storeSetOrigin]);
+  useEffect(() => {
+    storeSetDestination(destination);
+  }, [destination, storeSetDestination]);
   const [selectedTransport, setSelectedTransport] = useState('walking');
   const [selectedGender, setSelectedGender] = useState('male');
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
   const [menuOpen, setMenuOpen] = useState(false);
   const [geoData, setGeoData] = useState(null);
+
   const [routeGeo, setRouteGeo] = useState(null);
 
   React.useEffect(() => {
@@ -40,6 +55,20 @@ const FinalSearch = () => {
     }
   }, [selectedTransport]);
 
+  // Fallback to current GPS coordinates if origin coords not provided
+  useEffect(() => {
+    if (!origin.coordinates) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) =>
+          setOrigin((o) => ({
+            ...o,
+            coordinates: [pos.coords.latitude, pos.coords.longitude]
+          })),
+        (err) => console.error('gps error', err)
+      );
+    }
+  }, [origin.coordinates]);
+
   useEffect(() => {
     fetch('/data14040404.geojson')
       .then(res => res.json())
@@ -48,6 +77,17 @@ const FinalSearch = () => {
   }, []);
 
   useEffect(() => {
+    if (!destination.coordinates) {
+      // fallback to a default location if none provided
+      setDestination((d) => ({
+        ...d,
+        coordinates: [36.2975, 59.6072]
+      }));
+    }
+  }, [destination.coordinates]);
+
+  useEffect(() => {
+
     if (!geoData) return;
     const doors = geoData.features.filter(
       f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'door'
@@ -86,8 +126,9 @@ const FinalSearch = () => {
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
     };
-    setRouteGeo(geo);
-  }, [geoData, origin, destination]);
+    storeSetRouteGeo(geo);
+  }, [geoData, origin, destination, storeSetRouteGeo]);
+
 
   const swapLocations = () => {
     setSwapButton(!isSwapButton);
