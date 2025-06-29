@@ -18,6 +18,8 @@ const RoutingPage = () => {
   const [isClosingSound, setIsClosingSound] = useState(false);
   const [showAllRoutesView, setShowAllRoutesView] = useState(false);
   const [showAlternativeRoutes, setShowAlternativeRoutes] = useState(false);
+  const [was3DViewBeforeRouteView, setWas3DViewBeforeRouteView] = useState(false);
+  const [is3DView, setIs3DView] = useState(false);
   const navigate = useNavigate();
 
   // Calculate total time in minutes from all steps
@@ -135,6 +137,7 @@ const RoutingPage = () => {
         setCurrentStep(prev => prev + 1);
       } else {
         setIsRoutingActive(false);
+        setIs3DView(false); // Return to 2D when routing completes
       }
     }, 30000);
 
@@ -188,9 +191,16 @@ const RoutingPage = () => {
   };
 
   const toggleRouting = () => {
-    setIsRoutingActive(!isRoutingActive);
-    if (!isRoutingActive && currentStep >= routeData?.steps?.length - 1) {
+    const newRoutingState = !isRoutingActive;
+    setIsRoutingActive(newRoutingState);
+
+    if (newRoutingState && currentStep >= routeData?.steps?.length - 1) {
       setCurrentStep(0);
+    }
+
+    // Only change 3D view if not in all routes or alternative routes view
+    if (!showAllRoutesView && !showAlternativeRoutes) {
+      setIs3DView(newRoutingState);
     }
   };
 
@@ -203,20 +213,26 @@ const RoutingPage = () => {
   };
 
   const handleAllRoutesClick = () => {
+    setWas3DViewBeforeRouteView(is3DView); // Remember current 3D state
+    setIs3DView(false); // Force 2D view
     setShowAllRoutesView(true);
     setIsInfoModalOpen(true);
   };
 
   const handleReturnToRoute = () => {
+    setIs3DView(was3DViewBeforeRouteView); // Restore previous 3D state
     setShowAllRoutesView(false);
   };
 
   const handleShowAlternativeRoutes = () => {
+    setWas3DViewBeforeRouteView(is3DView); // Remember current 3D state
+    setIs3DView(false); // Force 2D view
     setShowAlternativeRoutes(true);
     setIsInfoModalOpen(true);
   };
 
   const handleReturnFromAlternativeRoutes = () => {
+    setIs3DView(was3DViewBeforeRouteView); // Restore previous 3D state
     setShowAlternativeRoutes(false);
   };
 
@@ -448,6 +464,7 @@ const RoutingPage = () => {
               currentStep={currentStep}
               isInfoModalOpen={isInfoModalOpen}
               isMapModalOpen={isMapModalOpen}
+              is3DView={is3DView}
             />
           </div>
         )}
@@ -560,7 +577,8 @@ const RoutingPage = () => {
                 </div>
                 <div className="info-header">
                   <button className="close-button" onClick={toggleInfoModal}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" ></path><path d="M18 6l-12 12" />
+                      <path d="M6 6l12 12" /></svg>
                   </button>
                   <div className="info-title">
                     <div className="info-stat">

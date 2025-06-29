@@ -1,65 +1,81 @@
 // src/components/map/RouteMap.jsx
-import React, { useEffect, useRef } from 'react';
-import Map, { Marker, Source, Layer } from 'react-map-gl';
+import React, { useEffect, useRef, useState } from 'react';
+import Map, { Marker } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 
-const RouteMap = ({ 
-  origin, 
-  destination, 
-  routeOptions, 
-  isMapModalOpen,  // New prop for modal state
-  userLocation,    // Existing prop from your usage
-  routeSteps,      // Existing prop from your usage
-  currentStep      // Existing prop from your usage
+const RouteMap = ({
+  userLocation,
+  routeSteps,
+  currentStep,
+  isInfoModalOpen,
+  isMapModalOpen,
+  is3DView
 }) => {
   const mapRef = useRef(null);
-  const routeLayerRef = useRef(null);
-  const center = userLocation && userLocation.length === 2 
-        ? userLocation 
-        : [36.297, 59.606]; // Default to Imam Reza Shrine coordinates
+  const center = userLocation && userLocation.length === 2
+    ? userLocation
+    : [36.297, 59.606]; // Default to Imam Reza Shrine coordinates
 
   // Handle map resize when modal opens/closes
   useEffect(() => {
-    if (mapRef.current && isMapModalOpen !== undefined) {
+    if (mapRef.current) {
       const timeout = setTimeout(() => {
-        mapRef.current.invalidateSize();
-        // Recenter map if needed
+        mapRef.current.resize();
         if (userLocation && userLocation.length === 2) {
-          mapRef.current.setView(userLocation, 18);
+          mapRef.current.flyTo({
+            center: [userLocation[1], userLocation[0]],
+            zoom: 18,
+            pitch: is3DView ? 60 : 0 // Set pitch based on 3D view state
+          });
         }
-      }, 400); // Match animation duration
-      
+      }, 400);
+
       return () => clearTimeout(timeout);
     }
-  }, [isMapModalOpen, userLocation]);
+  }, [isMapModalOpen, userLocation, is3DView]);
+
+  // Toggle 3D view effect
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.easeTo({
+        pitch: is3DView ? 60 : 0,
+        duration: 500
+      });
+    }
+  }, [is3DView]);
 
   return (
-    <div id="route-map" className="route-map-container">
-      <Map
-        mapLib={maplibregl}
-        mapStyle={osmStyle}
-        style={{ width: '100%', height: '100%' }}
-        initialViewState={{
-          latitude: center[0],
-          longitude: center[1],
-          zoom: 18
-        }}
-      >
-        {origin?.coordinates && (
-          <Marker longitude={origin.coordinates[1]} latitude={origin.coordinates[0]} anchor="bottom">
-            <div>🟢</div>
-          </Marker>
-        )}
-        {destination?.coordinates && (
-          <Marker longitude={destination.coordinates[1]} latitude={destination.coordinates[0]} anchor="bottom">
-            <div>🔴</div>
-          </Marker>
-        )}
+    <Map
+      ref={mapRef}
+      mapLib={maplibregl}
+      mapStyle={osmStyle}
+      initialViewState={{
+        longitude: center[1],
+        latitude: center[0],
+        zoom: 18,
+        pitch: 0
+      }}
+      attributionControl={false}
+      terrain={is3DView ? { source: 'terrain', exaggeration: 1.5 } : undefined}
+    >
+      {/* User location marker */}
+      <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
+        <div className="user-marker">📍</div>
+      </Marker>
 
-      </Map>
-    </div>
+      {/* Current step marker if available */}
+      {routeSteps && currentStep < routeSteps.length && routeSteps[currentStep].coordinates && (
+        <Marker
+          longitude={routeSteps[currentStep].coordinates[1]}
+          latitude={routeSteps[currentStep].coordinates[0]}
+          anchor="bottom"
+        >
+          <div className="current-step-marker">🔵</div>
+        </Marker>
+      )}
+    </Map>
   );
 };
 
