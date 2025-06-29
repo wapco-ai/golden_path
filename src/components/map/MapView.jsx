@@ -4,6 +4,7 @@ import Map, { Marker, Popup, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import DeadReckoningControls from './DeadReckoningControls';
 import osmStyle from '../../services/osmStyle';
+import GeoJsonOverlay from './GeoJsonOverlay';
 
 
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -254,6 +255,8 @@ const MapView = ({
             <Layer id="dr-line" type="line" paint={{ 'line-color': '#e53935', 'line-width': 3, 'line-opacity': 0.7 }} />
           </Source>
         )}
+
+        <GeoJsonOverlay />
 
         {savedLocations.map((location, index) => (
           <Marker key={location.id || index} longitude={location.coords.lng} latitude={location.coords.lat} anchor="bottom">

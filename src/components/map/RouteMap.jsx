@@ -4,6 +4,7 @@ import Map, { Marker } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
+import GeoJsonOverlay from './GeoJsonOverlay';
 
 const RouteMap = ({
   userLocation,
@@ -75,6 +76,8 @@ const RouteMap = ({
           <div className="current-step-marker">🔵</div>
         </Marker>
       )}
+
+      <GeoJsonOverlay />
     </Map>
   );
 };
