@@ -38,7 +38,7 @@ const FinalSearch = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [geoData, setGeoData] = useState(null);
 
-  const [routeGeo, setRouteGeo] = useState(null);
+  // const [routeGeo, setRouteGeo] = useState(null);
 
   React.useEffect(() => {
     // Scroll to top when component mounts
