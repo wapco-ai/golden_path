@@ -188,7 +188,10 @@ const MapRoutingPage = () => {
   };
 
   const handleCurrentLocationSelect = () => {
-    setUserLocation((prev) => ({ ...prev, name: 'موقعیت فعلی شما' }));
+    setUserLocation((prev) => ({
+      ...prev,
+      name: intl.formatMessage({ id: 'mapCurrentLocationName' })
+    }));
     setShowOriginModal(false);
   };
 
@@ -202,12 +205,15 @@ const MapRoutingPage = () => {
     if (isSelectingFromMap) {
       if (activeInput === 'destination') {
         setSelectedDestination({
-          name: 'موقعیت انتخاب شده',
-          location: 'موقعیت انتخاب شده از روی نقشه',
+          name: intl.formatMessage({ id: 'mapSelectedLocation' }),
+          location: intl.formatMessage({ id: 'mapSelectedLocationFromMap' }),
           coordinates: [latlng.lat, latlng.lng]
         });
       } else {
-        setUserLocation({ name: 'موقعیت انتخاب شده', coordinates: [latlng.lat, latlng.lng] });
+        setUserLocation({
+          name: intl.formatMessage({ id: 'mapSelectedLocation' }),
+          coordinates: [latlng.lat, latlng.lng]
+        });
       }
       setIsSelectingFromMap(false);
     }
@@ -265,7 +271,9 @@ const MapRoutingPage = () => {
           </button>
         )}
         <h1 className="map-header-title">
-          {isSelectingFromMap ? 'انتخاب موقعیت از روی نقشه' : 'مسیریابی حرم مطهر'}
+          {isSelectingFromMap
+            ? intl.formatMessage({ id: 'mapSelectFromMap' })
+            : intl.formatMessage({ id: 'mapRoutingTitle' })}
         </h1>
         <button className="map-profile-button" onClick={() => navigate('/Profile')}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
@@ -290,7 +298,9 @@ const MapRoutingPage = () => {
                 <div className={`map-category-icon ${category.icon}`}>
                   {renderSVG(category.svg)}
                 </div>
-                <span className="map-category-name">{category.label}</span>
+                <span className="map-category-name">
+                  {intl.formatMessage({ id: category.label })}
+                </span>
               </div>
             ))}
           </div>
@@ -352,7 +362,7 @@ const MapRoutingPage = () => {
                       {userLocation.name}
                     </span>
                     <span className="map-location-label">
-                      مبداء فعلی شما
+                      {intl.formatMessage({ id: 'mapCurrentOriginLabel' })}
                     </span>
                   </>
                 ) : (
@@ -441,7 +451,9 @@ const MapRoutingPage = () => {
                   <div className="map-option-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-current-location"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg>
                   </div>
-                  <span className="map-option-text">مکان فعلی شما ({userLocation.name})</span>
+                  <span className="map-option-text">
+                    {intl.formatMessage({ id: 'mapCurrentLocation' }, { loc: userLocation.name })}
+                  </span>
                 </div>
               )}
             </div>
@@ -449,7 +461,9 @@ const MapRoutingPage = () => {
 
           {!searchQuery && (
             <>
-              <h2 className="map-recent-title">جستوجوهای اخیر شما</h2>
+              <h2 className="map-recent-title">
+                {intl.formatMessage({ id: 'mapRecentSearches' })}
+              </h2>
               <ul className="map-destination-list">
                 {destinations.map((destination) => (
                   <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
