@@ -21,4 +21,19 @@
   "edit": "Edit",
   "resendCode": "Resend code in 50 seconds",
   "phonePlaceholder": "Mobile number"
+  ,"profileTitle": "Account"
+  ,"completeProfile": "Complete Profile"
+  ,"accountSection": "Account"
+  ,"accountInfo": "Account Information"
+  ,"myRoutes": "My Routes"
+  ,"savedPlaces": "Saved Locations"
+  ,"settingsSection": "Settings"
+  ,"notifications": "Notifications"
+  ,"supportSection": "Astan Quds"
+  ,"support": "Support"
+  ,"faq": "FAQ"
+  ,"termsRegulation": "Terms and Conditions"
+  ,"logoutTitle": "Logout"
+  ,"logoutAccount": "Sign out"
+
 }

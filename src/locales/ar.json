@@ -21,4 +21,19 @@
   "edit": "ویرایش",
   "resendCode": "ارسال دوباره کد تایید تا ۵۰ ثانیه",
   "phonePlaceholder": "شماره موبایل"
+  ,"profileTitle": "حساب کاربری"
+  ,"completeProfile": "تکمیل پروفایل"
+  ,"accountSection": "حساب کاربری"
+  ,"accountInfo": "اطلاعات حساب کاربری"
+  ,"myRoutes": "مسیرهای پیموده شده من"
+  ,"savedPlaces": "مکان های ذخیره شده"
+  ,"settingsSection": "تنظیمات"
+  ,"notifications": "اطلاع رسانی"
+  ,"supportSection": "آستان قدس"
+  ,"support": "پشتیبان"
+  ,"faq": "سوالات متداول"
+  ,"termsRegulation": "قوانین و مقررات"
+  ,"logoutTitle": "خروج"
+  ,"logoutAccount": "خروج از حساب کاربری"
+
 }

@@ -5,12 +5,24 @@
   font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
 }  
 
-body {  
-  margin: 0;  
-  padding: 0;  
-  box-sizing: border-box;  
-  direction: rtl;  
-}  
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+[dir='rtl'] body {
+  direction: rtl;
+}
+
+[dir='ltr'] body {
+  direction: ltr;
+}
+
+/* Force LTR for all elements when language is English */
+[dir='ltr'] * {
+  direction: ltr !important;
+}
 
 /* استایل اسکرول‌بار */  
 ::-webkit-scrollbar {  

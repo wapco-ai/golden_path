@@ -7,8 +7,15 @@
   background-color: white;
   min-height: 100vh;
   padding: 15px;
-  direction: rtl;
   font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+[dir="rtl"] .profile-container {
+  direction: rtl;
+}
+
+[dir="ltr"] .profile-container {
+  direction: ltr;
 }
 
 /* Profile Header */
