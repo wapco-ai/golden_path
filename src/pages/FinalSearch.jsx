@@ -1,5 +1,6 @@
 // src/pages/FinalSearch.jsx
 import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
@@ -268,6 +269,7 @@ const FinalSearch = () => {
               </svg>
             </Marker>
           )}
+
           {routeGeo && (
             <Source id="main-route" type="geojson" data={routeGeo}>
               <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />
