@@ -82,8 +82,6 @@
 .map-category-item {
   display: inline-flex;
   align-items: center;
-  max-width: 60px;
-  min-width: 140px;
   padding: 16px;
   height: 10px;
   background-color: white;

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from '../components/map/MapComponent';
+import { groups } from '../components/groupData';
 import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
@@ -21,187 +22,6 @@ const MapRoutingPage = () => {
   const modalRef = useRef(null);
   const searchInputRef = useRef(null);
   const swapButtonRef = useRef(null);
-
-  // Categories data
-  const categories = [
-    {
-      name: 'محل اسکن‌کد',
-      icon: 'qr-code',
-      property: 'subGroup',
-      value: 'محل اسکن‌کد',
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-object-scan"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
-          <path d="M4 16v2a2 2 0 0 0 2 2h2" />
-          <path d="M16 4h2a2 2 0 0 1 2 2v2" />
-          <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
-          <path d="M8 8m0 2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2z" />
-        </svg>
-      )
-    },
-    {
-      name: 'چایخانه‌ها',
-      icon: 'tea',
-      property: 'subGroup',
-      value: 'چایخانه',
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="icon icon-tabler icons-tabler-filled icon-tabler-mug"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M3.903 4.008l.183 -.008h10.828a2.08 2.08 0 0 1 2.086 2.077v.923h1.5c1.917 0 3.5 1.477 3.5 3.333v2.334c0 1.856 -1.583 3.333 -3.5 3.333h-1.663a5.33 5.33 0 0 1 -5.17 4h-4.334c-2.944 0 -5.333 -2.375 -5.333 -5.308v-8.618a2.08 2.08 0 0 1 1.903 -2.066m13.097 9.992h1.5c.843 0 1.5 -.613 1.5 -1.333v-2.334c0 -.72 -.657 -1.333 -1.5 -1.333h-1.5z" />
-        </svg>
-      )
-    },
-    {
-      name: 'باب‌های حرم',
-      icon: 'door',
-      property: 'nodeFunction',
-      value: 'door',
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-door"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M14 12v.01" />
-          <path d="M3 21h18" />
-          <path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" />
-        </svg>
-      )
-    },
-    {
-      name: 'صحن‌ها',
-      icon: 'courtyard',
-      property: 'group',
-      value: 'sahn',
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-door"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M14 12v.01" />
-          <path d="M3 21h18" />
-          <path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" />
-        </svg>
-      )
-    },
-    {
-      name: 'رواق‌ها',
-      icon: 'shrine',
-      property: 'group',
-      value: 'ravaq',
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-door"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M14 12v.01" />
-          <path d="M3 21h18" />
-          <path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" />
-        </svg>
-      )
-    },
-    {
-      name: 'کفشداری‌ها',
-      icon: 'shoe',
-      property: 'subGroup',
-      value: 'کفشداری',
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-flip-flops"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M18 4c2.21 0 4 1.682 4 3.758c0 .078 0 .156 -.008 .234l-.6 9.014c-.11 1.683 -1.596 3 -3.392 3s-3.28 -1.311 -3.392 -3l-.6 -9.014c-.138 -2.071 1.538 -3.855 3.743 -3.985a4.15 4.15 0 0 1 .25 -.007z" />
-          <path d="M14.5 14c1 -3.333 2.167 -5 3.5 -5c1.333 0 2.5 1.667 3.5 5" />
-          <path d="M18 16v1" />
-          <path d="M19 16v6" />
-          <path d="M22 19l-3 3l-3 -3" />
-          <path d="M6 4c2.21 0 4 1.682 4 3.758c0 .078 0 .156 -.008 .234l-.6 9.014c-.11 1.683 -1.596 3 -3.392 3s-3.28 -1.311 -3.392 -3l-.6 -9.014c-.138 -2.071 1.538 -3.855 3.742 -3.985c.084 0 .167 -.007 .25 -.007z" />
-          <path d="M2.5 14c1 -3.333 2.167 -5 3.5 -5c1.333 0 2.5 1.667 3.5 5" />
-          <path d="M6 16v1" />
-        </svg>
-      )
-    },
-    {
-      name: 'سرویس بهداشتی',
-      icon: 'toilet',
-      property: 'subGroup',
-      value: 'سرویس بهداشتی',
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-friends"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M7 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-          <path d="M5 22v-5l-1 -1v-4a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4l-1 1v5" />
-          <path d="M17 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-          <path d="M15 22v-4h-2l2 -6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1l2 6h-2v4" />
-        </svg>
-      )
-    }
-  ];
 
   // Destinations data
   const destinations = [
@@ -255,6 +75,10 @@ const MapRoutingPage = () => {
     }
   };
 
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
   const handleInputClick = (inputType) => {
     setActiveInput(inputType);
     if (inputType === 'destination') {
@@ -279,10 +103,6 @@ const MapRoutingPage = () => {
     setIsSelectingFromMap(true);
     setShowDestinationModal(false);
     setShowOriginModal(false);
-  };
-
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
   };
 
   const handleMapClick = (latlng) => {
@@ -329,6 +149,11 @@ const MapRoutingPage = () => {
     }
   }, [showDestinationModal, showOriginModal]);
 
+  // Function to create SVG elements from the SVG strings
+  const renderSVG = (svgString) => {
+    return <div dangerouslySetInnerHTML={{ __html: svgString }} />;
+  };
+
   return (
     <div className="map-routing-page">
       {/* Header */}
@@ -355,14 +180,16 @@ const MapRoutingPage = () => {
       {!isSelectingFromMap && (
         <div className="map-categories-scroll">
           <div className="map-categories-list">
-            {categories.map((category, index) => (
+            {groups.map((category, index) => (
               <div
                 key={index}
-                className={`map-category-item ${selectedCategory === category ? 'active' : ''}`}
-                onClick={() => handleCategorySelect(category)}
+                className="map-category-item"
+                onClick={() => handleCategoryClick(category)}
               >
-                <div className={`map-category-icon ${category.icon}`}>{category.svg}</div>
-                <span className="map-category-name">{category.name}</span>
+                <div className={`map-category-icon ${category.icon}`}>
+                  {renderSVG(category.svg)}
+                </div>
+                <span className="map-category-name">{category.label}</span>
               </div>
             ))}
           </div>
@@ -374,9 +201,9 @@ const MapRoutingPage = () => {
         <MapComponent
           setUserLocation={setUserLocation}
           selectedDestination={selectedDestination}
-          selectedCategory={selectedCategory}
           onMapClick={handleMapClick}
           isSelectingLocation={isSelectingFromMap}
+          selectedCategory={selectedCategory}
         />
         <button className="map-gps-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
