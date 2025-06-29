@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Location.css';
 import { groups } from '../components/groupData';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const Location = () => {
   const navigate = useNavigate();
+  const intl = useIntl();
   const [activeSlide, setActiveSlide] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
@@ -346,7 +348,7 @@ const Location = () => {
           <div className="comment-input-container">
             <input
               type="text"
-              placeholder="دیدگاه خود را بنویسید..."
+              placeholder={intl.formatMessage({ id: 'commentPlaceholder' })}
               readOnly
             />
             <button type="button" className="send-comment">
@@ -441,13 +443,15 @@ const Location = () => {
 
               <div className="modal-comment-input">
                 <textarea
-                  placeholder="دیدگاه خود را بنویسید..."
+                  placeholder={intl.formatMessage({ id: 'commentPlaceholder' })}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 ></textarea>
               </div>
 
-              <button className="submit-comment" onClick={handleCommentSubmit}> ارسال و ثبت دیدگاه</button>
+              <button className="submit-comment" onClick={handleCommentSubmit}>
+                <FormattedMessage id="submitComment" />
+              </button>
             </div>
           </div>
         </>
@@ -470,7 +474,7 @@ const Location = () => {
 
           <input
             type="text"
-            placeholder="کجا میخوای بری؟"
+            placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}
             value={searchQuery}
             onChange={handleSearchChange}
             onFocus={handleSearchFocus}
@@ -484,7 +488,7 @@ const Location = () => {
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
               </svg>
-              <span>نقشه</span>
+              <span><FormattedMessage id="map" /></span>
             </button>
           ) : (
             <button
@@ -826,7 +830,7 @@ const Location = () => {
 
                 <input
                   type="text"
-                  placeholder="کجا میخوای بری؟"
+                  placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}
                   value={searchQuery}
                   onChange={handleSearchChange}
                   autoFocus
