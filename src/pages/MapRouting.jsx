@@ -73,13 +73,15 @@ const MapRoutingPage = () => {
   ];
 
   const filteredDestinations = searchQuery
-    ? geoResults.map((f) => ({
-        id: f.properties?.uniqueId || f.id,
-        name: f.properties?.name || '',
-        location: f.properties?.subGroup || '',
-        coordinates: getFeatureCenter(f)
-
-      }))
+    ? geoResults.map((f) => {
+        const center = getFeatureCenter(f);
+        return {
+          id: f.properties?.uniqueId || f.id,
+          name: f.properties?.name || '',
+          location: f.properties?.subGroup || '',
+          coordinates: center ? [center[1], center[0]] : null
+        };
+      })
     : destinations.filter(
         (dest) => dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
       );
