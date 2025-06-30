@@ -15,16 +15,17 @@ const RouteOverview = () => {
   const [distance, setDistance] = useState('');
   const [time, setTime] = useState('');
 
-  const { routeGeo } = useRouteStore();
+  const { routeGeo, routeSteps } = useRouteStore();
   const routeCoordinates = routeGeo?.geometry?.coordinates || [];
 
   const routeData = useMemo(
     () =>
       routeCoordinates.slice(1).map((c, idx) => ({
         id: idx + 1,
-        coordinates: [routeCoordinates[idx], c]
+        coordinates: [routeCoordinates[idx], c],
+        instruction: routeSteps?.[idx]?.instruction || `گام ${idx + 1}`
       })),
-    [routeCoordinates]
+    [routeCoordinates, routeSteps]
   );
 
   const [viewState, setViewState] = useState({
@@ -165,7 +166,9 @@ const RouteOverview = () => {
 
         <div className="route-instruction-container">
           <div className="route-instruction">
-            <p className="instruction-text">گام {currentSlide + 1}</p>
+            <p className="instruction-text">
+              {routeData[currentSlide]?.instruction}
+            </p>
           </div>
 
           <div className="carousel-controls">
