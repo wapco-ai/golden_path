@@ -29,7 +29,7 @@ const LangPage = () => {
 
   return (
     <div className="lang-page-container">
-      <img src={logo} alt="Logo" className="lang-logo" />
+      <img src={logo} alt={intl.formatMessage({ id: 'logoAlt' })} className="lang-logo" />
       
       <div className="lang-welcome-text">
         <h1><FormattedMessage id="welcome" /></h1>

@@ -294,7 +294,10 @@ const Location = () => {
               <div key={index} className="carousel-slide">
                 <img
                   src={image}
-                  alt={`${locationData.title} - تصویر ${index + 1}`}
+                  alt={intl.formatMessage(
+                    { id: 'imageAlt' },
+                    { title: locationData.title, n: index + 1 }
+                  )}
                   loading={index > 0 ? "lazy" : "eager"}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

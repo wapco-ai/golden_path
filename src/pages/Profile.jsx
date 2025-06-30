@@ -1,11 +1,12 @@
 // src/pages/Profile.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import logo from '../assets/images/logo.png';
 
 function Profile() {
   const navigate = useNavigate();
+  const intl = useIntl();
 
   return (
     <div className="profile-container">
@@ -184,7 +185,11 @@ function Profile() {
           </div>
           <div className="section-item">
             <span className="item-icon">
-              <img src={logo} alt="logo" className="custom-logo-icon" />
+              <img
+                src={logo}
+                alt={intl.formatMessage({ id: 'logoAlt' })}
+                className="custom-logo-icon"
+              />
             </span>
             <span className="item-text">
               <FormattedMessage id="aboutUs" />
@@ -193,7 +198,11 @@ function Profile() {
           </div>
           <div className="section-item">
             <span className="item-icon">
-              <img src={logo} alt="logo" className="custom-logo-icon" />
+              <img
+                src={logo}
+                alt={intl.formatMessage({ id: 'logoAlt' })}
+                className="custom-logo-icon"
+              />
             </span>
             <span className="item-text">
               <FormattedMessage id="contactUs" />
