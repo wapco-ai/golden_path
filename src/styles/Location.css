@@ -1489,6 +1489,7 @@
   transform: scale(0.95);
 }
 
+
 .close-search-button svg {
   width: 24px;
   height: 24px;
@@ -1554,4 +1555,156 @@
 /* Animation for width change */
 .search-bar {
   transition: width 0.3s ease, padding 0.3s ease;
+}
+
+/* Subgroups Grid Styles */
+.subgroups-container {
+  padding: 15px;
+}
+
+.subgroups-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.subgroup-item {
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  transition: transform 0.2s ease;
+  min-height: 120px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.subgroup-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  z-index: 0;
+}
+
+.subgroup-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subgroup-info {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.subgroup-info h4 {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.subgroup-info p {
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+}
+/* Search Modal Content */
+.search-modal-content {
+  padding: 15px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  font-family: 'Vazir', Tahoma, sans-serif;  
+}
+
+.search-results-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #888;
+  font-family: 'Vazir', Tahoma, sans-serif;  
+}
+
+/* Animation for search modal content */
+.search-modal-content {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-results-container {
+  padding: 15px;
+}
+
+.search-results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.search-result-item {
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  transition: transform 0.2s ease;
+  min-height: 120px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #eee;
+  font-family: 'Vazir', Tahoma, sans-serif;  
+}
+
+
+.search-result-info {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+  font-family: 'Vazir', Tahoma, sans-serif;  
+}
+
+.search-result-info h4 {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 5px;
+  font-family: 'Vazir', Tahoma, sans-serif;  
+}
+
+.search-result-info p {
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+  font-family: 'Vazir', Tahoma, sans-serif;  
 }

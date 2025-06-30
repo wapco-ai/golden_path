@@ -6,8 +6,6 @@
   min-height: 100vh;
   background: linear-gradient(to top, #ffffff 70%, #86d9f2);
   font-family: 'Vazir', Tahoma, sans-serif;
-  text-align: right;
-  direction: rtl;
 }
 
 @media (max-width: 400px) {

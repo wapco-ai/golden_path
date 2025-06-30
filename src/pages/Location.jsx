@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Location.css';
-import { groups } from '../components/groupData';
+import { groups, subGroups } from '../components/groupData';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 const Location = () => {
@@ -29,6 +29,10 @@ const Location = () => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isSearchModalClosing, setIsSearchModalClosing] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filteredSubGroups, setFilteredSubGroups] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -164,21 +168,66 @@ const Location = () => {
   };
 
   const closeSearchModal = () => {
-    if (searchQuery.trim() !== '') {
+    if (searchQuery.trim() === '') {
+      // If search is empty, close the modal
+      setIsSearchModalClosing(true);
+      setTimeout(() => {
+        setShowSearchModal(false);
+        setIsSearchModalClosing(false);
+        document.body.style.overflow = 'auto';
+      }, 300);
+    } else {
+      // If search has text, just clear the search
       setSearchQuery('');
+      setSearchResults([]);
+      setIsSearching(false);
+      // Keep focus on search input after clearing
+      setTimeout(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
+        }
+      }, 0);
     }
-
-    setIsSearchModalClosing(true);
-
-    setTimeout(() => {
-      setShowSearchModal(false);
-      setIsSearchModalClosing(false);
-      document.body.style.overflow = 'auto';
-    }, 300);
   };
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    if (query.length > 0) {
+      setIsSearching(true);
+      // Search across all groups and subgroups
+      const results = [];
+
+      // Search in subgroups
+      Object.entries(subGroups).forEach(([groupValue, subgroups]) => {
+        subgroups.forEach(subgroup => {
+          if (
+            subgroup.label.toLowerCase().includes(query) ||
+            (subgroup.description && subgroup.description.toLowerCase().includes(query))
+          ) {
+            results.push({
+              type: 'subgroup',
+              ...subgroup,
+              groupValue
+            });
+          }
+        });
+      });
+
+      setSearchResults(results);
+      setSelectedCategory(null);
+    } else {
+      setIsSearching(false);
+      setSearchResults([]);
+    }
+  };
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setFilteredSubGroups(subGroups[category.value] || []);
+    setShowSearchModal(true);
+    setSearchQuery('');
+    document.body.style.overflow = 'hidden';
   };
 
   useEffect(() => {
@@ -209,7 +258,6 @@ const Location = () => {
 
   return (
     <div className="location-page">
-
       {/* Updated Carousel */}
       <div className="carousel-wrapper">
         <div className="fixed-header-icons">
@@ -495,6 +543,7 @@ const Location = () => {
               type="button"
               className="close-search-button"
               onClick={closeSearchModal}
+              aria-label={searchQuery.trim() === '' ? "بستن جستجو" : "پاک کردن جستجو"}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -516,7 +565,7 @@ const Location = () => {
                   <div
                     key={index}
                     className="routing-category-item"
-                    onClick={() => handlePlaceClick(category.label)}
+                    onClick={() => handleCategoryClick(category)}
                   >
                     <div className="category-icon" dangerouslySetInnerHTML={{ __html: category.svg }} />
                     <span>{category.label}</span>
@@ -526,7 +575,7 @@ const Location = () => {
                   <div
                     key={index + initialCategories.length}
                     className="routing-category-item"
-                    onClick={() => handlePlaceClick(category.label)}
+                    onClick={() => handleCategoryClick(category)}
                   >
                     <div className="category-icon" dangerouslySetInnerHTML={{ __html: category.svg }} />
                     <span>{category.label}</span>
@@ -852,7 +901,68 @@ const Location = () => {
               </form>
             </div>
             <div className="search-modal-content">
-              {/* Search results would go here */}
+              {isSearching ? (
+                <div className="search-results-container">
+                  {searchResults.length > 0 ? (
+                    <>
+                      <div className="subgroups-grid">
+                        {searchResults.map((item, index) => (
+                          <div
+                            key={index}
+                            className="subgroup-item"
+                            style={{
+                              backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(item.svg)}")`,
+                              backgroundSize: '50%',
+                              backgroundPosition: 'center',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundColor: 'rgba(255,255,255,0.7)',
+                              backgroundBlendMode: 'lighten'
+                            }}
+                          >
+                            <div className="subgroup-info">
+                              <h4>{item.label}</h4>
+                              {item.description && <p>{item.description}</p>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="no-results">
+                      <p>نتیجه‌ای برای "{searchQuery}" یافت نشد</p>
+                    </div>
+                  )}
+                </div>
+              ) : selectedCategory ? (
+                <div className="subgroups-container">
+                  <h3 className="subgroups-title">{selectedCategory.label}</h3>
+                  <div className="subgroups-grid">
+                    {subGroups[selectedCategory.value].map((subgroup, index) => (
+                      <div
+                        key={index}
+                        className="subgroup-item"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(subgroup.svg)}")`,
+                          backgroundSize: '50%',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat',
+                          backgroundColor: 'rgba(255,255,255,0.7)',
+                          backgroundBlendMode: 'lighten'
+                        }}
+                      >
+                        <div className="subgroup-info">
+                          <h4>{subgroup.label}</h4>
+                          {subgroup.description && <p>{subgroup.description}</p>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="search-results-placeholder">
+                  <p>برای جستجو عبارت مورد نظر را وارد کنید</p>
+                </div>
+              )}
             </div>
           </div>
         </>
