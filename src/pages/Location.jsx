@@ -516,22 +516,33 @@ const Location = () => {
                   <div
                     key={index}
                     className="routing-category-item"
-                    onClick={() => handlePlaceClick(category.label)}
+                    onClick={() =>
+                      handlePlaceClick(intl.formatMessage({ id: category.label }))
+                    }
                   >
-                    <div className="category-icon" dangerouslySetInnerHTML={{ __html: category.svg }} />
-                    <span>{category.label}</span>
+                    <div
+                      className="category-icon"
+                      dangerouslySetInnerHTML={{ __html: category.svg }}
+                    />
+                    <span>{intl.formatMessage({ id: category.label })}</span>
                   </div>
                 ))}
-                {showAllCategories && additionalCategories.map((category, index) => (
-                  <div
-                    key={index + initialCategories.length}
-                    className="routing-category-item"
-                    onClick={() => handlePlaceClick(category.label)}
-                  >
-                    <div className="category-icon" dangerouslySetInnerHTML={{ __html: category.svg }} />
-                    <span>{category.label}</span>
-                  </div>
-                ))}
+                {showAllCategories &&
+                  additionalCategories.map((category, index) => (
+                    <div
+                      key={index + initialCategories.length}
+                      className="routing-category-item"
+                      onClick={() =>
+                        handlePlaceClick(intl.formatMessage({ id: category.label }))
+                      }
+                    >
+                      <div
+                        className="category-icon"
+                        dangerouslySetInnerHTML={{ __html: category.svg }}
+                      />
+                      <span>{intl.formatMessage({ id: category.label })}</span>
+                    </div>
+                  ))}
               </div>
               <button
                 className="routing-show-more-btn"
