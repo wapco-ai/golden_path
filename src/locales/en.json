@@ -4,6 +4,8 @@
   "loginButton": "Enter App",
   "loginTitle": "Login!",
   "enterPhone": "Enter your mobile number to access more features.",
+  "logoAlt": "App logo",
+  "imageAlt": "Image {n} of {title}",
   "terms": "By logging in you accept the <a href=\"/terms\">terms</a> and <a href=\"/privacy\">privacy policy</a>",
   "home": "Home",
   "map": "Map",
