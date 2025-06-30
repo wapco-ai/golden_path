@@ -167,26 +167,40 @@ const Location = () => {
     setIsSearchFocused(false);
   };
 
-  const closeSearchModal = () => {
-    if (searchQuery.trim() === '') {
-      // If search is empty, close the modal
-      setIsSearchModalClosing(true);
-      setTimeout(() => {
-        setShowSearchModal(false);
-        setIsSearchModalClosing(false);
-        document.body.style.overflow = 'auto';
-      }, 300);
-    } else {
-      // If search has text, just clear the search
+  const closeSearchModal = (e) => {
+    // Prevent event bubbling if needed
+    if (e) {
+      e.stopPropagation();
+    }
+
+    if (searchQuery.trim() !== '') {
+      // First click - clear the search text
       setSearchQuery('');
       setSearchResults([]);
       setIsSearching(false);
+      setSelectedCategory(null); // Add this to clear selected category
+      setFilteredSubGroups([]); // Add this to clear filtered subgroups
+
       // Keep focus on search input after clearing
       setTimeout(() => {
         if (searchInputRef.current) {
           searchInputRef.current.focus();
         }
       }, 0);
+    } else {
+      // Second click (or first if already empty) - close the modal
+      setIsSearchModalClosing(true);
+      setTimeout(() => {
+        setShowSearchModal(false);
+        setIsSearchModalClosing(false);
+        document.body.style.overflow = 'auto';
+        // Reset all search-related states
+        setSearchQuery('');
+        setSearchResults([]);
+        setIsSearching(false);
+        setSelectedCategory(null);
+        setFilteredSubGroups([]);
+      }, 300);
     }
   };
 
@@ -566,7 +580,10 @@ const Location = () => {
             <button
               type="button"
               className="close-search-button"
-              onClick={closeSearchModal}
+              onClick={(e) => {
+                e.stopPropagation();
+                closeSearchModal(e);
+              }}
               aria-label={
                 searchQuery.trim() === ''
                   ? intl.formatMessage({ id: 'closeSearch' })
@@ -940,7 +957,15 @@ const Location = () => {
                 <button
                   type="button"
                   className="close-search-button"
-                  onClick={closeSearchModal}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    closeSearchModal(e);
+                  }}
+                  aria-label={
+                    searchQuery.trim() === ''
+                      ? intl.formatMessage({ id: 'closeSearch' })
+                      : intl.formatMessage({ id: 'clearSearch' })
+                  }
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -955,25 +980,43 @@ const Location = () => {
                 <div className="search-results-container">
                   {searchResults.length > 0 ? (
                     <>
-                      <div className="subgroups-grid">
-                        {searchResults.map((item, index) => (
-                          <div
-                            key={index}
-                            className="subgroup-item"
-                            style={{
-                              backgroundImage: item.img ? `url(${item.img})` : 'none',
-                              backgroundSize: 'cover',
-                              backgroundPosition: 'center',
-                              backgroundColor: 'rgba(255,255,255,0.7)',
-                              backgroundBlendMode: 'lighten'
-                            }}
-                          >
-                            <div className="subgroup-info">
-                              <h4>{item.label}</h4>
-                              {item.description && <p>{item.description}</p>}
+                      {/* Split results into those with images and without */}
+                      <div className="subgroups-with-images">
+                        <div className="subgroups-grid">
+                          {searchResults.filter(item => item.img).map((item, index) => (
+                            <div
+                              key={index}
+                              className="subgroup-item with-image"
+                              style={{
+                                backgroundImage: item.img ? `url(${item.img})` : 'none',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                backgroundColor: 'rgba(255,255,255,0.7)',
+                                backgroundBlendMode: 'lighten'
+                              }}
+                            >
+                              <div className="subgroup-info">
+                                <h4>{item.label}</h4>
+                                {item.description && <p>{item.description}</p>}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="subgroups-without-images">
+                        {searchResults.filter(item => !item.img).map((item, index) => {
+                          const group = groups.find(g => g.value === item.groupValue);
+                          return (
+                            <div key={index} className="subgroup-item-no-image">
+                              <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: group?.svg || '' }} />
+                              <div className="subgroup-text">
+                                <h4>{item.label}</h4>
+                                {item.description && <p>{item.description}</p>}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </>
                   ) : (
@@ -989,20 +1032,35 @@ const Location = () => {
                 </div>
               ) : selectedCategory ? (
                 <div className="subgroups-container">
-                  <div className="subgroups-grid">
-                    {subGroups[selectedCategory.value].map((subgroup, index) => (
-                      <div
-                        key={index}
-                        className="subgroup-item"
-                        style={{
-                          backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                          backgroundColor: 'rgba(255,255,255,0.7)',
-                          backgroundBlendMode: 'lighten'
-                        }}
-                      >
-                        <div className="subgroup-info">
+                  {/* Split subgroups into those with images and without */}
+                  <div className="subgroups-with-images">
+                    <div className="subgroups-grid">
+                      {subGroups[selectedCategory.value].filter(subgroup => subgroup.img).map((subgroup, index) => (
+                        <div
+                          key={index}
+                          className="subgroup-item with-image"
+                          style={{
+                            backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundColor: 'rgba(255,255,255,0.7)',
+                            backgroundBlendMode: 'lighten'
+                          }}
+                        >
+                          <div className="subgroup-info">
+                            <h4>{subgroup.label}</h4>
+                            {subgroup.description && <p>{subgroup.description}</p>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="subgroups-without-images">
+                    {subGroups[selectedCategory.value].filter(subgroup => !subgroup.img).map((subgroup, index) => (
+                      <div key={index} className="subgroup-item-no-image">
+                        <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: subgroup.svg }} />
+                        <div className="subgroup-text">
                           <h4>{subgroup.label}</h4>
                           {subgroup.description && <p>{subgroup.description}</p>}
                         </div>

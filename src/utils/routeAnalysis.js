@@ -175,6 +175,7 @@ export function analyzeRoute(origin, destination, geoData) {
     const altEndConn = altEndDoor
       ? findNearestByArea(altEndDoor, connections, 'saایر')
       : findNearestByArea(destination.coordinates, connections, endArea);
+
     const altPath = [origin.coordinates];
     const altSteps = [];
     if (altStartDoor) {
