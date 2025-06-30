@@ -14,7 +14,7 @@ const RoutingPage = () => {
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [showSoundModal, setShowSoundModal] = useState(false);
   const [selectedEmergency, setSelectedEmergency] = useState(null);
-  const [selectedSoundOption, setSelectedSoundOption] = useState('روشن');
+  const [selectedSoundOption, setSelectedSoundOption] = useState('on');
   const [isRoutingActive, setIsRoutingActive] = useState(false);
   const [isClosingEmergency, setIsClosingEmergency] = useState(false);
   const [isClosingSound, setIsClosingSound] = useState(false);
@@ -260,7 +260,11 @@ const RoutingPage = () => {
   };
 
   if (!routeData) {
-    return <div className="loading">در حال بارگذاری...</div>;
+    return (
+      <div className="loading">
+        <FormattedMessage id="loading" />
+      </div>
+    );
   }
 
   return (
@@ -285,11 +289,11 @@ const RoutingPage = () => {
             <div className="toggle-handle2"></div>
           </div>
           <div className="emergency-modal-content">
-            <h3 className="emergency-modal-title">درخواست کمک‌های فوریتی حرم مطهر</h3>
+            <h3 className="emergency-modal-title">
+              <FormattedMessage id="emergencyTitle" />
+            </h3>
             <p className="emergency-modal-subtitle">
-              لطفا نوع درخواست خود را انتخاب کنید و توضیحاتی
-              درباره آن بنویسید. در سریع‌ترین زمان ممکن خادمین
-              به مکان شما خواهند رسید.
+              <FormattedMessage id="emergencySubtitle" />
             </p>
 
             <div className="emergency-options">
@@ -297,25 +301,25 @@ const RoutingPage = () => {
                 className={`emergency-option ${selectedEmergency === 'fire' ? 'selected' : ''}`}
                 onClick={() => handleEmergencySelect('fire')}
               >
-                اعلام حریق
+                <FormattedMessage id="emergencyFire" />
               </button>
               <button
                 className={`emergency-option ${selectedEmergency === 'theft' ? 'selected' : ''}`}
                 onClick={() => handleEmergencySelect('theft')}
               >
-                اعلام سرقت
+                <FormattedMessage id="emergencyTheft" />
               </button>
               <button
                 className={`emergency-option ${selectedEmergency === 'medical' ? 'selected' : ''}`}
                 onClick={() => handleEmergencySelect('medical')}
               >
-                درخواست خدمات پزشکی
+                <FormattedMessage id="emergencyMedical" />
               </button>
               <button
                 className={`emergency-option ${selectedEmergency === 'missing' ? 'selected' : ''}`}
                 onClick={() => handleEmergencySelect('missing')}
               >
-                اعلام مفقودی
+                <FormattedMessage id="emergencyMissing" />
               </button>
             </div>
 
@@ -340,12 +344,14 @@ const RoutingPage = () => {
             <div className="toggle-handle2"></div>
           </div>
           <div className="sound-modal-content">
-            <h3 className="sound-modal-title">تنظیمات صدا</h3>
+            <h3 className="sound-modal-title">
+              <FormattedMessage id="soundSettingsTitle" />
+            </h3>
             <div className="sound-options">
               <div className="option-box">
                 <button
-                  className={`sound-option ${selectedSoundOption === 'روشن' ? 'selected' : ''}`}
-                  onClick={() => handleSoundOptionSelect('روشن')}
+                  className={`sound-option ${selectedSoundOption === 'on' ? 'selected' : ''}`}
+                  onClick={() => handleSoundOptionSelect('on')}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -365,14 +371,14 @@ const RoutingPage = () => {
                     <path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" />
                   </svg>
                 </button>
-                <span className={`option-text ${selectedSoundOption === 'روشن' ? 'selected' : ''}`}>
-                  روشن
+                <span className={`option-text ${selectedSoundOption === 'on' ? 'selected' : ''}`}>
+                  <FormattedMessage id="soundOptionOn" />
                 </span>
               </div>
               <div className="option-box">
                 <button
-                  className={`sound-option ${selectedSoundOption === 'فقط هشدار' ? 'selected' : ''}`}
-                  onClick={() => handleSoundOptionSelect('فقط هشدار')}
+                  className={`sound-option ${selectedSoundOption === 'alertOnly' ? 'selected' : ''}`}
+                  onClick={() => handleSoundOptionSelect('alertOnly')}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -392,14 +398,14 @@ const RoutingPage = () => {
                     <path d="M12 16h.01" />
                   </svg>
                 </button>
-                <span className={`option-text ${selectedSoundOption === 'فقط هشدار' ? 'selected' : ''}`}>
-                  فقط هشدار
+                <span className={`option-text ${selectedSoundOption === 'alertOnly' ? 'selected' : ''}`}>
+                  <FormattedMessage id="soundOptionAlertOnly" />
                 </span>
               </div>
               <div className="option-box">
                 <button
-                  className={`sound-option ${selectedSoundOption === 'خاموش' ? 'selected' : ''}`}
-                  onClick={() => handleSoundOptionSelect('خاموش')}
+                  className={`sound-option ${selectedSoundOption === 'off' ? 'selected' : ''}`}
+                  onClick={() => handleSoundOptionSelect('off')}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -420,8 +426,8 @@ const RoutingPage = () => {
                     <path d="M3 3l18 18" />
                   </svg>
                 </button>
-                <span className={`option-text ${selectedSoundOption === 'خاموش' ? 'selected' : ''}`}>
-                  خاموش
+                <span className={`option-text ${selectedSoundOption === 'off' ? 'selected' : ''}`}>
+                  <FormattedMessage id="soundOptionOff" />
                 </span>
               </div>
             </div>
@@ -477,7 +483,7 @@ const RoutingPage = () => {
         {/* Emergency Button */}
         <button className="emergency-button" onClick={toggleEmergencyModal}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-alert-triangle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 1.67c.955 0 1.845 .467 2.39 1.247l.105 .16l8.114 13.548a2.914 2.914 0 0 1 -2.307 4.363l-.195 .008h-16.225a2.914 2.914 0 0 1 -2.582 -4.2l.099 -.185l8.11 -13.538a2.914 2.914 0 0 1 2.491 -1.403zm.01 13.33l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -7a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z" /></svg>
-          <span>فوریت‌های حرم</span>
+          <span><FormattedMessage id="emergencyButtonLabel" /></span>
         </button>
 
         {/* Info Modal - Only visible when map modal is open */}
@@ -487,7 +493,7 @@ const RoutingPage = () => {
               <div className="all-routes-content">
                 <div className="all-routes-header">
                   <div className="all-routes-info">
-                    <span>زمان رسیدن</span>
+                    <span><FormattedMessage id="arrivalTime" /></span>
                     <span className="all-routes-arrival-time">{routeData.arrivalTime}</span>
                   </div>
                   <div className="all-routes-details">
@@ -514,7 +520,9 @@ const RoutingPage = () => {
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
                   </svg>
-                  <span className="return-to-route-text">برگرد به مسیر</span>
+                  <span className="return-to-route-text">
+                    <FormattedMessage id="returnToRoute" />
+                  </span>
                 </button>
               </div>
             </div>
@@ -525,15 +533,17 @@ const RoutingPage = () => {
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
                 </svg>
-                <span className="return-to-route-text">برگرد به مسیر</span>
+                <span className="return-to-route-text">
+                  <FormattedMessage id="returnToRoute" />
+                </span>
               </button>
 
               <div className="alternative-routes-container">
                 {routeData.alternativeRoutes.map(route => (
                   <div key={route.id} className="alternative-route-card">
                     <div className="route-title">
-                      <span>از {route.from}</span>
-                      <span >به {route.to}</span>
+                      <span><FormattedMessage id="from" /> {route.from}</span>
+                      <span ><FormattedMessage id="to" /> {route.to}</span>
                     </div>
 
                     <div className="route-via">
@@ -568,7 +578,7 @@ const RoutingPage = () => {
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
                       </svg>
-                      شروع مسیریابی
+                      <FormattedMessage id="startRouting" />
                     </button>
                   </div>
                 ))}
@@ -587,7 +597,7 @@ const RoutingPage = () => {
                   </button>
                   <div className="info-title">
                     <div className="info-stat">
-                      <span>زمان رسیدن</span>
+                      <span><FormattedMessage id="arrivalTime" /></span>
                       <span className="arrival-time">{routeData.arrivalTime}</span>
                     </div>
                     <div className="info-details">
@@ -624,21 +634,21 @@ const RoutingPage = () => {
                       <div className="button-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
                       </div>
-                      <span>مسیر در یک نگاه</span>
+                      <span><FormattedMessage id="routeOverview" /></span>
                     </button>
                     <span className="sdivider"></span>
                     <button className="route-button" onClick={handleAllRoutesClick}>
                       <div className="button-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
                       </div>
-                      <span>همه مسیر</span>
+                      <span><FormattedMessage id="allRoutes" /></span>
                     </button>
                     <span className="sdivider"></span>
                     <button className="route-button" onClick={handleShowAlternativeRoutes}>
                       <div className="button-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
                       </div>
-                      <span>سایر مسیرها</span>
+                      <span><FormattedMessage id="otherRoutes" /></span>
                     </button>
                   </div>
                 </>
@@ -649,7 +659,11 @@ const RoutingPage = () => {
                   className={`start-routing-button ${isRoutingActive ? 'stop-routing' : ''}`}
                   onClick={toggleRouting}
                 >
-                  {isRoutingActive ? 'پایان و بستن سفر' : 'شروع مسیریابی'}
+                  {isRoutingActive ? (
+                    <FormattedMessage id="stopRouting" />
+                  ) : (
+                    <FormattedMessage id="startRouting" />
+                  )}
                 </button>
 
                 <div className="pc-container">
@@ -673,7 +687,9 @@ const RoutingPage = () => {
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
               </svg>
-              <span className="return-to-route-text">برگرد به مسیر</span>
+              <span className="return-to-route-text">
+                <FormattedMessage id="returnToRoute" />
+              </span>
             </button>
           )
         }

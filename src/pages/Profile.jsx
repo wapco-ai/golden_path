@@ -49,7 +49,9 @@ function Profile() {
           </div>
         </div>
         <div className="user-info">
-          <p className="user-name">کاربر مسیربایی آستان قدس</p>
+          <p className="user-name">
+            <FormattedMessage id="defaultUserName" />
+          </p>
           <p className="user-phone">98-964879789+</p>
         </div>
         <button className="complete-profile-btn">
@@ -182,7 +184,7 @@ function Profile() {
           </div>
           <div className="section-item">
             <span className="item-icon">
-              <img src={logo} alt="لوگو" className="custom-logo-icon" />
+              <img src={logo} alt="logo" className="custom-logo-icon" />
             </span>
             <span className="item-text">
               <FormattedMessage id="aboutUs" />
@@ -191,7 +193,7 @@ function Profile() {
           </div>
           <div className="section-item">
             <span className="item-icon">
-              <img src={logo} alt="لوگو" className="custom-logo-icon" />
+              <img src={logo} alt="logo" className="custom-logo-icon" />
             </span>
             <span className="item-text">
               <FormattedMessage id="contactUs" />
