@@ -25,6 +25,10 @@ const AppContent = () => {
   const [showInstall, setShowInstall] = useState(false);
 
   useEffect(() => {
+    document.title = intl.formatMessage({ id: 'appTitle' });
+  }, [intl.locale]);
+
+  useEffect(() => {
     const handler = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
