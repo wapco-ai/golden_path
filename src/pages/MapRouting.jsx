@@ -4,6 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
+import { useLangStore } from '../store/langStore';
 import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
@@ -25,6 +26,7 @@ const MapRoutingPage = () => {
 
   const setOriginStore = useRouteStore(state => state.setOrigin);
   const setDestinationStore = useRouteStore(state => state.setDestination);
+  const language = useLangStore(state => state.language);
 
   const destinationInputRef = useRef(null);
   const originInputRef = useRef(null);
@@ -122,12 +124,16 @@ const MapRoutingPage = () => {
   // Lazy load geojson data on first search
   useEffect(() => {
     if (searchQuery && !geoData) {
-      fetch('/data14040404.geojson')
+      const file =
+        language === 'fa'
+          ? '/data14040404.geojson'
+          : `/data14040404_${language}.geojson`;
+      fetch(file)
         .then((res) => res.json())
         .then(setGeoData)
         .catch((err) => console.error('failed to load geojson', err));
     }
-  }, [searchQuery, geoData]);
+  }, [searchQuery, geoData, language]);
 
   // Filter geojson features based on search query
   useEffect(() => {
