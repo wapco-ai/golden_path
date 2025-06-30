@@ -67,6 +67,26 @@ function angleBetween(p1, p2, p3) {
   return Math.round(deg);
 }
 
+function segmentsIntersect(a, b, c, d) {
+  const cross = (p, q, r) => (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);
+  if (cross(a, b, c) * cross(a, b, d) > 0) return false;
+  if (cross(c, d, a) * cross(c, d, b) > 0) return false;
+  return true;
+}
+
+function lineIntersectsPolygon(p1, p2, polygons) {
+  const rings = Array.isArray(polygons[0][0]) && typeof polygons[0][0][0] === 'number' ? [polygons] : polygons;
+  for (const ring of rings) {
+    for (let i = 1; i < ring.length; i++) {
+      const p3 = ring[i - 1];
+      const p4 = ring[i];
+      if (segmentsIntersect([p1[1], p1[0]], [p2[1], p2[0]], p3, p4)) return true;
+    }
+  }
+  const mid = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
+  return pointInPolygon(mid, polygons);
+}
+
 export function analyzeRoute(origin, destination, geoData) {
   if (!geoData) {
     return { path: [origin.coordinates, destination.coordinates], steps: [] };
@@ -101,6 +121,30 @@ export function analyzeRoute(origin, destination, geoData) {
   const startConn = startAccess.conn;
   const endConn = endAccess.conn;
 
+  const segmentStart = startConn
+    ? startConn.slice(0, 2)
+    : startDoor
+      ? startDoor.slice(0, 2)
+      : origin.coordinates;
+  const segmentEnd = endConn
+    ? endConn.slice(0, 2)
+    : endDoor
+      ? endDoor.slice(0, 2)
+      : destination.coordinates;
+  const segStartArea = getArea(segmentStart, sahnPolygons);
+  const segEndArea = getArea(segmentEnd, sahnPolygons);
+  let extraDoors = [];
+  const crossing = sahnPolygons.find(p => {
+    const area = p.properties?.subGroupValue;
+    if (area === segStartArea || area === segEndArea) return false;
+    return lineIntersectsPolygon(segmentStart, segmentEnd, p.geometry.coordinates);
+  });
+  if (crossing) {
+    const entry = findNearestByArea(segmentStart, doors, crossing.properties.subGroupValue);
+    const exit = findNearestByArea(segmentEnd, doors, crossing.properties.subGroupValue);
+    if (entry && exit) extraDoors = [entry, exit];
+  }
+
   const path = [origin.coordinates];
   const steps = [];
 
@@ -113,7 +157,7 @@ export function analyzeRoute(origin, destination, geoData) {
 
     });
   }
-   if (startConn) {
+  if (startConn) {
     path.push(startConn.slice(0, 2));
     steps.push({
       coordinates: startConn.slice(0, 2),
@@ -122,6 +166,14 @@ export function analyzeRoute(origin, destination, geoData) {
 
     });
   }
+  extraDoors.forEach(d => {
+    path.push(d.slice(0, 2));
+    steps.push({
+      coordinates: d.slice(0, 2),
+      type: 'stepPassDoor',
+      name: d[2]?.name || ''
+    });
+  });
   if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) {
     path.push(endConn.slice(0, 2));
     steps.push({
