@@ -88,7 +88,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s2.jpg'
     },
     {
       value: 'sahn-jomhouri',
@@ -96,7 +96,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s3.jpg'
     },
     {
       value: 'sahn-qods',
@@ -104,7 +104,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s4.jpg'
     },
     {
       value: 'sahn-jame-razavi',
@@ -112,7 +112,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s5.jpg'
     },
     {
       value: 'sahn-ghadir',
@@ -120,7 +120,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s6.jpg'
     },
     {
       value: 'sahn-kosar',
@@ -128,7 +128,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+     img: '/img/s7.jpg'
     },
     {
       value: 'sahn-emam-hasan',
@@ -136,7 +136,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s8.jpg'
     },
     {
       value: 'sahn-payambar-azam',
@@ -144,7 +144,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s9.jpg'
     }
   ],
   eyvan: [
@@ -154,7 +154,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s10.png'
     },
     {
       value: 'eyvan-talayi',
@@ -162,7 +162,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s11.jpg'
     },
     {
       value: 'eyvan-saat',
@@ -170,7 +170,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s12.jpg'
     },
     {
       value: 'eyvan-naqare',
@@ -178,7 +178,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s13.png'
     },
     {
       value: 'eyvan-valiasr',
@@ -186,7 +186,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s14.jpg'
     },
     {
       value: 'eyvan-talaye-azadi',
@@ -194,7 +194,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s15.jpg'
     }
   ],
   ravaq: [
@@ -204,7 +204,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s16.jpg'
     },
     {
       value: 'daralsiade',
@@ -212,7 +212,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s17.jpg'
     },
     {
       value: 'daralsalam',
@@ -220,7 +220,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s18.jpg'
     },
     {
       value: 'hatamkhani',
@@ -228,7 +228,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s19.jpg'
     },
     {
       value: 'gonbadallahverdi',
@@ -236,7 +236,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s20.jpg'
     },
     {
       value: 'daralziafe',
@@ -244,7 +244,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s21.jpg'
     },
     {
       value: 'tohidkhane',
@@ -252,7 +252,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s22.jpg'
     },
     {
       value: 'daralfeyz',
@@ -260,14 +260,14 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s22.jpg'
     },
     {
       value: 'daralsaade',
       label: 'دارالسعاده', icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s24.jpg'
     },
     {
       value: 'goharsad',
@@ -275,7 +275,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s25.jpg'
     }
   ],
   masjed: [
@@ -285,7 +285,7 @@ export const subGroups = {
       icon: 'mosque',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21h7v-2a2 2 0 1 1 4 0v2h7"/><path d="M4 21v-10"/><path d="M20 21v-10"/><path d="M4 16h3v-3h10v3h3"/><path d="M17 13a5 5 0 0 0 -10 0"/><path d="M21 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M5 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M12 2a2 2 0 1 0 2 2"/><path d="M12 6v2"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s26.jpg'
     },
     {
       value: 'goharsad',
@@ -293,7 +293,7 @@ export const subGroups = {
       icon: 'mosque',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21h7v-2a2 2 0 1 1 4 0v2h7"/><path d="M4 21v-10"/><path d="M20 21v-10"/><path d="M4 16h3v-3h10v3h3"/><path d="M17 13a5 5 0 0 0 -10 0"/><path d="M21 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M5 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M12 2a2 2 0 1 0 2 2"/><path d="M12 6v2"/></svg>`,
       description: 'توضیحات',
-      img: '/images/ravaqs/daralhefaz.jpg'
+      img: '/img/s27.jpg'
     }
   ],
   madrese: [

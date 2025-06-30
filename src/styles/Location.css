@@ -919,11 +919,6 @@
   border-radius: 8px;
 }
 
-.routing-category-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .category-icon {
   font-size: 1.5rem;
   margin-bottom: 8px;
@@ -1601,7 +1596,7 @@
 .subgroup-info {
   position: absolute;
   z-index: 1;
-  background: linear-gradient(to bottom, rgba(18, 7, 7, 0.427) 20%,black);
+  background: linear-gradient(to bottom, rgba(19, 4, 4, 0.588) 10%,black);
   padding: 5px;
   width: 100%;
   bottom: 0;
