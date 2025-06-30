@@ -172,6 +172,7 @@ export function analyzeRoute(origin, destination, geoData) {
       to: destination.name,
       via
     });
+
   }
 
   return { path, geo, steps, alternatives };

@@ -1,5 +1,6 @@
 {
   "welcome": "خوش آمدید!",
+  "appTitle": "مسیر طلایی",
   "selectLanguage": "برای ورود به نرم افزار مسیرپایی حرم مطهر رضوی ابتدا<br />زبان برنامه را انتخاب کنید و وارد برنامه شوید.",
   "loginButton": "ورود به برنامه",
   "loginTitle": "ورود به نرم افزار!",
@@ -59,6 +60,7 @@
   ,"nearMe": "مکان‌های نزدیک من"
   ,"save": "ذخیره"
   ,"commentsLabel": "نظر"
+  ,"defaultCommentAuthor": "کاربر جدید"
   ,"searchSuggestions": "پیشنهاد‌های جستجو"
   ,"loading": "در حال بارگذاری..."
   ,"fetchError": "خطا در دریافت اطلاعات: {error}"
@@ -69,6 +71,10 @@
   ,"destinationPlaceholder": "مقصد را انتخاب کنید"
   ,"destinationSearchPlaceholder": "جستجوی مقصد"
   ,"originSearchPlaceholder": "جستجوی مبدا"
+  ,"closeSearch": "بستن جستجو"
+  ,"clearSearch": "پاک کردن جستجو"
+  ,"noResultsFound": "نتیجه‌ای برای \"{query}\" یافت نشد"
+  ,"enterSearchTerm": "برای جستجو عبارت مورد نظر را وارد کنید"
   ,"chooseFromMap": "انتخاب از روی نقشه"
   ,"emergencyPlaceholder": "توضیحات بیشتر..."
   ,"emergencySubmit": "تایید و ارسال درخواست"
@@ -135,6 +141,7 @@
   ,"metersPerSecond": "متر بر ثانیه"
   ,"degreesPerSecond": "درجه بر ثانیه"
   ,"defaultUserName": "کاربر مسیربایی آستان قدس"
+  ,"defaultLocation": "آستان قدس رضوی"
   ,"defaultBabRezaName": "باب الرضا (ع)"
   ,"destSahnEnqelabName": "صحن انقلاب"
   ,"destSahnEnqelabLocation": "حرم مطهر امام رضا علیه‌السلام، صحن انقلاب"
