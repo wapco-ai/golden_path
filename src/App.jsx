@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Profile from './pages/Profile';
 import FinalSearch from './pages/FinalSearch';
@@ -14,6 +15,7 @@ import './App.css';
 
 const AppContent = () => {
   const location = useLocation();
+  const intl = useIntl();
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
     || location.pathname === '/rop' || location.pathname === '/rng';
@@ -56,14 +58,18 @@ const AppContent = () => {
         {showInstall && (
           <div className="pwa-install-overlay">
             <div className="pwa-install-dialog">
-              <h3>نصب اپلیکیشن</h3>
-              <p>برای دسترسی سریع، اپلیکیشن را روی دستگاه خود نصب کنید.</p>
+              <h3>
+                <FormattedMessage id="pwaInstallTitle" />
+              </h3>
+              <p>
+                <FormattedMessage id="pwaInstallPrompt" />
+              </p>
               <button className="pwa-install-btn" onClick={handleInstallClick}>
-                نصب
+                <FormattedMessage id="pwaInstallButton" />
               </button>
               <br />
               <button className="pwa-install-close" onClick={handleClosePrompt}>
-                بستن
+                <FormattedMessage id="pwaCloseButton" />
               </button>
             </div>
           </div>
