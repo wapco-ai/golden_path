@@ -5,6 +5,7 @@ import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
+import { useSearchStore } from '../store/searchStore';
 import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
@@ -27,6 +28,8 @@ const MapRoutingPage = () => {
   const setOriginStore = useRouteStore(state => state.setOrigin);
   const setDestinationStore = useRouteStore(state => state.setDestination);
   const language = useLangStore(state => state.language);
+  const recentSearches = useSearchStore(state => state.recentSearches);
+  const addSearch = useSearchStore(state => state.addSearch);
 
   const destinationInputRef = useRef(null);
   const originInputRef = useRef(null);
@@ -67,34 +70,7 @@ const MapRoutingPage = () => {
   };
 
 
-  // Destinations data
-  const destinations = [
-    {
-      id: 1,
-      name: intl.formatMessage({ id: 'destSahnEnqelabName' }),
-      location: intl.formatMessage({ id: 'destSahnEnqelabLocation' })
-    },
-    {
-      id: 2,
-      name: intl.formatMessage({ id: 'destEyvanTalaName' }),
-      location: intl.formatMessage({ id: 'destEyvanTalaLocation' })
-    },
-    {
-      id: 3,
-      name: intl.formatMessage({ id: 'destRavaqMasoumehName' }),
-      location: intl.formatMessage({ id: 'destRavaqMasoumehLocation' })
-    },
-    {
-      id: 4,
-      name: intl.formatMessage({ id: 'destMasjedGoharshadName' }),
-      location: intl.formatMessage({ id: 'destMasjedGoharshadLocation' })
-    },
-    {
-      id: 5,
-      name: intl.formatMessage({ id: 'destSahnPayambarAzamName' }),
-      location: intl.formatMessage({ id: 'destSahnPayambarAzamLocation' })
-    }
-  ];
+  // Recent searches data from store
 
   const filteredDestinations = searchQuery
     ? geoResults.map((f) => {
@@ -106,9 +82,7 @@ const MapRoutingPage = () => {
           coordinates: center ? [center[1], center[0]] : null
         };
       })
-    : destinations.filter(
-        (dest) => dest.name.includes(searchQuery) || dest.location.includes(searchQuery)
-      );
+    : recentSearches;
 
   // Handle navigation when both origin and destination are selected
   useEffect(() => {
@@ -129,6 +103,7 @@ const MapRoutingPage = () => {
   const handleDestinationSelect = (destination) => {
     if (activeInput === 'destination') {
       setSelectedDestination(destination);
+      addSearch(destination);
       setShowDestinationModal(false);
     } else {
       setUserLocation({ name: destination.name, coordinates: destination.coordinates });
@@ -490,22 +465,28 @@ const MapRoutingPage = () => {
               <h2 className="map-recent-title">
                 {intl.formatMessage({ id: 'mapRecentSearches' })}
               </h2>
-              <ul className="map-destination-list">
-                {destinations.map((destination) => (
-                  <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
-                    <div className="map-recent-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clock-down"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20.984 12.535a9 9 0 1 0 -8.431 8.448" /><path d="M12 7v5l3 3" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /></svg>
-                    </div>
-                    <div className="map-destination-info">
-                      <span className="map-destination-name">{destination.name}</span>
-                      <span className="map-destination-location">{destination.location}</span>
-                    </div>
-                    <button className="map-recent-option">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {recentSearches.length === 0 ? (
+                <p className="map-no-recent">
+                  {intl.formatMessage({ id: 'mapNoRecentSearches' })}
+                </p>
+              ) : (
+                <ul className="map-destination-list">
+                  {recentSearches.map((destination) => (
+                    <li key={destination.id} onClick={() => handleDestinationSelect(destination)}>
+                      <div className="map-recent-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clock-down"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20.984 12.535a9 9 0 1 0 -8.431 8.448" /><path d="M12 7v5l3 3" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /></svg>
+                      </div>
+                      <div className="map-destination-info">
+                        <span className="map-destination-name">{destination.name}</span>
+                        <span className="map-destination-location">{destination.location}</span>
+                      </div>
+                      <button className="map-recent-option">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </>
           )}
 
