@@ -87,124 +87,158 @@ function lineIntersectsPolygon(p1, p2, polygons) {
   return pointInPolygon(mid, polygons);
 }
 
+function unobstructed(p1, p2, sahns) {
+  for (const p of sahns) {
+    const poly = p.geometry.coordinates;
+    const insideBoth =
+      pointInPolygon(p1, poly) && pointInPolygon(p2, poly);
+    if (lineIntersectsPolygon(p1, p2, poly) && !insideBoth) return false;
+  }
+  return true;
+}
+
+function distance(a, b) {
+  return Math.hypot(a[0] - b[0], a[1] - b[1]);
+}
+
+function runDijkstra(graph, start, end) {
+  const dist = {};
+  const prev = {};
+  const q = new Set(Object.keys(graph));
+  for (const v of q) dist[v] = Infinity;
+  dist[start] = 0;
+  while (q.size) {
+    let u = null;
+    for (const v of q) {
+      if (u === null || dist[v] < dist[u]) u = v;
+    }
+    if (u === end || dist[u] === Infinity) break;
+    q.delete(u);
+    for (const [v, w] of Object.entries(graph[u])) {
+      const alt = dist[u] + w;
+      if (alt < (dist[v] ?? Infinity)) {
+        dist[v] = alt;
+        prev[v] = u;
+      }
+    }
+  }
+  const path = [];
+  let u = end;
+  if (!(u in prev) && u !== start) return [];
+  while (u) {
+    path.unshift(u);
+    if (u === start) break;
+    u = prev[u];
+  }
+  return path;
+}
+
+export function computeShortestPath(origin, destination, features) {
+  const nodes = features.filter(
+    f =>
+      f.geometry.type === 'Point' &&
+      (f.properties?.nodeFunction === 'door' || f.properties?.nodeFunction === 'connection')
+  );
+  const sahns = features.filter(
+    f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
+  );
+
+  const nodeData = nodes.map((n, i) => {
+    const [lng, lat] = n.geometry.coordinates;
+    return { id: `n${i}`, coord: [lat, lng], props: n.properties };
+  });
+
+  const idMap = {};
+  nodeData.forEach(n => {
+    idMap[n.id] = n;
+  });
+
+  const graph = {};
+  nodeData.forEach(n => {
+    graph[n.id] = {};
+  });
+
+  for (let i = 0; i < nodeData.length; i++) {
+    for (let j = i + 1; j < nodeData.length; j++) {
+      const a = nodeData[i];
+      const b = nodeData[j];
+      if (unobstructed(a.coord, b.coord, sahns)) {
+        const d = distance(a.coord, b.coord);
+        graph[a.id][b.id] = d;
+        graph[b.id][a.id] = d;
+      }
+    }
+  }
+
+  const start = { id: 'start', coord: origin.coordinates, props: {} };
+  const end = { id: 'end', coord: destination.coordinates, props: {} };
+  idMap[start.id] = start;
+  idMap[end.id] = end;
+  graph[start.id] = {};
+  graph[end.id] = {};
+
+  function linkPoint(p) {
+    let best = null;
+    let min = Infinity;
+    for (const n of nodeData) {
+      if (unobstructed(p.coord, n.coord, sahns)) {
+        const d = distance(p.coord, n.coord);
+        if (d < min) {
+          min = d;
+          best = n;
+        }
+      }
+    }
+    if (best) {
+      graph[p.id][best.id] = min;
+      graph[best.id][p.id] = min;
+    }
+  }
+
+  linkPoint(start);
+  linkPoint(end);
+
+  const pathIds = runDijkstra(graph, start.id, end.id);
+  const coords = pathIds.map(id => idMap[id].coord);
+  const nodesInPath = pathIds.map(id => idMap[id]);
+
+  return { path: coords, nodes: nodesInPath };
+}
+
 export function analyzeRoute(origin, destination, geoData) {
   if (!geoData) {
     return { path: [origin.coordinates, destination.coordinates], steps: [] };
   }
-  const doors = geoData.features.filter(
-    f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'door'
-  );
-  const connections = geoData.features.filter(
-    f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'connection'
-  );
-  const sahnPolygons = geoData.features.filter(
-    f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
-  );
 
+  const { path, nodes } = computeShortestPath(origin, destination, geoData.features);
 
-  function pickAccess(coord) {
-    const area = getArea(coord, sahnPolygons);
-    const door = area !== 'saایر' ? findNearestByArea(coord, doors, area) : null;
-    if (door) {
-      const conn = findNearestByArea(door, connections, 'saایر');
-      return { door, conn };
-    }
-    const conn = findNearestByArea(coord, connections, area);
-    return { door: null, conn };
-  }
-
-  const startAccess = pickAccess(origin.coordinates);
-  const endAccess = pickAccess(destination.coordinates);
-
-  const startDoor = startAccess.door;
-  const endDoor = endAccess.door;
-  const startConn = startAccess.conn;
-  const endConn = endAccess.conn;
-
-  const segmentStart = startConn
-    ? startConn.slice(0, 2)
-    : startDoor
-      ? startDoor.slice(0, 2)
-      : origin.coordinates;
-  const segmentEnd = endConn
-    ? endConn.slice(0, 2)
-    : endDoor
-      ? endDoor.slice(0, 2)
-      : destination.coordinates;
-  const segStartArea = getArea(segmentStart, sahnPolygons);
-  const segEndArea = getArea(segmentEnd, sahnPolygons);
-  let extraDoors = [];
-  const crossing = sahnPolygons.find(p => {
-    const area = p.properties?.subGroupValue;
-    if (area === segStartArea || area === segEndArea) return false;
-    return lineIntersectsPolygon(segmentStart, segmentEnd, p.geometry.coordinates);
-  });
-  if (crossing) {
-    const entry = findNearestByArea(segmentStart, doors, crossing.properties.subGroupValue);
-    const exit = findNearestByArea(segmentEnd, doors, crossing.properties.subGroupValue);
-    if (entry && exit) extraDoors = [entry, exit];
-  }
-
-  const path = [origin.coordinates];
   const steps = [];
-
-  if (startDoor) {
-    path.push(startDoor.slice(0, 2));
-    steps.push({
-      coordinates: startDoor.slice(0, 2),
-      type: 'stepMoveToDoor',
-      name: startDoor[2]?.name || ''
-
-    });
+  for (let i = 1; i < nodes.length - 1; i++) {
+    const n = nodes[i];
+    if (n.props?.nodeFunction === 'door') {
+      steps.push({
+        coordinates: n.coord,
+        type: i === 1 ? 'stepMoveToDoor' : 'stepPassDoor',
+        name: n.props?.name || ''
+      });
+    } else if (n.props?.nodeFunction === 'connection') {
+      steps.push({
+        coordinates: n.coord,
+        type: 'stepPassConnection',
+        title: n.props?.subGroup || n.props?.name || ''
+      });
+    }
   }
-  if (startConn) {
-    path.push(startConn.slice(0, 2));
-    steps.push({
-      coordinates: startConn.slice(0, 2),
-      type: 'stepPassConnection',
-      title: startConn[2]?.subGroup || startConn[2]?.name || ''
 
-    });
-  }
-  extraDoors.forEach(d => {
-    path.push(d.slice(0, 2));
-    steps.push({
-      coordinates: d.slice(0, 2),
-      type: 'stepPassDoor',
-      name: d[2]?.name || ''
-    });
-  });
-  if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) {
-    path.push(endConn.slice(0, 2));
-    steps.push({
-      coordinates: endConn.slice(0, 2),
-      type: 'stepEnterNextSahn',
-      title: endConn[2]?.subGroup || endConn[2]?.name || ''
-
-    });
-  }
-  if (endDoor) {
-    path.push(endDoor.slice(0, 2));
-    steps.push({
-      coordinates: endDoor.slice(0, 2),
-      type: 'stepPassDoor',
-      name: endDoor[2]?.name || ''
-    });
-  }
-  path.push(destination.coordinates);
   steps.push({
     coordinates: destination.coordinates,
     type: 'stepArriveDestination',
     name: destination.name || ''
-
   });
 
-  // compute approximate turn angles
   for (let i = 1; i < path.length - 1; i++) {
     const angle = angleBetween(path[i - 1], path[i], path[i + 1]);
-    if (steps[i - 1]) {
-      steps[i - 1].turnAngle = angle;
-    }
+    if (steps[i - 1]) steps[i - 1].turnAngle = angle;
   }
 
   const geo = {
@@ -212,64 +246,5 @@ export function analyzeRoute(origin, destination, geoData) {
     geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
   };
 
-  const alternatives = [];
-  const startArea = getArea(origin.coordinates, sahnPolygons);
-  const endArea = getArea(destination.coordinates, sahnPolygons);
-  const altStartDoor =
-    startArea !== 'saایر' ? findNearestList(origin.coordinates, doors.filter(d => d.properties?.subGroupValue === startArea), 2)[1] : null;
-  const altEndDoor =
-    endArea !== 'saایر' ? findNearestList(destination.coordinates, doors.filter(d => d.properties?.subGroupValue === endArea), 2)[1] : null;
-
-  if (altStartDoor || altEndDoor) {
-    const altStartConn = altStartDoor
-      ? findNearestByArea(altStartDoor, connections, 'saایر')
-      : findNearestByArea(origin.coordinates, connections, startArea);
-    const altEndConn = altEndDoor
-      ? findNearestByArea(altEndDoor, connections, 'saایر')
-      : findNearestByArea(destination.coordinates, connections, endArea);
-
-    const altPath = [origin.coordinates];
-    const altSteps = [];
-    if (altStartDoor) {
-      altPath.push(altStartDoor.slice(0, 2));
-      altSteps.push({ coordinates: altStartDoor.slice(0, 2), type: 'stepMoveToDoor', name: altStartDoor[2]?.name || '' });
-    }
-    if (altStartConn) {
-      altPath.push(altStartConn.slice(0, 2));
-      altSteps.push({ coordinates: altStartConn.slice(0, 2), type: 'stepPassConnection', title: altStartConn[2]?.subGroup || altStartConn[2]?.name || '' });
-    }
-    if (altEndConn && (!altStartConn || altEndConn[0] !== altStartConn[0] || altEndConn[1] !== altStartConn[1])) {
-      altPath.push(altEndConn.slice(0, 2));
-      altSteps.push({ coordinates: altEndConn.slice(0, 2), type: 'stepEnterNextSahn', title: altEndConn[2]?.subGroup || altEndConn[2]?.name || '' });
-    }
-    if (altEndDoor) {
-      altPath.push(altEndDoor.slice(0, 2));
-      altSteps.push({ coordinates: altEndDoor.slice(0, 2), type: 'stepPassDoor', name: altEndDoor[2]?.name || '' });
-    }
-    altPath.push(destination.coordinates);
-    altSteps.push({ coordinates: destination.coordinates, type: 'stepArriveDestination', name: destination.name || '' });
-    for (let i = 1; i < altPath.length - 1; i++) {
-      const angle = angleBetween(altPath[i - 1], altPath[i], altPath[i + 1]);
-      if (altSteps[i - 1]) altSteps[i - 1].turnAngle = angle;
-    }
-    const altGeo = {
-      type: 'Feature',
-      geometry: { type: 'LineString', coordinates: altPath.map(p => [p[1], p[0]]) }
-    };
-    const via = altSteps
-      .slice(1, -1)
-      .map(s => s.title || s.name)
-      .filter(Boolean);
-    alternatives.push({
-      path: altPath,
-      geo: altGeo,
-      steps: altSteps,
-      from: origin.name,
-      to: destination.name,
-      via
-    });
-
-  }
-
-  return { path, geo, steps, alternatives };
+  return { path, geo, steps, alternatives: [] };
 }
