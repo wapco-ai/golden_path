@@ -46,7 +46,7 @@ const Location = () => {
 
   // Fetch routingData.json from public folder
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/routing-data.json`)
+    fetch(`./data/routing-data.json`)
       .then(res => res.json())
       .then(data => setRoutingData(data))
       .catch(err => console.error('Failed to load routing-data.json', err));
@@ -233,7 +233,7 @@ const Location = () => {
   useEffect(() => {
     const fetchLocationData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.BASE_URL}data/locationData.json`);
+        const response = await axios.get(`./data/locationData.json`);
         setLocationData(response.data);
         setComments(response.data.comments || []);
         setViews(response.data.views || 0);
