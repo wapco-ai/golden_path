@@ -1,5 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
@@ -10,6 +11,8 @@ import { useRouteStore } from '../store/routeStore';
 
 const RouteOverview = () => {
   const navigate = useNavigate();
+  const intl = useIntl();
+  const mapRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [directionArrow, setDirectionArrow] = useState('right');
   const [distance, setDistance] = useState('');
@@ -20,12 +23,18 @@ const RouteOverview = () => {
 
   const routeData = useMemo(
     () =>
-      routeCoordinates.slice(1).map((c, idx) => ({
-        id: idx + 1,
-        coordinates: [routeCoordinates[idx], c],
-        instruction: routeSteps?.[idx]?.instruction || `گام ${idx + 1}`
-      })),
-    [routeCoordinates, routeSteps]
+      routeCoordinates.slice(1).map((c, idx) => {
+        const step = routeSteps?.[idx];
+        const instruction = step
+          ? intl.formatMessage({ id: step.type }, { name: step.name, title: step.title, num: idx + 1 })
+          : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
+        return {
+          id: idx + 1,
+          coordinates: [routeCoordinates[idx], c],
+          instruction
+        };
+      }),
+    [routeCoordinates, routeSteps, intl]
   );
 
   const [viewState, setViewState] = useState({
@@ -58,6 +67,10 @@ const RouteOverview = () => {
         longitude: (lng1 + lng2) / 2,
         zoom: 18
       });
+      if (mapRef.current) {
+        const bounds = new maplibregl.LngLatBounds([lng1, lat1], [lng2, lat2]);
+        mapRef.current.fitBounds(bounds, { padding: 50, duration: 700 });
+      }
     }
   }, [currentSlide, routeData]);
 
@@ -115,6 +128,7 @@ const RouteOverview = () => {
 
       <div className="route-map-container">
         <Map
+          ref={mapRef}
           mapLib={maplibregl}
           mapStyle={osmStyle}
           initialViewState={viewState}

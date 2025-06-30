@@ -161,4 +161,10 @@
   ,"pwaInstallButton": "انسٹال"
   ,"mapNoRecentSearches": "کوئی حالیہ تلاش نہیں"
   ,"pwaCloseButton": "بند کریں"
+  ,"stepMoveToDoor": "{name} کی طرف جائیں"
+  ,"stepPassConnection": "کنکشن پوائنٹ {title} سے گزریں"
+  ,"stepEnterNextSahn": "{title} کنکشن کے ذریعے اگلے صحن میں داخل ہوں"
+  ,"stepPassDoor": "{name} سے گزریں"
+  ,"stepArriveDestination": "{name} پر پہنچیں"
+  ,"stepNumber": "قدم {num}"
 }

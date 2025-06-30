@@ -161,4 +161,10 @@
   ,"pwaInstallButton": "Install"
   ,"mapNoRecentSearches": "No recent searches"
   ,"pwaCloseButton": "Close"
+  ,"stepMoveToDoor": "Head toward {name}"
+  ,"stepPassConnection": "Pass connection {title}"
+  ,"stepEnterNextSahn": "Enter next courtyard via {title}"
+  ,"stepPassDoor": "Go through {name}"
+  ,"stepArriveDestination": "Arrive at {name}"
+  ,"stepNumber": "Step {num}"
 }

@@ -82,9 +82,13 @@ const RoutingPage = () => {
         const [lng2, lat2] = routeGeo.geometry.coordinates[idx];
         distance = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
       }
+      const instruction = intl.formatMessage(
+        { id: s.type },
+        { name: s.name, title: s.title, num: idx + 1 }
+      );
       return {
         id: idx + 1,
-        instruction: s.instruction,
+        instruction,
         distance: `${Math.round(distance)} متر`,
         time: `${Math.max(1, Math.round(distance / 60))} دقیقه`,
         coordinates: s.coordinates
@@ -491,6 +495,7 @@ const RoutingPage = () => {
               isInfoModalOpen={isInfoModalOpen}
               isMapModalOpen={isMapModalOpen}
               is3DView={is3DView}
+              routeGeo={routeGeo}
             />
           </div>
         )}

@@ -34,22 +34,42 @@ export function analyzeRoute(origin, destination, geoData) {
 
   if (startDoor) {
     path.push(startDoor.slice(0, 2));
-    steps.push({ coordinates: startDoor.slice(0, 2), instruction: 'حرکت به سمت نزدیک‌ترین درب' });
+    steps.push({
+      coordinates: startDoor.slice(0, 2),
+      type: 'stepMoveToDoor',
+      name: startDoor[2]?.name || ''
+    });
   }
   if (startConn) {
     path.push(startConn.slice(0, 2));
-    steps.push({ coordinates: startConn.slice(0, 2), instruction: 'عبور از نقطه اتصال' });
+    steps.push({
+      coordinates: startConn.slice(0, 2),
+      type: 'stepPassConnection',
+      title: startConn[2]?.subGroup || startConn[2]?.name || ''
+    });
   }
   if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) {
     path.push(endConn.slice(0, 2));
-    steps.push({ coordinates: endConn.slice(0, 2), instruction: 'ورود به صحن بعدی از طریق نقطه اتصال' });
+    steps.push({
+      coordinates: endConn.slice(0, 2),
+      type: 'stepEnterNextSahn',
+      title: endConn[2]?.subGroup || endConn[2]?.name || ''
+    });
   }
   if (endDoor) {
     path.push(endDoor.slice(0, 2));
-    steps.push({ coordinates: endDoor.slice(0, 2), instruction: 'عبور از درب' });
+    steps.push({
+      coordinates: endDoor.slice(0, 2),
+      type: 'stepPassDoor',
+      name: endDoor[2]?.name || ''
+    });
   }
   path.push(destination.coordinates);
-  steps.push({ coordinates: destination.coordinates, instruction: 'رسیدن به مقصد' });
+  steps.push({
+    coordinates: destination.coordinates,
+    type: 'stepArriveDestination',
+    name: destination.name || ''
+  });
 
   const geo = {
     type: 'Feature',
