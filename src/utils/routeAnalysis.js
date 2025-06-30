@@ -20,9 +20,16 @@ export function analyzeRoute(origin, destination, geoData) {
   const doors = geoData.features.filter(
     f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'door'
   );
+  const connections = geoData.features.filter(
+    f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'connection'
+  );
+
   const startDoor = findNearest(origin.coordinates, doors);
   const endDoor = findNearest(destination.coordinates, doors);
 
+  const startConn = startDoor ? findNearest(startDoor, connections) : null;
+  const endConn = endDoor ? findNearest(endDoor, connections) : null;
+  
   const path = [origin.coordinates];
   const steps = [];
 
@@ -32,6 +39,22 @@ export function analyzeRoute(origin, destination, geoData) {
     steps.push({
       coordinates: startDoor.slice(0, 2),
       instruction: `حرکت به سمت درب${name}`
+    });
+  }
+   if (startConn) {
+    path.push(startConn.slice(0, 2));
+    const title = startConn[2]?.subGroup || startConn[2]?.name || '';
+    steps.push({
+      coordinates: startConn.slice(0, 2),
+      instruction: `عبور از نقطه اتصال ${title}`.trim()
+    });
+  }
+  if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) {
+    path.push(endConn.slice(0, 2));
+    const title = endConn[2]?.subGroup || endConn[2]?.name || '';
+    steps.push({
+      coordinates: endConn.slice(0, 2),
+      instruction: `ورود به صحن بعدی از طریق نقطه اتصال ${title}`.trim()
     });
   }
   if (endDoor) {
