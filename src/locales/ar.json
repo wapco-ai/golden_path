@@ -59,6 +59,7 @@
   "nearMe": "الأماكن القريبة مني",
   "save": "حفظ",
   "commentsLabel": "تعليق",
+  "defaultCommentAuthor": "مستخدم جديد",
   "searchSuggestions": "اقتراحات البحث",
   "loading": "جار التحميل...",
   "fetchError": "خطأ في جلب البيانات: {error}",

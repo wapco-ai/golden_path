@@ -59,6 +59,7 @@
   "nearMe": "میرے قریب مقامات",
   "save": "محفوظ کریں",
   "commentsLabel": "تبصرہ",
+  "defaultCommentAuthor": "نیا صارف",
   "searchSuggestions": "تلاش کی تجاویز",
   "loading": "لوڈ ہو رہا ہے...",
   "fetchError": "ڈیٹا حاصل کرنے میں خرابی: {error}",

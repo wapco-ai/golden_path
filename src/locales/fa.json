@@ -59,6 +59,7 @@
   ,"nearMe": "مکان‌های نزدیک من"
   ,"save": "ذخیره"
   ,"commentsLabel": "نظر"
+  ,"defaultCommentAuthor": "کاربر جدید"
   ,"searchSuggestions": "پیشنهاد‌های جستجو"
   ,"loading": "در حال بارگذاری..."
   ,"fetchError": "خطا در دریافت اطلاعات: {error}"
