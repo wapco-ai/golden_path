@@ -567,7 +567,11 @@ const Location = () => {
               type="button"
               className="close-search-button"
               onClick={closeSearchModal}
-              aria-label={searchQuery.trim() === '' ? "بستن جستجو" : "پاک کردن جستجو"}
+              aria-label={
+                searchQuery.trim() === ''
+                  ? intl.formatMessage({ id: 'closeSearch' })
+                  : intl.formatMessage({ id: 'clearSearch' })
+              }
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -974,7 +978,12 @@ const Location = () => {
                     </>
                   ) : (
                     <div className="no-results">
-                      <p>نتیجه‌ای برای "{searchQuery}" یافت نشد</p>
+                      <p>
+                        <FormattedMessage
+                          id="noResultsFound"
+                          values={{ query: searchQuery }}
+                        />
+                      </p>
                     </div>
                   )}
                 </div>
@@ -1003,7 +1012,9 @@ const Location = () => {
                 </div>
               ) : (
                 <div className="search-results-placeholder">
-                  <p>برای جستجو عبارت مورد نظر را وارد کنید</p>
+                  <p>
+                    <FormattedMessage id="enterSearchTerm" />
+                  </p>
                 </div>
               )}
             </div>
