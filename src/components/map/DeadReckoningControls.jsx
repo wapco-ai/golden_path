@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useIntl, FormattedMessage } from 'react-intl';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 import useIMUSensors from '../../hooks/useIMUSensors';
 import './DeadReckoningControls.css';
@@ -10,6 +11,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
   const [strideLength, setStrideLength] = useState(0.75);
   const [kalmanState, setKalmanState] = useState(null);
   const [stepCountErrorShown, setStepCountErrorShown] = useState(false);
+  const intl = useIntl();
 
   const {
     acceleration,
@@ -31,7 +33,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
 
       // اگر در حالت فعال سرویس و کالیبراسیون نیستیم ولی گام نرفته، alert بده  
       if (data.isActive && !data.isCalibrating && data.stepCount === 0 && !stepCountErrorShown) {
-        alert('توجه: گام برداری ثبت نمی‌شود. مطمئن شوید دستگاه حرکت دارد و سنسورها فعال هستند.');
+        alert(intl.formatMessage({ id: 'drStepWarning' }));
         setStepCountErrorShown(true);
       }
 
@@ -68,13 +70,13 @@ const DeadReckoningControls = ({ currentLocation }) => {
   const handleToggle = async () => {
     if (!isActive) {
       if (!isSupported) {
-        alert('سنسورهای دستگاه پشتیبانی نمی‌شوند.');
+        alert(intl.formatMessage({ id: 'drSensorsUnsupported' }));
         return;
       }
 
       if (!checkPermissions()) {
         const ok = await requestPermission();
-        if (!ok) { alert('برای استفاده، دسترسی به سنسورها را فعال کنید.'); return; }
+        if (!ok) { alert(intl.formatMessage({ id: 'drPermissionNeeded' })); return; }
       }
 
       const initialLatLng = currentLocation?.coords ? {
@@ -109,7 +111,9 @@ const DeadReckoningControls = ({ currentLocation }) => {
       </div>
 
       {isCalibrating && (
-        <div className="calibrating-status">درحال کالیبراسیون سنسورها...</div>
+        <div className="calibrating-status">
+          <FormattedMessage id="drCalibrating" />
+        </div>
       )}
 
       <div className="dr-button-group">
@@ -118,7 +122,11 @@ const DeadReckoningControls = ({ currentLocation }) => {
           onClick={handleToggle}
           disabled={!isSupported || (!isActive && !hasPermission && typeof DeviceMotionEvent.requestPermission === 'function')}
         >
-          {isActive ? 'توقف ردیابی پیشرفته' : 'شروع ردیابی پیشرفته'}
+          {isActive ? (
+            <FormattedMessage id="drStopTracking" />
+          ) : (
+            <FormattedMessage id="drStartTracking" />
+          )}
         </button>
 
         <button
@@ -126,7 +134,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
           onClick={handleReset}
           disabled={!isActive}
         >
-          بازنشانی سیستم
+          <FormattedMessage id="drReset" />
         </button>
 
         <button
@@ -134,17 +142,17 @@ const DeadReckoningControls = ({ currentLocation }) => {
           onClick={handleExport}
           disabled={stepCount === 0 && !kalmanState}
         >
-          خروجی لاگ
+          <FormattedMessage id="drExportLog" />
         </button>
       </div>
 
       <div className="dr-step-count">
-        تعداد گام‌ها: {stepCount}
+        <FormattedMessage id="drStepCount" /> {stepCount}
       </div>
 
       <div className="dr-stride-control">
         <label className="dr-stride-label">
-          طول گام (متر):
+          <FormattedMessage id="drStrideLength" />
         </label>
         <input
           type="range"
@@ -161,11 +169,11 @@ const DeadReckoningControls = ({ currentLocation }) => {
       {/* نمایش وضعیت فیلتر کالمن برای دیباگ */}
       {kalmanState && (
         <div style={{ fontSize: '12px', marginTop: '10px' }}>
-          <p>موقعیت نسبی: ({kalmanState.x.toFixed(2)}, {kalmanState.y.toFixed(2)}) متر</p>
-          <p>جهت (درجه): {(kalmanState.theta * 180 / Math.PI).toFixed(2)}</p>
-          <p>سرعت خطی: {kalmanState.v.toFixed(2)} متر بر ثانیه</p>
-          <p>سرعت زاویه‌ای: {(kalmanState.w * 180 / Math.PI).toFixed(2)} درجه بر ثانیه</p>
-          <p>طول گام تخمینی: {kalmanState.stride.toFixed(2)} متر</p>
+          <p><FormattedMessage id="drRelPosition" /> ({kalmanState.x.toFixed(2)}, {kalmanState.y.toFixed(2)}) <FormattedMessage id="meters" /></p>
+          <p><FormattedMessage id="drHeading" /> {(kalmanState.theta * 180 / Math.PI).toFixed(2)}</p>
+          <p><FormattedMessage id="drLinearSpeed" /> {kalmanState.v.toFixed(2)} <FormattedMessage id="metersPerSecond" /></p>
+          <p><FormattedMessage id="drAngularSpeed" /> {(kalmanState.w * 180 / Math.PI).toFixed(2)} <FormattedMessage id="degreesPerSecond" /></p>
+          <p><FormattedMessage id="drEstimatedStride" /> {kalmanState.stride.toFixed(2)} <FormattedMessage id="meters" /></p>
         </div>
       )}
       {isActive && (
