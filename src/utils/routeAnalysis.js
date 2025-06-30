@@ -26,6 +26,39 @@ function findNearestList(coord, features, count = 2) {
     .map(r => [r.lat, r.lng, r.props, r.distance]);
 }
 
+function findNearestByArea(coord, features, area) {
+  const filtered = features.filter(
+    f => (area === 'saایر' && f.properties?.subGroupValue === 'saایر') ||
+         f.properties?.subGroupValue === area
+  );
+  return findNearest(coord, filtered);
+}
+
+function pointInPolygon(point, polygons) {
+  const x = point[1];
+  const y = point[0];
+  const polyList = Array.isArray(polygons[0][0]) && typeof polygons[0][0][0] === 'number' ? [polygons] : polygons;
+  for (const poly of polyList) {
+    let inside = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const xi = poly[i][0];
+      const yi = poly[i][1];
+      const xj = poly[j][0];
+      const yj = poly[j][1];
+      const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+    if (inside) return true;
+  }
+  return false;
+}
+
+function getArea(coord, sahns) {
+  const match = sahns.find(p => pointInPolygon(coord, p.geometry.coordinates));
+  return match ? match.properties?.subGroupValue : 'saایر';
+}
+
+
 function angleBetween(p1, p2, p3) {
   const a1 = Math.atan2(p2[0] - p1[0], p2[1] - p1[1]);
   const a2 = Math.atan2(p3[0] - p2[0], p3[1] - p2[1]);
@@ -45,16 +78,20 @@ export function analyzeRoute(origin, destination, geoData) {
   const connections = geoData.features.filter(
     f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'connection'
   );
+  const sahnPolygons = geoData.features.filter(
+    f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
+  );
 
-  const DOOR_THRESHOLD = 0.0008; // ~80m
 
   function pickAccess(coord) {
-    const nearestDoor = findNearest(coord, doors);
-    if (nearestDoor && nearestDoor[3] < DOOR_THRESHOLD) {
-      const conn = findNearest(nearestDoor, connections);
-      return { door: nearestDoor, conn };
+    const area = getArea(coord, sahnPolygons);
+    const door = area !== 'saایر' ? findNearestByArea(coord, doors, area) : null;
+    if (door) {
+      const conn = findNearestByArea(door, connections, 'saایر');
+      return { door, conn };
+
     }
-    const conn = findNearest(coord, connections);
+    const conn = findNearestByArea(coord, connections, area);
     return { door: null, conn };
   }
 
@@ -126,12 +163,21 @@ export function analyzeRoute(origin, destination, geoData) {
   };
 
   const alternatives = [];
-  const altStartDoor = findNearestList(origin.coordinates, doors, 2)[1];
-  const altEndDoor = findNearestList(destination.coordinates, doors, 2)[1];
+  const startArea = getArea(origin.coordinates, sahnPolygons);
+  const endArea = getArea(destination.coordinates, sahnPolygons);
+  const altStartDoor =
+    startArea !== 'saایر' ? findNearestList(origin.coordinates, doors.filter(d => d.properties?.subGroupValue === startArea), 2)[1] : null;
+  const altEndDoor =
+    endArea !== 'saایر' ? findNearestList(destination.coordinates, doors.filter(d => d.properties?.subGroupValue === endArea), 2)[1] : null;
 
   if (altStartDoor || altEndDoor) {
-    const altStartConn = altStartDoor ? findNearest(altStartDoor, connections) : findNearest(origin.coordinates, connections);
-    const altEndConn = altEndDoor ? findNearest(altEndDoor, connections) : findNearest(destination.coordinates, connections);
+    const altStartConn = altStartDoor
+      ? findNearestByArea(altStartDoor, connections, 'saایر')
+      : findNearestByArea(origin.coordinates, connections, startArea);
+    const altEndConn = altEndDoor
+      ? findNearestByArea(altEndDoor, connections, 'saایر')
+      : findNearestByArea(destination.coordinates, connections, endArea);
+
     const altPath = [origin.coordinates];
     const altSteps = [];
     if (altStartDoor) {
