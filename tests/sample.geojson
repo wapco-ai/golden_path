@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"nodeFunction":"door","name":"A"}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[1,0]},"properties":{"nodeFunction":"connection","name":"X"}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[2,0]},"properties":{"nodeFunction":"door","name":"D"}}
+  ]
+}
