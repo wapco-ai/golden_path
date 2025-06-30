@@ -7,10 +7,12 @@ export const useRouteStore = create(
       origin: null,
       destination: null,
       routeGeo: null,
+      routeSteps: [],
       setOrigin: (origin) => set({ origin }),
       setDestination: (destination) => set({ destination }),
       setRouteGeo: (routeGeo) => set({ routeGeo }),
-      clearRoute: () => set({ origin: null, destination: null, routeGeo: null })
+      setRouteSteps: (routeSteps) => set({ routeSteps }),
+      clearRoute: () => set({ origin: null, destination: null, routeGeo: null, routeSteps: [] })
     }),
     {
       name: 'route-storage',
