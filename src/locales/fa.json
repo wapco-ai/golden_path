@@ -161,4 +161,10 @@
   ,"pwaInstallButton": "نصب"
   ,"mapNoRecentSearches": "جستجوی اخیری وجود ندارد"
   ,"pwaCloseButton": "بستن"
+  ,"stepMoveToDoor": "حرکت به سمت درب {name}"
+  ,"stepPassConnection": "عبور از نقطه اتصال {title}"
+  ,"stepEnterNextSahn": "ورود به صحن بعدی از طریق نقطه اتصال {title}"
+  ,"stepPassDoor": "عبور از درب {name}"
+  ,"stepArriveDestination": "رسیدن به مقصد {name}"
+  ,"stepNumber": "گام {num}"
 }

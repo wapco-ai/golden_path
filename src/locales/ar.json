@@ -161,4 +161,10 @@
   ,"pwaInstallButton": "تثبيت"
   ,"mapNoRecentSearches": "لا توجد عمليات بحث حديثة"
   ,"pwaCloseButton": "إغلاق"
+  ,"stepMoveToDoor": "اتجه نحو {name}"
+  ,"stepPassConnection": "عبر نقطة الاتصال {title}"
+  ,"stepEnterNextSahn": "ادخل الساحة التالية عبر {title}"
+  ,"stepPassDoor": "اعبر من {name}"
+  ,"stepArriveDestination": "الوصول إلى {name}"
+  ,"stepNumber": "الخطوة {num}"
 }
