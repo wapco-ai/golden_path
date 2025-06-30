@@ -14,7 +14,7 @@ const MapRoutingPage = () => {
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [userLocation, setUserLocation] = useState({
-    name: 'باب الرضا «ع»',
+    name: intl.formatMessage({ id: 'defaultBabRezaName' }),
     coordinates: [36.297, 59.6069]
   });
   const [searchQuery, setSearchQuery] = useState('');
@@ -69,11 +69,31 @@ const MapRoutingPage = () => {
 
   // Destinations data
   const destinations = [
-    { id: 1, name: 'صحن انقلاب', location: 'حرم مطهر امام رضا عليه السلام، صحن انقلاب' },
-    { id: 2, name: 'ایوان طلا', location: 'حرم مطهر امام رضا عليه السلام، بین طبرسی و ...' },
-    { id: 3, name: 'رواق حضرت معصومه «س»', location: 'حرم مطهر امام رضا عليه السلام، صحن آیت الله ...' },
-    { id: 4, name: 'مسجد جامع گوهرشاد', location: 'حرم مطهر امام رضا عليه السلام، صحن گوهرشاد' },
-    { id: 5, name: 'صحن پیامبر اعظم', location: 'حرم مطهر امام رضا عليه السلام، صحن پیامبر...' }
+    {
+      id: 1,
+      name: intl.formatMessage({ id: 'destSahnEnqelabName' }),
+      location: intl.formatMessage({ id: 'destSahnEnqelabLocation' })
+    },
+    {
+      id: 2,
+      name: intl.formatMessage({ id: 'destEyvanTalaName' }),
+      location: intl.formatMessage({ id: 'destEyvanTalaLocation' })
+    },
+    {
+      id: 3,
+      name: intl.formatMessage({ id: 'destRavaqMasoumehName' }),
+      location: intl.formatMessage({ id: 'destRavaqMasoumehLocation' })
+    },
+    {
+      id: 4,
+      name: intl.formatMessage({ id: 'destMasjedGoharshadName' }),
+      location: intl.formatMessage({ id: 'destMasjedGoharshadLocation' })
+    },
+    {
+      id: 5,
+      name: intl.formatMessage({ id: 'destSahnPayambarAzamName' }),
+      location: intl.formatMessage({ id: 'destSahnPayambarAzamLocation' })
+    }
   ];
 
   const filteredDestinations = searchQuery

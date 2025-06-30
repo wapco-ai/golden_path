@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
+import { useIntl } from 'react-intl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
@@ -59,6 +60,7 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
 };
 
 const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapClick, isSelectingLocation, selectedCategory }) => {
+  const intl = useIntl();
   const [viewState, setViewState] = useState({
     latitude: 36.2880,
     longitude: 59.6157,
@@ -90,14 +92,20 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
     const success = (pos) => {
       const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       setUserCoords(c);
-      setUserLocation({ name: 'موقعیت فعلی شما', coordinates: [c.lat, c.lng] });
+      setUserLocation({
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+        coordinates: [c.lat, c.lng]
+      });
       setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng }));
     };
     const err = (e) => {
       console.error('Error getting location', e);
       const fallback = { lat: 36.2880, lng: 59.6157 };
       setUserCoords(fallback);
-      setUserLocation({ name: 'باب الرضا «ع»', coordinates: [fallback.lat, fallback.lng] });
+      setUserLocation({
+        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+        coordinates: [fallback.lat, fallback.lng]
+      });
     };
     navigator.geolocation.getCurrentPosition(success, err, {
       enableHighAccuracy: false,

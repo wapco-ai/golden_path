@@ -1,6 +1,7 @@
 // src/pages/FinalSearch.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
@@ -13,6 +14,7 @@ import { useLangStore } from '../store/langStore';
 const FinalSearch = () => {
   const [isSwapButton, setSwapButton] = useState(true);
   const navigate = useNavigate();
+  const intl = useIntl();
   const {
     origin: storedOrigin,
     destination: storedDestination,
@@ -23,10 +25,16 @@ const FinalSearch = () => {
   } = useRouteStore();
   const language = useLangStore((state) => state.language);
   const [origin, setOrigin] = useState(
-    storedOrigin || { name: 'باب الرضا (ع)', coordinates: [36.2970, 59.6069] }
+    storedOrigin || {
+      name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+      coordinates: [36.2970, 59.6069]
+    }
   );
   const [destination, setDestination] = useState(
-    storedDestination || { name: 'صحن انقلاب', coordinates: [36.2975, 59.6072] }
+    storedDestination || {
+      name: intl.formatMessage({ id: 'destSahnEnqelabName' }),
+      coordinates: [36.2975, 59.6072]
+    }
   );
   const routeGeo = storedRouteGeo;
   useEffect(() => {
@@ -203,7 +211,9 @@ const FinalSearch = () => {
           </svg>
         </button>
 
-        <h1>جزئيات نهايي مسير</h1>
+        <h1>
+          <FormattedMessage id="finalSearchTitle" />
+        </h1>
 
         <div className="menu-container">
           <button className={`menu-btn ${menuOpen ? 'active' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
@@ -221,7 +231,7 @@ const FinalSearch = () => {
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M17.286 21.09q -1.69 .001 -5.288 -2.615q -3.596 2.617 -5.288 2.616q -2.726 0 -.495 -6.8q -9.389 -6.775 2.135 -6.775h.076q 1.785 -5.516 3.574 -5.516q 1.785 0 3.574 5.516h.076q 11.525 0 2.133 6.774q 2.23 6.802 -.497 6.8" />
               </svg>
-              ذخیره مقصد
+              <FormattedMessage id="saveDestination" />
             </button>
             <button className="menu-item" onClick={handleShareRoute}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -232,7 +242,7 @@ const FinalSearch = () => {
                 <path d="M8.7 10.7l6.6 -3.4" />
                 <path d="M8.7 13.3l6.6 3.4" />
               </svg>
-              اشتراک گذاری
+              <FormattedMessage id="shareRoute" />
             </button>
           </div>
         </div>
@@ -306,7 +316,9 @@ const FinalSearch = () => {
             <div className="location-details">
               <div className="location-name">{origin.name}</div>
             </div>
-            <div className={`current-location-label ${isSwapButton ? 'visible' : 'hidden'}`}>مکان فعلی شما</div>
+            <div className={`current-location-label ${isSwapButton ? 'visible' : 'hidden'}`}>
+              <FormattedMessage id="mapCurrentLocationName" />
+            </div>
           </div>
 
           <div className="swap-container">
@@ -323,7 +335,9 @@ const FinalSearch = () => {
             <div className="location-details">
               <div className="location-name">{destination.name}</div>
             </div>
-            <div className={`current-location-label2 ${isSwapButton ? 'visible' : 'hidden'}`}>مکان فعلی شما</div>
+            <div className={`current-location-label2 ${isSwapButton ? 'visible' : 'hidden'}`}>
+              <FormattedMessage id="mapCurrentLocationName" />
+            </div>
           </div>
         </div>
       </div>
@@ -342,7 +356,7 @@ const FinalSearch = () => {
               <path d="M16 21l-2 -4l-3 -3l1 -6" />
               <path d="M6 12l2 -3l4 -1l3 3l3 1" />
             </svg>
-            پیاده
+            <FormattedMessage id="transportWalk" />
           </button>
 
           <button
@@ -353,7 +367,7 @@ const FinalSearch = () => {
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 5a1 1 0 0 1 .694 .28l.087 .095l3.699 4.625h.52a3 3 0 0 1 2.995 2.824l.005 .176v4a1 1 0 0 1 -1 1h-1.171a3.001 3.001 0 0 1 -5.658 0h-4.342a3.001 3.001 0 0 1 -5.658 0h-1.171a1 1 0 0 1 -1 -1v-6l.007 -.117l.008 -.056l.017 -.078l.012 -.036l.014 -.05l2.014 -5.034a1 1 0 0 1 .928 -.629zm-7 11a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m10 0a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m-6 -9h-5.324l-1.2 3h6.524zm2.52 0h-.52v3h2.92z" />
             </svg>
-            ون برقی
+            <FormattedMessage id="transportCar" />
           </button>
 
           <button
@@ -367,7 +381,7 @@ const FinalSearch = () => {
               <path d="M11 11l5 0" />
               <path d="M7 11.5a5 5 0 1 0 6 7.5" />
             </svg>
-            ویلچر
+            <FormattedMessage id="transportWheelchair" />
           </button>
         </div>
 
@@ -381,7 +395,7 @@ const FinalSearch = () => {
             <div className="gender-circle">
               {selectedGender === 'male' && <div className="gender-circle-fill"></div>}
             </div>
-            مسیر مناسب برادران
+            <FormattedMessage id="routeForMen" />
           </button>
 
           <button
@@ -391,7 +405,7 @@ const FinalSearch = () => {
             <div className="gender-circle">
               {selectedGender === 'female' && <div className="gender-circle-fill"></div>}
             </div>
-            مسیر مناسب خواهران
+            <FormattedMessage id="routeForWomen" />
           </button>
         </div>
       </div>
@@ -399,12 +413,17 @@ const FinalSearch = () => {
       {/* Route Info */}
       <div className="route-info">
         <div className="route-summary">
-          از {origin.name} به {destination.name}
+          <FormattedMessage
+            id="routeSummary"
+            values={{ origin: origin.name, destination: destination.name }}
+          />
         </div>
         <div className="info-details">
           <div className="info-time">
             {getTransportIcon()}
-            <span>{routeInfo.time} دقیقه</span>
+            <span>
+              {routeInfo.time} <FormattedMessage id="minutesUnit" />
+            </span>
           </div>
           <div className="info-distance">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#181717" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -413,7 +432,9 @@ const FinalSearch = () => {
               <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" />
               <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
             </svg>
-            <span>{routeInfo.distance} متر</span>
+            <span>
+              {routeInfo.distance} <FormattedMessage id="meters" />
+            </span>
           </div>
         </div>
       </div>
@@ -427,7 +448,7 @@ const FinalSearch = () => {
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
           </svg>
-          مسیریابی
+          <FormattedMessage id="startRouting" />
         </button>
         <button className="overview-btn" onClick={handleRouteOverview}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2196F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -436,7 +457,7 @@ const FinalSearch = () => {
             <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" />
             <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
           </svg>
-          مسیر در یک نگاه
+          <FormattedMessage id="routeOverview" />
         </button>
       </div>
     </div>
