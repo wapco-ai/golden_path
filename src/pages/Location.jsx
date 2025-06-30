@@ -978,7 +978,6 @@ const Location = () => {
                 </div>
               ) : selectedCategory ? (
                 <div className="subgroups-container">
-                  <h3 className="subgroups-title">{selectedCategory.label}</h3>
                   <div className="subgroups-grid">
                     {subGroups[selectedCategory.value].map((subgroup, index) => (
                       <div
