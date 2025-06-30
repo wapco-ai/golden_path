@@ -1,8 +1,26 @@
 const fs = require('fs');
 const path = require('path');
+const { pathToFileURL } = require('url');
 
 const srcPath = path.join(__dirname, '..', 'public', 'data14040404.geojson');
 const data = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
+
+async function loadSubGroupMap() {
+  const groupDataPath = path.join(__dirname, '..', 'src', 'components', 'groupData.js');
+  const mod = await import(pathToFileURL(groupDataPath).href);
+  const { subGroups } = mod;
+  const map = {};
+  Object.values(subGroups).forEach((arr) => {
+    arr.forEach((sg) => {
+      if (sg.label && sg.value) {
+        const value = sg.value.trim();
+        map[sg.label.trim()] = value;
+        map[value] = value;
+      }
+    });
+  });
+  return map;
+}
 
 const nameTranslations = {
   "رواق": { en: "Riwaq", ar: "رواق", ur: "رواق" },
@@ -89,13 +107,40 @@ function translateFeature(feature, lang) {
   return { ...feature, properties: props };
 }
 
-['en', 'ar', 'ur'].forEach((lang) => {
-  const translated = {
-    ...data,
-    features: data.features.map((f) => translateFeature(f, lang))
-  };
-  const outPath = path.join(__dirname, '..', 'public', `data14040404_${lang}.geojson`);
-  fs.writeFileSync(outPath, JSON.stringify(translated, null, 2), 'utf8');
-});
+async function main() {
+  const subGroupMap = await loadSubGroupMap();
 
-console.log('Translated geojson files generated');
+  data.features = data.features.map((f) => {
+    if (f.properties && f.properties.subGroup) {
+      const key = f.properties.subGroup.trim();
+      if (subGroupMap[key]) {
+        f.properties.subGroupValue = subGroupMap[key];
+      }
+    }
+    return f;
+  });
+
+  // Update original geojson with subgroup values
+  fs.writeFileSync(srcPath, JSON.stringify(data, null, 2), 'utf8');
+
+  ['en', 'ar', 'ur'].forEach((lang) => {
+    const translated = {
+      ...data,
+      features: data.features.map((f) => translateFeature(f, lang))
+    };
+    const outPath = path.join(
+      __dirname,
+      '..',
+      'public',
+      `data14040404_${lang}.geojson`
+    );
+    fs.writeFileSync(outPath, JSON.stringify(translated, null, 2), 'utf8');
+  });
+
+  console.log('Translated geojson files generated');
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

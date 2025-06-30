@@ -30,7 +30,8 @@
         "longitude": 59.61590796209613,
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:55:21.187Z",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-kosar"
       }
     },
     {
@@ -62,7 +63,8 @@
         "longitude": 59.611743334766025,
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:48:24.553Z",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -94,7 +96,8 @@
         "longitude": 59.6132264183836,
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:49:10.477Z",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -126,7 +129,8 @@
         "longitude": 59.61185994815101,
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:47:26.348Z",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -159,7 +163,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T06:59:49.465Z",
         "uniqueId": "sahn_4228",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -192,7 +197,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:09:57.650Z",
         "uniqueId": "sahn_6639",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-ghadir"
       }
     },
     {
@@ -225,7 +231,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:45:43.198Z",
         "uniqueId": "sahn_1042",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -258,7 +265,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:46:44.234Z",
         "uniqueId": "other_3265",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -291,7 +299,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:50:50.973Z",
         "uniqueId": "sahn_2112",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -324,7 +333,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:51:51.048Z",
         "uniqueId": "sahn_6832",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-kosar"
       }
     },
     {
@@ -357,7 +367,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:52:24.108Z",
         "uniqueId": "other_2189",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -390,7 +401,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:52:51.043Z",
         "uniqueId": "sahn_8269",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-kosar"
       }
     },
     {
@@ -423,7 +435,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:53:22.421Z",
         "uniqueId": "sahn_6407",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-kosar"
       }
     },
     {
@@ -456,7 +469,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:54:50.000Z",
         "uniqueId": "sahn_9264",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-kosar"
       }
     },
     {
@@ -522,7 +536,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:16:18.271Z",
         "uniqueId": "sahn_3759",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -555,7 +570,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:16:42.292Z",
         "uniqueId": "sahn_3317",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -621,7 +637,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:17:30.200Z",
         "uniqueId": "sahn_1370",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -654,7 +671,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:17:53.275Z",
         "uniqueId": "sahn_6227",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-qods"
       }
     },
     {
@@ -687,7 +705,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:18:20.459Z",
         "uniqueId": "other_7009",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -720,7 +739,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:18:41.707Z",
         "uniqueId": "sahn_2797",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -753,7 +773,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:19:03.930Z",
         "uniqueId": "sahn_8189",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-qods"
       }
     },
     {
@@ -786,7 +807,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:19:24.597Z",
         "uniqueId": "other_3920",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -819,7 +841,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:20:21.921Z",
         "uniqueId": "sahn_9054",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -885,7 +908,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:22:04.102Z",
         "uniqueId": "other_178",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -918,7 +942,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:22:43.822Z",
         "uniqueId": "sahn_6115",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-qods"
       }
     },
     {
@@ -951,7 +976,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:24:06.676Z",
         "uniqueId": "sahn_4456",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-qods"
       }
     },
     {
@@ -984,7 +1010,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:24:28.929Z",
         "uniqueId": "sahn_4786",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-qods"
       }
     },
     {
@@ -1017,7 +1044,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:24:54.931Z",
         "uniqueId": "sahn_7595",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-qods"
       }
     },
     {
@@ -1214,7 +1242,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:27:53.529Z",
         "uniqueId": "other_4178",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -1247,7 +1276,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:28:20.400Z",
         "uniqueId": "sahn_7953",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-jomhouri"
       }
     },
     {
@@ -1280,7 +1310,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:28:41.854Z",
         "uniqueId": "sahn_9432",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-jomhouri"
       }
     },
     {
@@ -1313,7 +1344,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:29:09.784Z",
         "uniqueId": "sahn_3302",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-ghadir"
       }
     },
     {
@@ -1346,7 +1378,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:29:35.474Z",
         "uniqueId": "other_7595",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -1379,7 +1412,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:29:54.598Z",
         "uniqueId": "sahn_7190",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-ghadir"
       }
     },
     {
@@ -1478,7 +1512,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:37:24.072Z",
         "uniqueId": "other_5312",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -1577,7 +1612,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:40:23.748Z",
         "uniqueId": "sahn_9086",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-enqelab"
       }
     },
     {
@@ -1610,7 +1646,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:40:46.178Z",
         "uniqueId": "other_3610",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -1643,7 +1680,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:41:15.768Z",
         "uniqueId": "other_8793",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -1676,7 +1714,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:41:37.057Z",
         "uniqueId": "sahn_4662",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-enqelab"
       }
     },
     {
@@ -1742,7 +1781,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:42:28.643Z",
         "uniqueId": "sahn_1317",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-jomhouri"
       }
     },
     {
@@ -1808,7 +1848,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:43:16.190Z",
         "uniqueId": "sahn_9171",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-jomhouri"
       }
     },
     {
@@ -1874,7 +1915,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:45:14.049Z",
         "uniqueId": "other_3220",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -1906,7 +1948,8 @@
         "longitude": 59.618092775344856,
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:47:52.604Z",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -1939,7 +1982,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:48:14.819Z",
         "uniqueId": "sahn_6790",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-emam-hasan"
       }
     },
     {
@@ -1972,7 +2016,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T09:08:44.202Z",
         "uniqueId": "sahn_6248",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-emam-hasan"
       }
     },
     {
@@ -2005,7 +2050,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T09:11:44.426Z",
         "uniqueId": "other_5755",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -2071,7 +2117,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T09:14:24.764Z",
         "uniqueId": "sahn_9422",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-emam-hasan"
       }
     },
     {
@@ -2138,7 +2185,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T09:15:33.238Z",
         "uniqueId": "sahn_3649",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "sahn-emam-hasan"
       }
     },
     {
@@ -2171,7 +2219,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T09:16:29.438Z",
         "uniqueId": "other_1728",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -2204,7 +2253,8 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T09:17:26.941Z",
         "uniqueId": "other_2402",
-        "transportModes": []
+        "transportModes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -2426,7 +2476,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T06:58:50.048Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -2896,7 +2947,8 @@
           "wheelchair": true
         },
         "timestamp": "2025-06-12T06:58:50.048Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -3477,7 +3529,8 @@
           "wheelchair": true
         },
         "timestamp": "2025-06-12T07:14:39.867Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -3523,7 +3576,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:41:19.855Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-qods"
       }
     },
     {
@@ -3704,7 +3758,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:37:44.644Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-azadi"
       }
     },
     {
@@ -4317,7 +4372,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:40:41.509Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -4465,7 +4521,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T08:39:37.097Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-enqelab"
       }
     },
     {
@@ -4682,7 +4739,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T08:39:59.679Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -4760,7 +4818,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T06:58:50.049Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -4906,7 +4965,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T06:58:50.049Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-jomhouri"
       }
     },
     {
@@ -5372,7 +5432,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:21:22.165Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -5516,7 +5577,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:44:36.482Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -5760,7 +5822,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:25:01.448Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -5878,7 +5941,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:22:23.194Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -6218,7 +6282,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T06:58:50.050Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-payambar-azam"
       }
     },
     {
@@ -6301,7 +6366,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T06:58:50.050Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-kosar"
       }
     },
     {
@@ -6478,7 +6544,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:12:33.444Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-emam-hasan"
       }
     },
     {
@@ -6565,7 +6632,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:35:57.546Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -6684,7 +6752,8 @@
           "electricVan": true
         },
         "timestamp": "2025-06-12T07:29:10.480Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -6795,7 +6864,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:12:11.553Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -6980,7 +7050,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:09:14.916Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "sahn-ghadir"
       }
     },
     {
@@ -7066,7 +7137,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:36:38.588Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     },
     {
@@ -7204,7 +7276,8 @@
           "walking": true
         },
         "timestamp": "2025-06-12T07:21:53.748Z",
-        "restrictedTimes": []
+        "restrictedTimes": [],
+        "subGroupValue": "saایر"
       }
     }
   ]
