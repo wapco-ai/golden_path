@@ -203,9 +203,16 @@ const Location = () => {
     calculateAverageRating();
   }, [comments]);
 
-  if (loading) return <div className="loading">در حال بارگذاری...</div>;
-  if (error) return <div className="error">خطا در دریافت اطلاعات: {error}</div>;
-  if (!locationData) return <div className="no-data">موردی یافت نشد</div>;
+  if (loading)
+    return <div className="loading">{intl.formatMessage({ id: 'loading' })}</div>;
+  if (error)
+    return (
+      <div className="error">
+        {intl.formatMessage({ id: 'fetchError' }, { error })}
+      </div>
+    );
+  if (!locationData)
+    return <div className="no-data">{intl.formatMessage({ id: 'noDataFound' })}</div>;
 
   return (
     <div className="location-page">
@@ -254,7 +261,7 @@ const Location = () => {
               key={index}
               className={`dot ${index === activeSlide ? 'active' : ''}`}
               onClick={() => handleSlideChange(index)}
-              aria-label={`رفتن به اسلاید ${index + 1}`}
+              aria-label={intl.formatMessage({ id: 'goToSlide' }, { n: index + 1 })}
             ></button>
           ))}
         </div>
@@ -265,7 +272,9 @@ const Location = () => {
         <div className="you-are-here">
           <div className="line left-line"></div>
           <div className="circle"></div>
-          <span>شما الان اینجایید!</span>
+          <span>
+            <FormattedMessage id="youAreHere" />
+          </span>
           <div className="line right-line"></div>
         </div>
         <h1>{locationData.title}</h1>
@@ -284,25 +293,27 @@ const Location = () => {
               </svg>
               {overallRating.toFixed(1)}
             </span>
-            <span className="views">({views} نظر)</span>
+            <span className="views">({views} {intl.formatMessage({ id: 'commentsLabel' })})</span>
           </div>
         </div>
 
         <div className="about-location" ref={aboutContentRef}>
-          <h3>درباره {locationData.title}</h3>
+        <h3>
+          <FormattedMessage id="aboutLocation" values={{ title: locationData.title }} />
+        </h3>
           <div className={`about-content ${showFullAbout ? 'expanded' : ''}`}>
             <p>
               {showFullAbout ? locationData.about.full : locationData.about.short}
               {!showFullAbout && (
                 <button className="read-more" onClick={toggleAbout}>
-                  بیشتر بخوانید
+                  <FormattedMessage id="readMore" />
                 </button>
               )}
             </p>
             {showFullAbout && (
               <div className="close-button-container">
                 <button className="read-more close-button" onClick={toggleAbout}>
-                  بستن
+                  <FormattedMessage id="close" />
                 </button>
               </div>
             )}
@@ -312,7 +323,9 @@ const Location = () => {
 
       {/* Events Section */}
       <section className="events-section">
-        <h3>محتواهای صوتی و متنی {locationData.title}</h3>
+        <h3>
+          <FormattedMessage id="audioTextContent" values={{ title: locationData.title }} />
+        </h3>
         <div className="events-list">
           {locationData.events?.map(event => (
             <div key={event.id} className="event-item">
@@ -327,9 +340,11 @@ const Location = () => {
       {/* Comments Section */}
       <section className="comments-section">
         <div className="comments-header">
-          <h3>دیدگاه‌ها ({comments.length})</h3>
+          <h3>
+            <FormattedMessage id="commentsTitle" values={{ count: comments.length }} />
+          </h3>
           <button className="view-all-btn">
-            مشاهده همه
+            <FormattedMessage id="viewAll" />
             <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M15 6l-6 6l6 6" />
@@ -340,10 +355,12 @@ const Location = () => {
         <div className="comment-input-wrapper" onClick={handleCommentClick}>
           <div className="comment-input-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-bubble-text"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10h10" /><path d="M9 14h5" /><path d="M12.4 3a5.34 5.34 0 0 1 4.906 3.239a5.333 5.333 0 0 1 -1.195 10.6a4.26 4.26 0 0 1 -5.28 1.863l-3.831 2.298v-3.134a2.668 2.668 0 0 1 -1.795 -3.773a4.8 4.8 0 0 1 2.908 -8.933a5.33 5.33 0 0 1 4.287 -2.16" /></svg>
-            <h4>دیدگاه خود را درباره این مکان بنویسید</h4>
+            <h4>
+              <FormattedMessage id="commentPromptTitle" />
+            </h4>
           </div>
           <p className="comment-instruction">
-            دیدگاه خود را درباره این مکان بنویسید و به آن امتیاز دهید. پس از تایید شدن، دیدگاه‌تان منتشر می‌شود.
+            <FormattedMessage id="commentPromptInstruction" />
           </p>
           <div className="comment-input-container">
             <input
@@ -401,7 +418,9 @@ const Location = () => {
           <div className="modal-overlay" onClick={closeCommentModal}></div>
           <div className="comment-modal">
             <div className="modal-header">
-              <h3>دیدگاه و نظر خود را بنویسید</h3>
+              <h3>
+                <FormattedMessage id="commentModalTitle" />
+              </h3>
               <button className="close-modal" onClick={closeCommentModal}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -412,11 +431,13 @@ const Location = () => {
             </div>
             <div className="modal-content">
               <p className="modal-instruction">
-                دیدگاه خودتان را که مربوط به این مکان می‌باشد را بنویسید. پس از تایید شدن، دیدگاه شما منتشر خواهد شد.
+                <FormattedMessage id="commentModalInstruction" />
               </p>
 
               <div className="rating-section">
-                <p>امتیاز دهید:</p>
+                <p>
+                  <FormattedMessage id="ratingPrompt" />
+                </p>
                 <div className="stars">
                   {[5, 4, 3, 2, 1].map((star) => (
                     <span
@@ -510,7 +531,9 @@ const Location = () => {
           <div className="integrated-routing-content">
             {/* Categories Section */}
             <div className="routing-categories-section">
-              <h2 className="routing-section-title">پیشنهاد‌های جستجو</h2>
+              <h2 className="routing-section-title">
+                <FormattedMessage id="searchSuggestions" />
+              </h2>
               <div className={`routing-categories-grid ${showAllCategories ? 'expanded' : ''}`}>
                 {initialCategories.map((category, index) => (
                   <div
@@ -548,7 +571,9 @@ const Location = () => {
                 className="routing-show-more-btn"
                 onClick={() => setShowAllCategories(!showAllCategories)}
               >
-                {showAllCategories ? 'نمایش کمتر' : 'مشاهده بیشتر'}
+                {showAllCategories
+                  ? intl.formatMessage({ id: 'showLess' })
+                  : intl.formatMessage({ id: 'showMore' })}
                 <svg
                   className={`show-more-icon ${showAllCategories ? 'expanded' : ''}`}
                   xmlns="http://www.w3.org/2000/svg"
@@ -570,9 +595,11 @@ const Location = () => {
             {/* Shrine Events Section - Horizontal Scroll */}
             <div className="shrine-events-section">
               <div className="shrine-events-header">
-                <h2 className="shrine-events-title">برنامه‌های حرم مطهر</h2>
+                <h2 className="shrine-events-title">
+                  <FormattedMessage id="shrineEventsTitle" />
+                </h2>
                 <button className="view-all-events">
-                  مشاهده همه
+                  <FormattedMessage id="viewAll" />
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M15 6l-6 6l6 6" />
@@ -627,7 +654,7 @@ const Location = () => {
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
                           </svg>
-                          مسیریابی
+                          <FormattedMessage id="navigate" />
                         </button>
                       </div>
                     </div>
@@ -643,13 +670,13 @@ const Location = () => {
                   className={`routing-tab ${activeTab === 'mostVisited' ? 'active' : ''}`}
                   onClick={() => setActiveTab('mostVisited')}
                 >
-                  پربازدیدترین‌های حرم
+                  <FormattedMessage id="mostVisited" />
                 </button>
                 <button
                   className={`routing-tab ${activeTab === 'closest' ? 'active' : ''}`}
                   onClick={() => setActiveTab('closest')}
                 >
-                  مکان‌های نزدیک من
+                  <FormattedMessage id="nearMe" />
                 </button>
               </div>
 
@@ -689,11 +716,11 @@ const Location = () => {
                                 </svg>
                               ))}
                             </div>
-                            <span className="place-views">({place.views} نظر)</span>
+                            <span className="place-views">({place.views} {intl.formatMessage({ id: 'commentsLabel' })})</span>
                           </div>
                           <p className="place-description">{place.description}</p>
                           <button className="read-more-btn">
-                            بیشتر بخوانید
+                            <FormattedMessage id="readMore" />
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                               <path d="M15 6l-6 6l6 6" />
@@ -716,7 +743,7 @@ const Location = () => {
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 18.5l7.265 2.463c.196 .077 .42 .032 .57 -.116a.548 .548 0 0 0 .134 -.572l-7.969 -17.275l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463" />
                               </svg>
-                              مسیریابی
+                              <FormattedMessage id="navigate" />
                             </button>
                             <button className="place-action-btn2">
                               <svg
@@ -736,7 +763,7 @@ const Location = () => {
                                 <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
                                 <path d="M10 12l4 0" />
                               </svg>
-                              ذخیره
+                              <FormattedMessage id="save" />
                             </button>
                           </div>
                         </div>
@@ -764,7 +791,7 @@ const Location = () => {
                           </div>
                           <p className="place-description">{place.description}</p>
                           <button className="read-more-btn">
-                            بیشتر بخوانید
+                            <FormattedMessage id="readMore" />
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                               <path d="M15 6l-6 6l6 6" />
@@ -787,7 +814,7 @@ const Location = () => {
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 18.5l7.265 2.463c.196 .077 .42 .032 .57 -.116a.548 .548 0 0 0 .134 -.572l-7.969 -17.275l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463" />
                               </svg>
-                              مسیریابی
+                              <FormattedMessage id="navigate" />
                             </button>
                             <button className="place-action-btn">
                               <svg
@@ -807,7 +834,7 @@ const Location = () => {
                                 <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
                                 <path d="M10 12l4 0" />
                               </svg>
-                              ذخیره
+                              <FormattedMessage id="save" />
                             </button>
                           </div>
                         </div>
