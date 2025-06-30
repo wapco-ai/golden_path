@@ -24,7 +24,7 @@ const RoutingPage = () => {
   const [was3DViewBeforeRouteView, setWas3DViewBeforeRouteView] = useState(false);
   const [is3DView, setIs3DView] = useState(false);
   const navigate = useNavigate();
-  const { routeSteps, routeGeo } = useRouteStore();
+  const { routeSteps, routeGeo, alternativeRoutes } = useRouteStore();
 
   // Calculate total time in minutes from all steps
   const calculateTotalTime = (steps) => {
@@ -99,14 +99,46 @@ const RoutingPage = () => {
     const arrivalTime = calculateArrivalTime(totalMinutes);
     const totalDistance = steps.reduce((acc, st) => acc + parseInt(st.distance), 0);
 
+    const alternativesData = (alternativeRoutes || []).map((alt, ridx) => {
+      const altSteps = alt.steps.map((st, i) => {
+        let dist = 0;
+        if (i > 0) {
+          const [lng1, lat1] = alt.geo.geometry.coordinates[i - 1];
+          const [lng2, lat2] = alt.geo.geometry.coordinates[i];
+          dist = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
+        }
+        return {
+          id: i + 1,
+          instruction: intl.formatMessage(
+            { id: st.type },
+            { name: st.name, title: st.title, num: i + 1 }
+          ),
+          distance: `${Math.round(dist)} متر`,
+          time: `${Math.max(1, Math.round(dist / 60))} دقیقه`,
+          coordinates: st.coordinates
+        };
+      });
+      const minutes = calculateTotalTime(altSteps);
+      const distTot = altSteps.reduce((acc, st) => acc + parseInt(st.distance), 0);
+      return {
+        id: ridx + 1,
+        steps: altSteps,
+        totalTime: formatTotalTime(minutes),
+        totalDistance: `${distTot} متر`,
+        from: alt.from,
+        to: alt.to,
+        via: alt.via
+      };
+    });
+
     setRouteData({
       steps,
       totalTime: formattedTotalTime,
       arrivalTime,
       totalDistance: `${totalDistance} متر`,
-      alternativeRoutes: []
+      alternativeRoutes: alternativesData
     });
-  }, [routeSteps, routeGeo]);
+  }, [routeSteps, routeGeo, alternativeRoutes]);
 
   // Update arrival time every minute
   useEffect(() => {

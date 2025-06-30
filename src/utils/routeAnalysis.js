@@ -7,10 +7,32 @@ export function findNearest(coord, features) {
     const d = Math.hypot(lng - coord[1], lat - coord[0]);
     if (d < min) {
       min = d;
-      best = [lat, lng, f.properties];
+      best = [lat, lng, f.properties, d];
     }
   });
   return best;
+}
+
+function findNearestList(coord, features, count = 2) {
+  if (!features || features.length === 0) return [];
+  return features
+    .map(f => {
+      const [lng, lat] = f.geometry.coordinates;
+      const d = Math.hypot(lng - coord[1], lat - coord[0]);
+      return { lat, lng, props: f.properties, distance: d };
+    })
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, count)
+    .map(r => [r.lat, r.lng, r.props, r.distance]);
+}
+
+function angleBetween(p1, p2, p3) {
+  const a1 = Math.atan2(p2[0] - p1[0], p2[1] - p1[1]);
+  const a2 = Math.atan2(p3[0] - p2[0], p3[1] - p2[1]);
+  let deg = ((a2 - a1) * 180) / Math.PI;
+  if (deg > 180) deg -= 360;
+  if (deg < -180) deg += 360;
+  return Math.round(deg);
 }
 
 export function analyzeRoute(origin, destination, geoData) {
@@ -24,11 +46,25 @@ export function analyzeRoute(origin, destination, geoData) {
     f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'connection'
   );
 
-  const startDoor = findNearest(origin.coordinates, doors);
-  const endDoor = findNearest(destination.coordinates, doors);
+  const DOOR_THRESHOLD = 0.0008; // ~80m
 
-  const startConn = startDoor ? findNearest(startDoor, connections) : null;
-  const endConn = endDoor ? findNearest(endDoor, connections) : null;
+  function pickAccess(coord) {
+    const nearestDoor = findNearest(coord, doors);
+    if (nearestDoor && nearestDoor[3] < DOOR_THRESHOLD) {
+      const conn = findNearest(nearestDoor, connections);
+      return { door: nearestDoor, conn };
+    }
+    const conn = findNearest(coord, connections);
+    return { door: null, conn };
+  }
+
+  const startAccess = pickAccess(origin.coordinates);
+  const endAccess = pickAccess(destination.coordinates);
+
+  const startDoor = startAccess.door;
+  const endDoor = endAccess.door;
+  const startConn = startAccess.conn;
+  const endConn = endAccess.conn;
 
   const path = [origin.coordinates];
   const steps = [];
@@ -76,10 +112,67 @@ export function analyzeRoute(origin, destination, geoData) {
 
   });
 
+  // compute approximate turn angles
+  for (let i = 1; i < path.length - 1; i++) {
+    const angle = angleBetween(path[i - 1], path[i], path[i + 1]);
+    if (steps[i - 1]) {
+      steps[i - 1].turnAngle = angle;
+    }
+  }
+
   const geo = {
     type: 'Feature',
     geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
   };
 
-  return { path, geo, steps };
+  const alternatives = [];
+  const altStartDoor = findNearestList(origin.coordinates, doors, 2)[1];
+  const altEndDoor = findNearestList(destination.coordinates, doors, 2)[1];
+
+  if (altStartDoor || altEndDoor) {
+    const altStartConn = altStartDoor ? findNearest(altStartDoor, connections) : findNearest(origin.coordinates, connections);
+    const altEndConn = altEndDoor ? findNearest(altEndDoor, connections) : findNearest(destination.coordinates, connections);
+    const altPath = [origin.coordinates];
+    const altSteps = [];
+    if (altStartDoor) {
+      altPath.push(altStartDoor.slice(0, 2));
+      altSteps.push({ coordinates: altStartDoor.slice(0, 2), type: 'stepMoveToDoor', name: altStartDoor[2]?.name || '' });
+    }
+    if (altStartConn) {
+      altPath.push(altStartConn.slice(0, 2));
+      altSteps.push({ coordinates: altStartConn.slice(0, 2), type: 'stepPassConnection', title: altStartConn[2]?.subGroup || altStartConn[2]?.name || '' });
+    }
+    if (altEndConn && (!altStartConn || altEndConn[0] !== altStartConn[0] || altEndConn[1] !== altStartConn[1])) {
+      altPath.push(altEndConn.slice(0, 2));
+      altSteps.push({ coordinates: altEndConn.slice(0, 2), type: 'stepEnterNextSahn', title: altEndConn[2]?.subGroup || altEndConn[2]?.name || '' });
+    }
+    if (altEndDoor) {
+      altPath.push(altEndDoor.slice(0, 2));
+      altSteps.push({ coordinates: altEndDoor.slice(0, 2), type: 'stepPassDoor', name: altEndDoor[2]?.name || '' });
+    }
+    altPath.push(destination.coordinates);
+    altSteps.push({ coordinates: destination.coordinates, type: 'stepArriveDestination', name: destination.name || '' });
+    for (let i = 1; i < altPath.length - 1; i++) {
+      const angle = angleBetween(altPath[i - 1], altPath[i], altPath[i + 1]);
+      if (altSteps[i - 1]) altSteps[i - 1].turnAngle = angle;
+    }
+    const altGeo = {
+      type: 'Feature',
+      geometry: { type: 'LineString', coordinates: altPath.map(p => [p[1], p[0]]) }
+    };
+    const via = altSteps
+      .slice(1, -1)
+      .map(s => s.title || s.name)
+      .filter(Boolean);
+    alternatives.push({
+      path: altPath,
+      geo: altGeo,
+      steps: altSteps,
+      from: origin.name,
+      to: destination.name,
+      via
+    });
+  }
+
+  return { path, geo, steps, alternatives };
 }

@@ -23,7 +23,8 @@ const FinalSearch = () => {
     setOrigin: storeSetOrigin,
     setDestination: storeSetDestination,
     setRouteGeo: storeSetRouteGeo,
-    setRouteSteps: storeSetRouteSteps
+    setRouteSteps: storeSetRouteSteps,
+    setAlternativeRoutes: storeSetAlternativeRoutes
   } = useRouteStore();
   const language = useLangStore((state) => state.language);
   const [origin, setOrigin] = useState(
@@ -103,10 +104,11 @@ const FinalSearch = () => {
 
   useEffect(() => {
     if (!geoData) return;
-    const { geo, steps } = analyzeRoute(origin, destination, geoData);
+    const { geo, steps, alternatives } = analyzeRoute(origin, destination, geoData);
     storeSetRouteGeo(geo);
     storeSetRouteSteps(steps);
-  }, [geoData, origin, destination, storeSetRouteGeo, storeSetRouteSteps]);
+    storeSetAlternativeRoutes(alternatives);
+  }, [geoData, origin, destination, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes]);
 
   const swapLocations = () => {
     setSwapButton(!isSwapButton);
