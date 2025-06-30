@@ -26,6 +26,14 @@ function findNearestList(coord, features, count = 2) {
     .map(r => [r.lat, r.lng, r.props, r.distance]);
 }
 
+function findNearestByArea(coord, features, area) {
+  const filtered = features.filter(
+    f => (area === 'saایر' && f.properties?.subGroupValue === 'saایر') ||
+         f.properties?.subGroupValue === area
+  );
+  return findNearest(coord, filtered);
+}
+
 function pointInPolygon(point, polygons) {
   const x = point[1];
   const y = point[0];
@@ -44,6 +52,12 @@ function pointInPolygon(point, polygons) {
   }
   return false;
 }
+
+function getArea(coord, sahns) {
+  const match = sahns.find(p => pointInPolygon(coord, p.geometry.coordinates));
+  return match ? match.properties?.subGroupValue : 'saایر';
+}
+
 
 function angleBetween(p1, p2, p3) {
   const a1 = Math.atan2(p2[0] - p1[0], p2[1] - p1[1]);
@@ -68,26 +82,16 @@ export function analyzeRoute(origin, destination, geoData) {
     f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
   );
 
-  const DOOR_THRESHOLD = 0.0008; // ~80m
-  const DOOR_CONN_THRESHOLD = 0.0004; // ~40m to ensure adjacency
-
-  function isPointInSahn(coord) {
-    return sahnPolygons.some(p => pointInPolygon(coord, p.geometry.coordinates));
-  }
 
   function pickAccess(coord) {
-    const nearestDoor = findNearest(coord, doors);
-    if (nearestDoor && (nearestDoor[3] < DOOR_THRESHOLD || isPointInSahn(coord))) {
-      const conn = findNearest(nearestDoor, connections);
-      if (
-        conn &&
-        conn[3] < DOOR_CONN_THRESHOLD &&
-        (conn[2]?.subGroupValue === 'saایر' || conn[2]?.subGroupValue === nearestDoor[2]?.subGroupValue)
-      ) {
-        return { door: nearestDoor, conn };
-      }
+    const area = getArea(coord, sahnPolygons);
+    const door = area !== 'saایر' ? findNearestByArea(coord, doors, area) : null;
+    if (door) {
+      const conn = findNearestByArea(door, connections, 'saایر');
+      return { door, conn };
+
     }
-    const conn = findNearest(coord, connections);
+    const conn = findNearestByArea(coord, connections, area);
     return { door: null, conn };
   }
 
@@ -159,26 +163,21 @@ export function analyzeRoute(origin, destination, geoData) {
   };
 
   const alternatives = [];
-  const altStartDoor = findNearestList(origin.coordinates, doors, 2)[1];
-  const altEndDoor = findNearestList(destination.coordinates, doors, 2)[1];
+  const startArea = getArea(origin.coordinates, sahnPolygons);
+  const endArea = getArea(destination.coordinates, sahnPolygons);
+  const altStartDoor =
+    startArea !== 'saایر' ? findNearestList(origin.coordinates, doors.filter(d => d.properties?.subGroupValue === startArea), 2)[1] : null;
+  const altEndDoor =
+    endArea !== 'saایر' ? findNearestList(destination.coordinates, doors.filter(d => d.properties?.subGroupValue === endArea), 2)[1] : null;
 
   if (altStartDoor || altEndDoor) {
-    const startConnCandidate = altStartDoor ? findNearest(altStartDoor, connections) : null;
-    const altStartConn =
-      startConnCandidate &&
-      startConnCandidate[3] < DOOR_CONN_THRESHOLD &&
-      (startConnCandidate[2]?.subGroupValue === 'saایر' ||
-        startConnCandidate[2]?.subGroupValue === altStartDoor[2]?.subGroupValue)
-        ? startConnCandidate
-        : findNearest(origin.coordinates, connections);
-    const endConnCandidate = altEndDoor ? findNearest(altEndDoor, connections) : null;
-    const altEndConn =
-      endConnCandidate &&
-      endConnCandidate[3] < DOOR_CONN_THRESHOLD &&
-      (endConnCandidate[2]?.subGroupValue === 'saایر' ||
-        endConnCandidate[2]?.subGroupValue === altEndDoor[2]?.subGroupValue)
-        ? endConnCandidate
-        : findNearest(destination.coordinates, connections);
+    const altStartConn = altStartDoor
+      ? findNearestByArea(altStartDoor, connections, 'saایر')
+      : findNearestByArea(origin.coordinates, connections, startArea);
+    const altEndConn = altEndDoor
+      ? findNearestByArea(altEndDoor, connections, 'saایر')
+      : findNearestByArea(destination.coordinates, connections, endArea);
+
     const altPath = [origin.coordinates];
     const altSteps = [];
     if (altStartDoor) {
