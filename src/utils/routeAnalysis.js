@@ -58,6 +58,7 @@ function getArea(coord, sahns) {
   return match ? match.properties?.subGroupValue : 'saایر';
 }
 
+
 function angleBetween(p1, p2, p3) {
   const a1 = Math.atan2(p2[0] - p1[0], p2[1] - p1[1]);
   const a2 = Math.atan2(p3[0] - p2[0], p3[1] - p2[1]);
@@ -88,6 +89,7 @@ export function analyzeRoute(origin, destination, geoData) {
     if (door) {
       const conn = findNearestByArea(door, connections, 'saایر');
       return { door, conn };
+
     }
     const conn = findNearestByArea(coord, connections, area);
     return { door: null, conn };
@@ -175,6 +177,7 @@ export function analyzeRoute(origin, destination, geoData) {
     const altEndConn = altEndDoor
       ? findNearestByArea(altEndDoor, connections, 'saایر')
       : findNearestByArea(destination.coordinates, connections, endArea);
+
     const altPath = [origin.coordinates];
     const altSteps = [];
     if (altStartDoor) {
