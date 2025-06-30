@@ -26,9 +26,10 @@ export function analyzeRoute(origin, destination, geoData) {
 
   const startDoor = findNearest(origin.coordinates, doors);
   const endDoor = findNearest(destination.coordinates, doors);
+
   const startConn = startDoor ? findNearest(startDoor, connections) : null;
   const endConn = endDoor ? findNearest(endDoor, connections) : null;
-
+  
   const path = [origin.coordinates];
   const steps = [];
 
@@ -38,14 +39,16 @@ export function analyzeRoute(origin, destination, geoData) {
       coordinates: startDoor.slice(0, 2),
       type: 'stepMoveToDoor',
       name: startDoor[2]?.name || ''
+
     });
   }
-  if (startConn) {
+   if (startConn) {
     path.push(startConn.slice(0, 2));
     steps.push({
       coordinates: startConn.slice(0, 2),
       type: 'stepPassConnection',
       title: startConn[2]?.subGroup || startConn[2]?.name || ''
+
     });
   }
   if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) {
@@ -54,6 +57,7 @@ export function analyzeRoute(origin, destination, geoData) {
       coordinates: endConn.slice(0, 2),
       type: 'stepEnterNextSahn',
       title: endConn[2]?.subGroup || endConn[2]?.name || ''
+
     });
   }
   if (endDoor) {
@@ -69,6 +73,7 @@ export function analyzeRoute(origin, destination, geoData) {
     coordinates: destination.coordinates,
     type: 'stepArriveDestination',
     name: destination.name || ''
+
   });
 
   const geo = {

@@ -12,6 +12,7 @@ import { useRouteStore } from '../store/routeStore';
 const RouteOverview = () => {
   const navigate = useNavigate();
   const intl = useIntl();
+
   const mapRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [directionArrow, setDirectionArrow] = useState('right');
