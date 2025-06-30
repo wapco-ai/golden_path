@@ -591,7 +591,7 @@ const Location = () => {
                     onClick={() => handleCategoryClick(category)}
                   >
                     <div className="category-icon" dangerouslySetInnerHTML={{ __html: category.svg }} />
-                    <span>{category.label}</span>
+                    <span>{intl.formatMessage({ id: category.label })}</span>
                   </div>
                 ))}
                 {showAllCategories && additionalCategories.map((category, index) => (
@@ -601,7 +601,7 @@ const Location = () => {
                     onClick={() => handleCategoryClick(category)}
                   >
                     <div className="category-icon" dangerouslySetInnerHTML={{ __html: category.svg }} />
-                    <span>{category.label}</span>
+                    <span>{intl.formatMessage({ id: category.label })}</span>
                   </div>
                 ))}
                 {showAllCategories &&
