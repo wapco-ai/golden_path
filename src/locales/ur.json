@@ -40,6 +40,28 @@
   "commentModalInstruction": "اس مقام سے متعلق اپنی رائے لکھیں۔ منظوری کے بعد آپ کی رائے شائع ہوگی۔",
   "ratingPrompt": "درجہ بندی کریں:",
   "submitComment": "رائے بھیجیں اور ثبت کریں",
+  "youAreHere": "آپ یہاں ہیں!",
+  "aboutLocation": "{title} کے بارے میں",
+  "readMore": "مزید پڑھیں",
+  "close": "بند کریں",
+  "audioTextContent": "{title} کا صوتی اور متنی مواد",
+  "commentsTitle": "تبصرے ({count})",
+  "viewAll": "سب دیکھیں",
+  "commentPromptTitle": "اس جگہ کے بارے میں اپنا تبصرہ لکھیں",
+  "commentPromptInstruction": "اس جگہ کے بارے میں اپنا تبصرہ لکھیں اور اسے درجہ دیں۔ منظوری کے بعد آپ کا تبصرہ شائع ہوگا.",
+  "showLess": "کم دکھائیں",
+  "showMore": "مزید دیکھیں",
+  "shrineEventsTitle": "حرم مطہر کے پروگرام",
+  "navigate": "مسیریابی",
+  "mostVisited": "حرم کے سب سے زیادہ دیکھے گئے",
+  "nearMe": "میرے قریب مقامات",
+  "save": "محفوظ کریں",
+  "commentsLabel": "تبصرہ",
+  "searchSuggestions": "تلاش کی تجاویز",
+  "loading": "لوڈ ہو رہا ہے...",
+  "fetchError": "ڈیٹا حاصل کرنے میں خرابی: {error}",
+  "noDataFound": "کوئی ڈیٹا نہیں ملا",
+  "goToSlide": "سلائیڈ {n} پر جائیں",
   "searchPlaceholder": "آپ کہاں جانا چاہتے ہیں؟",
   "originPlaceholder": "آغاز منتخب کریں",
   "destinationPlaceholder": "منزل منتخب کریں",
@@ -66,4 +88,49 @@
   "groupCemetery": "قبرستان",
   "groupQRScan": "کیو آر کوڈ مقامات",
   "groupOther": "دیگر"
+  ,"mapStopFollow": "مقام کی پیروی روکیں"
+  ,"mapStartFollow": "مقام کی پیروی"
+  ,"mapCenter": "موجودہ مقام پر مرکز کریں"
+  ,"mapLatitude": "عرض البلد:"
+  ,"mapLongitude": "طول البلد:"
+  ,"mapAccuracy": "درستگی:"
+  ,"drStepWarning": "خبردار: قدموں کی گنتی نہیں ہورہی۔ یقینی بنائیں کہ آلہ حرکت میں ہے اور سینسر فعال ہیں."
+  ,"drSensorsUnsupported": "آلے کے سینسر معاون نہیں ہیں."
+  ,"drPermissionNeeded": "استعمال کے لیے سینسروں کی اجازت فعال کریں."
+  ,"drCalibrating": "سینسرز کی کیلیبریشن جاری ہے..."
+  ,"drStopTracking": "اعلیٰ ٹریکنگ روکیں"
+  ,"drStartTracking": "اعلیٰ ٹریکنگ شروع کریں"
+  ,"drReset": "نظام ری سیٹ کریں"
+  ,"drExportLog": "لاگ برآمد کریں"
+  ,"drStepCount": "قدموں کی تعداد:"
+  ,"drStrideLength": "قدم کی لمبائی (میٹر):"
+  ,"drRelPosition": "نسبتی مقام:"
+  ,"drHeading": "سمت (درجہ):"
+  ,"drLinearSpeed": "خطی رفتار:"
+  ,"drAngularSpeed": "زاویائی رفتار:"
+  ,"drEstimatedStride": "اندازاً قدم کی لمبائی:"
+  ,"emergencyTitle": "حرم ہنگامی درخواست"
+  ,"emergencySubtitle": "براہ کرم اپنی درخواست کی قسم منتخب کریں اور وضاحت لکھیں۔ خادمین جلد آپ کے مقام پر پہنچ جائیں گے."
+  ,"emergencyFire": "آگ کی اطلاع"
+  ,"emergencyTheft": "چوری کی اطلاع"
+  ,"emergencyMedical": "طبی امداد کی درخواست"
+  ,"emergencyMissing": "گمشدگی کی اطلاع"
+  ,"soundSettingsTitle": "آواز کی ترتیبات"
+  ,"soundOptionOn": "آن"
+  ,"soundOptionAlertOnly": "صرف انتباہ"
+  ,"soundOptionOff": "بند"
+  ,"emergencyButtonLabel": "حرم ہنگامی حالات"
+  ,"arrivalTime": "پہنچنے کا وقت"
+  ,"routeOverview": "مسار کا خلاصہ"
+  ,"allRoutes": "تمام راستے"
+  ,"otherRoutes": "دیگر راستے"
+  ,"startRouting": "مسیریابی شروع کریں"
+  ,"stopRouting": "سفر ختم کریں"
+  ,"returnToRoute": "راستے پر واپس جائیں"
+  ,"from": "سے"
+  ,"to": "تک"
+  ,"meters": "میٹر"
+  ,"metersPerSecond": "میٹر فی سیکنڈ"
+  ,"degreesPerSecond": "ڈگری فی سیکنڈ"
+  ,"defaultUserName": "راستہ صارف"
 }

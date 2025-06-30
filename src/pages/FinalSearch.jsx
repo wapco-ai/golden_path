@@ -8,6 +8,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../services/osmStyle';
 import '../styles/FinalSearch.css';
 import { useRouteStore } from '../store/routeStore';
+import { useLangStore } from '../store/langStore';
 
 const FinalSearch = () => {
   const [isSwapButton, setSwapButton] = useState(true);
@@ -20,6 +21,7 @@ const FinalSearch = () => {
     setDestination: storeSetDestination,
     setRouteGeo: storeSetRouteGeo
   } = useRouteStore();
+  const language = useLangStore((state) => state.language);
   const [origin, setOrigin] = useState(
     storedOrigin || { name: 'باب الرضا (ع)', coordinates: [36.2970, 59.6069] }
   );
@@ -69,11 +71,15 @@ const FinalSearch = () => {
   }, [origin.coordinates]);
 
   useEffect(() => {
-    fetch('/data14040404.geojson')
+    const file =
+      language === 'fa'
+        ? '/data14040404.geojson'
+        : `/data14040404_${language}.geojson`;
+    fetch(file)
       .then(res => res.json())
       .then(setGeoData)
       .catch(err => console.error('failed to load geojson', err));
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     if (!destination.coordinates) {

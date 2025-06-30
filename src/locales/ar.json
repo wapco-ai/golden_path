@@ -40,6 +40,28 @@
   "commentModalInstruction": "اكتب تعليقك المتعلق بهذا المكان. بعد الموافقة، سيتم نشر تعليقك.",
   "ratingPrompt": "قيم:",
   "submitComment": "إرسال وتسجيل التعليق",
+  "youAreHere": "أنت هنا الآن!",
+  "aboutLocation": "حول {title}",
+  "readMore": "اقرأ المزيد",
+  "close": "إغلاق",
+  "audioTextContent": "المحتوى الصوتي والنصي لـ {title}",
+  "commentsTitle": "التعليقات ({count})",
+  "viewAll": "عرض الكل",
+  "commentPromptTitle": "اكتب رأيك حول هذا المكان",
+  "commentPromptInstruction": "اكتب تعليقك حول هذا المكان وقم بتقييمه. بعد الموافقة، سيتم نشر تعليقك.",
+  "showLess": "إظهار أقل",
+  "showMore": "عرض المزيد",
+  "shrineEventsTitle": "برامج الحرم المطهر",
+  "navigate": "الملاحة",
+  "mostVisited": "الأكثر زيارة في الحرم",
+  "nearMe": "الأماكن القريبة مني",
+  "save": "حفظ",
+  "commentsLabel": "تعليق",
+  "searchSuggestions": "اقتراحات البحث",
+  "loading": "جار التحميل...",
+  "fetchError": "خطأ في جلب البيانات: {error}",
+  "noDataFound": "لم يتم العثور على بيانات",
+  "goToSlide": "الانتقال إلى الشريحة {n}",
   "searchPlaceholder": "أين تريد الذهاب؟",
   "originPlaceholder": "اختر نقطة البداية",
   "destinationPlaceholder": "اختر الوجهة",
@@ -66,4 +88,49 @@
   "groupCemetery": "المقبرة",
   "groupQRScan": "أماكن مسح QR",
   "groupOther": "أخرى"
+  ,"mapStopFollow": "إيقاف تتبع الموقع"
+  ,"mapStartFollow": "تتبع الموقع"
+  ,"mapCenter": "تمركز على الموقع الحالي"
+  ,"mapLatitude": "خط العرض:"
+  ,"mapLongitude": "خط الطول:"
+  ,"mapAccuracy": "الدقة:"
+  ,"drStepWarning": "تحذير: لا يتم تسجيل الخطوات. تأكد من أن الجهاز يتحرك وأن الحساسات مفعلة."
+  ,"drSensorsUnsupported": "حساسات الجهاز غير مدعومة."
+  ,"drPermissionNeeded": "فعّل صلاحيات الحساسات للاستمرار."
+  ,"drCalibrating": "جاري معايرة الحساسات..."
+  ,"drStopTracking": "إيقاف التتبع المتقدم"
+  ,"drStartTracking": "بدء التتبع المتقدم"
+  ,"drReset": "إعادة ضبط النظام"
+  ,"drExportLog": "تصدير السجل"
+  ,"drStepCount": "عدد الخطوات:"
+  ,"drStrideLength": "طول الخطوة (متر):"
+  ,"drRelPosition": "الموقع النسبي:"
+  ,"drHeading": "الاتجاه (درجة):"
+  ,"drLinearSpeed": "السرعة الخطية:"
+  ,"drAngularSpeed": "السرعة الزاوية:"
+  ,"drEstimatedStride": "طول الخطوة المقدر:"
+  ,"emergencyTitle": "طلب طوارئ الحرم"
+  ,"emergencySubtitle": "يرجى اختيار نوع الطلب وكتابة وصف عنه. سيصل الخدم إلى موقعك بأسرع وقت."
+  ,"emergencyFire": "بلاغ حريق"
+  ,"emergencyTheft": "بلاغ سرقة"
+  ,"emergencyMedical": "طلب خدمات طبية"
+  ,"emergencyMissing": "بلاغ مفقود"
+  ,"soundSettingsTitle": "إعدادات الصوت"
+  ,"soundOptionOn": "تشغيل"
+  ,"soundOptionAlertOnly": "تنبيهات فقط"
+  ,"soundOptionOff": "إيقاف"
+  ,"emergencyButtonLabel": "طوارئ الحرم"
+  ,"arrivalTime": "وقت الوصول"
+  ,"routeOverview": "نظرة على المسار"
+  ,"allRoutes": "كل المسارات"
+  ,"otherRoutes": "مسارات أخرى"
+  ,"startRouting": "بدء المسار"
+  ,"stopRouting": "إنهاء الرحلة"
+  ,"returnToRoute": "العودة للمسار"
+  ,"from": "من"
+  ,"to": "إلى"
+  ,"meters": "متر"
+  ,"metersPerSecond": "متر/ثانية"
+  ,"degreesPerSecond": "درجة/ثانية"
+  ,"defaultUserName": "مستخدم المسير"
 }

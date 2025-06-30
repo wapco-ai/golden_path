@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 function ProfileHeader({ name = "کاربر مسیربایی", 
                       location = "استان قدس", 
@@ -20,7 +21,7 @@ function ProfileHeader({ name = "کاربر مسیربایی",
       
       {/* Complete Profile Button */}
       <button className="profile-complete-btn">
-        تکمیل پروفایل
+        <FormattedMessage id="completeProfile" />
       </button>
     </div>
   );

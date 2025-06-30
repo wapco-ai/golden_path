@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Marker, Source, Layer } from 'react-map-gl';
+import { useLangStore } from '../../store/langStore';
 
 // Reuse the same color and icon mapping used in MapComponent
 const groupColors = {
@@ -52,13 +53,18 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
 
 const GeoJsonOverlay = ({ selectedCategory }) => {
   const [features, setFeatures] = useState(null);
+  const language = useLangStore((state) => state.language);
 
   useEffect(() => {
-    fetch('/data14040404.geojson')
+    const file =
+      language === 'fa'
+        ? '/data14040404.geojson'
+        : `/data14040404_${language}.geojson`;
+    fetch(file)
       .then(res => res.json())
       .then(data => setFeatures(data.features || []))
       .catch(err => console.error('failed to load geojson', err));
-  }, []);
+  }, [language]);
 
   if (!features) return null;
 

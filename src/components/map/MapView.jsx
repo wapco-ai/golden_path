@@ -1,5 +1,6 @@
 // src/components/map/MapView.jsx  
 import React, { useEffect, useState } from 'react';
+import { useIntl, FormattedMessage } from 'react-intl';
 import Map, { Marker, Popup, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import DeadReckoningControls from './DeadReckoningControls';
@@ -59,6 +60,7 @@ const MapView = ({
   followUser = true,
   initialZoom = 15
 }) => {
+  const intl = useIntl();
   const [isFollowing, setIsFollowing] = useState(followUser);
   const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
   const [drGeoPath, setDrGeoPath] = useState([]);
@@ -271,7 +273,7 @@ const MapView = ({
         <button
           className={`map-control-button ${isFollowing ? 'active' : ''}`}
           onClick={toggleFollow}
-          title={isFollowing ? 'توقف تعقیب موقعیت' : 'تعقیب موقعیت'}
+          title={isFollowing ? intl.formatMessage({ id: 'mapStopFollow' }) : intl.formatMessage({ id: 'mapStartFollow' })}
         >
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
@@ -288,7 +290,7 @@ const MapView = ({
               setIsFollowing(true);
             }
           }}
-          title="مرکز به موقعیت فعلی"
+          title={intl.formatMessage({ id: 'mapCenter' })}
         >
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="2" x2="12" y2="6"></line>
@@ -306,13 +308,13 @@ const MapView = ({
         <div className="location-panel">
           <div className="coordinates-display">
             <div>
-              <span>عرض:</span> {currentLocation.coords.lat.toFixed(6)}
+              <span><FormattedMessage id="mapLatitude" /></span> {currentLocation.coords.lat.toFixed(6)}
             </div>
             <div>
-              <span>طول:</span> {currentLocation.coords.lng.toFixed(6)}
+              <span><FormattedMessage id="mapLongitude" /></span> {currentLocation.coords.lng.toFixed(6)}
             </div>
             <div>
-              <span>دقت:</span> {currentLocation.coords.accuracy.toFixed(1)} متر
+              <span><FormattedMessage id="mapAccuracy" /></span> {currentLocation.coords.accuracy.toFixed(1)} متر
             </div>
           </div>
         </div>
