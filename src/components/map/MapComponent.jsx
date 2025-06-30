@@ -3,6 +3,7 @@ import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
+import { useLangStore } from '../../store/langStore';
 
 // Colors for different location groups
 const groupColors = {
@@ -68,6 +69,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   const [selectedCoords, setSelectedCoords] = useState(null);
   const [geoData, setGeoData] = useState(null);
   const [routeCoords, setRouteCoords] = useState(null);
+  const language = useLangStore((state) => state.language);
 
   // Add this handler for view state changes
   const onMove = useCallback((evt) => {
@@ -119,11 +121,15 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   }, [isSwapped]);
 
   useEffect(() => {
-    fetch('/data14040404.geojson')
+    const file =
+      language === 'fa'
+        ? '/data14040404.geojson'
+        : `/data14040404_${language}.geojson`;
+    fetch(file)
       .then((res) => res.json())
       .then(setGeoData)
       .catch((err) => console.error('failed to load geojson', err));
-  }, []);
+  }, [language]);
 
   const handleClick = (e) => {
     if (isSelectingLocation) {
