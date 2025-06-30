@@ -430,6 +430,13 @@
   margin: 0;
 }
 
+.map-no-recent {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
 .map-destination-list li {
   display: flex;
   justify-content: space-between;
