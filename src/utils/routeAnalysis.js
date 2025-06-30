@@ -1,3 +1,7 @@
+
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import pointsWithinPolygon from '@turf/points-within-polygon';
+
 export function findNearest(coord, features) {
   if (!features || features.length === 0) return null;
   let best = null;
@@ -19,7 +23,7 @@ function findNearestList(coord, features, count = 2) {
     .map(f => {
       const [lng, lat] = f.geometry.coordinates;
       const d = Math.hypot(lng - coord[1], lat - coord[0]);
-      return { lat, lng, props: f.properties, distance: d };
+      return { lat, lng, props: f.properties, distance: d, feature: f };
     })
     .sort((a, b) => a.distance - b.distance)
     .slice(0, count)
@@ -27,35 +31,449 @@ function findNearestList(coord, features, count = 2) {
 }
 
 function findNearestByArea(coord, features, area) {
-  const filtered = features.filter(
-    f => (area === 'saایر' && f.properties?.subGroupValue === 'saایر') ||
-         f.properties?.subGroupValue === area
-  );
+  const filtered = features.filter(f => f.properties?.subGroupValue === area);
   return findNearest(coord, filtered);
 }
 
-function pointInPolygon(point, polygons) {
-  const x = point[1];
-  const y = point[0];
-  const polyList = Array.isArray(polygons[0][0]) && typeof polygons[0][0][0] === 'number' ? [polygons] : polygons;
-  for (const poly of polyList) {
-    let inside = false;
-    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-      const xi = poly[i][0];
-      const yi = poly[i][1];
-      const xj = poly[j][0];
-      const yj = poly[j][1];
-      const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
-      if (intersect) inside = !inside;
+// استفاده از turf.js برای تشخیص دقیق نقطه در polygon
+function pointInPolygon(point, polygon) {
+  try {
+    return booleanPointInPolygon(point, polygon);
+  } catch (error) {
+    console.warn('Error in pointInPolygon:', error);
+    return false;
+  }
+}
+
+function getArea(coord, sahns) {
+  const point = [coord[1], coord[0]]; // Convert to [lng, lat]
+  const match = sahns.find(p => pointInPolygon(point, p));
+  return match ? match.properties?.subGroupValue : null;
+}
+
+// Get the polygon object that contains a coordinate
+function getPolygonContaining(coord, polygons) {
+  const point = [coord[1], coord[0]]; // Convert to [lng, lat]
+  return polygons.find(p => pointInPolygon(point, p));
+}
+
+// Check if polygons are adjacent (share a border)
+function arePolygonsAdjacent(poly1, poly2) {
+  if (!poly1 || !poly2) return false;
+  if (poly1 === poly2) return false;
+  
+  const coords1 = poly1.geometry.coordinates[0];
+  const coords2 = poly2.geometry.coordinates[0];
+  
+  // Check if any edge from poly1 is very close to any edge from poly2
+  for (let i = 0; i < coords1.length - 1; i++) {
+    for (let j = 0; j < coords2.length - 1; j++) {
+      const dist = Math.min(
+        Math.hypot(coords1[i][0] - coords2[j][0], coords1[i][1] - coords2[j][1]),
+        Math.hypot(coords1[i+1][0] - coords2[j][0], coords1[i+1][1] - coords2[j][1]),
+        Math.hypot(coords1[i][0] - coords2[j+1][0], coords1[i][1] - coords2[j+1][1]),
+        Math.hypot(coords1[i+1][0] - coords2[j+1][0], coords1[i+1][1] - coords2[j+1][1])
+      );
+      if (dist < 0.00001) return true; // Very close = adjacent
     }
-    if (inside) return true;
   }
   return false;
 }
 
-function getArea(coord, sahns) {
-  const match = sahns.find(p => pointInPolygon(coord, p.geometry.coordinates));
-  return match ? match.properties?.subGroupValue : 'saایر';
+// Find nodes in a specific polygon using turf.js
+function getNodesInPolygon(nodes, polygon) {
+  if (!polygon) return [];
+  
+  try {
+    // Create points FeatureCollection from nodes
+    const pointsFC = {
+      type: 'FeatureCollection',
+      features: nodes.map((node, index) => ({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [node[1], node[0]] // [lng, lat]
+        },
+        properties: { index }
+      }))
+    };
+    
+    // Use turf pointsWithinPolygon
+    const within = pointsWithinPolygon(pointsFC, polygon);
+    
+    // Return indices of nodes within polygon
+    return within.features.map(f => f.properties.index);
+    
+  } catch (error) {
+    console.warn('Error in getNodesInPolygon:', error);
+    return [];
+  }
+}
+
+// Find connection nodes between two polygons
+function findConnectionNodesBetweenPolygons(nodes, poly1, poly2) {
+  const connectionNodes = [];
+  
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    const nodeType = node[2]?.nodeFunction;
+    
+    if (nodeType === 'connection') {
+      const nodeCoord = [node[0], node[1]]; // [lat, lng]
+      const nodePolygon = getPolygonContaining(nodeCoord, [poly1, poly2]);
+      
+      // If connection is in either polygon or between them
+      if (nodePolygon === poly1 || nodePolygon === poly2) {
+        // Check distance to both polygons
+        const nodes1 = getNodesInPolygon(nodes, poly1);
+        const nodes2 = getNodesInPolygon(nodes, poly2);
+        
+        if (nodes1.length > 0 && nodes2.length > 0) {
+          connectionNodes.push({
+            index: i,
+            node: node,
+            polygon: nodePolygon
+          });
+        }
+      }
+    }
+  }
+  
+  return connectionNodes;
+}
+
+// Find closest door pairs between two polygons
+function findClosestDoorsBetweenPolygons(nodes, poly1, poly2) {
+  const nodes1 = getNodesInPolygon(nodes, poly1);
+  const nodes2 = getNodesInPolygon(nodes, poly2);
+  
+  if (nodes1.length === 0 || nodes2.length === 0) return [];
+  
+  const doorPairs = [];
+  for (const n1 of nodes1) {
+    for (const n2 of nodes2) {
+      const distance = Math.hypot(
+        nodes[n1][0] - nodes[n2][0], 
+        nodes[n1][1] - nodes[n2][1]
+      );
+      doorPairs.push({ from: n1, to: n2, distance });
+    }
+  }
+  
+  // Return closest pairs (up to 2)
+  return doorPairs.sort((a, b) => a.distance - b.distance).slice(0, 2);
+}
+
+// Helper function to check if a line segment intersects with another
+function segmentsIntersect(p1, p2, p3, p4) {
+  function orientation(p, q, r) {
+    const val = (q[0] - p[0]) * (r[1] - q[1]) - (q[1] - p[1]) * (r[0] - q[0]);
+    if (Math.abs(val) < 1e-10) return 0;
+    return (val > 0) ? 1 : 2;
+  }
+
+  function onSegment(p, q, r) {
+    return (q[1] <= Math.max(p[1], r[1]) && q[1] >= Math.min(p[1], r[1]) &&
+            q[0] <= Math.max(p[0], r[0]) && q[0] >= Math.min(p[0], r[0]));
+  }
+
+  const o1 = orientation(p1, p2, p3);
+  const o2 = orientation(p1, p2, p4);
+  const o3 = orientation(p3, p4, p1);
+  const o4 = orientation(p3, p4, p2);
+
+  if (o1 !== o2 && o3 !== o4) return true;
+
+  if (o1 === 0 && onSegment(p1, p3, p2)) return true;
+  if (o2 === 0 && onSegment(p1, p4, p2)) return true;
+  if (o3 === 0 && onSegment(p3, p1, p4)) return true;
+  if (o4 === 0 && onSegment(p3, p2, p4)) return true;
+
+  return false;
+}
+
+// Check if a direct line crosses any polygon WITHOUT nodes
+function crossesEmptyPolygons(coord1, coord2, polygons, nodes) {
+  const p1 = [coord1[1], coord1[0]]; // Convert to [lng, lat]
+  const p2 = [coord2[1], coord2[0]];
+
+  for (const polygon of polygons) {
+    // Check if this polygon has any nodes
+    const nodesInPoly = getNodesInPolygon(nodes, polygon);
+    if (nodesInPoly.length > 0) continue; // Has nodes, OK to cross
+    
+    const vertices = polygon.geometry.coordinates[0];
+    
+    // Check if line intersects this empty polygon
+    for (let i = 0; i < vertices.length - 1; i++) {
+      const p3 = vertices[i];
+      const p4 = vertices[i + 1];
+      if (segmentsIntersect(p1, p2, p3, p4)) {
+        console.log(`Line blocked by empty polygon: ${polygon.properties?.subGroupValue}`);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+// Check if a direct line between two coordinates is obstructed by polygon walls
+function isLineObstructed(coord1, coord2, polygons) {
+  const p1 = [coord1[1], coord1[0]]; // Convert to [lng, lat]
+  const p2 = [coord2[1], coord2[0]];
+
+  for (const polygon of polygons) {
+    const vertices = polygon.geometry.coordinates[0];
+    
+    // Check if both points are inside the same polygon (allowed)
+    const point1 = [coord1[1], coord1[0]]; // [lng, lat]
+    const point2 = [coord2[1], coord2[0]]; // [lng, lat]
+    const p1Inside = pointInPolygon(point1, polygon);
+    const p2Inside = pointInPolygon(point2, polygon);
+    
+    if (p1Inside && p2Inside) continue; // Both inside same polygon = OK
+    
+    // Check for edge intersections
+    for (let i = 0; i < vertices.length - 1; i++) {
+      const p3 = vertices[i];
+      const p4 = vertices[i + 1];
+      if (segmentsIntersect(p1, p2, p3, p4)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+// Enhanced connection logic with PRIORITY for connection nodes
+function findValidNeighbors(nodeIndex, nodes, sahnPolygons) {
+  const currentNode = nodes[nodeIndex];
+  const currentCoord = [currentNode[0], currentNode[1]]; // [lat, lng]
+  const currentPolygon = getPolygonContaining(currentCoord, sahnPolygons);
+  const currentType = currentNode[2]?.nodeFunction;
+  const neighbors = [];
+  
+  // 80 meters ≈ 0.0008 degrees
+  const MAX_CROSS_POLYGON_DISTANCE = 0.0006;
+
+  for (let i = 0; i < nodes.length; i++) {
+    if (i === nodeIndex) continue;
+
+    const otherNode = nodes[i];
+    const otherCoord = [otherNode[0], otherNode[1]];
+    const otherPolygon = getPolygonContaining(otherCoord, sahnPolygons);
+    const otherType = otherNode[2]?.nodeFunction;
+    const distance = Math.hypot(currentCoord[0] - otherCoord[0], currentCoord[1] - otherCoord[1]);
+    
+    let isValid = false;
+    let connectionReason = '';
+    let weight = distance;
+
+    // PRIORITY RULE 1: Connection nodes get highest priority
+    if (currentType === 'connection' || otherType === 'connection') {
+      if (distance <= MAX_CROSS_POLYGON_DISTANCE ) { // Larger range for connections
+        isValid = true;
+        connectionReason = 'connection-priority';
+        weight = distance * 1; // Strong preference for connections
+      }
+    }
+    // PRIORITY RULE 2: Both nodes are inside the SAME polygon
+    else if (currentPolygon && otherPolygon && currentPolygon === otherPolygon) {
+      isValid = true;
+      connectionReason = 'same-polygon';
+      weight = distance;
+    }
+    // RULE 3: Cross-polygon connections through connection nodes
+    else if (distance <= MAX_CROSS_POLYGON_DISTANCE) {
+      // Check if line crosses any empty polygons (forbidden)
+      if (crossesEmptyPolygons(currentCoord, otherCoord, sahnPolygons, nodes)) {
+        isValid = false;
+        connectionReason = 'blocked-by-empty-polygon';
+      }
+      // If different polygons, prefer connection nodes as intermediate
+      else if (currentPolygon && otherPolygon && currentPolygon !== otherPolygon) {
+        // Look for connection nodes between these polygons
+        const connectionNodes = findConnectionNodesBetweenPolygons(nodes, currentPolygon, otherPolygon);
+        
+        if (connectionNodes.length > 0) {
+          // If there are connection nodes available, penalize direct cross-polygon connections
+          isValid = true;
+          connectionReason = 'cross-polygon-penalized';
+          weight = distance * 2.0; // Heavy penalty to discourage direct crossing
+        } else {
+          // No connection nodes available, allow direct connection
+          isValid = true;
+          connectionReason = 'cross-polygon-80m';
+          weight = distance * 1.2;
+        }
+      }
+      // If polygons are adjacent, prefer closest door pairs
+      else if (currentPolygon && otherPolygon && arePolygonsAdjacent(currentPolygon, otherPolygon)) {
+        const closestPairs = findClosestDoorsBetweenPolygons(nodes, currentPolygon, otherPolygon);
+        const isPreferredPair = closestPairs.some(pair => 
+          (pair.from === nodeIndex && pair.to === i) || 
+          (pair.from === i && pair.to === nodeIndex)
+        );
+        
+        if (isPreferredPair) {
+          isValid = true;
+          connectionReason = 'closest-door-between-polygons';
+          weight = distance * 0.8; // Slight preference for closest doors
+        } else {
+          isValid = true;
+          connectionReason = 'cross-polygon-80m';
+          weight = distance * 1.2;
+        }
+      }
+      else {
+        // Regular cross-polygon connection or outside polygons
+        isValid = true;
+        connectionReason = 'cross-polygon-80m';
+        weight = distance;
+      }
+    }
+    // RULE 4: Check if direct line is not obstructed (backup rule)
+    else if (!isLineObstructed(currentCoord, otherCoord, sahnPolygons) && 
+             !crossesEmptyPolygons(currentCoord, otherCoord, sahnPolygons, nodes)) {
+      // Long distance but unobstructed - only within same polygon
+      if (currentPolygon && otherPolygon && currentPolygon === otherPolygon) {
+        isValid = true;
+        connectionReason = 'unobstructed-same-polygon';
+        weight = distance;
+      }
+    }
+
+    if (isValid) {
+      neighbors.push({
+        index: i,
+        weight: weight,
+        reason: connectionReason
+      });
+    }
+  }
+
+  return neighbors;
+}
+
+// Dijkstra's algorithm for finding shortest path
+function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons) {
+  console.log(`Starting Enhanced Dijkstra with Connection Priority from node ${startNodeIndex} to ${endNodeIndex}`);
+  console.log(`Start node: [${nodes[startNodeIndex][0]}, ${nodes[startNodeIndex][1]}] - ${nodes[startNodeIndex][2]?.name || nodes[startNodeIndex][2]?.nodeFunction}`);
+  console.log(`End node: [${nodes[endNodeIndex][0]}, ${nodes[endNodeIndex][1]}] - ${nodes[endNodeIndex][2]?.name || nodes[endNodeIndex][2]?.nodeFunction}`);
+  
+  // Debug: Check start node connections
+  const startCoord = [nodes[startNodeIndex][0], nodes[startNodeIndex][1]];
+  const startPolygon = getPolygonContaining(startCoord, sahnPolygons);
+  const startArea = startPolygon ? startPolygon.properties?.subGroupValue : 'outside';
+  const startType = nodes[startNodeIndex][2]?.nodeFunction;
+  console.log(`Start node: area=${startArea}, type=${startType}`);
+  
+  const startNeighbors = findValidNeighbors(startNodeIndex, nodes, sahnPolygons);
+  console.log(`Start node has ${startNeighbors.length} neighbors with connection priority:`);
+  
+  // Sort neighbors by priority (connection nodes first)
+  const sortedNeighbors = startNeighbors.sort((a, b) => {
+    const aIsConnection = nodes[a.index][2]?.nodeFunction === 'connection';
+    const bIsConnection = nodes[b.index][2]?.nodeFunction === 'connection';
+    
+    if (aIsConnection && !bIsConnection) return -1;
+    if (!aIsConnection && bIsConnection) return 1;
+    return a.weight - b.weight;
+  });
+  
+  sortedNeighbors.slice(0, 10).forEach(n => {
+    const neighborCoord = [nodes[n.index][0], nodes[n.index][1]];
+    const neighborPolygon = getPolygonContaining(neighborCoord, sahnPolygons);
+    const neighborArea = neighborPolygon ? neighborPolygon.properties?.subGroupValue : 'outside';
+    const neighborType = nodes[n.index][2]?.nodeFunction;
+    console.log(`  -> Node ${n.index} (${nodes[n.index][2]?.name || 'unnamed'}) area=${neighborArea}, type=${neighborType}, weight=${n.weight.toFixed(6)}, reason=${n.reason}`);
+  });
+  
+  // Continue with standard Dijkstra
+  const distances = {};
+  const previous = {};
+  const unvisited = new Set();
+
+  // Initialize
+  nodes.forEach((_, index) => {
+    distances[index] = Infinity;
+    previous[index] = null;
+    unvisited.add(index);
+  });
+  distances[startNodeIndex] = 0;
+
+  let iterations = 0;
+  const maxIterations = nodes.length * 2;
+
+  while (unvisited.size > 0 && iterations < maxIterations) {
+    iterations++;
+    
+    // Find unvisited node with minimum distance
+    let currentIndex = null;
+    let minDist = Infinity;
+    for (const index of unvisited) {
+      if (distances[index] < minDist) {
+        minDist = distances[index];
+        currentIndex = index;
+      }
+    }
+
+    if (currentIndex === null || minDist === Infinity) {
+      console.log(`Dijkstra stopped: no more reachable nodes (iteration ${iterations})`);
+      break;
+    }
+
+    if (currentIndex === endNodeIndex) {
+      console.log(`Dijkstra reached destination in ${iterations} iterations`);
+      break;
+    }
+
+    unvisited.delete(currentIndex);
+
+    const neighbors = findValidNeighbors(currentIndex, nodes, sahnPolygons);
+
+    for (const neighbor of neighbors) {
+      if (!unvisited.has(neighbor.index)) continue;
+      
+      const alt = distances[currentIndex] + neighbor.weight;
+      if (alt < distances[neighbor.index]) {
+        distances[neighbor.index] = alt;
+        previous[neighbor.index] = currentIndex;
+        
+        if (neighbor.index === endNodeIndex) {
+          console.log(`Found path to destination! Distance: ${alt}, via ${neighbor.reason}`);
+        }
+      }
+    }
+  }
+
+  console.log(`Final distance to destination: ${distances[endNodeIndex]}`);
+
+  // Reconstruct path
+  const path = [];
+  let currentIndex = endNodeIndex;
+  
+  if (distances[endNodeIndex] === Infinity) {
+    console.log('Destination is not reachable from start node');
+    return [];
+  }
+  
+  while (currentIndex !== null) {
+    path.unshift(nodes[currentIndex]);
+    currentIndex = previous[currentIndex];
+  }
+
+  console.log(`Enhanced Dijkstra found path with ${path.length} nodes`);
+  
+  // Log path details
+  console.log('Path details:');
+  path.forEach((node, index) => {
+    const nodeType = node[2]?.nodeFunction;
+    const nodeName = node[2]?.name || 'unnamed';
+    console.log(`  ${index}: ${nodeName} (${nodeType})`);
+  });
+  
+  return path.length > 0 && path[0] === nodes[startNodeIndex] ? path : [];
 }
 
 function angleBetween(p1, p2, p3) {
@@ -67,184 +485,159 @@ function angleBetween(p1, p2, p3) {
   return Math.round(deg);
 }
 
-function segmentsIntersect(a, b, c, d) {
-  const cross = (p, q, r) => (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);
-  if (cross(a, b, c) * cross(a, b, d) > 0) return false;
-  if (cross(c, d, a) * cross(c, d, b) > 0) return false;
-  return true;
-}
-
-function lineIntersectsPolygon(p1, p2, polygons) {
-  const rings = Array.isArray(polygons[0][0]) && typeof polygons[0][0][0] === 'number' ? [polygons] : polygons;
-  for (const ring of rings) {
-    for (let i = 1; i < ring.length; i++) {
-      const p3 = ring[i - 1];
-      const p4 = ring[i];
-      if (segmentsIntersect([p1[1], p1[0]], [p2[1], p2[0]], p3, p4)) return true;
-    }
-  }
-  const mid = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
-  return pointInPolygon(mid, polygons);
-}
-
-function unobstructed(p1, p2, sahns) {
-  for (const p of sahns) {
-    const poly = p.geometry.coordinates;
-    const insideBoth =
-      pointInPolygon(p1, poly) && pointInPolygon(p2, poly);
-    if (lineIntersectsPolygon(p1, p2, poly) && !insideBoth) return false;
-  }
-  return true;
-}
-
-function distance(a, b) {
-  return Math.hypot(a[0] - b[0], a[1] - b[1]);
-}
-
-function runDijkstra(graph, start, end) {
-  const dist = {};
-  const prev = {};
-  const q = new Set(Object.keys(graph));
-  for (const v of q) dist[v] = Infinity;
-  dist[start] = 0;
-  while (q.size) {
-    let u = null;
-    for (const v of q) {
-      if (u === null || dist[v] < dist[u]) u = v;
-    }
-    if (u === end || dist[u] === Infinity) break;
-    q.delete(u);
-    for (const [v, w] of Object.entries(graph[u])) {
-      const alt = dist[u] + w;
-      if (alt < (dist[v] ?? Infinity)) {
-        dist[v] = alt;
-        prev[v] = u;
-      }
-    }
-  }
-  const path = [];
-  let u = end;
-  if (!(u in prev) && u !== start) return [];
-  while (u) {
-    path.unshift(u);
-    if (u === start) break;
-    u = prev[u];
-  }
-  return path;
-}
-
-export function computeShortestPath(origin, destination, features) {
-  const nodes = features.filter(
-    f =>
-      f.geometry.type === 'Point' &&
-      (f.properties?.nodeFunction === 'door' || f.properties?.nodeFunction === 'connection')
-  );
-  const sahns = features.filter(
-    f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
-  );
-
-  const nodeData = nodes.map((n, i) => {
-    const [lng, lat] = n.geometry.coordinates;
-    return { id: `n${i}`, coord: [lat, lng], props: n.properties };
-  });
-
-  const idMap = {};
-  nodeData.forEach(n => {
-    idMap[n.id] = n;
-  });
-
-  const graph = {};
-  nodeData.forEach(n => {
-    graph[n.id] = {};
-  });
-
-  for (let i = 0; i < nodeData.length; i++) {
-    for (let j = i + 1; j < nodeData.length; j++) {
-      const a = nodeData[i];
-      const b = nodeData[j];
-      if (unobstructed(a.coord, b.coord, sahns)) {
-        const d = distance(a.coord, b.coord);
-        graph[a.id][b.id] = d;
-        graph[b.id][a.id] = d;
-      }
-    }
-  }
-
-  const start = { id: 'start', coord: origin.coordinates, props: {} };
-  const end = { id: 'end', coord: destination.coordinates, props: {} };
-  idMap[start.id] = start;
-  idMap[end.id] = end;
-  graph[start.id] = {};
-  graph[end.id] = {};
-
-  function linkPoint(p) {
-    let best = null;
-    let min = Infinity;
-    for (const n of nodeData) {
-      if (unobstructed(p.coord, n.coord, sahns)) {
-        const d = distance(p.coord, n.coord);
-        if (d < min) {
-          min = d;
-          best = n;
-        }
-      }
-    }
-    if (best) {
-      graph[p.id][best.id] = min;
-      graph[best.id][p.id] = min;
-    }
-  }
-
-  linkPoint(start);
-  linkPoint(end);
-
-  const pathIds = runDijkstra(graph, start.id, end.id);
-  const coords = pathIds.map(id => idMap[id].coord);
-  const nodesInPath = pathIds.map(id => idMap[id]);
-
-  return { path: coords, nodes: nodesInPath };
-}
-
 export function analyzeRoute(origin, destination, geoData) {
+  console.log('analyzeRoute called with Connection Priority Logic');
+  
   if (!geoData) {
     return { path: [origin.coordinates, destination.coordinates], steps: [] };
   }
+  
+  const doors = geoData.features.filter(
+    f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'door'
+  );
+  const connections = geoData.features.filter(
+    f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'connection'
+  );
+  const sahnPolygons = geoData.features.filter(
+    f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
+  );
+  
+  console.log(`Found ${doors.length} doors, ${connections.length} connections, ${sahnPolygons.length} sahns`);
 
-  const { path, nodes } = computeShortestPath(origin, destination, geoData.features);
+  // Create a unified list of all navigation nodes
+  const allNodes = [];
+  
+  // Add all doors
+  doors.forEach(door => {
+    const [lng, lat] = door.geometry.coordinates;
+    allNodes.push([lat, lng, door.properties, 0, door]);
+  });
+  
+  // Add all connections
+  connections.forEach(conn => {
+    const [lng, lat] = conn.geometry.coordinates;
+    allNodes.push([lat, lng, conn.properties, 0, conn]);
+  });
+  
+  console.log(`Total nodes available: ${allNodes.length}`);
 
-  const steps = [];
-  for (let i = 1; i < nodes.length - 1; i++) {
-    const n = nodes[i];
-    if (n.props?.nodeFunction === 'door') {
-      steps.push({
-        coordinates: n.coord,
-        type: i === 1 ? 'stepMoveToDoor' : 'stepPassDoor',
-        name: n.props?.name || ''
-      });
-    } else if (n.props?.nodeFunction === 'connection') {
-      steps.push({
-        coordinates: n.coord,
-        type: 'stepPassConnection',
-        title: n.props?.subGroup || n.props?.name || ''
-      });
+  // Analyze polygons and their nodes using turf.js
+  console.log('Polygon analysis with turf.js:');
+  const emptyPolygons = [];
+  sahnPolygons.forEach(poly => {
+    const nodesInPoly = getNodesInPolygon(allNodes, poly);
+    console.log(`  ${poly.properties?.subGroupValue}: ${nodesInPoly.length} nodes`);
+    if (nodesInPoly.length === 0) {
+      emptyPolygons.push(poly);
     }
+  });
+  
+  console.log(`Found ${emptyPolygons.length} empty polygons:`);
+  emptyPolygons.forEach(poly => {
+    console.log(`  - ${poly.properties?.subGroupValue}`);
+  });
+
+  // Find unobstructed entry points
+  function findUnobstructedEntry(coord, nth = 0) {
+    const validNodes = [];
+    
+    for (let i = 0; i < allNodes.length; i++) {
+      const node = allNodes[i];
+      const nodeCoord = [node[0], node[1]];
+      
+      if (!isLineObstructed(coord, nodeCoord, sahnPolygons) &&
+          !crossesEmptyPolygons(coord, nodeCoord, sahnPolygons, allNodes)) {
+        const distance = Math.hypot(coord[0] - nodeCoord[0], coord[1] - nodeCoord[1]);
+        validNodes.push({
+          index: i,
+          node: node,
+          distance: distance
+        });
+      }
+    }
+    
+    validNodes.sort((a, b) => a.distance - b.distance);
+    console.log(`Found ${validNodes.length} unobstructed nodes from [${coord[0]}, ${coord[1]}]`);
+    
+    return validNodes[nth] || null;
   }
 
+  // Find entry and exit points
+  const startEntry = findUnobstructedEntry(origin.coordinates, 0);
+  const endEntry = findUnobstructedEntry(destination.coordinates, 0);
+  
+  console.log('Start entry:', startEntry ? `Node ${startEntry.index}` : 'None');
+  console.log('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
+
+  if (!startEntry || !endEntry) {
+    console.log('Could not find valid entry/exit points, returning direct path');
+    const geo = {
+      type: 'Feature',
+      geometry: { type: 'LineString', coordinates: [origin.coordinates, destination.coordinates].map(p => [p[1], p[0]]) }
+    };
+    return { 
+      path: [origin.coordinates, destination.coordinates], 
+      steps: [{ coordinates: destination.coordinates, type: 'stepArriveDestination', name: destination.name || '' }],
+      geo,
+      alternatives: []
+    };
+  }
+
+  // Use connection-priority Dijkstra to find the shortest path between entry points
+  const nodePath = dijkstraShortestPath(allNodes, startEntry.index, endEntry.index, sahnPolygons);
+  
+  if (nodePath.length === 0 || nodePath.length === 1) {
+    console.log('No valid path found between entry points, returning direct path');
+    const geo = {
+      type: 'Feature',
+      geometry: { type: 'LineString', coordinates: [origin.coordinates, destination.coordinates].map(p => [p[1], p[0]]) }
+    };
+    return { 
+      path: [origin.coordinates, destination.coordinates], 
+      steps: [{ coordinates: destination.coordinates, type: 'stepArriveDestination', name: destination.name || '' }],
+      geo,
+      alternatives: []
+    };
+  }
+
+  // Build the final path
+  const path = [origin.coordinates];
+  const steps = [];
+
+  // Add all nodes from the path
+  nodePath.forEach(node => {
+    const coord = [node[0], node[1]];
+    path.push(coord);
+    
+    if (node[2].nodeFunction === 'door') {
+      steps.push({
+        coordinates: coord,
+        type: 'stepPassDoor',
+        name: node[2].name || ''
+      });
+    } else if (node[2].nodeFunction === 'connection') {
+      steps.push({
+        coordinates: coord,
+        type: 'stepPassConnection',
+        title: node[2].subGroup || node[2].name || ''
+      });
+    }
+  });
+
+  // Add destination
+  path.push(destination.coordinates);
   steps.push({
     coordinates: destination.coordinates,
     type: 'stepArriveDestination',
     name: destination.name || ''
   });
 
-  for (let i = 1; i < path.length - 1; i++) {
-    const angle = angleBetween(path[i - 1], path[i], path[i + 1]);
-    if (steps[i - 1]) steps[i - 1].turnAngle = angle;
-  }
-
   const geo = {
     type: 'Feature',
     geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
   };
 
+  console.log(`Final path has ${path.length} points`);
+  
   return { path, geo, steps, alternatives: [] };
 }
