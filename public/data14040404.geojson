@@ -11,7 +11,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -44,7 +44,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -77,7 +77,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -143,7 +143,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -177,7 +177,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -211,7 +211,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -245,7 +245,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -279,7 +279,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -313,7 +313,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -381,7 +381,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -415,7 +415,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -449,7 +449,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -483,7 +483,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی امام خمینی",
         "description": "",
         "group": "ravaq",
         "subGroup": "امام خمینی",
@@ -516,7 +516,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -550,7 +550,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -584,7 +584,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی امام خمینی",
         "description": "",
         "group": "ravaq",
         "subGroup": "امام خمینی",
@@ -617,7 +617,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -651,7 +651,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -719,7 +719,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -753,7 +753,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -821,7 +821,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -855,7 +855,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -922,7 +922,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -956,7 +956,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -990,7 +990,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -1024,7 +1024,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -1058,7 +1058,7 @@
         ]
       },
       "properties": {
-        "name": "وروئی",
+        "name": "ورودی شمالی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1090,7 +1090,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1123,7 +1123,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1189,7 +1189,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1256,7 +1256,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1290,7 +1290,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1324,7 +1324,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -1392,7 +1392,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -1426,7 +1426,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1459,7 +1459,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1492,7 +1492,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1526,7 +1526,7 @@
         ]
       },
       "properties": {
-        "name": "وردوی",
+        "name": "ورودی جنوبی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1559,7 +1559,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1592,7 +1592,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -1626,7 +1626,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1694,7 +1694,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -1728,7 +1728,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1761,7 +1761,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1795,7 +1795,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1828,7 +1828,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1862,7 +1862,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1895,7 +1895,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1929,7 +1929,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1962,7 +1962,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -1996,7 +1996,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2030,7 +2030,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -2064,7 +2064,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی مهمانسرا",
         "description": "",
         "group": "khadamat",
         "subGroup": "مهمانسرا",
@@ -2097,7 +2097,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2131,7 +2131,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی دانشگاه علوم اسلامی رضوی",
         "description": "",
         "group": "elmi",
         "subGroup": "دانشگاه علوم اسلامی رضوی",
@@ -2165,7 +2165,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2199,7 +2199,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "بست شیخ طبرسی",
         "group": "other",
         "subGroup": "سایر",
@@ -2233,7 +2233,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
