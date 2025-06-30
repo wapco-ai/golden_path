@@ -258,6 +258,7 @@ const FinalSearch = () => {
               <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />
             </Source>
           )}
+          <GeoJsonOverlay />
         </Map>
       </div>
 
