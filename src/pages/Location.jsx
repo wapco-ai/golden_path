@@ -349,9 +349,9 @@ const Location = () => {
         </div>
 
         <div className="about-location" ref={aboutContentRef}>
-        <h3>
-          <FormattedMessage id="aboutLocation" values={{ title: locationData.title }} />
-        </h3>
+          <h3>
+            <FormattedMessage id="aboutLocation" values={{ title: locationData.title }} />
+          </h3>
           <div className={`about-content ${showFullAbout ? 'expanded' : ''}`}>
             <p>
               {showFullAbout ? locationData.about.full : locationData.about.short}
@@ -957,10 +957,9 @@ const Location = () => {
                             key={index}
                             className="subgroup-item"
                             style={{
-                              backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(item.svg)}")`,
-                              backgroundSize: '50%',
+                              backgroundImage: item.img ? `url(${item.img})` : 'none',
+                              backgroundSize: 'cover',
                               backgroundPosition: 'center',
-                              backgroundRepeat: 'no-repeat',
                               backgroundColor: 'rgba(255,255,255,0.7)',
                               backgroundBlendMode: 'lighten'
                             }}
@@ -987,10 +986,9 @@ const Location = () => {
                         key={index}
                         className="subgroup-item"
                         style={{
-                          backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(subgroup.svg)}")`,
-                          backgroundSize: '50%',
+                          backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
+                          backgroundSize: 'cover',
                           backgroundPosition: 'center',
-                          backgroundRepeat: 'no-repeat',
                           backgroundColor: 'rgba(255,255,255,0.7)',
                           backgroundBlendMode: 'lighten'
                         }}
