@@ -59,6 +59,7 @@
   ,"nearMe": "Places near me"
   ,"save": "Save"
   ,"commentsLabel": "comments"
+  ,"defaultCommentAuthor": "New user"
   ,"searchSuggestions": "Search suggestions"
   ,"loading": "Loading..."
   ,"fetchError": "Error fetching data: {error}"

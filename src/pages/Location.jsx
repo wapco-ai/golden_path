@@ -117,7 +117,7 @@ const Location = () => {
     e.preventDefault();
     if (comment.trim()) {
       const newComment = {
-        author: 'کاربر جدید',
+        author: intl.formatMessage({ id: 'defaultCommentAuthor' }),
         text: comment,
         date: new Date().toLocaleDateString('fa-IR'),
         rating: rating || 0
