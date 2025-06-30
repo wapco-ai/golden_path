@@ -34,22 +34,42 @@ export function analyzeRoute(origin, destination, geoData) {
 
   if (startDoor) {
     path.push(startDoor.slice(0, 2));
-    steps.push({ coordinates: startDoor.slice(0, 2), instruction: 'حرکت به سمت نزدیک‌ترین درب' });
+    const name = startDoor[2]?.name ? ` (${startDoor[2].name})` : '';
+    steps.push({
+      coordinates: startDoor.slice(0, 2),
+      instruction: `حرکت به سمت درب${name}`
+    });
   }
   if (startConn) {
     path.push(startConn.slice(0, 2));
-    steps.push({ coordinates: startConn.slice(0, 2), instruction: 'عبور از نقطه اتصال' });
+    const title = startConn[2]?.subGroup || startConn[2]?.name || '';
+    steps.push({
+      coordinates: startConn.slice(0, 2),
+      instruction: `عبور از نقطه اتصال ${title}`.trim()
+    });
   }
   if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) {
     path.push(endConn.slice(0, 2));
-    steps.push({ coordinates: endConn.slice(0, 2), instruction: 'ورود به صحن بعدی از طریق نقطه اتصال' });
+    const title = endConn[2]?.subGroup || endConn[2]?.name || '';
+    steps.push({
+      coordinates: endConn.slice(0, 2),
+      instruction: `ورود به صحن بعدی از طریق نقطه اتصال ${title}`.trim()
+    });
   }
   if (endDoor) {
     path.push(endDoor.slice(0, 2));
-    steps.push({ coordinates: endDoor.slice(0, 2), instruction: 'عبور از درب' });
+    const name = endDoor[2]?.name ? ` (${endDoor[2].name})` : '';
+    steps.push({
+      coordinates: endDoor.slice(0, 2),
+      instruction: `عبور از درب${name}`
+    });
   }
   path.push(destination.coordinates);
-  steps.push({ coordinates: destination.coordinates, instruction: 'رسیدن به مقصد' });
+  const destName = destination.name ? ` (${destination.name})` : '';
+  steps.push({
+    coordinates: destination.coordinates,
+    instruction: `رسیدن به مقصد${destName}`
+  });
 
   const geo = {
     type: 'Feature',
