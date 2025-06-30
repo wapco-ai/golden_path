@@ -109,7 +109,11 @@ const RoutingPage = () => {
         }
         return {
           id: i + 1,
-          instruction: intl.formatMessage({ id: st.type }, { name: st.name, title: st.title, num: i + 1 }),
+          instruction: intl.formatMessage(
+            { id: st.type },
+            { name: st.name, title: st.title, num: i + 1 }
+          ),
+
           distance: `${Math.round(dist)} متر`,
           time: `${Math.max(1, Math.round(dist / 60))} دقیقه`,
           coordinates: st.coordinates
@@ -121,7 +125,11 @@ const RoutingPage = () => {
         id: ridx + 1,
         steps: altSteps,
         totalTime: formatTotalTime(minutes),
-        totalDistance: `${distTot} متر`
+        totalDistance: `${distTot} متر`,
+        from: alt.from,
+        to: alt.to,
+        via: alt.via
+
       };
     });
 

@@ -27,7 +27,6 @@ function findNearestList(coord, features, count = 2) {
 }
 
 function angleBetween(p1, p2, p3) {
-  const toRad = deg => (deg * Math.PI) / 180;
   const a1 = Math.atan2(p2[0] - p1[0], p2[1] - p1[1]);
   const a2 = Math.atan2(p3[0] - p2[0], p3[1] - p2[1]);
   let deg = ((a2 - a1) * 180) / Math.PI;
@@ -161,7 +160,19 @@ export function analyzeRoute(origin, destination, geoData) {
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: altPath.map(p => [p[1], p[0]]) }
     };
-    alternatives.push({ path: altPath, geo: altGeo, steps: altSteps });
+    const via = altSteps
+      .slice(1, -1)
+      .map(s => s.title || s.name)
+      .filter(Boolean);
+    alternatives.push({
+      path: altPath,
+      geo: altGeo,
+      steps: altSteps,
+      from: origin.name,
+      to: destination.name,
+      via
+    });
+
   }
 
   return { path, geo, steps, alternatives };
