@@ -12,7 +12,8 @@ const RouteMap = ({
   currentStep,
   isInfoModalOpen,
   isMapModalOpen,
-  is3DView
+  is3DView,
+  routeGeo
 }) => {
   const mapRef = useRef(null);
   const center = userLocation && userLocation.length === 2
@@ -46,6 +47,24 @@ const RouteMap = ({
       });
     }
   }, [is3DView]);
+
+  // Zoom to current segment when step changes
+  useEffect(() => {
+    if (
+      mapRef.current &&
+      routeGeo &&
+      currentStep < routeGeo.geometry.coordinates.length - 1
+    ) {
+      const start = routeGeo.geometry.coordinates[currentStep];
+      const end = routeGeo.geometry.coordinates[currentStep + 1];
+      const bounds = new maplibregl.LngLatBounds(
+        [start[0], start[1]],
+        [start[0], start[1]]
+      );
+      bounds.extend([end[0], end[1]]);
+      mapRef.current.fitBounds(bounds, { padding: 80, duration: 700 });
+    }
+  }, [currentStep, routeGeo]);
 
   return (
     <Map

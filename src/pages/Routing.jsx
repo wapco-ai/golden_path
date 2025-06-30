@@ -491,6 +491,7 @@ const RoutingPage = () => {
               isInfoModalOpen={isInfoModalOpen}
               isMapModalOpen={isMapModalOpen}
               is3DView={is3DView}
+              routeGeo={routeGeo}
             />
           </div>
         )}
