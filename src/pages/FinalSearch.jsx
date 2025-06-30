@@ -10,6 +10,7 @@ import osmStyle from '../services/osmStyle';
 import '../styles/FinalSearch.css';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
+import { analyzeRoute } from '../utils/routeAnalysis';
 
 const FinalSearch = () => {
   const [isSwapButton, setSwapButton] = useState(true);
@@ -21,7 +22,8 @@ const FinalSearch = () => {
     routeGeo: storedRouteGeo,
     setOrigin: storeSetOrigin,
     setDestination: storeSetDestination,
-    setRouteGeo: storeSetRouteGeo
+    setRouteGeo: storeSetRouteGeo,
+    setRouteSteps: storeSetRouteSteps
   } = useRouteStore();
   const language = useLangStore((state) => state.language);
   const [origin, setOrigin] = useState(
@@ -101,45 +103,10 @@ const FinalSearch = () => {
 
   useEffect(() => {
     if (!geoData) return;
-    const doors = geoData.features.filter(
-      f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'door'
-    );
-    const connections = geoData.features.filter(
-      f => f.geometry.type === 'Point' && f.properties?.nodeFunction === 'connection'
-    );
-
-    const nearest = (coords, pts) => {
-      let best = null;
-      let dmin = Infinity;
-      pts.forEach(p => {
-        const [lng, lat] = p.geometry.coordinates;
-        const d = Math.hypot(lng - coords[1], lat - coords[0]);
-        if (d < dmin) {
-          dmin = d;
-          best = [lat, lng];
-        }
-      });
-      return best;
-    };
-
-    const startDoor = nearest(origin.coordinates, doors);
-    const endDoor = nearest(destination.coordinates, doors);
-    const startConn = startDoor ? nearest(startDoor, connections) : null;
-    const endConn = endDoor ? nearest(endDoor, connections) : null;
-
-    const path = [origin.coordinates];
-    if (startDoor) path.push(startDoor);
-    if (startConn) path.push(startConn);
-    if (endConn && (!startConn || endConn[0] !== startConn[0] || endConn[1] !== startConn[1])) path.push(endConn);
-    if (endDoor) path.push(endDoor);
-    path.push(destination.coordinates);
-
-    const geo = {
-      type: 'Feature',
-      geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
-    };
+    const { geo, steps } = analyzeRoute(origin, destination, geoData);
     storeSetRouteGeo(geo);
-  }, [geoData, origin, destination, storeSetRouteGeo]);
+    storeSetRouteSteps(steps);
+  }, [geoData, origin, destination, storeSetRouteGeo, storeSetRouteSteps]);
 
   const swapLocations = () => {
     setSwapButton(!isSwapButton);

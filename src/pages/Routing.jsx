@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import RouteMap from '../components/map/RouteMap';
 import '../styles/Routing.css';
+import { useRouteStore } from '../store/routeStore';
 
 const RoutingPage = () => {
   const intl = useIntl();
@@ -23,6 +24,7 @@ const RoutingPage = () => {
   const [was3DViewBeforeRouteView, setWas3DViewBeforeRouteView] = useState(false);
   const [is3DView, setIs3DView] = useState(false);
   const navigate = useNavigate();
+  const { routeSteps, routeGeo } = useRouteStore();
 
   // Calculate total time in minutes from all steps
   const calculateTotalTime = (steps) => {
@@ -70,24 +72,37 @@ const RoutingPage = () => {
     return `${hours}:${minutes}`;
   };
 
-  // Load route data from JSON
+  // Build route data from stored steps
   useEffect(() => {
-    fetch('./data/routeData.json')
-      .then(response => response.json())
-      .then(data => {
-        const steps = data.route.steps;
-        const totalMinutes = calculateTotalTime(steps);
-        const formattedTotalTime = formatTotalTime(totalMinutes);
-        const arrivalTime = calculateArrivalTime(totalMinutes);
+    if (!routeSteps || routeSteps.length === 0 || !routeGeo) return;
+    const steps = routeSteps.map((s, idx) => {
+      let distance = 0;
+      if (idx > 0) {
+        const [lng1, lat1] = routeGeo.geometry.coordinates[idx - 1];
+        const [lng2, lat2] = routeGeo.geometry.coordinates[idx];
+        distance = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
+      }
+      return {
+        id: idx + 1,
+        instruction: s.instruction,
+        distance: `${Math.round(distance)} متر`,
+        time: `${Math.max(1, Math.round(distance / 60))} دقیقه`,
+        coordinates: s.coordinates
+      };
+    });
+    const totalMinutes = calculateTotalTime(steps);
+    const formattedTotalTime = formatTotalTime(totalMinutes);
+    const arrivalTime = calculateArrivalTime(totalMinutes);
+    const totalDistance = steps.reduce((acc, st) => acc + parseInt(st.distance), 0);
 
-        setRouteData({
-          ...data.route,
-          totalTime: formattedTotalTime,
-          arrivalTime: arrivalTime
-        });
-      })
-      .catch(error => console.error('Error loading route data:', error));
-  }, []);
+    setRouteData({
+      steps,
+      totalTime: formattedTotalTime,
+      arrivalTime,
+      totalDistance: `${totalDistance} متر`,
+      alternativeRoutes: []
+    });
+  }, [routeSteps, routeGeo]);
 
   // Update arrival time every minute
   useEffect(() => {
