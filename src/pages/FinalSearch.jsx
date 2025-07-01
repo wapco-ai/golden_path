@@ -10,6 +10,7 @@ import osmStyle from '../services/osmStyle';
 import '../styles/FinalSearch.css';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
+import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
 
 const FinalSearch = () => {
@@ -82,10 +83,8 @@ const FinalSearch = () => {
   }, [origin.coordinates]);
 
   useEffect(() => {
-    const file =
-      language === 'fa'
-        ? './data14040404.geojson'
-        : `./data14040404_${language}.geojson`;
+    const file = buildGeoJsonPath(language);
+
     fetch(file)
       .then(res => res.json())
       .then(setGeoData)

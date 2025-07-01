@@ -5,6 +5,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import { useLangStore } from '../../store/langStore';
+import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
 
 // Colors for different location groups
 const groupColors = {
@@ -89,6 +90,18 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   }, [selectedDestination]);
 
   useEffect(() => {
+    const storedLat = sessionStorage.getItem('qrLat');
+    const storedLng = sessionStorage.getItem('qrLng');
+    if (storedLat && storedLng) {
+      const c = { lat: parseFloat(storedLat), lng: parseFloat(storedLng) };
+      setUserCoords(c);
+      setUserLocation({
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+        coordinates: [c.lat, c.lng]
+      });
+      setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng }));
+      return;
+    }
     const success = (pos) => {
       const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       setUserCoords(c);
@@ -118,7 +131,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       timeout: 10000
     });
     return () => navigator.geolocation.clearWatch(watchId);
-  }, [setUserLocation]);
+  }, [setUserLocation, intl]);
 
   useEffect(() => {
     if (isSwapped && userCoords && destCoords) {
@@ -129,10 +142,8 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   }, [isSwapped]);
 
   useEffect(() => {
-    const file =
-      language === 'fa'
-        ? '/data14040404.geojson'
-        : `/data14040404_${language}.geojson`;
+    const file = buildGeoJsonPath(language);
+
     fetch(file)
       .then((res) => res.json())
       .then(setGeoData)
