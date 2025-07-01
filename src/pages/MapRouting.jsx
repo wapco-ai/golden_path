@@ -129,6 +129,7 @@ const MapRoutingPage = () => {
   useEffect(() => {
       if (searchQuery && !geoData) {
         const file = buildGeoJsonPath(language);
+
         fetch(file)
           .then((res) => res.json())
           .then(setGeoData)

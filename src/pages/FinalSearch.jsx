@@ -84,6 +84,7 @@ const FinalSearch = () => {
 
   useEffect(() => {
     const file = buildGeoJsonPath(language);
+
     fetch(file)
       .then(res => res.json())
       .then(setGeoData)

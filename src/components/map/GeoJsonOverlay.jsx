@@ -58,6 +58,7 @@ const GeoJsonOverlay = ({ selectedCategory }) => {
 
   useEffect(() => {
     const file = buildGeoJsonPath(language);
+
     fetch(file)
       .then(res => res.json())
       .then(data => setFeatures(data.features || []))
