@@ -1375,7 +1375,7 @@
 .search-modal-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .close-search-modal {
@@ -1713,27 +1713,25 @@
 
 /* New styles for subgroups without images */
 .subgroups-without-images {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  margin-top: 0px;
 }
 
 .subgroup-item-no-image {
   background: white;
-  border-radius: 12px;
   padding: 15px;
   display: flex;
   align-items: center;
   gap: 15px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eee;
+  border-bottom: 1px solid  #76767678;
 }
 
 .subgroup-icon {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: flex;
+  margin-bottom: 20px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
@@ -1761,62 +1759,4 @@
   font-size: 14px;
   color: #666;
   line-height: 1.4;
-}
-
-/* Adjust existing styles to be more specific */
-.subgroups-with-images .subgroups-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin: 0;
-}
-
-.subgroups-with-images .subgroup-item.with-image {
-  min-height: 250px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid #eee;
-}
-
-.subgroups-with-images .subgroup-item.with-image::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  z-index: 0;
-}
-
-.subgroups-with-images .subgroup-item.with-image:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.subgroups-with-images .subgroup-info {
-  position: absolute;
-  z-index: 1;
-  background: linear-gradient(to bottom, rgba(19, 4, 4, 0.588) 10%,black);
-  padding: 5px;
-  width: 100%;
-  bottom: 0;
-  border: none;
-  text-align: right;
-}
-
-.subgroups-with-images .subgroup-info h4 {
-  font-size: 0.9rem;
-  color: white;
-  margin-bottom: 2px;
-  font-weight: 100;
-  margin-right: 5px;
-}
-
-.subgroups-with-images .subgroup-info p {
-  font-size: 0.8rem;
-  color: #898888;
-  line-height: 1.4;
-  margin-bottom: 4px;
-  margin-right: 5px;
 }
