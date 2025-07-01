@@ -14,10 +14,18 @@ const MapRoutingPage = () => {
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
-  const [userLocation, setUserLocation] = useState({
-    name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-    coordinates: [36.297, 59.6069]
-  });
+  const storedLat = sessionStorage.getItem('qrLat');
+  const storedLng = sessionStorage.getItem('qrLng');
+  const initialUserLocation = storedLat && storedLng
+    ? {
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+        coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
+      }
+    : {
+        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+        coordinates: [36.297, 59.6069]
+      };
+  const [userLocation, setUserLocation] = useState(initialUserLocation);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeInput, setActiveInput] = useState(null);
   const [isGPSEnabled, setIsGPSEnabled] = useState(false);

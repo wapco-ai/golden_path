@@ -5,6 +5,15 @@ import App from './App.jsx';
 import IntlProviderWrapper from './IntlProviderWrapper.jsx';
 import './index.css';
 
+// Check URL parameters for QR code location and store in session
+const params = new URLSearchParams(window.location.search);
+const lat = params.get('lat');
+const lng = params.get('lng');
+if (lat && lng) {
+  sessionStorage.setItem('qrLat', lat);
+  sessionStorage.setItem('qrLng', lng);
+}
+
 import { registerSW } from 'virtual:pwa-register';
 
 // Use the plugin's registration method instead of manual registration
