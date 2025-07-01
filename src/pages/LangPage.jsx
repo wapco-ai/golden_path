@@ -32,8 +32,9 @@ const LangPage = () => {
       <img src={logo} alt={intl.formatMessage({ id: 'logoAlt' })} className="lang-logo" />
       
       <div className="lang-welcome-text">
-        <h1><FormattedMessage id="welcome" /></h1>
+        <h1 className="welcome-heading"><FormattedMessage id="welcome" /></h1>
         <p
+          className="welcome-paragraph"
           dangerouslySetInnerHTML={{
             __html: intl.formatMessage({ id: 'selectLanguage' })
           }}
@@ -54,7 +55,7 @@ const LangPage = () => {
               <span className={`lang-code lang-code-${lang.code.replace(/[()]/g, '').toLowerCase()}`}>
                 {lang.code}
               </span>
-              <span className="lang-name">{lang.name}</span>
+              <span className={`lang-name ${lang.locale === 'en' ? 'force-rtl' : ''}`}>{lang.name}</span>
             </div>
           </div>
         ))}

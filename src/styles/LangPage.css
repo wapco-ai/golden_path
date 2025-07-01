@@ -18,7 +18,8 @@
 
 
 .lang-logo {
-  width: 200px; /* Larger logo size */
+  width: 200px;
+  /* Larger logo size */
   height: auto;
   margin-bottom: 20px;
   margin-top: 100px;
@@ -27,15 +28,19 @@
 .lang-welcome-text h1 {
   color: #333;
   font-size: 1.5rem;
-  margin-bottom: 15px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 15px;
 }
 
 .lang-welcome-text p {
   color: #555;
   font-size: 0.9rem;
   line-height: 1.8;
-  margin-bottom: 30px;
   font-family: 'Vazir', Tahoma, sans-serif;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 10px;
 }
 
 .lang-options-list {
@@ -46,7 +51,8 @@
 .lang-option {
   display: flex;
   align-items: center;
-  padding: 12px 15px 12px 40px; /* Added left padding for circle space */
+  padding: 12px 15px 12px 40px;
+  /* Added left padding for circle space */
   margin: 8px 0;
   background-color: #f8f8f8;
   border-radius: 8px;
@@ -87,7 +93,7 @@
   width: 100%;
   max-width: 300px;
   padding: 12px;
-  margin-top: 40px;
+  margin-top: 30px;
   background-color: #3498db;
   color: white;
   border: none;
@@ -123,26 +129,42 @@
   color: #555;
   font-size: 0.8rem;
   margin-left: 25px;
-  margin-top: 2px; /* Adjust as needed for فارسی (FA) */
+  margin-top: 2px;
+  /* Adjust as needed for فارسی (FA) */
 }
 
 .lang-code-ur {
   color: #555;
   font-size: 0.8rem;
   margin-left: 45px;
-  margin-top: 2px; /* Adjust as needed for اردو (Ur) */
+  margin-top: 2px;
+  /* Adjust as needed for اردو (Ur) */
 }
 
 .lang-code-ar {
   color: #555;
   font-size: 0.8rem;
   margin-left: 25px;
-  margin-top: 2px; /* Adjust as needed for العربية (AR) */
+  margin-top: 2px;
+  /* Adjust as needed for العربية (AR) */
 }
 
 .lang-code-en {
   color: #555;
   font-size: 0.8rem;
   margin-left: 15px;
-  margin-top: 2px; /* Adjust as needed for English (EN) */
+  margin-top: 2px;
+  /* Adjust as needed for English (EN) */
+}
+
+:root:lang(en) .lang-code-en,
+:root:lang(en) .lang-code-ar,
+:root:lang(en) .lang-code-fa {
+  margin-right: 20px;
+  margin-left: 0px;
+}
+
+:root:lang(en) .lang-code-ur {
+  margin-right: 35px;
+  margin-left: 0px;
 }
