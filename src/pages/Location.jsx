@@ -302,7 +302,10 @@ const Location = () => {
           <div
             className="carousel"
             ref={carouselRef}
-            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+            style={{
+              transform: `translateX(${intl.locale === 'en' ? activeSlide * -100 : activeSlide * 100}%)`,
+              direction: intl.locale === 'en' ? 'ltr' : 'rtl'
+            }}
           >
             {locationData.images?.map((image, index) => (
               <div key={index} className="carousel-slide">
@@ -320,7 +323,9 @@ const Location = () => {
           </div>
           <div className="carousel-fade"></div>
         </div>
-        <div className="carousel-dots">
+        <div className="carousel-dots"
+          style={{ direction: intl.locale === 'en' ? 'ltr' : 'rtl' }}
+        >
           {locationData.images?.map((_, index) => (
             <button
               key={index}

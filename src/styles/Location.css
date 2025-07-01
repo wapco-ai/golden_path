@@ -913,17 +913,20 @@
   text-align: center;
   font-size: 0.9rem;
   font-weight: bold;
-  min-height: 100px;
-  max-height: 100px;
   color: #333;
   transition: all 0.3s ease;
   border: 2px solid #00000041;
   border-radius: 8px;
 }
 
+.routing-category-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .category-icon {
   font-size: 1.5rem;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .routing-show-more-btn {
@@ -1721,7 +1724,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  border-bottom: 1px solid  #76767678;
+  border-bottom: 1px solid rgba(151, 151, 151, 0.377);
 }
 
 .subgroup-icon {
@@ -1756,4 +1759,113 @@
   font-size: 14px;
   color: #666;
   line-height: 1.4;
+}
+
+/* English language specific styles */
+:root:lang(en) {
+  /* Carousel dots direction */
+  .carousel-dots {
+    direction: ltr;
+  }
+  
+  /* Carousel image transformation */
+  .carousel {
+    direction: ltr;
+  }
+  
+  /* Rating number spacing */
+  
+  .views-rating .views {  
+    margin-right: 0px;  
+    margin-left: 5px;
+  }  
+  
+  /* Audio and text content title alignment */
+  .events-section h3 {
+    text-align: left;
+  }
+  
+  /* Map button position in search bar */
+  .search-bar-container .map-button {
+    left: auto;
+    right: 5%;
+  }
+  
+  /* View all button arrow direction */
+  .view-all-btn svg {
+    transform: rotate(180deg);
+  }
+  
+  /* Comment input alignment */
+  .comment-input-container input {
+    direction: ltr;
+    text-align: left;
+  }
+  
+  /* Send button direction */
+  .send-comment svg {
+    transform: rotate(180deg);
+  }
+  
+  /* Comment instruction text alignment */
+  .comment-instruction {
+    text-align: left;
+  }
+  
+  /* Modal text alignment */
+  .modal-instruction {
+    text-align: left;
+  }
+  
+  /* Rating prompt alignment */
+  .rating-section p {
+    text-align: left;
+  }
+  
+  /* Stars alignment */
+  .stars {
+    justify-content: center;
+    margin-right: 0;
+  }
+  
+  /* Modal comment text alignment */
+  .modal-comment-input textarea {
+    direction: ltr;
+    text-align: left;
+  }
+}
+
+/* Additional specific fixes for English */
+:root:lang(en) .carousel {
+  transform: translateX(0%);
+}
+
+:root:lang(en) .carousel-slide {
+  transform: translateX(-100%);
+}
+
+:root:lang(en) .carousel-slide.active {
+  transform: translateX(0%);
+}
+
+/* Fix for RTL/LTR mixing */
+:root:lang(en) .comment-input-header,
+:root:lang(en) .modal-header h3,
+:root:lang(en) .rating-section p {
+  direction: ltr;
+  text-align: left;
+}
+
+:root:lang(en) .comment-item,
+:root:lang(en) .modal-content {
+  direction: ltr;
+}
+
+:root:lang(en) .comment-author-section {
+  flex-direction: row;
+}
+
+:root:lang(en) .comment-rating-section {
+  direction: ltr;
+  justify-content: flex-start;
 }
