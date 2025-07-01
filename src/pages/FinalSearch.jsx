@@ -82,10 +82,11 @@ const FinalSearch = () => {
   }, [origin.coordinates]);
 
   useEffect(() => {
+    const base = import.meta.env.BASE_URL;
     const file =
       language === 'fa'
-        ? '/data14040404.geojson'
-        : `/data14040404_${language}.geojson`;
+        ? `${base}data14040404.geojson`
+        : `${base}data14040404_${language}.geojson`;
     fetch(file)
       .then(res => res.json())
       .then(setGeoData)

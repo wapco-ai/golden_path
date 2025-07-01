@@ -126,16 +126,17 @@ const MapRoutingPage = () => {
 
   // Lazy load geojson data on first search
   useEffect(() => {
-    if (searchQuery && !geoData) {
-      const file =
-        language === 'fa'
-          ? '/data14040404.geojson'
-          : `/data14040404_${language}.geojson`;
-      fetch(file)
-        .then((res) => res.json())
-        .then(setGeoData)
-        .catch((err) => console.error('failed to load geojson', err));
-    }
+      if (searchQuery && !geoData) {
+        const base = import.meta.env.BASE_URL;
+        const file =
+          language === 'fa'
+            ? `${base}data14040404.geojson`
+            : `${base}data14040404_${language}.geojson`;
+        fetch(file)
+          .then((res) => res.json())
+          .then(setGeoData)
+          .catch((err) => console.error('failed to load geojson', err));
+      }
   }, [searchQuery, geoData, language]);
 
   // Filter geojson features based on search query
