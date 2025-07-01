@@ -499,3 +499,58 @@
   color: #999999c0;
   font-family: 'Vazir', Arial, sans-serif;
 }
+
+/* English language specific styles */
+:root:lang(en) {
+  direction: ltr;
+}
+
+/* Header back button direction for English */
+:root:lang(en) .map-back-button svg {
+  transform: rotate(180deg);
+}
+
+/* Adjust origin text positioning for English */
+:root:lang(en) .map-location-text {
+  margin-right: 0px;
+  margin-left: 5px;
+}
+
+/* Swap button positioning for English */
+:root:lang(en) .map-swap-button {
+  left: auto;
+  right: 6%;
+  transform: translate(50%, -50%);
+}
+
+/* Modal back button direction for English */
+:root:lang(en) .map-modal-back-button svg {
+  transform: rotate(180deg);
+}
+
+/* Add spacing between icon and text in options for English */
+:root:lang(en) .map-option-icon {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+/* Input text alignment for English */
+:root:lang(en) .map-search-form input,
+:root:lang(en) .map-destination-input-wrapper input,
+:root:lang(en) .map-origin-input {
+  text-align: left;
+  direction: ltr;
+}
+
+/* Placeholder text alignment for English */
+:root:lang(en) .map-destination-input-wrapper input::placeholder,
+:root:lang(en) .map-origin-input::placeholder {
+  text-align: left;
+  direction: ltr;
+}
+
+/* Adjust location icons container for English */
+:root:lang(en) .location-icons-container {
+  margin-left: 10px;
+  margin-right: 0;
+}

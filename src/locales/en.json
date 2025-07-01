@@ -80,7 +80,7 @@
   ,"emergencySubmit": "Confirm and send request"
   ,"mapSelectFromMap": "Select location from map"
   ,"mapRoutingTitle": "Shrine Routing"
-  ,"mapCurrentOriginLabel": "Your current origin"
+  ,"mapCurrentOriginLabel": "Current origin"
   ,"mapCurrentLocation": "Current location ({loc})"
   ,"mapCurrentLocationName": "Your current location"
   ,"mapSelectedLocation": "Selected location"
