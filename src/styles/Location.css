@@ -1763,12 +1763,13 @@
 
 /* English language specific styles */
 :root:lang(en) {
-  /* Carousel dots direction */
-  .carousel-dots {
-    direction: ltr;
-  }
+  
+  .views-rating .views {  
+    margin-right: 0px;  
+    margin-left: 5px;
+  }  
 
-  .you-are-here .line.left-line::before {
+    .you-are-here .line.left-line::before {
     background: linear-gradient(
       to left,
       rgba(30, 144, 255, 1) 0%,
@@ -1787,30 +1788,6 @@
     );
     right: 0;
   }
-  
-  /* Carousel image transformation */
-  .carousel {
-    direction: ltr;
-  }
-
-  .carousel-slide {
-    transform: translateX(100%);
-  }
-
-  .carousel-slide.active {
-    transform: translateX(0);
-  }
-
-  .carousel-dots {
-    direction: ltr;
-  }
-  
-  /* Rating number spacing */
-  
-  .views-rating .views {  
-    margin-right: 0px;  
-    margin-left: 5px;
-  }  
   
   /* Audio and text content title alignment */
   .events-section h3 {
@@ -1884,20 +1861,9 @@
     .read-more-btn svg {
       transform: rotate(180deg);
     }
+    
 }
 
-/* Additional specific fixes for English */
-:root:lang(en) .carousel {
-  transform: translateX(0%);
-}
-
-:root:lang(en) .carousel-slide {
-  transform: translateX(-100%);
-}
-
-:root:lang(en) .carousel-slide.active {
-  transform: translateX(0%);
-}
 
 /* Fix for RTL/LTR mixing */
 :root:lang(en) .comment-input-header,
@@ -1920,4 +1886,3 @@
   direction: ltr;
   justify-content: flex-start;
 }
-
