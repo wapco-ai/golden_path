@@ -303,27 +303,23 @@ const Location = () => {
             className="carousel"
             ref={carouselRef}
             style={{
-              transform: `translateX(${intl.locale === 'en' ? activeSlide * -100 : activeSlide * 100}%)`,
+              transform: `translateX(${intl.locale === 'en' ? -activeSlide * 100 : activeSlide * 100}%)`,
               direction: intl.locale === 'en' ? 'ltr' : 'rtl'
             }}
           >
             {locationData.images?.map((image, index) => (
-              <div key={index} className="carousel-slide">
-                <img
-                  src={image}
-                  alt={intl.formatMessage(
-                    { id: 'imageAlt' },
-                    { title: locationData.title, n: index + 1 }
-                  )}
-                  loading={index > 0 ? "lazy" : "eager"}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
+              <div
+                key={index}
+                className={`carousel-slide ${index === activeSlide ? 'active' : ''}`}
+              >
+                <img src={image} alt={`Slide ${index + 1}`} />
               </div>
             ))}
           </div>
           <div className="carousel-fade"></div>
         </div>
-        <div className="carousel-dots"
+        <div
+          className="carousel-dots"
           style={{ direction: intl.locale === 'en' ? 'ltr' : 'rtl' }}
         >
           {locationData.images?.map((_, index) => (
@@ -331,8 +327,7 @@ const Location = () => {
               key={index}
               className={`dot ${index === activeSlide ? 'active' : ''}`}
               onClick={() => handleSlideChange(index)}
-              aria-label={intl.formatMessage({ id: 'goToSlide' }, { n: index + 1 })}
-            ></button>
+            />
           ))}
         </div>
       </div>

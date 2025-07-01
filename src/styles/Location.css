@@ -1767,9 +1767,41 @@
   .carousel-dots {
     direction: ltr;
   }
+
+  .you-are-here .line.left-line::before {
+    background: linear-gradient(
+      to left,
+      rgba(30, 144, 255, 1) 0%,
+      rgba(30, 144, 255, 1) 20%,
+      rgba(30, 144, 255, 0) 90%
+    );
+    left: 0;
+  }
+
+  .you-are-here .line.right-line::before {
+    background: linear-gradient(
+      to right,
+      rgba(30, 144, 255, 1) 0%,
+      rgba(30, 144, 255, 1) 20%,
+      rgba(30, 144, 255, 0) 90%
+    );
+    right: 0;
+  }
   
   /* Carousel image transformation */
   .carousel {
+    direction: ltr;
+  }
+
+  .carousel-slide {
+    transform: translateX(100%);
+  }
+
+  .carousel-slide.active {
+    transform: translateX(0);
+  }
+
+  .carousel-dots {
     direction: ltr;
   }
   
@@ -1833,6 +1865,25 @@
     direction: ltr;
     text-align: left;
   }
+
+    /* Search overlay alignment */
+    .routing-section-title {
+      text-align: left;
+    }
+  
+    /* View all arrow in overlay */
+    .view-all-events svg {
+      transform: rotate(180deg);
+    }
+  
+    /* Read more alignment */
+    .read-more-btn {
+      justify-content: flex-end;
+    }
+  
+    .read-more-btn svg {
+      transform: rotate(180deg);
+    }
 }
 
 /* Additional specific fixes for English */
@@ -1869,3 +1920,4 @@
   direction: ltr;
   justify-content: flex-start;
 }
+
