@@ -167,7 +167,7 @@ const FinalSearch = () => {
   };
 
   return (
-    <div className="final-search-page">
+    <div className="final-search-page" lang={language}>
       {/* Header Section */}
       <div className="header">
         <button className="back-btn" onClick={() => navigate(-1)}>
@@ -303,9 +303,6 @@ const FinalSearch = () => {
           <div className="location-input destination-input">
             <div className="location-details">
               <div className="location-name">{destination.name}</div>
-            </div>
-            <div className={`current-location-label2 ${isSwapButton ? 'visible' : 'hidden'}`}>
-              <FormattedMessage id="mapCurrentLocationName" />
             </div>
           </div>
         </div>

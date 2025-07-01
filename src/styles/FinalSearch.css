@@ -29,14 +29,15 @@
   transform: translateX(-50%);
 }
 
-.back-btn, .menu-btn {
-  width: 50px;  
-  height: 50px;  
-  display: flex;  
-  align-items: center;  
-  justify-content: center;  
-  background-color: rgba(255, 255, 255, 0.8);  
-  border-radius: 50%;  
+.back-btn,
+.menu-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
   border: 1px solid rgba(128, 128, 128, 0.721);
   z-index: 10;
 }
@@ -97,7 +98,8 @@
   height: 20px;
 }
 
-.back-btn svg, .menu-btn svg {
+.back-btn svg,
+.menu-btn svg {
   width: 24px;
   height: 24px;
 }
@@ -184,17 +186,20 @@
   margin-bottom: 0;
   border-radius: 12px;
   display: flex;
+  max-height: 55px;
+  min-height: 55px;
 }
 
 .destination-input {
   margin-top: 0;
   border-radius: 12px;
+  max-height: 55px;
+  min-height: 55px;
 }
 
 .location-details {
   flex: 1;
 }
-
 
 .location-name {
   font-size: 0.9rem;
@@ -212,7 +217,7 @@
 
 .swap-btn {
   background-color: white;
-  border:none;
+  border: none;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -356,7 +361,8 @@
   padding-right: 10px;
 }
 
-.info-time, .info-distance {
+.info-time,
+.info-distance {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -364,7 +370,8 @@
   color: #3333338a;
 }
 
-.info-time svg, .info-distance svg {
+.info-time svg,
+.info-distance svg {
   width: 18px;
   height: 18px;
 }
@@ -382,7 +389,7 @@
   display: flex;
   bottom: 0;
   right: 0;
-  left:0;
+  left: 0;
   gap: 10px;
   padding: 15px;
   background-color: white;
@@ -449,13 +456,13 @@
   border-radius: 15px;
   font-size: 14px;
   font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   position: relative;
   white-space: nowrap;
 }
 
 .current-location-label.visible {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #2196F3;
   margin-bottom: 2px;
   margin-left: 10px;
@@ -463,25 +470,7 @@
 }
 
 .current-location-label.hidden {
-  font-size: 0.9rem;
-  color: #2196F3;
-  margin-bottom: 2px;
-  margin-left: 10px;
-  font-family: 'Vazir', Tahoma, sans-serif;
-  opacity: 0;
-}
-
-.current-location-label2.visible {
-  font-size: 0.9rem;
-  color: #2196F3;
-  margin-bottom: 2px;
-  margin-left: 10px;
-  font-family: 'Vazir', Tahoma, sans-serif;
-  opacity: 0;
-}
-
-.current-location-label2.hidden {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #2196F3;
   margin-bottom: 2px;
   margin-left: 10px;
@@ -490,4 +479,76 @@
 
 .mpr .maplibregl-control-container {
   display: none;
+}
+
+/* Add these to your FinalSearch.css */
+
+/* English language specific overrides */
+:root:lang(en) .final-search-page {
+  direction: ltr;
+}
+
+:root:lang(en) .header h1 {
+  right: 50%;
+  left: auto;
+  transform: translateX(50%);
+}
+
+:root:lang(en) .back-btn svg {
+  transform: rotate(180deg);
+}
+
+:root:lang(en) .route-summary,
+:root:lang(en) .info-details {
+  text-align: left;
+  padding-right: 0;
+  padding-left: 10px;
+}
+
+:root:lang(en) .location-name {
+  text-align: left;
+}
+
+:root:lang(en) .action-buttons2 {
+  flex-direction: row-reverse;
+}
+
+:root:lang(en) .menu-dropdown {
+  right: 0;
+  left: auto;
+  transform-origin: top left;
+}
+
+:root:lang(en) .menu-item {
+  text-align: left;
+  flex-direction: row-reverse;
+}
+
+/* Fix for the buttons layout */
+:root:lang(en) .options-row {
+  flex-direction: row-reverse;
+}
+
+:root:lang(en) .location-section {
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+:root:lang(en) .swap-btn {
+  margin-left: -20px;
+  margin-right: 0;
+}
+
+/* Ensure buttons stay within bounds */
+:root:lang(en) .transport-btn,
+:root:lang(en) .gender-btn {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+:root:lang(en) .navigate-btn,
+:root:lang(en) .overview-btn {
+  padding: 10px 5px;
 }
