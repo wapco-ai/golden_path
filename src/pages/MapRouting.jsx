@@ -121,8 +121,8 @@ const MapRoutingPage = () => {
     if (searchQuery && !geoData) {
       const file =
         language === 'fa'
-          ? '/data14040404.geojson'
-          : `/data14040404_${language}.geojson`;
+          ? './data14040404.geojson'
+          : `./data14040404_${language}.geojson`;
       fetch(file)
         .then((res) => res.json())
         .then(setGeoData)
