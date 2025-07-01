@@ -11,7 +11,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -44,7 +44,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -77,7 +77,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -130,7 +130,7 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:47:26.348Z",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -143,7 +143,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -177,7 +177,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -211,7 +211,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -245,7 +245,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -266,7 +266,7 @@
         "timestamp": "2025-06-12T07:46:44.234Z",
         "uniqueId": "other_3265",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -279,7 +279,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -313,7 +313,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -368,7 +368,7 @@
         "timestamp": "2025-06-12T07:52:24.108Z",
         "uniqueId": "other_2189",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -381,7 +381,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -415,7 +415,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -449,7 +449,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -483,7 +483,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی امام خمینی",
         "description": "",
         "group": "ravaq",
         "subGroup": "امام خمینی",
@@ -516,7 +516,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -550,7 +550,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -584,7 +584,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی امام خمینی",
         "description": "",
         "group": "ravaq",
         "subGroup": "امام خمینی",
@@ -617,7 +617,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -651,7 +651,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -706,7 +706,7 @@
         "timestamp": "2025-06-12T08:18:20.459Z",
         "uniqueId": "other_7009",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -719,7 +719,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -753,7 +753,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -808,7 +808,7 @@
         "timestamp": "2025-06-12T08:19:24.597Z",
         "uniqueId": "other_3920",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -821,7 +821,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -855,7 +855,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -909,7 +909,7 @@
         "timestamp": "2025-06-12T08:22:04.102Z",
         "uniqueId": "other_178",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -922,7 +922,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -956,7 +956,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -990,7 +990,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -1024,7 +1024,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -1058,7 +1058,7 @@
         ]
       },
       "properties": {
-        "name": "وروئی",
+        "name": "ورودی شمالی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1090,7 +1090,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1123,7 +1123,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1189,7 +1189,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1243,7 +1243,7 @@
         "timestamp": "2025-06-12T08:27:53.529Z",
         "uniqueId": "other_4178",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -1256,7 +1256,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1290,7 +1290,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1324,7 +1324,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -1379,7 +1379,7 @@
         "timestamp": "2025-06-12T08:29:35.474Z",
         "uniqueId": "other_7595",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -1392,7 +1392,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -1426,7 +1426,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1459,7 +1459,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1492,7 +1492,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1513,7 +1513,7 @@
         "timestamp": "2025-06-12T08:37:24.072Z",
         "uniqueId": "other_5312",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -1526,7 +1526,7 @@
         ]
       },
       "properties": {
-        "name": "وردوی",
+        "name": "ورودی جنوبی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1559,7 +1559,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1592,7 +1592,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -1626,7 +1626,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1647,7 +1647,7 @@
         "timestamp": "2025-06-12T08:40:46.178Z",
         "uniqueId": "other_3610",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -1681,7 +1681,7 @@
         "timestamp": "2025-06-12T08:41:15.768Z",
         "uniqueId": "other_8793",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -1694,7 +1694,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -1728,7 +1728,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1761,7 +1761,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1795,7 +1795,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1828,7 +1828,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1862,7 +1862,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1895,7 +1895,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1916,7 +1916,7 @@
         "timestamp": "2025-06-12T08:45:14.049Z",
         "uniqueId": "other_3220",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -1929,7 +1929,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1949,7 +1949,7 @@
         "gpsMeta": null,
         "timestamp": "2025-06-12T08:47:52.604Z",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -1962,7 +1962,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی غربی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -1996,7 +1996,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی جنوبی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2030,7 +2030,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -2051,7 +2051,7 @@
         "timestamp": "2025-06-12T09:11:44.426Z",
         "uniqueId": "other_5755",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -2064,7 +2064,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی مهمانسرا",
         "description": "",
         "group": "khadamat",
         "subGroup": "مهمانسرا",
@@ -2097,7 +2097,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2131,7 +2131,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی دانشگاه علوم اسلامی رضوی",
         "description": "",
         "group": "elmi",
         "subGroup": "دانشگاه علوم اسلامی رضوی",
@@ -2165,7 +2165,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شمالی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2199,7 +2199,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "بست شیخ طبرسی",
         "group": "other",
         "subGroup": "سایر",
@@ -2220,7 +2220,7 @@
         "timestamp": "2025-06-12T09:16:29.438Z",
         "uniqueId": "other_1728",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -2233,7 +2233,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "ورودی شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -2254,7 +2254,7 @@
         "timestamp": "2025-06-12T09:17:26.941Z",
         "uniqueId": "other_2402",
         "transportModes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -2477,7 +2477,7 @@
         },
         "timestamp": "2025-06-12T06:58:50.048Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -2948,7 +2948,7 @@
         },
         "timestamp": "2025-06-12T06:58:50.048Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -3530,7 +3530,7 @@
         },
         "timestamp": "2025-06-12T07:14:39.867Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -4373,7 +4373,7 @@
         },
         "timestamp": "2025-06-12T07:40:41.509Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -4740,7 +4740,7 @@
         },
         "timestamp": "2025-06-12T08:39:59.679Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -4819,7 +4819,7 @@
         },
         "timestamp": "2025-06-12T06:58:50.049Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -5433,7 +5433,7 @@
         },
         "timestamp": "2025-06-12T07:21:22.165Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -5578,7 +5578,7 @@
         },
         "timestamp": "2025-06-12T07:44:36.482Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -5823,7 +5823,7 @@
         },
         "timestamp": "2025-06-12T07:25:01.448Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -5942,7 +5942,7 @@
         },
         "timestamp": "2025-06-12T07:22:23.194Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -6633,7 +6633,7 @@
         },
         "timestamp": "2025-06-12T07:35:57.546Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -6753,7 +6753,7 @@
         },
         "timestamp": "2025-06-12T07:29:10.480Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -6865,7 +6865,7 @@
         },
         "timestamp": "2025-06-12T07:12:11.553Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -7138,7 +7138,7 @@
         },
         "timestamp": "2025-06-12T07:36:38.588Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     },
     {
@@ -7277,7 +7277,7 @@
         },
         "timestamp": "2025-06-12T07:21:53.748Z",
         "restrictedTimes": [],
-        "subGroupValue": "saایر"
+        "subGroupValue": "other"
       }
     }
   ]
