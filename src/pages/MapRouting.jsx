@@ -5,6 +5,7 @@ import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
+import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { useSearchStore } from '../store/searchStore';
 import '../styles/MapRouting.css';
 
@@ -127,11 +128,8 @@ const MapRoutingPage = () => {
   // Lazy load geojson data on first search
   useEffect(() => {
       if (searchQuery && !geoData) {
-        const base = import.meta.env.BASE_URL;
-        const file =
-          language === 'fa'
-            ? `${base}data14040404.geojson`
-            : `${base}data14040404_${language}.geojson`;
+        const file = buildGeoJsonPath(language);
+
         fetch(file)
           .then((res) => res.json())
           .then(setGeoData)

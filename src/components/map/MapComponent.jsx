@@ -5,6 +5,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import { useLangStore } from '../../store/langStore';
+import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
 
 // Colors for different location groups
 const groupColors = {
@@ -141,11 +142,8 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   }, [isSwapped]);
 
   useEffect(() => {
-    const base = import.meta.env.BASE_URL;
-    const file =
-      language === 'fa'
-        ? `${base}data14040404.geojson`
-        : `${base}data14040404_${language}.geojson`;
+    const file = buildGeoJsonPath(language);
+
     fetch(file)
       .then((res) => res.json())
       .then(setGeoData)
