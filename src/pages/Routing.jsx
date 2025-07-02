@@ -33,9 +33,9 @@ const RoutingPage = () => {
     let totalMinutes = 0;
     steps.forEach(step => {
       const timeStr = step.time;
-      if (timeStr.includes('دقیقه')) {
+      if (timeStr.includes(intl.formatMessage({ id: 'minutesUnit' }))) {
         totalMinutes += parseInt(timeStr.split(' ')[0]);
-      } else if (timeStr.includes('ثانیه')) {
+      } else if (timeStr.includes(intl.formatMessage({ id: 'secondsUnit' }))) {
         totalMinutes += Math.ceil(parseInt(timeStr.split(' ')[0]) / 60);
       }
     });
@@ -43,19 +43,19 @@ const RoutingPage = () => {
     return totalMinutes;
   };
 
-  // Format total time as "X دقیقه Y ثانیه"
+  // Format total time as "X <minutes> Y <seconds>"
   const formatTotalTime = (totalMinutes) => {
     if (totalMinutes < 1) {
       const seconds = totalMinutes * 60;
-      return `${Math.round(seconds)} ثانیه`;
+      return `${Math.round(seconds)} ${intl.formatMessage({ id: 'secondsUnit' })}`;
     }
     const minutes = Math.floor(totalMinutes);
     const seconds = Math.round((totalMinutes - minutes) * 60);
 
     if (seconds > 0) {
-      return `${minutes} دقیقه ${seconds} ثانیه`;
+      return `${minutes} ${intl.formatMessage({ id: 'minutesUnit' })} ${seconds} ${intl.formatMessage({ id: 'secondsUnit' })}`;
     }
-    return `${minutes} دقیقه`;
+    return `${minutes} ${intl.formatMessage({ id: 'minutesUnit' })}`;
   };
 
   // Calculate arrival time in HH:MM format with AM/PM indicator
@@ -108,8 +108,8 @@ const RoutingPage = () => {
       return {
         id: idx + 1,
         instruction,
-        distance: `${Math.round(distance)} متر`,
-        time: `${Math.max(1, Math.round(distance / 60))} دقیقه`,
+        distance: `${Math.round(distance)} ${intl.formatMessage({ id: 'meters' })}`,
+        time: `${Math.max(1, Math.round(distance / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`,
         coordinates: s.coordinates
       };
     });
@@ -133,8 +133,8 @@ const RoutingPage = () => {
             { name: st.name, title: st.title, num: i + 1 }
           ),
 
-          distance: `${Math.round(dist)} متر`,
-          time: `${Math.max(1, Math.round(dist / 60))} دقیقه`,
+          distance: `${Math.round(dist)} ${intl.formatMessage({ id: 'meters' })}`,
+          time: `${Math.max(1, Math.round(dist / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`,
           coordinates: st.coordinates
         };
       });
@@ -144,7 +144,7 @@ const RoutingPage = () => {
         id: ridx + 1,
         steps: altSteps,
         totalTime: formatTotalTime(minutes),
-        totalDistance: `${distTot} متر`,
+        totalDistance: `${distTot} ${intl.formatMessage({ id: 'meters' })}`,
         from: alt.from,
         to: alt.to,
         via: alt.via
@@ -156,7 +156,7 @@ const RoutingPage = () => {
       steps,
       totalTime: formattedTotalTime,
       arrivalTime,
-      totalDistance: `${totalDistance} متر`,
+      totalDistance: `${totalDistance} ${intl.formatMessage({ id: 'meters' })}`,
       alternativeRoutes: alternativesData
     });
   }, [routeSteps, routeGeo, alternativeRoutes]);
