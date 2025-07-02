@@ -919,11 +919,6 @@
   border-radius: 8px;
 }
 
-.routing-category-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .category-icon {
   font-size: 1.5rem;
   margin-bottom: 8px;
