@@ -273,3 +273,14 @@
   border-right: 5px solid transparent;
   border-top: 5px solid #3498db;
 }
+
+:root:lang(en) .carousel-next svg {
+  transform: rotate(180deg);
+}
+
+:root:lang(en) .carousel-prev svg {
+  transform: rotate(180deg);
+}
+
+
+
