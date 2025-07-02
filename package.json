@@ -12,8 +12,9 @@
 		"preview": "vite preview",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d dist",
-		"generate-pwa-assets": "pwa-assets-generator"
-	},
+                "generate-pwa-assets": "pwa-assets-generator",
+                "test": "node tests/routeAnalysis.test.js"
+        },
 	"dependencies": {
 		"@turf/turf": "^7.2.0",
 		"@yudiel/react-qr-scanner": "^2.2.1",
