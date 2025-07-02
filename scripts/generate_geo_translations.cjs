@@ -2,7 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-const srcPath = path.join(__dirname, '..', 'public', 'data14040404.geojson');
+const srcPath = path.join(
+  __dirname,
+  '..',
+  'public',
+  'data',
+  'data14040411.geojson'
+);
 const data = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
 
 async function loadSubGroupMap() {
@@ -132,7 +138,8 @@ async function main() {
       __dirname,
       '..',
       'public',
-      `data14040404_${lang}.geojson`
+      'data',
+      `data14040411_${lang}.geojson`
     );
     fs.writeFileSync(outPath, JSON.stringify(translated, null, 2), 'utf8');
   });
