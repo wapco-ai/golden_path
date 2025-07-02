@@ -14,6 +14,7 @@ import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
 
 const FinalSearch = () => {
+  const [isSwapping, setIsSwapping] = useState(false);
   const [isSwapButton, setSwapButton] = useState(true);
   const navigate = useNavigate();
   const intl = useIntl();
@@ -110,6 +111,7 @@ const FinalSearch = () => {
   }, [geoData, origin, destination, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes]);
 
   const swapLocations = () => {
+    setIsSwapping(true); // This will trigger the rotation
     setSwapButton(!isSwapButton);
     const temp = origin;
     setOrigin(destination);
@@ -225,10 +227,10 @@ const FinalSearch = () => {
           initialViewState={{
             longitude:
               ((origin.coordinates?.[1] ?? 0) + (destination.coordinates?.[1] ?? 0)) /
-                2,
+              2,
             latitude:
               ((origin.coordinates?.[0] ?? 0) + (destination.coordinates?.[0] ?? 0)) /
-                2,
+              2,
             zoom: 18
           }}
           attributionControl={false}
@@ -292,7 +294,18 @@ const FinalSearch = () => {
 
           <div className="swap-container">
             <button className="swap-btn" onClick={swapLocations}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`swap-icon ${isSwapButton ? '' : 'rotated'}`}
+              >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M3 9l4 -4l4 4m-4 -4v14" />
                 <path d="M21 15l-4 4l-4 -4m4 4v-14" />

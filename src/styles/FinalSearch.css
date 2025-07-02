@@ -552,3 +552,16 @@
 :root:lang(en) .overview-btn {
   padding: 10px 5px;
 }
+
+.swap-icon {
+  transition: transform 0.5s ease;
+}
+
+.swap-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Remove the bounce animation if you don't want it */
+.swap-btn:active {
+  opacity: 0.7; /* Simple press feedback */
+}
