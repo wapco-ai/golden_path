@@ -60,8 +60,12 @@ const RouteOverview = () => {
       const [lng1, lat1] = segment[0];
       const [lng2, lat2] = segment[1];
       const d = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
-      setDistance(`${Math.round(d)} متر`);
-      setTime(`${Math.max(1, Math.round(d / 60))} دقیقه`);
+      setDistance(
+        `${Math.round(d)} ${intl.formatMessage({ id: 'meters' })}`
+      );
+      setTime(
+        `${Math.max(1, Math.round(d / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`
+      );
       setDirectionArrow(currentSlide === routeData.length - 1 ? 'arrived' : 'right');
       setViewState({
         latitude: (lat1 + lat2) / 2,
@@ -119,7 +123,9 @@ const RouteOverview = () => {
           <button className="route-back-button" onClick={() => navigate(-1)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
           </button>
-          <h1 className="route-header-title">مسیر در یک نگاه</h1>
+          <h1 className="route-header-title">
+            {intl.formatMessage({ id: 'routeOverview' })}
+          </h1>
           <button className="map-profile-button" onClick={() => navigate('/Profile')}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
           </button>
@@ -165,7 +171,7 @@ const RouteOverview = () => {
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
         </svg>
-        شروع مسیریابی
+        {intl.formatMessage({ id: 'startRouting' })}
       </button>
 
       <div className="route-info-container">
@@ -187,11 +193,15 @@ const RouteOverview = () => {
           </div>
 
           <div className="carousel-controls">
-            <button className="carousel-prev" onClick={prevSlide} disabled={currentSlide === 0}>
+            <button
+              className="carousel-prev"
+              onClick={prevSlide}
+              disabled={currentSlide === 0}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path d="M9 6l6 6l-6 6" stroke="currentColor" strokeWidth="2" fill="none" />
               </svg>
-              قبلی
+              {intl.formatMessage({ id: 'previous' })}
             </button>
 
             <div className="carousel-dots">
@@ -204,8 +214,12 @@ const RouteOverview = () => {
               ))}
             </div>
 
-            <button className="carousel-next" onClick={nextSlide} disabled={currentSlide === routeData.length - 1}>
-              بعدی
+            <button
+              className="carousel-next"
+              onClick={nextSlide}
+              disabled={currentSlide === routeData.length - 1}
+            >
+              {intl.formatMessage({ id: 'next' })}
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path d="M15 6l-6 6l6 6" stroke="currentColor" strokeWidth="2" fill="none" />
               </svg>
