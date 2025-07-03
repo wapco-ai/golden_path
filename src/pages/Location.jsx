@@ -57,7 +57,7 @@ const Location = () => {
     if (carouselRef.current && locationData) {
       const isRTL = document.documentElement.dir === 'rtl';
       const translateValue = isRTL ? `${activeSlide * 100}%` : `-${activeSlide * 100}%`;
-      carouselRef.current.style.transform = `translateX(${translateValue})`; 
+      carouselRef.current.style.transform = `translateX(${translateValue})`;
     }
   }, [locationData, activeSlide]);
 
@@ -981,46 +981,20 @@ const Location = () => {
               {isSearching ? (
                 <div className="search-results-container">
                   {searchResults.length > 0 ? (
-                    <>
-                      {/* Split results into those with images and without */}
-                      <div className="subgroups-with-images">
-                        <div className="subgroups-grid">
-                          {searchResults.filter(item => item.img).map((item, index) => (
-                            <div
-                              key={index}
-                              className="subgroup-item with-image"
-                              style={{
-                                backgroundImage: item.img ? `url(${item.img})` : 'none',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                backgroundColor: 'rgba(255,255,255,0.7)',
-                                backgroundBlendMode: 'lighten'
-                              }}
-                            >
-                              <div className="subgroup-info">
-                                <h4>{item.label}</h4>
-                                {item.description && <p>{item.description}</p>}
-                              </div>
+                    <div className="subgroups-without-images">
+                      {searchResults.map((item, index) => {
+                        const group = groups.find(g => g.value === item.groupValue);
+                        return (
+                          <div key={index} className="subgroup-item-no-image" onClick={() => handlePlaceClick(item.label)}>
+                            <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: group?.svg || '' }} />
+                            <div className="subgroup-text">
+                              <h4>{item.label}</h4>
+                              {item.description && <p>{item.description}</p>}
                             </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="subgroups-without-images">
-                        {searchResults.filter(item => !item.img).map((item, index) => {
-                          const group = groups.find(g => g.value === item.groupValue);
-                          return (
-                            <div key={index} className="subgroup-item-no-image">
-                              <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: group?.svg || '' }} />
-                              <div className="subgroup-text">
-                                <h4>{item.label}</h4>
-                                {item.description && <p>{item.description}</p>}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </>
+                          </div>
+                        );
+                      })}
+                    </div>
                   ) : (
                     <div className="no-results">
                       <p>
