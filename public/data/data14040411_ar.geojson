@@ -11,10 +11,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن کوثر",
+        "name": "الغربي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "farhangi"
         ],
@@ -44,10 +44,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن پیامبر اعظم",
+        "name": "الغربي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -77,10 +77,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن پیامبر اعظم",
+        "name": "الجنوبي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -110,10 +110,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -143,10 +143,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -177,10 +177,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن غدیر",
+        "name": "الجنوبي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "types": [
           "ziyarati"
         ],
@@ -211,10 +211,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -245,10 +245,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی سایر",
+        "name": "الغربي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -279,10 +279,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -313,10 +313,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن کوثر",
+        "name": "الغربي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -347,10 +347,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -381,10 +381,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن کوثر",
+        "name": "الجنوبي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -415,10 +415,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن کوثر",
+        "name": "الشمالي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -449,10 +449,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن کوثر",
+        "name": "الشمالي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -483,10 +483,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی امام خمینی",
+        "name": "الغربي مدخل الإمام الخميني",
         "description": "",
         "group": "ravaq",
-        "subGroup": "امام خمینی",
+        "subGroup": "الإمام الخميني",
         "types": [
           "ziyarati"
         ],
@@ -516,10 +516,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -550,10 +550,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -584,10 +584,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی امام خمینی",
+        "name": "الغربي مدخل الإمام الخميني",
         "description": "",
         "group": "ravaq",
-        "subGroup": "امام خمینی",
+        "subGroup": "الإمام الخميني",
         "types": [
           "ziyarati"
         ],
@@ -617,10 +617,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -651,10 +651,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن قدس",
+        "name": "الجنوبي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -685,10 +685,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -719,10 +719,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -753,10 +753,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن قدس",
+        "name": "الغربي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -787,10 +787,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -821,10 +821,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -855,10 +855,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی شیخ بهایی",
+        "name": "الغربي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -888,10 +888,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -922,10 +922,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن قدس",
+        "name": "الغربي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -956,10 +956,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن قدس",
+        "name": "الشمالي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -990,10 +990,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن قدس",
+        "name": "الشرقي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -1024,10 +1024,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن قدس",
+        "name": "الجنوبي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -1058,10 +1058,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی شیخ بهایی",
+        "name": "الشمالي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -1090,10 +1090,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ بهایی",
+        "name": "الشرقي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -1123,7 +1123,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی مسجد گوهرشاد",
+        "name": "الغربي مدخل مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1156,7 +1156,7 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1189,10 +1189,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ بهایی",
+        "name": "الشرقي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -1222,10 +1222,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -1256,10 +1256,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن جمهوری اسلامی",
+        "name": "الجنوبي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -1290,10 +1290,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن جمهوری اسلامی",
+        "name": "الغربي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -1324,10 +1324,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن غدیر",
+        "name": "الشرقي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "types": [
           "ziyarati"
         ],
@@ -1358,10 +1358,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -1392,10 +1392,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن غدیر",
+        "name": "الشرقي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "types": [
           "ziyarati"
         ],
@@ -1426,10 +1426,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی شیخ طوسی",
+        "name": "الغربي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -1459,10 +1459,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی شیخ طوسی",
+        "name": "الشمالي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -1492,10 +1492,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی سایر",
+        "name": "الشمالي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -1526,7 +1526,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی مسجد گوهرشاد",
+        "name": "الجنوبي مدخل مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1559,7 +1559,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مسجد گوهرشاد",
+        "name": "الشرقي مدخل مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1592,10 +1592,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن انقلاب",
+        "name": "الشرقي مدخل صحن الثورة",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "types": [
           "ziyarati"
         ],
@@ -1626,10 +1626,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -1660,10 +1660,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -1694,10 +1694,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن انقلاب",
+        "name": "الغربي مدخل صحن الثورة",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "types": [
           "ziyarati"
         ],
@@ -1728,10 +1728,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ طوسی",
+        "name": "الشرقي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -1761,10 +1761,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن جمهوری اسلامی",
+        "name": "الشرقي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -1795,10 +1795,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ طوسی",
+        "name": "الشرقي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -1828,10 +1828,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن جمهوری اسلامی",
+        "name": "الشرقي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -1862,7 +1862,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مسجد گوهرشاد",
+        "name": "الشرقي مدخل مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1895,10 +1895,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -1929,10 +1929,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -1962,10 +1962,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن امام حسن مجتبی",
+        "name": "الغربي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -1996,10 +1996,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن امام حسن مجتبی",
+        "name": "الجنوبي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -2030,10 +2030,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -2064,10 +2064,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مهمانسرا",
+        "name": "الشرقي مدخل دار الضيافة",
         "description": "",
         "group": "khadamat",
-        "subGroup": "مهمانسرا",
+        "subGroup": "دار الضيافة",
         "types": [
           "khadamat"
         ],
@@ -2097,10 +2097,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن امام حسن مجتبی",
+        "name": "الشرقي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -2131,10 +2131,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی دانشگاه علوم اسلامی رضوی",
+        "name": "الشمالي مدخل جامعة العلوم الإسلامية الرضوية",
         "description": "",
         "group": "elmi",
-        "subGroup": "دانشگاه علوم اسلامی رضوی",
+        "subGroup": "جامعة العلوم الإسلامية الرضوية",
         "types": [
           "farhangi",
           "khadamat"
@@ -2165,10 +2165,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن امام حسن مجتبی",
+        "name": "الشمالي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -2199,10 +2199,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "بست شیخ طبرسی",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -2233,10 +2233,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "farhangi"
         ],
@@ -2267,10 +2267,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن کوثر",
+        "name": "الغربي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "farhangi"
         ],
@@ -2300,10 +2300,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن پیامبر اعظم",
+        "name": "الغربي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2333,10 +2333,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن پیامبر اعظم",
+        "name": "الجنوبي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2366,10 +2366,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -2399,10 +2399,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2433,10 +2433,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن غدیر",
+        "name": "الجنوبي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "types": [
           "ziyarati"
         ],
@@ -2467,10 +2467,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2501,10 +2501,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی سایر",
+        "name": "الغربي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -2535,10 +2535,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2569,10 +2569,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن کوثر",
+        "name": "الغربي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -2603,10 +2603,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -2637,10 +2637,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن کوثر",
+        "name": "الجنوبي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -2671,10 +2671,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن کوثر",
+        "name": "الشمالي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -2705,10 +2705,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن کوثر",
+        "name": "الشمالي مدخل صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "types": [
           "ziyarati"
         ],
@@ -2739,10 +2739,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی امام خمینی",
+        "name": "الغربي مدخل الإمام الخميني",
         "description": "",
         "group": "ravaq",
-        "subGroup": "امام خمینی",
+        "subGroup": "الإمام الخميني",
         "types": [
           "ziyarati"
         ],
@@ -2772,10 +2772,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2806,10 +2806,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2840,10 +2840,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی امام خمینی",
+        "name": "الغربي مدخل الإمام الخميني",
         "description": "",
         "group": "ravaq",
-        "subGroup": "امام خمینی",
+        "subGroup": "الإمام الخميني",
         "types": [
           "ziyarati"
         ],
@@ -2873,10 +2873,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -2907,10 +2907,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن قدس",
+        "name": "الجنوبي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -2941,10 +2941,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -2975,10 +2975,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -3009,10 +3009,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن قدس",
+        "name": "الغربي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -3043,10 +3043,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -3077,10 +3077,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "الشمالي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "types": [
           "ziyarati"
         ],
@@ -3111,10 +3111,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی شیخ بهایی",
+        "name": "الغربي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -3144,10 +3144,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -3178,10 +3178,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن قدس",
+        "name": "الغربي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -3212,10 +3212,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن قدس",
+        "name": "الشمالي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -3246,10 +3246,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن قدس",
+        "name": "الشرقي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -3280,10 +3280,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن قدس",
+        "name": "الجنوبي مدخل صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "types": [
           "ziyarati"
         ],
@@ -3314,10 +3314,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی شیخ بهایی",
+        "name": "الشمالي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -3346,10 +3346,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ بهایی",
+        "name": "الشرقي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -3379,7 +3379,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی مسجد گوهرشاد",
+        "name": "الغربي مدخل مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -3412,7 +3412,7 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -3445,10 +3445,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ بهایی",
+        "name": "الشرقي مدخل الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "types": [
           "ziyarati"
         ],
@@ -3478,10 +3478,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -3512,10 +3512,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن جمهوری اسلامی",
+        "name": "الجنوبي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -3546,10 +3546,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن جمهوری اسلامی",
+        "name": "الغربي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -3580,10 +3580,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن غدیر",
+        "name": "الشرقي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "types": [
           "ziyarati"
         ],
@@ -3614,10 +3614,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -3648,10 +3648,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن غدیر",
+        "name": "الشرقي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "types": [
           "ziyarati"
         ],
@@ -3682,10 +3682,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی شیخ طوسی",
+        "name": "الغربي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -3715,10 +3715,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی شیخ طوسی",
+        "name": "الشمالي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -3748,10 +3748,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی سایر",
+        "name": "الشمالي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -3782,7 +3782,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مسجد گوهرشاد",
+        "name": "الشرقي مدخل مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -3815,10 +3815,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن انقلاب",
+        "name": "الشرقي مدخل صحن الثورة",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "types": [
           "ziyarati"
         ],
@@ -3849,10 +3849,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -3883,10 +3883,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -3917,10 +3917,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن انقلاب",
+        "name": "الغربي مدخل صحن الثورة",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "types": [
           "ziyarati"
         ],
@@ -3951,10 +3951,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ طوسی",
+        "name": "الشرقي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -3984,10 +3984,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن جمهوری اسلامی",
+        "name": "الشرقي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -4018,10 +4018,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ طوسی",
+        "name": "الشرقي مدخل الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "types": [
           "ziyarati"
         ],
@@ -4051,10 +4051,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن جمهوری اسلامی",
+        "name": "الشرقي مدخل صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "types": [
           "ziyarati"
         ],
@@ -4085,7 +4085,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مسجد گوهرشاد",
+        "name": "الشرقي مدخل مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -4118,10 +4118,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -4152,10 +4152,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -4185,10 +4185,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن امام حسن مجتبی",
+        "name": "الغربي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -4219,10 +4219,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن امام حسن مجتبی",
+        "name": "الجنوبي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -4253,10 +4253,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -4287,10 +4287,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مهمانسرا",
+        "name": "الشرقي مدخل دار الضيافة",
         "description": "",
         "group": "khadamat",
-        "subGroup": "مهمانسرا",
+        "subGroup": "دار الضيافة",
         "types": [
           "khadamat"
         ],
@@ -4320,10 +4320,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن امام حسن مجتبی",
+        "name": "الشرقي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -4354,10 +4354,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی دانشگاه علوم اسلامی رضوی",
+        "name": "الشمالي مدخل جامعة العلوم الإسلامية الرضوية",
         "description": "",
         "group": "elmi",
-        "subGroup": "دانشگاه علوم اسلامی رضوی",
+        "subGroup": "جامعة العلوم الإسلامية الرضوية",
         "types": [
           "farhangi",
           "khadamat"
@@ -4388,10 +4388,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن امام حسن مجتبی",
+        "name": "الشمالي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "types": [
           "ziyarati"
         ],
@@ -4422,10 +4422,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "بست شیخ طبرسی",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "ziyarati"
         ],
@@ -4456,10 +4456,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "الشرقي مدخل أخرى",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "types": [
           "farhangi"
         ],
@@ -4490,10 +4490,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "elmi",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4524,10 +4524,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4558,10 +4558,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4592,10 +4592,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4626,10 +4626,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4660,10 +4660,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4694,10 +4694,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4728,10 +4728,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4762,10 +4762,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4796,10 +4796,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "subGroupValue": "sahn-enqelab",
         "types": [
           "ziyarati"
@@ -4830,10 +4830,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4864,10 +4864,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4898,10 +4898,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "subGroupValue": "sahn-enqelab",
         "types": [
           "ziyarati"
@@ -4932,10 +4932,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -4966,10 +4966,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5000,10 +5000,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "ورودی مهمانسرا",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
         "types": [
           "khadamat"
@@ -5034,10 +5034,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
         "types": [
           "ziyarati"
@@ -5068,10 +5068,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
         "types": [
           "ziyarati"
@@ -5102,10 +5102,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5136,10 +5136,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5170,10 +5170,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5204,10 +5204,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5238,10 +5238,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "کتابخانه",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "farhangi"
@@ -5272,10 +5272,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن آزادی",
+        "subGroup": "صحن الحرية",
         "subGroupValue": "sahn-azadi",
         "types": [
           "ziyarati"
@@ -5306,10 +5306,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5340,10 +5340,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5374,10 +5374,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "masjed",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5408,10 +5408,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "masjed",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5442,10 +5442,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5476,10 +5476,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5510,10 +5510,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5544,10 +5544,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن آزادی",
+        "subGroup": "صحن الحرية",
         "subGroupValue": "sahn-azadi",
         "types": [
           "ziyarati"
@@ -5578,10 +5578,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5612,10 +5612,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن آزادی",
+        "subGroup": "صحن الحرية",
         "subGroupValue": "sahn-azadi",
         "types": [
           "ziyarati"
@@ -5646,10 +5646,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5680,10 +5680,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5714,10 +5714,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن آزادی",
+        "subGroup": "صحن الحرية",
         "subGroupValue": "sahn-azadi",
         "types": [
           "ziyarati"
@@ -5748,10 +5748,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5782,10 +5782,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5816,10 +5816,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5850,10 +5850,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5884,10 +5884,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "elmi",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5917,10 +5917,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -5951,10 +5951,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "subGroupValue": "sahn-emam-hasan",
         "types": [
           "farhangi"
@@ -5985,10 +5985,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6019,10 +6019,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "subGroupValue": "sahn-payambar-azam",
         "types": [
           "ziyarati"
@@ -6053,10 +6053,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6087,10 +6087,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6121,10 +6121,10 @@
         ]
       },
       "properties": {
-        "name": "مهمانسرای غدیر",
+        "name": "ضيافة الغدير",
         "description": "",
         "group": "elmi",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -6158,7 +6158,7 @@
         "name": "Qr Code",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
         "types": [
           "ziyarati"
@@ -6192,7 +6192,7 @@
         "name": "Qr Code",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "subGroupValue": "sahn-payambar-azam",
         "types": [
           "ziyarati"
@@ -6226,7 +6226,7 @@
         "name": "Qr Code",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "subGroupValue": "sahn-payambar-azam",
         "types": [
           "ziyarati"
@@ -6260,7 +6260,7 @@
         "name": "Qr Code",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6294,7 +6294,7 @@
         "name": "Qr Code",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6328,7 +6328,7 @@
         "name": "Qr Code",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6359,10 +6359,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6393,10 +6393,10 @@
         ]
       },
       "properties": {
-        "name": "موزه",
+        "name": "متحف",
         "description": "",
         "group": "elmi",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6427,10 +6427,10 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6461,10 +6461,10 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6495,10 +6495,10 @@
         ]
       },
       "properties": {
-        "name": "چایخانه",
+        "name": "مقهى الشاي",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "subGroupValue": "sahn-emam-hasan",
         "types": [
           "khadamat"
@@ -6529,10 +6529,10 @@
         ]
       },
       "properties": {
-        "name": "چایخانه",
+        "name": "مقهى الشاي",
         "description": "",
         "group": "khadamat",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -6563,10 +6563,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "masjed",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6597,10 +6597,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی",
+        "name": "مدخل",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6631,10 +6631,10 @@
         ]
       },
       "properties": {
-        "name": "نقطه اتصال",
+        "name": "نقطة اتصال",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -6685,7 +6685,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -6727,7 +6727,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -6773,7 +6773,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -6815,7 +6815,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -6865,10 +6865,10 @@
         ]
       },
       "properties": {
-        "name": "بازار کوثر",
+        "name": "سوق الكوثر",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -7100,7 +7100,7 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7142,7 +7142,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7216,10 +7216,10 @@
         ]
       },
       "properties": {
-        "name": "چایخانه حضرت",
+        "name": "مقهى الشاي للحرم",
         "description": "",
         "group": "khadamat",
-        "subGroup": "چایخانه",
+        "subGroup": "مقهى الشاي",
         "subGroupValue": "",
         "types": [
           "khadamat"
@@ -7339,10 +7339,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -7386,7 +7386,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7484,10 +7484,10 @@
         ]
       },
       "properties": {
-        "name": "موزه",
+        "name": "متحف",
         "description": "",
         "group": "elmi",
-        "subGroup": "موزه مرکزی",
+        "subGroup": "المتحف المركزي",
         "subGroupValue": "",
         "types": [
           "farhangi"
@@ -7535,7 +7535,7 @@
         ]
       },
       "properties": {
-        "name": "صحن بعثت",
+        "name": "صحن البعثة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7597,7 +7597,7 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7815,7 +7815,7 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7925,10 +7925,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -7973,10 +7973,10 @@
         ]
       },
       "properties": {
-        "name": "صحن قدس",
+        "name": "صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "subGroupValue": "sahn-qods",
         "types": [
           "ziyarati"
@@ -8052,7 +8052,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8094,10 +8094,10 @@
         ]
       },
       "properties": {
-        "name": "فرهنگی آموزشی",
+        "name": "ثقافي تعليمي",
         "description": "",
         "group": "khadamat",
-        "subGroup": "مهمانسرا",
+        "subGroup": "دار الضيافة",
         "subGroupValue": "",
         "types": [
           "khadamat"
@@ -8157,10 +8157,10 @@
         ]
       },
       "properties": {
-        "name": "صحن آزادی",
+        "name": "صحن الحرية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن آزادی",
+        "subGroup": "صحن الحرية",
         "subGroupValue": "sahn-azadi",
         "types": [
           "ziyarati"
@@ -8204,7 +8204,7 @@
         ]
       },
       "properties": {
-        "name": "نمایشگاه",
+        "name": "معرض",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8246,7 +8246,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8312,7 +8312,7 @@
         ]
       },
       "properties": {
-        "name": "موزه مردم شناسی",
+        "name": "متحف الأنثروبولوجيا",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8382,7 +8382,7 @@
         ]
       },
       "properties": {
-        "name": "صحن مسجد گوهر شاد",
+        "name": "صحن مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -8430,7 +8430,7 @@
         ]
       },
       "properties": {
-        "name": "فرهنگی آموزشی",
+        "name": "ثقافي تعليمي",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8480,10 +8480,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ بهائی",
+        "name": "بست الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -8527,7 +8527,7 @@
         ]
       },
       "properties": {
-        "name": "مهمانسرای حر عاملی",
+        "name": "ضيافة حر عاملي",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8573,7 +8573,7 @@
         ]
       },
       "properties": {
-        "name": "روضه منوره",
+        "name": "الروضة المنورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8623,7 +8623,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -8681,10 +8681,10 @@
         ]
       },
       "properties": {
-        "name": "دانشگاه علوم اسلامی و حوزه علمیه",
+        "name": "جامعة العلوم الإسلامية والحوزة العلمية",
         "description": "",
         "group": "elmi",
-        "subGroup": "دانشگاه علوم اسلامی رضوی",
+        "subGroup": "جامعة العلوم الإسلامية الرضوية",
         "subGroupValue": "",
         "types": [
           "farhangi"
@@ -8781,10 +8781,10 @@
         ]
       },
       "properties": {
-        "name": " رواق",
+        "name": "رواق",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -8880,10 +8880,10 @@
         ]
       },
       "properties": {
-        "name": "رواق امام خمینی",
+        "name": "رواق الإمام الخميني",
         "description": "",
         "group": "ravaq",
-        "subGroup": "امام خمینی",
+        "subGroup": "الإمام الخميني",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -8931,10 +8931,10 @@
         ]
       },
       "properties": {
-        "name": "صحن انقلاب",
+        "name": "صحن الثورة",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "subGroupValue": "sahn-enqelab",
         "types": [
           "ziyarati"
@@ -9082,10 +9082,10 @@
         ]
       },
       "properties": {
-        "name": "کتابخانه",
+        "name": "مكتبة",
         "description": "",
         "group": "elmi",
-        "subGroup": "کتابخانه مرکزی",
+        "subGroup": "المكتبة المركزية",
         "subGroupValue": "",
         "types": [
           "farhangi",
@@ -9150,10 +9150,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -9229,10 +9229,10 @@
         ]
       },
       "properties": {
-        "name": "بازار غدیر",
+        "name": "سوق الغدير",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -9308,10 +9308,10 @@
         ]
       },
       "properties": {
-        "name": "بنیاد پژوهش ها و سازمان علمی فرهنگی",
+        "name": "مؤسسة البحوث والمنظمة العلمية الثقافية",
         "description": "",
         "group": "elmi",
-        "subGroup": "بنیاد پژوهش‌های اسلامی",
+        "subGroup": "مؤسسة البحوث الإسلامية",
         "subGroupValue": "",
         "types": [
           "farhangi",
@@ -9376,10 +9376,10 @@
         ]
       },
       "properties": {
-        "name": "صحن جمهوری اسلامی",
+        "name": "صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "subGroupValue": "sahn-jomhouri",
         "types": [
           "ziyarati"
@@ -9844,10 +9844,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -9891,7 +9891,7 @@
         ]
       },
       "properties": {
-        "name": "مهمانسرای غدیر",
+        "name": "ضيافة الغدير",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -9989,10 +9989,10 @@
         ]
       },
       "properties": {
-        "name": "تالار قدس",
+        "name": "قاعة القدس",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat",
@@ -10077,7 +10077,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -10143,7 +10143,7 @@
         ]
       },
       "properties": {
-        "name": "دارالتفسیر",
+        "name": "دار التفسير",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -10237,10 +10237,10 @@
         ]
       },
       "properties": {
-        "name": "باغ رضوان",
+        "name": "حديقة الرضوان",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -10356,10 +10356,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -10495,7 +10495,7 @@
         ]
       },
       "properties": {
-        "name": "حرم مطهر",
+        "name": "الحرم المطهر",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -10697,10 +10697,10 @@
         ]
       },
       "properties": {
-        "name": "صحن پیامبر اعظم",
+        "name": "صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "subGroupValue": "sahn-payambar-azam",
         "types": [
           "ziyarati"
@@ -10781,10 +10781,10 @@
         ]
       },
       "properties": {
-        "name": "صحن کوثر",
+        "name": "صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "subGroupValue": "sahn-kosar",
         "types": [
           "ziyarati"
@@ -10841,10 +10841,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ حرعاملی",
+        "name": "بست الشيخ حر عاملي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سیخ حر عاملی",
+        "subGroup": "الشيخ حر عاملي",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -10960,10 +10960,10 @@
         ]
       },
       "properties": {
-        "name": "صحن امام حسن مجتبی",
+        "name": "صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "subGroupValue": "sahn-emam-hasan",
         "types": [
           "ziyarati"
@@ -11048,10 +11048,10 @@
         ]
       },
       "properties": {
-        "name": "بست شهید نواب صفوی",
+        "name": "بست الشهيد نواب صفوي",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -11168,10 +11168,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ طبرسی",
+        "name": "بست الشيخ الطبرسي",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -11280,10 +11280,10 @@
         ]
       },
       "properties": {
-        "name": "بست",
+        "name": "البست",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -11384,10 +11384,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ طوسی",
+        "name": "بست الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -11467,10 +11467,10 @@
         ]
       },
       "properties": {
-        "name": "صحن غدیر",
+        "name": "صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
         "types": [
           "ziyarati"
@@ -11555,10 +11555,10 @@
         ]
       },
       "properties": {
-        "name": "بابا الکاظم",
+        "name": "باب الکاظم",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -11694,10 +11694,10 @@
         ]
       },
       "properties": {
-        "name": "باب الهادی",
+        "name": "باب الهادي",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -11741,7 +11741,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -11783,7 +11783,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -11829,7 +11829,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -11871,7 +11871,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -11921,10 +11921,10 @@
         ]
       },
       "properties": {
-        "name": "بازار کوثر",
+        "name": "سوق الكوثر",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -12156,7 +12156,7 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -12198,7 +12198,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -12272,10 +12272,10 @@
         ]
       },
       "properties": {
-        "name": "چایخانه حضرت",
+        "name": "مقهى الشاي للحرم",
         "description": "",
         "group": "khadamat",
-        "subGroup": "چایخانه",
+        "subGroup": "مقهى الشاي",
         "subGroupValue": "",
         "types": [
           "khadamat"
@@ -12395,10 +12395,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -12442,7 +12442,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -12540,10 +12540,10 @@
         ]
       },
       "properties": {
-        "name": "موزه",
+        "name": "متحف",
         "description": "",
         "group": "elmi",
-        "subGroup": "موزه مرکزی",
+        "subGroup": "المتحف المركزي",
         "subGroupValue": "",
         "types": [
           "farhangi"
@@ -12591,7 +12591,7 @@
         ]
       },
       "properties": {
-        "name": "صحن بعثت",
+        "name": "صحن البعثة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -12653,7 +12653,7 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -12871,7 +12871,7 @@
         ]
       },
       "properties": {
-        "name": "آبنما",
+        "name": "نافورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -12981,10 +12981,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -13029,10 +13029,10 @@
         ]
       },
       "properties": {
-        "name": "صحن قدس",
+        "name": "صحن القدس",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن قدس",
+        "subGroup": "صحن القدس",
         "subGroupValue": "sahn-qods",
         "types": [
           "ziyarati"
@@ -13108,7 +13108,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13150,10 +13150,10 @@
         ]
       },
       "properties": {
-        "name": "فرهنگی آموزشی",
+        "name": "ثقافي تعليمي",
         "description": "",
         "group": "khadamat",
-        "subGroup": "مهمانسرا",
+        "subGroup": "دار الضيافة",
         "subGroupValue": "",
         "types": [
           "khadamat"
@@ -13213,10 +13213,10 @@
         ]
       },
       "properties": {
-        "name": "صحن آزادی",
+        "name": "صحن الحرية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن آزادی",
+        "subGroup": "صحن الحرية",
         "subGroupValue": "sahn-azadi",
         "types": [
           "ziyarati"
@@ -13260,7 +13260,7 @@
         ]
       },
       "properties": {
-        "name": "نمایشگاه",
+        "name": "معرض",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13302,7 +13302,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13368,7 +13368,7 @@
         ]
       },
       "properties": {
-        "name": "موزه مردم شناسی",
+        "name": "متحف الأنثروبولوجيا",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13438,7 +13438,7 @@
         ]
       },
       "properties": {
-        "name": "صحن مسجد گوهر شاد",
+        "name": "صحن مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -13486,7 +13486,7 @@
         ]
       },
       "properties": {
-        "name": "فرهنگی آموزشی",
+        "name": "ثقافي تعليمي",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13536,10 +13536,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ بهائی",
+        "name": "بست الشيخ البهائي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ بهایی",
+        "subGroup": "الشيخ البهائي",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -13583,7 +13583,7 @@
         ]
       },
       "properties": {
-        "name": "مهمانسرای حر عاملی",
+        "name": "ضيافة حر عاملي",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13629,7 +13629,7 @@
         ]
       },
       "properties": {
-        "name": "روضه منوره",
+        "name": "الروضة المنورة",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13679,7 +13679,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -13737,10 +13737,10 @@
         ]
       },
       "properties": {
-        "name": "دانشگاه علوم اسلامی و حوزه علمیه",
+        "name": "جامعة العلوم الإسلامية والحوزة العلمية",
         "description": "",
         "group": "elmi",
-        "subGroup": "دانشگاه علوم اسلامی رضوی",
+        "subGroup": "جامعة العلوم الإسلامية الرضوية",
         "subGroupValue": "",
         "types": [
           "farhangi"
@@ -13837,10 +13837,10 @@
         ]
       },
       "properties": {
-        "name": " رواق",
+        "name": "رواق",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -13936,10 +13936,10 @@
         ]
       },
       "properties": {
-        "name": "رواق امام خمینی",
+        "name": "رواق الإمام الخميني",
         "description": "",
         "group": "ravaq",
-        "subGroup": "امام خمینی",
+        "subGroup": "الإمام الخميني",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -13987,10 +13987,10 @@
         ]
       },
       "properties": {
-        "name": "صحن انقلاب",
+        "name": "صحن الثورة",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن انقلاب",
+        "subGroup": "صحن الثورة",
         "subGroupValue": "sahn-enqelab",
         "types": [
           "ziyarati"
@@ -14138,10 +14138,10 @@
         ]
       },
       "properties": {
-        "name": "کتابخانه",
+        "name": "مكتبة",
         "description": "",
         "group": "elmi",
-        "subGroup": "کتابخانه مرکزی",
+        "subGroup": "المكتبة المركزية",
         "subGroupValue": "",
         "types": [
           "farhangi",
@@ -14206,10 +14206,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -14285,10 +14285,10 @@
         ]
       },
       "properties": {
-        "name": "بازار غدیر",
+        "name": "سوق الغدير",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -14364,10 +14364,10 @@
         ]
       },
       "properties": {
-        "name": "بنیاد پژوهش ها و سازمان علمی فرهنگی",
+        "name": "مؤسسة البحوث والمنظمة العلمية الثقافية",
         "description": "",
         "group": "elmi",
-        "subGroup": "بنیاد پژوهش‌های اسلامی",
+        "subGroup": "مؤسسة البحوث الإسلامية",
         "subGroupValue": "",
         "types": [
           "farhangi",
@@ -14432,10 +14432,10 @@
         ]
       },
       "properties": {
-        "name": "صحن جمهوری اسلامی",
+        "name": "صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن جمهوری اسلامی",
+        "subGroup": "صحن الجمهورية الإسلامية",
         "subGroupValue": "sahn-jomhouri",
         "types": [
           "ziyarati"
@@ -14900,10 +14900,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -14947,7 +14947,7 @@
         ]
       },
       "properties": {
-        "name": "مهمانسرای غدیر",
+        "name": "ضيافة الغدير",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -15045,10 +15045,10 @@
         ]
       },
       "properties": {
-        "name": "تالار قدس",
+        "name": "قاعة القدس",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat",
@@ -15133,7 +15133,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -15199,7 +15199,7 @@
         ]
       },
       "properties": {
-        "name": "دارالتفسیر",
+        "name": "دار التفسير",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -15293,10 +15293,10 @@
         ]
       },
       "properties": {
-        "name": "باغ رضوان",
+        "name": "حديقة الرضوان",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "khadamat"
@@ -15412,10 +15412,10 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "مدخل مسقوف",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -15551,7 +15551,7 @@
         ]
       },
       "properties": {
-        "name": "حرم مطهر",
+        "name": "الحرم المطهر",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -15753,10 +15753,10 @@
         ]
       },
       "properties": {
-        "name": "صحن پیامبر اعظم",
+        "name": "صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
+        "subGroup": "صحن النبي الأعظم",
         "subGroupValue": "sahn-payambar-azam",
         "types": [
           "ziyarati"
@@ -15837,10 +15837,10 @@
         ]
       },
       "properties": {
-        "name": "صحن کوثر",
+        "name": "صحن الكوثر",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن کوثر",
+        "subGroup": "صحن الكوثر",
         "subGroupValue": "sahn-kosar",
         "types": [
           "ziyarati"
@@ -15897,10 +15897,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ حرعاملی",
+        "name": "بست الشيخ حر عاملي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "سیخ حر عاملی",
+        "subGroup": "الشيخ حر عاملي",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -16016,10 +16016,10 @@
         ]
       },
       "properties": {
-        "name": "صحن امام حسن مجتبی",
+        "name": "صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن امام حسن مجتبی",
+        "subGroup": "صحن الإمام الحسن المجتبى",
         "subGroupValue": "sahn-emam-hasan",
         "types": [
           "ziyarati"
@@ -16104,10 +16104,10 @@
         ]
       },
       "properties": {
-        "name": "بست شهید نواب صفوی",
+        "name": "بست الشهيد نواب صفوي",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -16224,10 +16224,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ طبرسی",
+        "name": "بست الشيخ الطبرسي",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -16336,10 +16336,10 @@
         ]
       },
       "properties": {
-        "name": "بست",
+        "name": "البست",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -16440,10 +16440,10 @@
         ]
       },
       "properties": {
-        "name": "بست شیخ طوسی",
+        "name": "بست الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
-        "subGroup": "شیخ طوسی",
+        "subGroup": "الشيخ الطوسي",
         "subGroupValue": "",
         "types": [
           "ziyarati"
@@ -16523,10 +16523,10 @@
         ]
       },
       "properties": {
-        "name": "صحن غدیر",
+        "name": "صحن الغدير",
         "description": "",
         "group": "sahn",
-        "subGroup": "صحن غدیر",
+        "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
         "types": [
           "ziyarati"
@@ -16611,10 +16611,10 @@
         ]
       },
       "properties": {
-        "name": "بابا الکاظم",
+        "name": "باب الکاظم",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
@@ -16750,10 +16750,10 @@
         ]
       },
       "properties": {
-        "name": "باب الهادی",
+        "name": "باب الهادي",
         "description": "",
         "group": "other",
-        "subGroup": "سایر",
+        "subGroup": "أخرى",
         "subGroupValue": "other",
         "types": [
           "ziyarati"
