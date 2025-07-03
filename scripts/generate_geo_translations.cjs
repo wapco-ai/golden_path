@@ -97,13 +97,52 @@ const subGroupTranslations = {
   "کتابخانه مرکزی": { en: "Central Library", ar: "المكتبة المركزية", ur: "مرکزی کتب خانہ" }
 };
 
+const orientationTranslations = {
+  "شمالی": { en: "North", ar: "الشمالي", ur: "شمالی" },
+  "جنوبی": { en: "South", ar: "الجنوبي", ur: "جنوبی" },
+  "شرقی": { en: "East", ar: "الشرقي", ur: "مشرقی" },
+  "غربی": { en: "West", ar: "الغربي", ur: "مغربی" }
+};
+
+function translateName(key, lang) {
+  key = key.trim();
+  const all = { ...nameTranslations, ...subGroupTranslations };
+  const direct = all[key];
+  if (direct && direct[lang]) return direct[lang];
+
+  if (key.startsWith('ورودی')) {
+    let rest = key.slice('ورودی'.length).trim();
+    let covered = false;
+    if (rest.startsWith('مسقف')) {
+      covered = true;
+      rest = rest.slice('مسقف'.length).trim();
+    }
+
+    let orientation;
+    for (const o of Object.keys(orientationTranslations)) {
+      if (rest.startsWith(o)) {
+        orientation = o;
+        rest = rest.slice(o.length).trim();
+        break;
+      }
+    }
+
+    const base = rest ? translateName(rest, lang) : '';
+    const entrance = covered
+      ? { en: 'Covered Entrance', ar: 'مدخل مسقوف', ur: 'ڈھکا ہوا داخلہ' }[lang]
+      : { en: 'Entrance', ar: 'مدخل', ur: 'داخلہ' }[lang];
+    const orientationPart = orientation ? orientationTranslations[orientation][lang] + ' ' : '';
+    return base ? `${orientationPart}${entrance} ${base}`.trim() : `${orientationPart}${entrance}`.trim();
+  }
+
+  return key;
+}
+
 function translateFeature(feature, lang) {
   if (!feature.properties) return feature;
   const props = { ...feature.properties };
   if (props.name) {
-    const key = props.name.trim();
-    const t = nameTranslations[key];
-    if (t && t[lang]) props.name = t[lang];
+    props.name = translateName(props.name, lang);
   }
   if (props.subGroup) {
     const key = props.subGroup.trim();

@@ -1,6 +1,28 @@
 
-import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
-import pointsWithinPolygon from '@turf/points-within-polygon';
+
+function booleanPointInPolygon(point, polygon) {
+  const x = point[0];
+  const y = point[1];
+  const coords = polygon.geometry?.coordinates[0] || polygon.coordinates[0];
+  let inside = false;
+  for (let i = 0, j = coords.length - 1; i < coords.length; j = i++) {
+    const xi = coords[i][0];
+    const yi = coords[i][1];
+    const xj = coords[j][0];
+    const yj = coords[j][1];
+    const intersect = ((yi > y) !== (yj > y)) &&
+      (x < ((xj - xi) * (y - yi)) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+function pointsWithinPolygon(pointsFC, polygon) {
+  const features = pointsFC.features.filter(pt =>
+    booleanPointInPolygon(pt.geometry.coordinates, polygon)
+  );
+  return { type: 'FeatureCollection', features };
+}
 
 export function findNearest(coord, features) {
   if (!features || features.length === 0) return null;
@@ -640,4 +662,18 @@ export function analyzeRoute(origin, destination, geoData) {
   console.log(`Final path has ${path.length} points`);
   
   return { path, geo, steps, alternatives: [] };
+}
+
+export function computeShortestPath(origin, destination, features) {
+  const path = [origin.coordinates];
+  features.forEach(f => {
+    const [lng, lat] = f.geometry.coordinates;
+    path.push([lat, lng]);
+  });
+  path.push(destination.coordinates);
+  const geo = {
+    type: 'Feature',
+    geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
+  };
+  return { path, geo };
 }
