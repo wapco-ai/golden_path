@@ -145,6 +145,12 @@ const FinalSearch = () => {
     });
   }, [storedAlternativeRoutes, intl]);
 
+  const altLayerIds = React.useMemo(
+    () =>
+      (storedAlternativeRoutes || []).map((_, idx) => `alt-route-line-${idx}`),
+    [storedAlternativeRoutes]
+  );
+
   const swapLocations = () => {
     setIsSwapping(true); // This will trigger the rotation
     setSwapButton(!isSwapButton);
@@ -290,6 +296,23 @@ const FinalSearch = () => {
             zoom: 18
           }}
           attributionControl={false}
+          interactiveLayerIds={altLayerIds}
+          onClick={(e) => {
+            const feature = e.features && e.features[0];
+            if (
+              feature &&
+              feature.layer &&
+              feature.layer.id.startsWith('alt-route-line-')
+            ) {
+              const idx = parseInt(feature.layer.id.replace('alt-route-line-', ''));
+              if (
+                !Number.isNaN(idx) &&
+                storedAlternativeRoutes[idx]
+              ) {
+                handleSelectAlternativeRoute(storedAlternativeRoutes[idx]);
+              }
+            }
+          }}
         >
           {origin.coordinates && (
             <Marker
