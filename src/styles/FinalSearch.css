@@ -565,3 +565,67 @@
 .swap-btn:active {
   opacity: 0.7; /* Simple press feedback */
 }
+
+/* Other Routes Section */
+.other-routes-section {
+  background-color: white;
+  padding: 15px;
+  border-top: 6px solid rgba(128, 128, 128, 0.115);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.other-routes-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.other-routes-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  scrollbar-width: none;
+}
+
+.other-routes-container::-webkit-scrollbar {
+  display: none;
+}
+
+.other-route-card {
+  flex: 0 0 85%;
+  background-color: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.other-route-card .route-title {
+  display: flex;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  gap: 8px;
+  line-height: 1.6;
+}
+
+.other-route-card .route-via {
+  font-size: 0.9rem;
+  color: #666;
+  padding: 10px 0;
+}
+
+.other-route-card .route-stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.other-route-card .route-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+}
