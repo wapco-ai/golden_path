@@ -622,46 +622,94 @@ export function analyzeRoute(origin, destination, geoData) {
     };
   }
 
-  // Build the final path
-  const path = [origin.coordinates];
-  const steps = [];
+  function buildRoute(nodeList) {
+    const rPath = [origin.coordinates];
+    const rSteps = [];
 
-  // Add all nodes from the path
-  nodePath.forEach(node => {
-    const coord = [node[0], node[1]];
-    path.push(coord);
-    
-    if (node[2].nodeFunction === 'door') {
-      steps.push({
-        coordinates: coord,
-        type: 'stepPassDoor',
-        name: node[2].name || ''
-      });
-    } else if (node[2].nodeFunction === 'connection') {
-      steps.push({
-        coordinates: coord,
-        type: 'stepPassConnection',
-        title: node[2].subGroup || node[2].name || ''
-      });
-    }
+    nodeList.forEach(node => {
+      const coord = [node[0], node[1]];
+      rPath.push(coord);
+
+      if (node[2].nodeFunction === 'door') {
+        rSteps.push({
+          coordinates: coord,
+          type: 'stepPassDoor',
+          name: node[2].name || ''
+        });
+      } else if (node[2].nodeFunction === 'connection') {
+        rSteps.push({
+          coordinates: coord,
+          type: 'stepPassConnection',
+          title: node[2].subGroup || node[2].name || ''
+        });
+      }
+    });
+
+    rPath.push(destination.coordinates);
+    rSteps.push({
+      coordinates: destination.coordinates,
+      type: 'stepArriveDestination',
+      name: destination.name || ''
+    });
+
+    const rGeo = {
+      type: 'Feature',
+      geometry: { type: 'LineString', coordinates: rPath.map(p => [p[1], p[0]]) }
+    };
+
+    const dist = rPath.reduce((acc, cur, idx) => {
+      if (idx === 0) return acc;
+      const prev = rPath[idx - 1];
+      return acc + Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
+    }, 0);
+
+    return { path: rPath, steps: rSteps, geo: rGeo, distance: dist };
+  }
+
+  const mainRoute = buildRoute(nodePath);
+
+  const startEntries = [
+    startEntry,
+    findUnobstructedEntry(origin.coordinates, 1),
+    findUnobstructedEntry(origin.coordinates, 2)
+  ].filter(Boolean);
+
+  const endEntries = [
+    endEntry,
+    findUnobstructedEntry(destination.coordinates, 1),
+    findUnobstructedEntry(destination.coordinates, 2)
+  ].filter(Boolean);
+
+  const altCandidates = [];
+  startEntries.forEach(s => {
+    endEntries.forEach(e => {
+      if (s.index === startEntry.index && e.index === endEntry.index) return;
+      const altNodePath = dijkstraShortestPath(allNodes, s.index, e.index, sahnPolygons);
+      if (altNodePath.length === 0 || altNodePath.length === 1) return;
+      const route = buildRoute(altNodePath);
+      altCandidates.push(route);
+    });
   });
 
-  // Add destination
-  path.push(destination.coordinates);
-  steps.push({
-    coordinates: destination.coordinates,
-    type: 'stepArriveDestination',
-    name: destination.name || ''
+  altCandidates.sort((a, b) => a.distance - b.distance);
+
+  const alternatives = altCandidates.slice(0, 3).map(route => {
+    const via = route.steps
+      .filter(st => st.type !== 'stepArriveDestination')
+      .map(st => st.name || st.title)
+      .filter(Boolean);
+    return {
+      steps: route.steps,
+      geo: route.geo,
+      from: origin.name || '',
+      to: destination.name || '',
+      via
+    };
   });
 
-  const geo = {
-    type: 'Feature',
-    geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
-  };
+  console.log(`Final path has ${mainRoute.path.length} points`);
 
-  console.log(`Final path has ${path.length} points`);
-  
-  return { path, geo, steps, alternatives: [] };
+  return { path: mainRoute.path, geo: mainRoute.geo, steps: mainRoute.steps, alternatives };
 }
 
 export function computeShortestPath(origin, destination, features) {
