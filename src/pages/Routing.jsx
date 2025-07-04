@@ -11,7 +11,13 @@ const RoutingPage = () => {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
   const [routeData, setRouteData] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [userLocation, setUserLocation] = useState([36.2880, 59.6157]);
+  const storedLat = sessionStorage.getItem('qrLat');
+  const storedLng = sessionStorage.getItem('qrLng');
+  const [userLocation, setUserLocation] = useState(
+    storedLat && storedLng
+      ? [parseFloat(storedLat), parseFloat(storedLng)]
+      : [36.2880, 59.6157]
+  );
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [showSoundModal, setShowSoundModal] = useState(false);
   const [selectedEmergency, setSelectedEmergency] = useState(null);
@@ -178,29 +184,31 @@ const RoutingPage = () => {
     return () => clearInterval(timer);
   }, [routeData]);
 
-  // Get user's current location
+  // Get user's current location only if no QR coordinates provided
   useEffect(() => {
-    if (navigator.geolocation) {
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-      };
+    if (!storedLat || !storedLng) {
+      if (navigator.geolocation) {
+        const options = {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
 
-      const success = (position) => {
-        setUserLocation([position.coords.latitude, position.coords.longitude]);
-      };
+        const success = (position) => {
+          setUserLocation([position.coords.latitude, position.coords.longitude])
+        }
 
-      const error = (err) => {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-        setUserLocation([36.2880, 59.6157]);
-      };
+        const error = (err) => {
+          console.warn(`ERROR(${err.code}): ${err.message}`)
+          setUserLocation([36.2880, 59.6157])
+        }
 
-      const watchId = navigator.geolocation.watchPosition(success, error, options);
+        const watchId = navigator.geolocation.watchPosition(success, error, options)
 
-      return () => navigator.geolocation.clearWatch(watchId);
+        return () => navigator.geolocation.clearWatch(watchId)
+      }
     }
-  }, []);
+  }, [storedLat, storedLng])
 
   // Auto-advance steps when routing is active
   useEffect(() => {

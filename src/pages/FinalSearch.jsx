@@ -29,11 +29,19 @@ const FinalSearch = () => {
     setAlternativeRoutes: storeSetAlternativeRoutes
   } = useRouteStore();
   const language = useLangStore((state) => state.language);
+  const qrLat = sessionStorage.getItem('qrLat');
+  const qrLng = sessionStorage.getItem('qrLng');
   const [origin, setOrigin] = useState(
-    storedOrigin || {
-      name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-      coordinates: [36.2970, 59.6069]
-    }
+    storedOrigin ||
+      (qrLat && qrLng
+        ? {
+            name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+            coordinates: [parseFloat(qrLat), parseFloat(qrLng)]
+          }
+        : {
+            name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+            coordinates: [36.2970, 59.6069]
+          })
   );
   const [destination, setDestination] = useState(
     storedDestination || {
@@ -69,9 +77,9 @@ const FinalSearch = () => {
     }
   }, [selectedTransport]);
 
-  // Fallback to current GPS coordinates if origin coords not provided
+  // Fallback to current GPS coordinates if origin coords not provided and no QR data
   useEffect(() => {
-    if (!origin.coordinates) {
+    if (!origin.coordinates && !(qrLat && qrLng)) {
       navigator.geolocation.getCurrentPosition(
         (pos) =>
           setOrigin((o) => ({
@@ -79,9 +87,9 @@ const FinalSearch = () => {
             coordinates: [pos.coords.latitude, pos.coords.longitude]
           })),
         (err) => console.error('gps error', err)
-      );
+      )
     }
-  }, [origin.coordinates]);
+  }, [origin.coordinates, qrLat, qrLng])
 
   useEffect(() => {
     const file = buildGeoJsonPath(language);
