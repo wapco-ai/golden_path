@@ -22,6 +22,7 @@ const FinalSearch = () => {
     origin: storedOrigin,
     destination: storedDestination,
     routeGeo: storedRouteGeo,
+    routeSteps: storedRouteSteps,
     alternativeRoutes: storedAlternativeRoutes,
     setOrigin: storeSetOrigin,
     setDestination: storeSetDestination,
@@ -158,8 +159,19 @@ const FinalSearch = () => {
       return;
     }
 
+    const currentRoute = {
+      geo: storedRouteGeo,
+      steps: storedRouteSteps
+    };
+    const newAlternatives = storedAlternativeRoutes.filter(alt => alt !== route);
+
+    if (currentRoute.geo && currentRoute.steps) {
+      newAlternatives.push(currentRoute);
+    }
+
     storeSetRouteGeo(route.geo);
     storeSetRouteSteps(route.steps);
+    storeSetAlternativeRoutes(newAlternatives);
   };
 
   const getTransportIcon = () => {
@@ -311,7 +323,14 @@ const FinalSearch = () => {
                 <Layer
                   id={`alt-route-line-${idx}`}
                   type="line"
-                  paint={{ 'line-color': '#888', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.4 }}
+                  paint={{
+                    'line-color': '#757575',
+                    'line-width': 4,
+                    'line-dasharray': [4, 3],
+                    'line-opacity': 0.6,
+                    'line-cap': 'round',
+                    'line-join': 'round'
+                  }}
                 />
               </Source>
             ))}
