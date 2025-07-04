@@ -226,18 +226,11 @@ const Location = () => {
         setShowSearchModal(false);
         document.body.style.overflow = 'auto';
         navigate('/fs');
-
+        return;
       }
     }
-
-    if (coords) {
-      setDestinationStore({ name, coordinates: coords });
-      addSearch({ name, location, coordinates: coords });
-      setShowSearchModal(false);
-      document.body.style.overflow = 'auto';
-      navigate('/fs');
-    }
-
+    
+    alert(intl.formatMessage({ id: 'noDataFound' }));
   };
 
   const handleSearchFocus = () => {
