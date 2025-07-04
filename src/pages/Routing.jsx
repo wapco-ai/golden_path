@@ -381,8 +381,16 @@ const RoutingPage = () => {
       return;
     }
 
+    const currentRoute = { geo: routeGeo, steps: routeSteps };
+    const newAlternatives = alternativeRoutes.filter(alt => alt !== route);
+
+    if (currentRoute.geo && currentRoute.steps) {
+      newAlternatives.push(currentRoute);
+    }
+
     setRouteGeo(route.geo);
     setRouteSteps(route.steps);
+    setAlternativeRoutes(newAlternatives);
     setCurrentStep(0);
     setIsRoutingActive(false);
     setShowAlternativeRoutes(false);
