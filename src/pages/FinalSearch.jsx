@@ -305,6 +305,16 @@ const FinalSearch = () => {
               <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />
             </Source>
           )}
+          {storedAlternativeRoutes &&
+            storedAlternativeRoutes.map((alt, idx) => (
+              <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
+                <Layer
+                  id={`alt-route-line-${idx}`}
+                  type="line"
+                  paint={{ 'line-color': '#888', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.4 }}
+                />
+              </Source>
+            ))}
           <GeoJsonOverlay />
         </Map>
       </div>
