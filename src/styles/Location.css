@@ -1899,3 +1899,62 @@
   direction: ltr;
   justify-content: flex-start;
 }
+
+/* Recent search list styles for location search modal */
+.location-recent-title {
+  font-size: 18px;
+  color: black;
+  margin-bottom: 16px;
+  margin-top: 24px;
+  font-weight: bold;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.location-destination-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.location-no-recent {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  font-family: 'Vazir', Arial, sans-serif;
+  margin-top: 25px;
+}
+
+.location-destination-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.location-recent-icon {
+  margin-top: 15px;
+}
+
+.location-destination-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 12px;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.location-destination-name {
+  font-size: 17px;
+  color: black;
+  font-weight: 500;
+  margin-bottom: 4px;
+  font-family: 'Vazir', Arial, sans-serif;
+  font-weight: 100;
+}
+
+.location-destination-location {
+  font-size: 13px;
+  color: #666;
+}
