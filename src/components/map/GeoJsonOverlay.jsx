@@ -97,7 +97,8 @@ const GeoJsonOverlay = ({ selectedCategory }) => {
         const hasFilter = !!selectedCategory;
         const iconSize = hasFilter ? (highlight ? 40 : 25) : 35;
         const iconOpacity = hasFilter ? (highlight ? 1 : 0.4) : 1;
-        const key = feature.properties?.uniqueId || idx;
+        const rawId = feature.properties?.uniqueId;
+        const key = rawId ? `${rawId}-${idx}` : idx;
         return (
           <Marker key={key} longitude={lng} latitude={lat} anchor="center">
             {getCompositeIcon(group, nodeFunction, iconSize, iconOpacity)}
