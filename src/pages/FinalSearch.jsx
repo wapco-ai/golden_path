@@ -152,6 +152,16 @@ const FinalSearch = () => {
     setDestination(temp);
   };
 
+  const handleSelectAlternativeRoute = (route) => {
+    if (!route?.geo || !route?.steps) {
+      console.warn('Selected alternative route is missing geo or steps');
+      return;
+    }
+
+    storeSetRouteGeo(route.geo);
+    storeSetRouteSteps(route.steps);
+  };
+
   const getTransportIcon = () => {
     switch (selectedTransport) {
       case 'walking':
@@ -459,7 +469,11 @@ const FinalSearch = () => {
           </h2>
           <div className="other-routes-container">
             {alternativeSummaries.map(route => (
-              <div key={route.id} className="other-route-card">
+              <div
+                key={route.id}
+                className="other-route-card"
+                onClick={() => handleSelectAlternativeRoute(storedAlternativeRoutes[route.id - 1])}
+              >
                 <div className="route-title">
                   <span>
                     <FormattedMessage id="from" /> {route.from}
