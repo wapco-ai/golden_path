@@ -114,6 +114,12 @@ const FinalSearch = () => {
   useEffect(() => {
     if (!geoData) return;
     const { geo, steps, alternatives } = analyzeRoute(origin, destination, geoData);
+    // log analyzed route and alternatives for debugging
+    console.log('analyzeRoute result:', {
+      geo,
+      steps,
+      alternatives
+    });
     storeSetRouteGeo(geo);
     storeSetRouteSteps(steps);
     storeSetAlternativeRoutes(alternatives);
