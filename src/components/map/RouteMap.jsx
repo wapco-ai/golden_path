@@ -13,12 +13,15 @@ const RouteMap = ({
   isInfoModalOpen,
   isMapModalOpen,
   is3DView,
-  routeGeo
+  routeGeo,
+  alternativeRoutes = [],
+  onSelectAlternativeRoute
 }) => {
   const mapRef = useRef(null);
   const center = userLocation && userLocation.length === 2
     ? userLocation
     : [36.297, 59.606]; // Default to Imam Reza Shrine coordinates
+  const altLayerIds = alternativeRoutes.map((_, idx) => `alt-route-line-${idx}`);
 
   // Handle map resize when modal opens/closes
   useEffect(() => {
@@ -71,6 +74,16 @@ const RouteMap = ({
       ref={mapRef}
       mapLib={maplibregl}
       mapStyle={osmStyle}
+      interactiveLayerIds={altLayerIds}
+      onClick={(e) => {
+        const feature = e.features && e.features[0];
+        if (feature && feature.layer && feature.layer.id.startsWith('alt-route-line-')) {
+          const idx = parseInt(feature.layer.id.replace('alt-route-line-', ''));
+          if (!Number.isNaN(idx) && alternativeRoutes[idx] && onSelectAlternativeRoute) {
+            onSelectAlternativeRoute(alternativeRoutes[idx]);
+          }
+        }
+      }}
       initialViewState={{
         longitude: center[1],
         latitude: center[0],
@@ -101,6 +114,16 @@ const RouteMap = ({
           <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 4 }} />
         </Source>
       )}
+
+      {alternativeRoutes.map((alt, idx) => (
+        <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
+          <Layer
+            id={`alt-route-line-${idx}`}
+            type="line"
+            paint={{ 'line-color': '#888', 'line-width': 3, 'line-dasharray': [2, 2] }}
+          />
+        </Source>
+      ))}
 
       <GeoJsonOverlay />
     </Map>
