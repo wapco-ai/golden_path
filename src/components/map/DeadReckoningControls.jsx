@@ -3,6 +3,8 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 import useIMUSensors from '../../hooks/useIMUSensors';
 import './DeadReckoningControls.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DeadReckoningControls = ({ currentLocation }) => {
   const [isActive, setIsActive] = useState(false);
@@ -33,7 +35,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
 
       // اگر در حالت فعال سرویس و کالیبراسیون نیستیم ولی گام نرفته، alert بده  
       if (data.isActive && !data.isCalibrating && data.stepCount === 0 && !stepCountErrorShown) {
-        alert(intl.formatMessage({ id: 'drStepWarning' }));
+        toast.error(intl.formatMessage({ id: 'drStepWarning' }));
         setStepCountErrorShown(true);
       }
 
@@ -70,13 +72,13 @@ const DeadReckoningControls = ({ currentLocation }) => {
   const handleToggle = async () => {
     if (!isActive) {
       if (!isSupported) {
-        alert(intl.formatMessage({ id: 'drSensorsUnsupported' }));
+        toast.error(intl.formatMessage({ id: 'drSensorsUnsupported' }));
         return;
       }
 
       if (!checkPermissions()) {
         const ok = await requestPermission();
-        if (!ok) { alert(intl.formatMessage({ id: 'drPermissionNeeded' })); return; }
+        if (!ok) { toast.error(intl.formatMessage({ id: 'drPermissionNeeded' })); return; }
       }
 
       const initialLatLng = currentLocation?.coords ? {
