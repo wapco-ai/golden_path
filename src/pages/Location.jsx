@@ -8,6 +8,8 @@ import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { useSearchStore } from '../store/searchStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Map subgroup labels to their values for easier lookup
 const labelToValueMap = Object.values(subGroups).flat().reduce((acc, sg) => {
@@ -230,7 +232,7 @@ const Location = () => {
       }
     }
     
-    alert(intl.formatMessage({ id: 'noDataFound' }));
+    toast.error(intl.formatMessage({ id: 'noDataFound' }));
   };
 
   const handleSearchFocus = () => {

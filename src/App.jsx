@@ -12,6 +12,7 @@ import Location from './pages/Location';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import './App.css';
+import { ToastContainer } from 'react-toastify';
 
 const AppContent = () => {
   const location = useLocation();
@@ -97,6 +98,7 @@ const AppContent = () => {
 function App() {
   return (
     <Router>
+      <ToastContainer />
       <AppContent />
     </Router>
   );
