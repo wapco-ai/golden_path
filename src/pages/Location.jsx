@@ -4,6 +4,9 @@ import axios from 'axios';
 import '../styles/Location.css';
 import { groups, subGroups } from '../components/groupData';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useRouteStore } from '../store/routeStore';
+import { useLangStore } from '../store/langStore';
+import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 
 const Location = () => {
   const navigate = useNavigate();
@@ -39,6 +42,9 @@ const Location = () => {
   const commentsListRef = useRef(null);
   const searchInputRef = useRef(null);
   const [routingData, setRoutingData] = useState(null);
+  const [geoData, setGeoData] = useState(null);
+  const setDestinationStore = useRouteStore(state => state.setDestination);
+  const language = useLangStore(state => state.language);
 
   // Split groups into initial (first 9) and additional (rest)
   const initialCategories = groups.slice(0, 9);
@@ -51,6 +57,43 @@ const Location = () => {
       .then(data => setRoutingData(data))
       .catch(err => console.error('Failed to load routing-data.json', err));
   }, []);
+
+  // Load geojson data for searching place coordinates
+  useEffect(() => {
+    const file = buildGeoJsonPath(language);
+    fetch(file)
+      .then(res => res.json())
+      .then(setGeoData)
+      .catch(err => console.error('failed to load geojson', err));
+  }, [language]);
+
+  const getPolygonCenter = (coords) => {
+    const pts = [];
+    const collect = (c) => {
+      if (typeof c[0] === 'number') {
+        pts.push(c);
+      } else {
+        c.forEach(collect);
+      }
+    };
+    collect(coords);
+    const lats = pts.map((p) => p[1]);
+    const lngs = pts.map((p) => p[0]);
+    return [
+      (Math.min(...lngs) + Math.max(...lngs)) / 2,
+      (Math.min(...lats) + Math.max(...lats)) / 2,
+    ];
+  };
+
+  const getFeatureCenter = (feature) => {
+    if (!feature) return null;
+    const { geometry } = feature;
+    if (geometry.type === 'Point') return geometry.coordinates;
+    if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
+      return getPolygonCenter(geometry.coordinates);
+    }
+    return null;
+  };
 
   // Initialize carousel position
   useEffect(() => {
@@ -157,6 +200,19 @@ const Location = () => {
 
   const handlePlaceClick = (placeTitle) => {
     console.log('Place clicked:', placeTitle);
+    if (!geoData) return;
+    const feature = geoData.features.find(
+      f => f.properties?.name === placeTitle || f.properties?.subGroup === placeTitle
+    );
+    if (feature) {
+      const center = getFeatureCenter(feature);
+      if (center) {
+        setDestinationStore({ name: placeTitle, coordinates: [center[1], center[0]] });
+        setShowSearchModal(false);
+        document.body.style.overflow = 'auto';
+        navigate('/fs');
+      }
+    }
   };
 
   const handleSearchFocus = () => {
