@@ -163,10 +163,12 @@ const RoutingPage = () => {
         const [lng2, lat2] = routeGeo.geometry.coordinates[idx];
         distance = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
       }
-      const instruction = intl.formatMessage(
-        { id: s.type },
-        { name: s.name, title: s.title, num: idx + 1 }
-      );
+      const instruction = s.type
+        ? intl.formatMessage(
+            { id: s.type },
+            { name: s.name, title: s.title, num: idx + 1 }
+          )
+        : s.instruction || '';
       return {
         id: idx + 1,
         instruction,
@@ -188,13 +190,15 @@ const RoutingPage = () => {
           const [lng2, lat2] = alt.geo.geometry.coordinates[i];
           dist = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
         }
+        const instruction = st.type
+          ? intl.formatMessage(
+              { id: st.type },
+              { name: st.name, title: st.title, num: i + 1 }
+            )
+          : st.instruction || '';
         return {
           id: i + 1,
-          instruction: intl.formatMessage(
-            { id: st.type },
-            { name: st.name, title: st.title, num: i + 1 }
-          ),
-
+          instruction,
           distance: `${Math.round(dist)} ${intl.formatMessage({ id: 'meters' })}`,
           time: `${Math.max(1, Math.round(dist / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`,
           coordinates: st.coordinates
