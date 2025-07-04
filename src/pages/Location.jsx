@@ -4,6 +4,10 @@ import axios from 'axios';
 import '../styles/Location.css';
 import { groups, subGroups } from '../components/groupData';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useRouteStore } from '../store/routeStore';
+import { useLangStore } from '../store/langStore';
+import { useSearchStore } from '../store/searchStore';
+import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 
 const Location = () => {
   const navigate = useNavigate();
@@ -39,6 +43,11 @@ const Location = () => {
   const commentsListRef = useRef(null);
   const searchInputRef = useRef(null);
   const [routingData, setRoutingData] = useState(null);
+  const [geoData, setGeoData] = useState(null);
+  const setDestinationStore = useRouteStore(state => state.setDestination);
+  const language = useLangStore(state => state.language);
+  const recentSearches = useSearchStore(state => state.recentSearches);
+  const addSearch = useSearchStore(state => state.addSearch);
 
   // Split groups into initial (first 9) and additional (rest)
   const initialCategories = groups.slice(0, 9);
@@ -51,6 +60,43 @@ const Location = () => {
       .then(data => setRoutingData(data))
       .catch(err => console.error('Failed to load routing-data.json', err));
   }, []);
+
+  // Load geojson data for searching place coordinates
+  useEffect(() => {
+    const file = buildGeoJsonPath(language);
+    fetch(file)
+      .then(res => res.json())
+      .then(setGeoData)
+      .catch(err => console.error('failed to load geojson', err));
+  }, [language]);
+
+  const getPolygonCenter = (coords) => {
+    const pts = [];
+    const collect = (c) => {
+      if (typeof c[0] === 'number') {
+        pts.push(c);
+      } else {
+        c.forEach(collect);
+      }
+    };
+    collect(coords);
+    const lats = pts.map((p) => p[1]);
+    const lngs = pts.map((p) => p[0]);
+    return [
+      (Math.min(...lngs) + Math.max(...lngs)) / 2,
+      (Math.min(...lats) + Math.max(...lats)) / 2,
+    ];
+  };
+
+  const getFeatureCenter = (feature) => {
+    if (!feature) return null;
+    const { geometry } = feature;
+    if (geometry.type === 'Point') return geometry.coordinates;
+    if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
+      return getPolygonCenter(geometry.coordinates);
+    }
+    return null;
+  };
 
   // Initialize carousel position
   useEffect(() => {
@@ -155,8 +201,31 @@ const Location = () => {
     setSearchClose(!searchClose);
   };
 
-  const handlePlaceClick = (placeTitle) => {
-    console.log('Place clicked:', placeTitle);
+  const handlePlaceClick = (item) => {
+    const name = typeof item === 'string' ? item : item.name;
+    let location = typeof item === 'string' ? '' : item.location || '';
+    let coords = typeof item === 'string' ? null : item.coordinates || null;
+
+    if (!coords && geoData) {
+      const feature = geoData.features.find(
+        (f) => f.properties?.name === name || f.properties?.subGroup === name
+      );
+      if (feature) {
+        const center = getFeatureCenter(feature);
+        if (center) {
+          coords = [center[1], center[0]];
+          location = location || feature.properties?.subGroup || '';
+        }
+      }
+    }
+
+    if (coords) {
+      setDestinationStore({ name, coordinates: coords });
+      addSearch({ name, location, coordinates: coords });
+      setShowSearchModal(false);
+      document.body.style.overflow = 'auto';
+      navigate('/fs');
+    }
   };
 
   const handleSearchFocus = () => {
@@ -1045,11 +1114,49 @@ const Location = () => {
                   </div>
                 </div>
               ) : (
-                <div className="search-results-placeholder">
-                  <p>
-                    <FormattedMessage id="enterSearchTerm" />
-                  </p>
-                </div>
+                <>
+                  {recentSearches.length > 0 ? (
+                    <>
+                      <h2 className="location-recent-title">
+                        {intl.formatMessage({ id: 'mapRecentSearches' })}
+                      </h2>
+                      <ul className="location-destination-list">
+                        {recentSearches.map((item) => (
+                          <li key={item.id} onClick={() => handlePlaceClick(item)}>
+                            <div className="location-recent-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="15"
+                                height="15"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="icon icon-tabler icons-tabler-outline icon-tabler-clock-down"
+                              >
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M20.984 12.535a9 9 0 1 0 -8.431 8.448" />
+                                <path d="M12 7v5l3 3" />
+                                <path d="M19 16v6" />
+                                <path d="M22 19l-3 3l-3 -3" />
+                              </svg>
+                            </div>
+                            <div className="location-destination-info">
+                              <span className="location-destination-name">{item.name}</span>
+                              <span className="location-destination-location">{item.location}</span>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <p className="location-no-recent">
+                      {intl.formatMessage({ id: 'mapNoRecentSearches' })}
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </div>
