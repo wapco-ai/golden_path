@@ -124,10 +124,9 @@ const RouteMap = ({
               'line-color': '#757575',
               'line-width': 4,
               'line-dasharray': [4, 3],
-              'line-opacity': 0.6,
-              'line-cap': 'round',
-              'line-join': 'round'
+              'line-opacity': 0.6
             }}
+            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
         </Source>
       ))}
