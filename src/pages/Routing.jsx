@@ -30,7 +30,13 @@ const RoutingPage = () => {
   const [was3DViewBeforeRouteView, setWas3DViewBeforeRouteView] = useState(false);
   const [is3DView, setIs3DView] = useState(false);
   const navigate = useNavigate();
-  const { routeSteps, routeGeo, alternativeRoutes } = useRouteStore();
+  const {
+    routeSteps,
+    routeGeo,
+    alternativeRoutes,
+    setRouteGeo,
+    setRouteSteps
+  } = useRouteStore();
 
   // Calculate total time in minutes from all steps
   const calculateTotalTime = (steps) => {
@@ -315,6 +321,18 @@ const RoutingPage = () => {
 
   const handleReturnFromAlternativeRoutes = () => {
     setIs3DView(was3DViewBeforeRouteView); // Restore previous 3D state
+    setShowAlternativeRoutes(false);
+  };
+
+  const handleSelectAlternativeRoute = (route) => {
+    if (!route?.geo || !route?.steps) {
+      console.warn('Selected alternative route is missing geo or steps');
+      return;
+    }
+    setRouteGeo(route.geo);
+    setRouteSteps(route.steps);
+    setCurrentStep(0);
+    setIsRoutingActive(false);
     setShowAlternativeRoutes(false);
   };
 
@@ -621,7 +639,11 @@ const RoutingPage = () => {
 
               <div className="alternative-routes-container">
                 {routeData.alternativeRoutes.map(route => (
-                  <div key={route.id} className="alternative-route-card">
+                  <div
+                    key={route.id}
+                    className="alternative-route-card"
+                    onClick={() => handleSelectAlternativeRoute(route)}
+                  >
                     <div className="route-title">
                       <span><FormattedMessage id="from" /> {route.from}</span>
                       <span ><FormattedMessage id="to" /> {route.to}</span>
