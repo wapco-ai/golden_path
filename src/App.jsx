@@ -12,7 +12,7 @@ import Location from './pages/Location';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import './App.css';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 const AppContent = () => {
   const location = useLocation();
@@ -96,9 +96,26 @@ const AppContent = () => {
 };
 
 function App() {
+  const [isRTL, setIsRTL] = useState(document.documentElement.dir === 'rtl');
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsRTL(document.documentElement.dir === 'rtl');
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['dir']
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Router>
-      <ToastContainer />
+      <ToastContainer
+        position={isRTL ? toast.POSITION.TOP_LEFT : toast.POSITION.TOP_RIGHT}
+        rtl={isRTL}
+        toastClassName="custom-toast"
+      />
       <AppContent />
     </Router>
   );
