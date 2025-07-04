@@ -9,6 +9,12 @@ import { useLangStore } from '../store/langStore';
 import { useSearchStore } from '../store/searchStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 
+// Map subgroup labels to their values for easier lookup
+const labelToValueMap = Object.values(subGroups).flat().reduce((acc, sg) => {
+  acc[sg.label] = sg.value;
+  return acc;
+}, {});
+
 const Location = () => {
   const navigate = useNavigate();
   const intl = useIntl();
@@ -201,21 +207,26 @@ const Location = () => {
     setSearchClose(!searchClose);
   };
 
-  const handlePlaceClick = (item) => {
-    const name = typeof item === 'string' ? item : item.name;
-    let location = typeof item === 'string' ? '' : item.location || '';
-    let coords = typeof item === 'string' ? null : item.coordinates || null;
+  const handlePlaceClick = (placeTitle, groupValue) => {
+    console.log('Place clicked:', placeTitle);
+    if (!geoData) return;
+    let feature = geoData.features.find(
+      f =>
+        f.properties?.name === placeTitle ||
+        f.properties?.subGroup === placeTitle ||
+        f.properties?.subGroupValue === labelToValueMap[placeTitle]
+    );
+    if (!feature && groupValue) {
+      feature = geoData.features.find(f => f.properties?.group === groupValue);
+    }
+    if (feature) {
+      const center = getFeatureCenter(feature);
+      if (center) {
+        setDestinationStore({ name: placeTitle, coordinates: [center[1], center[0]] });
+        setShowSearchModal(false);
+        document.body.style.overflow = 'auto';
+        navigate('/fs');
 
-    if (!coords && geoData) {
-      const feature = geoData.features.find(
-        (f) => f.properties?.name === name || f.properties?.subGroup === name
-      );
-      if (feature) {
-        const center = getFeatureCenter(feature);
-        if (center) {
-          coords = [center[1], center[0]];
-          location = location || feature.properties?.subGroup || '';
-        }
       }
     }
 
@@ -706,7 +717,10 @@ const Location = () => {
                       key={index + initialCategories.length}
                       className="routing-category-item"
                       onClick={() =>
-                        handlePlaceClick(intl.formatMessage({ id: category.label }))
+                        handlePlaceClick(
+                          intl.formatMessage({ id: category.label }),
+                          category.value
+                        )
                       }
                     >
                       <div
@@ -1055,7 +1069,11 @@ const Location = () => {
                       {searchResults.map((item, index) => {
                         const group = groups.find(g => g.value === item.groupValue);
                         return (
-                          <div key={index} className="subgroup-item-no-image" onClick={() => handlePlaceClick(item.label)}>
+                          <div
+                            key={index}
+                            className="subgroup-item-no-image"
+                            onClick={() => handlePlaceClick(item.label, item.groupValue)}
+                          >
                             <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: group?.svg || '' }} />
                             <div className="subgroup-text">
                               <h4>{item.label}</h4>
@@ -1081,11 +1099,13 @@ const Location = () => {
                   {/* Split subgroups into those with images and without */}
                   <div className="subgroups-with-images">
                     <div className="subgroups-grid">
-                      {subGroups[selectedCategory.value].filter(subgroup => subgroup.img).map((subgroup, index) => (
+                      {subGroups[selectedCategory.value]
+                        .filter(subgroup => subgroup.img)
+                        .map((subgroup, index) => (
                         <div
                           key={index}
                           className="subgroup-item with-image"
-                          onClick={() => handlePlaceClick(subgroup.label)}
+                          onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value)}
                           style={{
                             backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
                             backgroundSize: 'cover',
@@ -1104,11 +1124,13 @@ const Location = () => {
                   </div>
 
                   <div className="subgroups-without-images">
-                    {subGroups[selectedCategory.value].filter(subgroup => !subgroup.img).map((subgroup, index) => (
+                    {subGroups[selectedCategory.value]
+                      .filter(subgroup => !subgroup.img)
+                      .map((subgroup, index) => (
                       <div
                         key={index}
                         className="subgroup-item-no-image"
-                        onClick={() => handlePlaceClick(subgroup.label)}
+                        onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value)}
                       >
                         <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: subgroup.svg }} />
                         <div className="subgroup-text">
