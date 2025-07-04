@@ -330,6 +330,7 @@ const FinalSearch = () => {
                     'line-opacity': 0.6
                   }}
                   layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+
                 />
               </Source>
             ))}

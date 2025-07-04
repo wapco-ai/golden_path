@@ -4,6 +4,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import RouteMap from '../components/map/RouteMap';
 import '../styles/Routing.css';
 import { useRouteStore } from '../store/routeStore';
+import { useLangStore } from '../store/langStore';
+import { buildGeoJsonPath } from '../utils/geojsonPath.js';
+import { analyzeRoute } from '../utils/routeAnalysis';
 
 const RoutingPage = () => {
   const intl = useIntl();
@@ -31,13 +34,58 @@ const RoutingPage = () => {
   const [is3DView, setIs3DView] = useState(false);
   const navigate = useNavigate();
   const {
+    origin,
+    destination,
     routeSteps,
     routeGeo,
     alternativeRoutes,
+    setOrigin,
+    setDestination,
     setRouteGeo,
     setRouteSteps,
     setAlternativeRoutes
   } = useRouteStore();
+  const language = useLangStore(state => state.language);
+
+  // If QR coordinates are provided and stored route does not match, rebuild the route
+  useEffect(() => {
+    if (!storedLat || !storedLng) return;
+    const lat = parseFloat(storedLat);
+    const lng = parseFloat(storedLng);
+    const originChanged =
+      !origin ||
+      origin.coordinates?.[0] !== lat ||
+      origin.coordinates?.[1] !== lng;
+
+    if (!routeSteps.length || originChanged) {
+      const newOrigin = {
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+        coordinates: [lat, lng]
+      };
+      const newDestination =
+        destination || {
+          name: intl.formatMessage({ id: 'destSahnEnqelabName' }),
+          coordinates: [36.2975, 59.6072]
+        };
+
+      const file = buildGeoJsonPath(language);
+      fetch(file)
+        .then((res) => res.json())
+        .then((geoData) => {
+          const { geo, steps, alternatives } = analyzeRoute(
+            newOrigin,
+            newDestination,
+            geoData
+          );
+          setOrigin(newOrigin);
+          setDestination(newDestination);
+          setRouteGeo(geo);
+          setRouteSteps(steps);
+          setAlternativeRoutes(alternatives);
+        })
+        .catch((err) => console.error('failed to build route from QR', err));
+    }
+  }, [storedLat, storedLng, origin, destination, routeSteps.length, language, intl, setOrigin, setDestination, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
 
   // Calculate total time in minutes from all steps
   const calculateTotalTime = (steps) => {
@@ -85,8 +133,9 @@ const RoutingPage = () => {
     return `${hours}:${minutes}`;
   };
 
-  // Load route data from JSON
+  // Load route data from JSON for initial display when no analyzed route exists
   useEffect(() => {
+    if (routeSteps.length) return;
     fetch('./data/routeData.json')
       .then(response => response.json())
       .then(data => {
@@ -102,7 +151,7 @@ const RoutingPage = () => {
         });
       })
       .catch(error => console.error('Error loading route data:', error));
-  }, []);
+  }, [routeSteps.length]);
 
   // Build route data from stored steps
   useEffect(() => {
@@ -114,10 +163,12 @@ const RoutingPage = () => {
         const [lng2, lat2] = routeGeo.geometry.coordinates[idx];
         distance = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
       }
-      const instruction = intl.formatMessage(
-        { id: s.type },
-        { name: s.name, title: s.title, num: idx + 1 }
-      );
+      const instruction = s.type
+        ? intl.formatMessage(
+            { id: s.type },
+            { name: s.name, title: s.title, num: idx + 1 }
+          )
+        : s.instruction || '';
       return {
         id: idx + 1,
         instruction,
@@ -139,13 +190,15 @@ const RoutingPage = () => {
           const [lng2, lat2] = alt.geo.geometry.coordinates[i];
           dist = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
         }
+        const instruction = st.type
+          ? intl.formatMessage(
+              { id: st.type },
+              { name: st.name, title: st.title, num: i + 1 }
+            )
+          : st.instruction || '';
         return {
           id: i + 1,
-          instruction: intl.formatMessage(
-            { id: st.type },
-            { name: st.name, title: st.title, num: i + 1 }
-          ),
-
+          instruction,
           distance: `${Math.round(dist)} ${intl.formatMessage({ id: 'meters' })}`,
           time: `${Math.max(1, Math.round(dist / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`,
           coordinates: st.coordinates
