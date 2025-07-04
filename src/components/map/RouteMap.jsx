@@ -1,6 +1,6 @@
 // src/components/map/RouteMap.jsx
 import React, { useEffect, useRef, useState } from 'react';
-import Map, { Marker } from 'react-map-gl';
+import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
@@ -94,6 +94,12 @@ const RouteMap = ({
         >
           <div className="current-step-marker">🔵</div>
         </Marker>
+      )}
+
+      {routeGeo && (
+        <Source id="route" type="geojson" data={routeGeo}>
+          <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 4 }} />
+        </Source>
       )}
 
       <GeoJsonOverlay />
