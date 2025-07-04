@@ -687,6 +687,20 @@ export function analyzeRoute(origin, destination, geoData) {
       const altNodePath = dijkstraShortestPath(allNodes, s.index, e.index, sahnPolygons);
       if (altNodePath.length === 0 || altNodePath.length === 1) return;
       const route = buildRoute(altNodePath);
+
+      const isSame = (coords1, coords2) => {
+        if (coords1.length !== coords2.length) return false;
+        for (let i = 0; i < coords1.length; i++) {
+          if (Math.abs(coords1[i][0] - coords2[i][0]) > 1e-6 || Math.abs(coords1[i][1] - coords2[i][1]) > 1e-6) {
+            return false;
+          }
+        }
+        return true;
+      };
+
+      if (isSame(route.geo.geometry.coordinates, mainRoute.geo.geometry.coordinates)) return;
+      if (altCandidates.some(r => isSame(r.geo.geometry.coordinates, route.geo.geometry.coordinates))) return;
+
       altCandidates.push(route);
     });
   });
