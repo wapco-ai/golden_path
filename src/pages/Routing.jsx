@@ -155,6 +155,7 @@ const RoutingPage = () => {
       return {
         id: ridx + 1,
         steps: altSteps,
+        geo: alt.geo,
         totalTime: formatTotalTime(minutes),
         totalDistance: `${distTot} ${intl.formatMessage({ id: 'meters' })}`,
         from: alt.from,
@@ -576,6 +577,8 @@ const RoutingPage = () => {
               isMapModalOpen={isMapModalOpen}
               is3DView={is3DView}
               routeGeo={routeGeo}
+              alternativeRoutes={routeData.alternativeRoutes}
+              onSelectAlternativeRoute={handleSelectAlternativeRoute}
             />
           </div>
         )}
