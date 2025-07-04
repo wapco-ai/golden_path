@@ -1071,6 +1071,7 @@ const Location = () => {
                         <div
                           key={index}
                           className="subgroup-item with-image"
+                          onClick={() => handlePlaceClick(subgroup.label)}
                           style={{
                             backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
                             backgroundSize: 'cover',
@@ -1090,7 +1091,11 @@ const Location = () => {
 
                   <div className="subgroups-without-images">
                     {subGroups[selectedCategory.value].filter(subgroup => !subgroup.img).map((subgroup, index) => (
-                      <div key={index} className="subgroup-item-no-image">
+                      <div
+                        key={index}
+                        className="subgroup-item-no-image"
+                        onClick={() => handlePlaceClick(subgroup.label)}
+                      >
                         <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: subgroup.svg }} />
                         <div className="subgroup-text">
                           <h4>{subgroup.label}</h4>
