@@ -46,6 +46,7 @@ const Location = () => {
   const [geoData, setGeoData] = useState(null);
   const setDestinationStore = useRouteStore(state => state.setDestination);
   const language = useLangStore(state => state.language);
+ nj1s29-codex/set-destination-after-place-selection
   const recentSearches = useSearchStore(state => state.recentSearches);
   const addSearch = useSearchStore(state => state.addSearch);
 
@@ -226,6 +227,7 @@ const Location = () => {
       document.body.style.overflow = 'auto';
       navigate('/fs');
     }
+
   };
 
   const handleSearchFocus = () => {
@@ -1084,6 +1086,7 @@ const Location = () => {
                         <div
                           key={index}
                           className="subgroup-item with-image"
+                          onClick={() => handlePlaceClick(subgroup.label)}
                           style={{
                             backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
                             backgroundSize: 'cover',
@@ -1103,7 +1106,11 @@ const Location = () => {
 
                   <div className="subgroups-without-images">
                     {subGroups[selectedCategory.value].filter(subgroup => !subgroup.img).map((subgroup, index) => (
-                      <div key={index} className="subgroup-item-no-image">
+                      <div
+                        key={index}
+                        className="subgroup-item-no-image"
+                        onClick={() => handlePlaceClick(subgroup.label)}
+                      >
                         <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: subgroup.svg }} />
                         <div className="subgroup-text">
                           <h4>{subgroup.label}</h4>
