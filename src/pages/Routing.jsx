@@ -325,6 +325,11 @@ const RoutingPage = () => {
   };
 
   const handleSelectAlternativeRoute = (route) => {
+    if (!route?.geo || !route?.steps) {
+      console.warn('Selected alternative route is missing geo or steps');
+      return;
+    }
+
     setRouteGeo(route.geo);
     setRouteSteps(route.steps);
     setCurrentStep(0);
