@@ -511,7 +511,7 @@ const FinalSearch = () => {
                     <FormattedMessage id="to" /> {route.to}
                   </span>
                 </div>
-                <div className="route-via">{route.via.join(' – ')}</div>
+                <div className="route-via">{Array.isArray(route.via) ? route.via.join(' – ') : ''}</div>
                 <div className="route-stats">
                   <div className="route-stat">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk">

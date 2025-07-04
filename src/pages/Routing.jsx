@@ -716,7 +716,7 @@ const RoutingPage = () => {
                     </div>
 
                     <div className="route-via">
-                      {route.via.join(" – ")}
+                      {Array.isArray(route.via) ? route.via.join(" – ") : ''}
                     </div>
 
                     <div className="route-stats">
