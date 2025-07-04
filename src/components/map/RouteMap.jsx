@@ -120,7 +120,7 @@ const RouteMap = ({
           <Layer
             id={`alt-route-line-${idx}`}
             type="line"
-            paint={{ 'line-color': '#888', 'line-width': 3, 'line-dasharray': [2, 2] }}
+            paint={{ 'line-color': '#888', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.4 }}
           />
         </Source>
       ))}
