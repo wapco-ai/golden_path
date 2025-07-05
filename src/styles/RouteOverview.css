@@ -162,6 +162,17 @@
   height: 100px
 }
 
+.step-services {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.step-services svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* Carousel Controls */
 .carousel-controls {
   display: flex;
