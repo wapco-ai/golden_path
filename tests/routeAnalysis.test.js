@@ -1,11 +1,11 @@
 import assert from 'assert';
 import fs from 'fs';
-import { computeShortestPath } from '../src/utils/routeAnalysis.js';
+import { computeShortestPath, analyzeRoute } from '../src/utils/routeAnalysis.js';
 
 const geo = JSON.parse(fs.readFileSync(new URL('./sample.geojson', import.meta.url)));
 
-const origin = { coordinates: [-0.5, 0] };
-const destination = { coordinates: [2.5, 0] };
+const origin = { coordinates: [-0.00005, 0] };
+const destination = { coordinates: [0.00025, 0] };
 
 const { path } = computeShortestPath(origin, destination, geo.features);
 
@@ -14,3 +14,33 @@ assert.strictEqual(path[path.length - 1][0], destination.coordinates[0]);
 assert.ok(path.length >= 3, 'path should include intermediate nodes');
 
 console.log('computeShortestPath test passed');
+
+// Tests for analyzeRoute service filtering
+const origin2 = { coordinates: [0, -0.00005] };
+const destination2 = { coordinates: [0, 0.00025] };
+
+const walking = analyzeRoute(origin2, destination2, geo, 'walking');
+const car = analyzeRoute(origin2, destination2, geo, 'electric-car');
+const wheelchair = analyzeRoute(origin2, destination2, geo, 'wheelchair');
+
+const containsConnection = route =>
+  route.alternatives.some(a =>
+    a.steps.some(s => s.type === 'stepPassConnection')
+  );
+
+assert.strictEqual(
+  containsConnection(walking),
+  false,
+  'walking alternatives should not include connection'
+);
+assert.ok(
+  containsConnection(car),
+  'electric-car alternatives should include connection'
+);
+assert.strictEqual(
+  containsConnection(wheelchair),
+  false,
+  'wheelchair alternatives should not include connection'
+);
+
+console.log('analyzeRoute service filtering tests passed');

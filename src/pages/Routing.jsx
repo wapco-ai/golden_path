@@ -75,7 +75,8 @@ const RoutingPage = () => {
           const { geo, steps, alternatives } = analyzeRoute(
             newOrigin,
             newDestination,
-            geoData
+            geoData,
+            'walking'
           );
           setOrigin(newOrigin);
           setDestination(newDestination);
