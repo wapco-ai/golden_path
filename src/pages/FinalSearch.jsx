@@ -344,31 +344,32 @@ const FinalSearch = () => {
             </Marker>
           )}
 
-          {routeGeo && (
-            <Source id="main-route" type="geojson" data={routeGeo}>
-              <Layer id="main-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
-            </Source>
-          )}
+          
           {storedAlternativeRoutes &&
             storedAlternativeRoutes.map((alt, idx) => (
               <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
                 <Layer
                   id={`alt-route-border-${idx}`}
                   type="line"
-                  paint={{ 'line-color': '#0f71ef', 'line-width': 12 }}
+                  paint={{ 'line-color': '#0f71ef', 'line-width': 10 }}
                   layout={{ 'line-cap': 'round', 'line-join': 'round' }}
                 />
                 <Layer
                   id={`alt-route-line-${idx}`}
                   type="line"
                   paint={{
-                    'line-color': '#bbdefb',
+                    'line-color': '#D5E4F6',
                     'line-width': 8,
                   }}
                   layout={{ 'line-cap': 'round', 'line-join': 'round' }}
                 />
               </Source>
             ))}
+            {routeGeo && (
+            <Source id="main-route" type="geojson" data={routeGeo}>
+              <Layer id="main-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
+            </Source>
+          )}
           <GeoJsonOverlay />
         </Map>
       </div>
