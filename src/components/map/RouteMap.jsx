@@ -118,13 +118,18 @@ const RouteMap = ({
       {alternativeRoutes.map((alt, idx) => (
         <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
           <Layer
+            id={`alt-route-border-${idx}`}
+            type="line"
+            paint={{ 'line-color': '#3498db', 'line-width': 6 }}
+            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+          />
+          <Layer
             id={`alt-route-line-${idx}`}
             type="line"
             paint={{
-              'line-color': '#757575',
+              'line-color': '#bbdefb',
               'line-width': 4,
-              'line-dasharray': [4, 3],
-              'line-opacity': 0.6
+              'line-dasharray': [4, 3]
             }}
             layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />

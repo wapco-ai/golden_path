@@ -344,13 +344,18 @@ const FinalSearch = () => {
             storedAlternativeRoutes.map((alt, idx) => (
               <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
                 <Layer
+                  id={`alt-route-border-${idx}`}
+                  type="line"
+                  paint={{ 'line-color': '#2196F3', 'line-width': 8 }}
+                  layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+                />
+                <Layer
                   id={`alt-route-line-${idx}`}
                   type="line"
                   paint={{
-                    'line-color': '#757575',
-                    'line-width': 4,
-                    'line-dasharray': [4, 3],
-                    'line-opacity': 0.6
+                    'line-color': '#bbdefb',
+                    'line-width': 6,
+                    'line-dasharray': [4, 3]
                   }}
                   layout={{ 'line-cap': 'round', 'line-join': 'round' }}
 
