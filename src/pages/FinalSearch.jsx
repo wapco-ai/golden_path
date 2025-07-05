@@ -338,7 +338,7 @@ const FinalSearch = () => {
 
           {routeGeo && (
             <Source id="main-route" type="geojson" data={routeGeo}>
-              <Layer id="main-line" type="line" paint={{ 'line-color': '#2196F3', 'line-width': 6 }} />
+              <Layer id="main-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
             </Source>
           )}
           {storedAlternativeRoutes &&
@@ -347,7 +347,7 @@ const FinalSearch = () => {
                 <Layer
                   id={`alt-route-border-${idx}`}
                   type="line"
-                  paint={{ 'line-color': '#2196F3', 'line-width': 8 }}
+                  paint={{ 'line-color': '#0f71ef', 'line-width': 12 }}
                   layout={{ 'line-cap': 'round', 'line-join': 'round' }}
                 />
                 <Layer
@@ -355,11 +355,9 @@ const FinalSearch = () => {
                   type="line"
                   paint={{
                     'line-color': '#bbdefb',
-                    'line-width': 6,
-                    'line-dasharray': [4, 3]
+                    'line-width': 8,
                   }}
                   layout={{ 'line-cap': 'round', 'line-join': 'round' }}
-
                 />
               </Source>
             ))}
