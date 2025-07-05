@@ -43,4 +43,21 @@ assert.strictEqual(
   'wheelchair alternatives should not include connection'
 );
 
+// Same dataset but using "electricVan" service key
+const geoVan = {
+  type: 'FeatureCollection',
+  features: [
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [0, 0] }, properties: { nodeFunction: 'door', name: 'A', services: { walking: true, electricVan: true, wheelchair: true } } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [0.0001, 0] }, properties: { nodeFunction: 'connection', name: 'X', services: { walking: false, electricVan: true, wheelchair: false } } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [0.0002, 0] }, properties: { nodeFunction: 'door', name: 'D', services: { walking: true, electricVan: true, wheelchair: true } } }
+  ]
+};
+
+const carVan = analyzeRoute(origin2, destination2, geoVan, 'electric-car');
+
+assert.ok(
+  containsConnection(carVan),
+  'electric-car with electricVan key should include connection'
+);
+
 console.log('analyzeRoute service filtering tests passed');
