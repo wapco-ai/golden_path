@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import Map, { Marker, Source, Layer } from 'react-map-gl';
+import Map, { Marker, Source, Layer, Popup } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -18,6 +18,7 @@ const RouteOverview = () => {
   const [directionArrow, setDirectionArrow] = useState('right');
   const [distance, setDistance] = useState('');
   const [time, setTime] = useState('');
+  const [popupCoord, setPopupCoord] = useState(null);
 
   const { routeGeo, routeSteps } = useRouteStore();
   const routeCoordinates = routeGeo?.geometry?.coordinates || [];
@@ -73,6 +74,7 @@ const RouteOverview = () => {
         longitude: (lng1 + lng2) / 2,
         zoom: 18
       });
+      setPopupCoord([(lng1 + lng2) / 2, (lat1 + lat2) / 2]);
       if (mapRef.current) {
         const bounds = new maplibregl.LngLatBounds([lng1, lat1], [lng2, lat2]);
         mapRef.current.fitBounds(bounds, { padding: 50, duration: 700 });
@@ -185,12 +187,24 @@ const RouteOverview = () => {
             </div>
           </Marker>
           <Source id="route" type="geojson" data={allGeo}>
-            <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 5 }} />
+            <Layer id="route-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
           </Source>
           {highlightGeo && (
             <Source id="highlight" type="geojson" data={highlightGeo}>
               <Layer id="highlight-line" type="line" paint={{ 'line-color': '#e74c3c', 'line-width': 8 }} />
             </Source>
+          )}
+          {popupCoord && (
+            <Popup
+              className="main-popup-container"
+              longitude={popupCoord[0]}
+              latitude={popupCoord[1]}
+              closeButton={false}
+              closeOnClick={false}
+              anchor="bottom"
+            >
+              <div className="time-popup main-popup">{time}</div>
+            </Popup>
           )}
           <GeoJsonOverlay />
         </Map>
