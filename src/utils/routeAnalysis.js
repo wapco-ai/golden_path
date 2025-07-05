@@ -510,6 +510,21 @@ function angleBetween(p1, p2, p3) {
 export function analyzeRoute(origin, destination, geoData, transportMode = 'walking') {
   console.log('analyzeRoute called with Connection Priority Logic');
 
+  const serviceKeyMap = {
+    'electric-car': ['electric-car', 'electricCar', 'electricVan']
+  };
+
+  const serviceAllowed = (services, mode) => {
+    if (!services) return true;
+    const keys = serviceKeyMap[mode] || [mode];
+    for (const key of keys) {
+      if (Object.prototype.hasOwnProperty.call(services, key)) {
+        return services[key] !== false;
+      }
+    }
+    return true;
+  };
+
   if (!geoData) {
     return null;
   }
@@ -518,13 +533,13 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     f =>
       f.geometry.type === 'Point' &&
       f.properties?.nodeFunction === 'door' &&
-      f.properties?.services?.[transportMode] !== false
+      serviceAllowed(f.properties?.services, transportMode)
   );
   const connections = geoData.features.filter(
     f =>
       f.geometry.type === 'Point' &&
       f.properties?.nodeFunction === 'connection' &&
-      f.properties?.services?.[transportMode] !== false
+      serviceAllowed(f.properties?.services, transportMode)
   );
   const sahnPolygons = geoData.features.filter(
     f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
