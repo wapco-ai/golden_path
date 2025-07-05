@@ -19,9 +19,9 @@ console.log('computeShortestPath test passed');
 const origin2 = { coordinates: [0, -0.00005] };
 const destination2 = { coordinates: [0, 0.00025] };
 
-const walking = analyzeRoute(origin2, destination2, geo, 'walking');
-const car = analyzeRoute(origin2, destination2, geo, 'electric-car');
-const wheelchair = analyzeRoute(origin2, destination2, geo, 'wheelchair');
+const walking = analyzeRoute(origin2, destination2, geo, 'walking', 'family');
+const car = analyzeRoute(origin2, destination2, geo, 'electric-car', 'family');
+const wheelchair = analyzeRoute(origin2, destination2, geo, 'wheelchair', 'family');
 
 const containsConnection = route =>
   route.alternatives.some(a =>
@@ -58,6 +58,15 @@ const carVan = analyzeRoute(origin2, destination2, geoVan, 'electric-car');
 assert.ok(
   containsConnection(carVan),
   'electric-car with electricVan key should include connection'
+);
+
+// Gender filtering test using sample geojson connection (male only)
+const female = analyzeRoute(origin2, destination2, geo, 'walking', 'female');
+
+assert.strictEqual(
+  containsConnection(female),
+  false,
+  'female routes should not include male-only connection'
 );
 
 console.log('analyzeRoute service filtering tests passed');

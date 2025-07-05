@@ -20,17 +20,19 @@ const FinalSearch = () => {
   const [isSwapButton, setSwapButton] = useState(true);
   const navigate = useNavigate();
   const intl = useIntl();
-  const { 
+  const {
     origin: storedOrigin,
     destination: storedDestination,
     routeGeo: storedRouteGeo,
     routeSteps: storedRouteSteps,
     alternativeRoutes: storedAlternativeRoutes,
+    gender: storedGender,
     setOrigin: storeSetOrigin,
     setDestination: storeSetDestination,
     setRouteGeo: storeSetRouteGeo,
     setRouteSteps: storeSetRouteSteps,
-    setAlternativeRoutes: storeSetAlternativeRoutes
+    setAlternativeRoutes: storeSetAlternativeRoutes,
+    setGender: storeSetGender
   } = useRouteStore();
   const language = useLangStore((state) => state.language);
   const qrLat = sessionStorage.getItem('qrLat');
@@ -61,10 +63,14 @@ const FinalSearch = () => {
     storeSetDestination(destination);
   }, [destination, storeSetDestination]);
   const { transportMode } = useRouteStore();
-  const [selectedGender, setSelectedGender] = useState('male');
+  const [selectedGender, setSelectedGender] = useState(storedGender || 'male');
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
   const [menuOpen, setMenuOpen] = useState(false);
   const [geoData, setGeoData] = useState(null);
+
+  useEffect(() => {
+    storeSetGender(selectedGender);
+  }, [selectedGender, storeSetGender]);
 
   React.useEffect(() => {
     // Scroll to top when component mounts
@@ -116,7 +122,7 @@ const FinalSearch = () => {
 
   useEffect(() => {
     if (!geoData) return;
-    const result = analyzeRoute(origin, destination, geoData, transportMode);
+    const result = analyzeRoute(origin, destination, geoData, transportMode, selectedGender);
     if (!result) {
       toast.error(intl.formatMessage({ id: 'noRouteFound' }));
       storeSetRouteGeo(null);

@@ -42,6 +42,7 @@ const RoutingPage = () => {
     routeGeo,
     alternativeRoutes,
     transportMode,
+    gender,
     setOrigin,
     setDestination,
     setRouteGeo,
@@ -79,7 +80,8 @@ const RoutingPage = () => {
             newOrigin,
             newDestination,
             geoData,
-            'walking'
+            'walking',
+            gender
           );
           if (!result) {
             toast.error(intl.formatMessage({ id: 'noRouteFound' }));
@@ -97,7 +99,7 @@ const RoutingPage = () => {
         })
         .catch((err) => console.error('failed to build route from QR', err));
     }
-  }, [storedLat, storedLng, origin, destination, routeSteps.length, language, intl, setOrigin, setDestination, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
+  }, [storedLat, storedLng, origin, destination, routeSteps.length, language, intl, gender, setOrigin, setDestination, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
 
   useEffect(() => {
     if (!origin || !destination) return;
@@ -109,7 +111,8 @@ const RoutingPage = () => {
           origin,
           destination,
           geoData,
-          transportMode
+          transportMode,
+          gender
         );
         if (!result) {
           toast.error(intl.formatMessage({ id: 'noRouteFound' }));
@@ -124,7 +127,7 @@ const RoutingPage = () => {
         setAlternativeRoutes(alternatives);
       })
       .catch(err => console.error('failed to rebuild route', err));
-  }, [transportMode, origin, destination, language, intl, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
+  }, [transportMode, gender, origin, destination, language, intl, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
 
   // Calculate total time in minutes from all steps
   const calculateTotalTime = (steps) => {
