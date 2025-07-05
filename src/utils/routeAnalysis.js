@@ -634,13 +634,15 @@ export function analyzeRoute(origin, destination, geoData) {
         rSteps.push({
           coordinates: coord,
           type: 'stepPassDoor',
-          name: node[2].name || ''
+          name: node[2].name || '',
+          services: node[2].services || {}
         });
       } else if (node[2].nodeFunction === 'connection') {
         rSteps.push({
           coordinates: coord,
           type: 'stepPassConnection',
-          title: node[2].subGroup || node[2].name || ''
+          title: node[2].subGroup || node[2].name || '',
+          services: node[2].services || {}
         });
       }
     });
