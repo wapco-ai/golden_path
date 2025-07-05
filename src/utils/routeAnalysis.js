@@ -507,7 +507,7 @@ function angleBetween(p1, p2, p3) {
   return Math.round(deg);
 }
 
-export function analyzeRoute(origin, destination, geoData, transportMode = 'walking') {
+export function analyzeRoute(origin, destination, geoData, transportMode = 'walking', gender = 'male') {
   console.log('analyzeRoute called with Connection Priority Logic');
 
   const serviceKeyMap = {
@@ -525,6 +525,12 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     return true;
   };
 
+  const genderAllowed = (nodeGender, selected) => {
+    if (!nodeGender || nodeGender === 'family') return true;
+    if (selected === 'family') return true;
+    return nodeGender === selected;
+  };
+
   if (!geoData) {
     return null;
   }
@@ -533,13 +539,15 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     f =>
       f.geometry.type === 'Point' &&
       f.properties?.nodeFunction === 'door' &&
-      serviceAllowed(f.properties?.services, transportMode)
+      serviceAllowed(f.properties?.services, transportMode) &&
+      genderAllowed(f.properties?.gender, gender)
   );
   const connections = geoData.features.filter(
     f =>
       f.geometry.type === 'Point' &&
       f.properties?.nodeFunction === 'connection' &&
-      serviceAllowed(f.properties?.services, transportMode)
+      serviceAllowed(f.properties?.services, transportMode) &&
+      genderAllowed(f.properties?.gender, gender)
   );
   const sahnPolygons = geoData.features.filter(
     f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')

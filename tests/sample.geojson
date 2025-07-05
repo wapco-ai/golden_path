@@ -2,7 +2,7 @@
   "type": "FeatureCollection",
   "features": [
     {"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"nodeFunction":"door","name":"A","services":{"walking":true,"electric-car":true,"wheelchair":true}}},
-    {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0001,0]},"properties":{"nodeFunction":"connection","name":"X","services":{"walking":false,"electric-car":true,"wheelchair":false}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0001,0]},"properties":{"nodeFunction":"connection","name":"X","services":{"walking":false,"electric-car":true,"wheelchair":false},"gender":"male"}},
     {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0002,0]},"properties":{"nodeFunction":"door","name":"D","services":{"walking":true,"electric-car":true,"wheelchair":true}}}
   ]
 }
