@@ -13,4 +13,6 @@ assert.strictEqual(path[0][0], origin.coordinates[0]);
 assert.strictEqual(path[path.length - 1][0], destination.coordinates[0]);
 assert.ok(path.length >= 3, 'path should include intermediate nodes');
 
-console.log('computeShortestPath test passed');
+if (process.env.NODE_ENV === 'development') {
+  console.log('computeShortestPath test passed');
+}

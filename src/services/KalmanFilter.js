@@ -1,3 +1,4 @@
+import { debugLog } from '../utils/debug.js';
 /**  
  * پیاده‌سازی Extended Kalman Filter برای تخمین موقعیت با ترکیب سنسورها  
  */
@@ -65,7 +66,7 @@ export class KalmanFilter {
       this.P[i * this.stateSize + i] = i < 2 ? 50.0 : 1.0;
     }
 
-    console.log("Kalman filter initialized:", this.getState());
+    debugLog("Kalman filter initialized:", this.getState());
   }
 
   /**  
@@ -106,7 +107,7 @@ export class KalmanFilter {
     const omega = u.omega || 0;    // سرعت زاویه‌ای (رادیان بر ثانیه)  
 
     // لاگ برای دیباگ  
-    console.log('Kalman filter predict inputs:', { dt, a_norm, omega });
+    debugLog('Kalman filter predict inputs:', { dt, a_norm, omega });
 
     // قابلیت ردیابی: اطمینان از عدم وجود مقادیر NaN  
     if (isNaN(a_norm) || isNaN(omega)) {
@@ -136,7 +137,7 @@ export class KalmanFilter {
       angularVelocity = this.x[4] * this.timeDecay;
     } else {
       // **FIX: ADDED LOGGING FOR NON-ZERO OMEGA**  
-      console.log('Non-zero omega detected:', omega);
+      debugLog('Non-zero omega detected:', omega);
     }
 
     // به‌روزرسانی بردار وضعیت (x) با استفاده از مدل حرکت غیرهولونومیک  
@@ -158,7 +159,7 @@ export class KalmanFilter {
     this.x[2] = newTheta;
 
     // لاگ برای تشخیص تغییرات زاویه  
-    console.log('Theta update:',
+    debugLog('Theta update:',
       (oldTheta * 180 / Math.PI).toFixed(2), '° → ',
       (newTheta * 180 / Math.PI).toFixed(2), '°',
       'omega:', omega.toFixed(6),
@@ -168,7 +169,7 @@ export class KalmanFilter {
     this.x[3] = velocity;  // v  
     this.x[4] = angularVelocity;  // w  
 
-    console.log('Theta after update:', (this.x[2] * 180 / Math.PI).toFixed(2), '°');
+    debugLog('Theta after update:', (this.x[2] * 180 / Math.PI).toFixed(2), '°');
 
     // به‌روزرسانی ماتریس P با استفاده از ژاکوبین تقریبی مدل سیستم  
     // برای سادگی، فقط Q را به P اضافه می‌کنیم  

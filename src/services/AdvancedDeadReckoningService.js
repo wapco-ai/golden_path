@@ -1,3 +1,4 @@
+import { debugLog } from '../utils/debug.js';
 // src/services/AdvancedDeadReckoningService.js  
 import { KalmanFilter } from './KalmanFilter';
 import { LowPassFilter } from '../utils/LowPassFilter';
@@ -44,7 +45,7 @@ class AdvancedDeadReckoningService {
             }
         });
 
-        console.log('Gyroscope heading processor initialized');
+        debugLog('Gyroscope heading processor initialized');
 
 
         // تشخیص گام (Peak Detector)  
@@ -114,7 +115,7 @@ class AdvancedDeadReckoningService {
 
         if (this.isActive) {
             // استارت سرویس  
-            console.log('Starting Advanced Dead Reckoning Service');
+            debugLog('Starting Advanced Dead Reckoning Service');
 
             // ابتدا کالیبراسیون را فعال کنید  
             this.isCalibrating = true;
@@ -146,7 +147,7 @@ class AdvancedDeadReckoningService {
                 !isNaN(initialLatLng.lat) &&
                 !isNaN(initialLatLng.lng)) {
 
-                console.log('Setting initial reference position:', initialLatLng);
+                debugLog('Setting initial reference position:', initialLatLng);
 
                 this.referencePosition = {
                     lat: initialLatLng.lat,
@@ -197,7 +198,7 @@ class AdvancedDeadReckoningService {
             }
         } else {
             // توقف سرویس  
-            console.log('Stopping Advanced Dead Reckoning Service');
+            debugLog('Stopping Advanced Dead Reckoning Service');
 
             // اطلاع‌رسانی به لیستنرها  
             this._notify({
@@ -218,7 +219,7 @@ class AdvancedDeadReckoningService {
     reset() {
         if (!this.isActive) return;
 
-        console.log('Resetting Advanced Dead Reckoning Service');
+        debugLog('Resetting Advanced Dead Reckoning Service');
 
         // پاکسازی مسیر و داده‌ها  
         this.path = [];
@@ -374,12 +375,12 @@ class AdvancedDeadReckoningService {
         }
 
         // لاگ داده‌های ورودی (خام)  
-        console.log('Raw gyroscope data:', gyroscope);
+        debugLog('Raw gyroscope data:', gyroscope);
         this._logSensorData('gyroscope', gyroscope, timestamp);
 
         // فیلتر داده‌های ژیروسکوپ  
         const filteredGyro = this._filterGyroscopeData(gyroscope);
-        // console.log('Filtered gyroscope data:', filteredGyro);
+        // debugLog('Filtered gyroscope data:', filteredGyro);
 
         // پردازش داده‌های سنسور برای به‌روزرسانی موقعیت  
         this._processSensorData({
@@ -433,7 +434,7 @@ class AdvancedDeadReckoningService {
                 { heading_accuracy: 0.1 }
             );
             this._lastOrientationCorrection = timestamp;
-            console.log('Orientation correction applied:', heading * 180 / Math.PI);
+            debugLog('Orientation correction applied:', heading * 180 / Math.PI);
         }
 
         // پردازش داده‌های سنسور برای به‌روزرسانی موقعیت  
@@ -468,7 +469,7 @@ class AdvancedDeadReckoningService {
 
         // اگر موقعیت مرجع تنظیم نشده است، آن را تنظیم کنید  
         if (!this.referencePosition) {
-            console.log('Setting reference position from GPS:', position);
+            debugLog('Setting reference position from GPS:', position);
 
             this.referencePosition = {
                 lat: position.lat,
@@ -549,7 +550,7 @@ class AdvancedDeadReckoningService {
             this.currentPosition.y
         );
 
-        console.log('proceccGpsData  >> currentGeoPosition: ' + currentGeoPosition)
+        debugLog('proceccGpsData  >> currentGeoPosition: ' + currentGeoPosition)
 
         // افزودن به مسیر اگر فاصله کافی از آخرین نقطه دارد  
         if (this.path.length === 0 || this._calculateDistance(
@@ -650,7 +651,7 @@ class AdvancedDeadReckoningService {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        console.log('Log exported:', log);
+        debugLog('Log exported:', log);
         return log;
     }
 
@@ -815,7 +816,7 @@ class AdvancedDeadReckoningService {
         const gammaRad = (gammaDeg * Math.PI) / 180;
 
         // اضافه کردن لاگ برای دیباگ  
-        // console.log('Gyroscope filtered:', {
+        // debugLog('Gyroscope filtered:', {
         //     alpha: alphaDeg,
         //     beta: betaDeg,
         //     gamma: gammaDeg,
@@ -917,7 +918,7 @@ class AdvancedDeadReckoningService {
         // Update step detection
         if (data.type === 'accelerometer' && data.stepDetected) {
             controlInputs.a_norm = 1; // Step detected
-            console.log('Step detected, updating position');
+            debugLog('Step detected, updating position');
         }
 
 
@@ -1034,7 +1035,7 @@ class AdvancedDeadReckoningService {
         // Initialize filter with new state  
         this.kalmanFilter.initialize(state);
 
-        console.log('Forced rotation to:', degrees, 'degrees');
+        debugLog('Forced rotation to:', degrees, 'degrees');
 
         // Notify listeners  
         this._notify({

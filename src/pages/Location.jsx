@@ -1,3 +1,4 @@
+import { debugLog } from '../utils/debug.js';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -201,7 +202,7 @@ const Location = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log('Searching for:', searchQuery);
+    debugLog('Searching for:', searchQuery);
   };
 
   const handleSearchToggle = () => {
@@ -210,7 +211,7 @@ const Location = () => {
   };
 
   const handlePlaceClick = (placeTitle, groupValue) => {
-    console.log('Place clicked:', placeTitle);
+    debugLog('Place clicked:', placeTitle);
     if (!geoData) return;
     let feature = geoData.features.find(
       f =>

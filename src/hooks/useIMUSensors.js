@@ -1,3 +1,4 @@
+import { debugLog } from '../utils/debug.js';
 import { useState, useEffect } from 'react';
 import advancedDeadReckoningService from '../services/AdvancedDeadReckoningService';
 
@@ -18,8 +19,8 @@ const useIMUSensors = () => {
       const supported = hasMotion && hasOrientation;
       setIsSupported(supported);
 
-      console.log('Device motion support:', hasMotion);
-      console.log('Device orientation support:', hasOrientation);
+      debugLog('Device motion support:', hasMotion);
+      debugLog('Device orientation support:', hasOrientation);
 
       // در برخی مرورگرها مانند کروم دسکتاپ، نیازی به مجوز نیست  
       if (supported &&
@@ -32,7 +33,7 @@ const useIMUSensors = () => {
     };
 
     if (checkSupport()) {
-      console.log("IMU sensors are supported by this device");
+      debugLog("IMU sensors are supported by this device");
     } else {
       console.warn("IMU sensors are NOT supported by this device");
     }
@@ -44,7 +45,7 @@ const useIMUSensors = () => {
       return;
     }
 
-    console.log("Setting up sensor listeners");
+    debugLog("Setting up sensor listeners");
 
     // لیستنر شتاب‌سنج  
     const handleMotion = (event) => {
@@ -61,7 +62,7 @@ const useIMUSensors = () => {
           timestamp: event.timeStamp || Date.now(),
           includesGravity: false
         };
-        // console.log('[useIMUSensors] Accelerometer Raw Data:', accel);  
+        // debugLog('[useIMUSensors] Accelerometer Raw Data:', accel);  
 
         setAcceleration(accel);
 
@@ -126,11 +127,11 @@ const useIMUSensors = () => {
       window.addEventListener('deviceorientation', handleOrientation, true);
     }
 
-    console.log("Sensor listeners added");
+    debugLog("Sensor listeners added");
 
     // حذف لیستنرها در هنگام unmount  
     return () => {
-      console.log("Removing sensor listeners");
+      debugLog("Removing sensor listeners");
       window.removeEventListener('devicemotion', handleMotion);
       window.removeEventListener('deviceorientation', handleOrientation);
     };
@@ -148,18 +149,18 @@ const useIMUSensors = () => {
       if (typeof DeviceMotionEvent.requestPermission === 'function' &&
         typeof DeviceOrientationEvent.requestPermission === 'function') {
 
-        console.log('Requesting permissions for iOS...');
+        debugLog('Requesting permissions for iOS...');
 
         const motionPermission = await DeviceMotionEvent.requestPermission();
         const orientationPermission = await DeviceOrientationEvent.requestPermission();
 
         const granted = motionPermission === 'granted' && orientationPermission === 'granted';
         setHasPermission(granted);
-        console.log(`Permission ${granted ? 'granted' : 'denied'}`);
+        debugLog(`Permission ${granted ? 'granted' : 'denied'}`);
         return granted;
       } else {
         // برای سایر دستگاه‌ها، فرض می‌کنیم مجوز داریم  
-        console.log('No permission request needed for this device');
+        debugLog('No permission request needed for this device');
         setHasPermission(true);
         return true;
       }

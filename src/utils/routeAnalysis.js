@@ -1,3 +1,4 @@
+import { debugLog } from './debug.js';
 
 
 function booleanPointInPolygon(point, polygon) {
@@ -231,7 +232,7 @@ function crossesEmptyPolygons(coord1, coord2, polygons, nodes) {
       const p3 = vertices[i];
       const p4 = vertices[i + 1];
       if (segmentsIntersect(p1, p2, p3, p4)) {
-        console.log(`Line blocked by empty polygon: ${polygon.properties?.subGroupValue}`);
+        debugLog(`Line blocked by empty polygon: ${polygon.properties?.subGroupValue}`);
         return true;
       }
     }
@@ -379,19 +380,19 @@ function findValidNeighbors(nodeIndex, nodes, sahnPolygons) {
 
 // Dijkstra's algorithm for finding shortest path
 function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons) {
-  console.log(`Starting Enhanced Dijkstra with Connection Priority from node ${startNodeIndex} to ${endNodeIndex}`);
-  console.log(`Start node: [${nodes[startNodeIndex][0]}, ${nodes[startNodeIndex][1]}] - ${nodes[startNodeIndex][2]?.name || nodes[startNodeIndex][2]?.nodeFunction}`);
-  console.log(`End node: [${nodes[endNodeIndex][0]}, ${nodes[endNodeIndex][1]}] - ${nodes[endNodeIndex][2]?.name || nodes[endNodeIndex][2]?.nodeFunction}`);
+  debugLog(`Starting Enhanced Dijkstra with Connection Priority from node ${startNodeIndex} to ${endNodeIndex}`);
+  debugLog(`Start node: [${nodes[startNodeIndex][0]}, ${nodes[startNodeIndex][1]}] - ${nodes[startNodeIndex][2]?.name || nodes[startNodeIndex][2]?.nodeFunction}`);
+  debugLog(`End node: [${nodes[endNodeIndex][0]}, ${nodes[endNodeIndex][1]}] - ${nodes[endNodeIndex][2]?.name || nodes[endNodeIndex][2]?.nodeFunction}`);
   
   // Debug: Check start node connections
   const startCoord = [nodes[startNodeIndex][0], nodes[startNodeIndex][1]];
   const startPolygon = getPolygonContaining(startCoord, sahnPolygons);
   const startArea = startPolygon ? startPolygon.properties?.subGroupValue : 'outside';
   const startType = nodes[startNodeIndex][2]?.nodeFunction;
-  console.log(`Start node: area=${startArea}, type=${startType}`);
+  debugLog(`Start node: area=${startArea}, type=${startType}`);
   
   const startNeighbors = findValidNeighbors(startNodeIndex, nodes, sahnPolygons);
-  console.log(`Start node has ${startNeighbors.length} neighbors with connection priority:`);
+  debugLog(`Start node has ${startNeighbors.length} neighbors with connection priority:`);
   
   // Sort neighbors by priority (connection nodes first)
   const sortedNeighbors = startNeighbors.sort((a, b) => {
@@ -408,7 +409,7 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
     const neighborPolygon = getPolygonContaining(neighborCoord, sahnPolygons);
     const neighborArea = neighborPolygon ? neighborPolygon.properties?.subGroupValue : 'outside';
     const neighborType = nodes[n.index][2]?.nodeFunction;
-    console.log(`  -> Node ${n.index} (${nodes[n.index][2]?.name || 'unnamed'}) area=${neighborArea}, type=${neighborType}, weight=${n.weight.toFixed(6)}, reason=${n.reason}`);
+    debugLog(`  -> Node ${n.index} (${nodes[n.index][2]?.name || 'unnamed'}) area=${neighborArea}, type=${neighborType}, weight=${n.weight.toFixed(6)}, reason=${n.reason}`);
   });
   
   // Continue with standard Dijkstra
@@ -441,12 +442,12 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
     }
 
     if (currentIndex === null || minDist === Infinity) {
-      console.log(`Dijkstra stopped: no more reachable nodes (iteration ${iterations})`);
+      debugLog(`Dijkstra stopped: no more reachable nodes (iteration ${iterations})`);
       break;
     }
 
     if (currentIndex === endNodeIndex) {
-      console.log(`Dijkstra reached destination in ${iterations} iterations`);
+      debugLog(`Dijkstra reached destination in ${iterations} iterations`);
       break;
     }
 
@@ -463,20 +464,20 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
         previous[neighbor.index] = currentIndex;
         
         if (neighbor.index === endNodeIndex) {
-          console.log(`Found path to destination! Distance: ${alt}, via ${neighbor.reason}`);
+          debugLog(`Found path to destination! Distance: ${alt}, via ${neighbor.reason}`);
         }
       }
     }
   }
 
-  console.log(`Final distance to destination: ${distances[endNodeIndex]}`);
+  debugLog(`Final distance to destination: ${distances[endNodeIndex]}`);
 
   // Reconstruct path
   const path = [];
   let currentIndex = endNodeIndex;
   
   if (distances[endNodeIndex] === Infinity) {
-    console.log('Destination is not reachable from start node');
+    debugLog('Destination is not reachable from start node');
     return [];
   }
   
@@ -485,14 +486,14 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
     currentIndex = previous[currentIndex];
   }
 
-  console.log(`Enhanced Dijkstra found path with ${path.length} nodes`);
+  debugLog(`Enhanced Dijkstra found path with ${path.length} nodes`);
   
   // Log path details
-  console.log('Path details:');
+  debugLog('Path details:');
   path.forEach((node, index) => {
     const nodeType = node[2]?.nodeFunction;
     const nodeName = node[2]?.name || 'unnamed';
-    console.log(`  ${index}: ${nodeName} (${nodeType})`);
+    debugLog(`  ${index}: ${nodeName} (${nodeType})`);
   });
   
   return path.length > 0 && path[0] === nodes[startNodeIndex] ? path : [];
@@ -508,7 +509,7 @@ function angleBetween(p1, p2, p3) {
 }
 
 export function analyzeRoute(origin, destination, geoData) {
-  console.log('analyzeRoute called with Connection Priority Logic');
+  debugLog('analyzeRoute called with Connection Priority Logic');
   
   if (!geoData) {
     return { path: [origin.coordinates, destination.coordinates], steps: [] };
@@ -524,7 +525,7 @@ export function analyzeRoute(origin, destination, geoData) {
     f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
   );
   
-  console.log(`Found ${doors.length} doors, ${connections.length} connections, ${sahnPolygons.length} sahns`);
+  debugLog(`Found ${doors.length} doors, ${connections.length} connections, ${sahnPolygons.length} sahns`);
 
   // Create a unified list of all navigation nodes
   const allNodes = [];
@@ -541,22 +542,22 @@ export function analyzeRoute(origin, destination, geoData) {
     allNodes.push([lat, lng, conn.properties, 0, conn]);
   });
   
-  console.log(`Total nodes available: ${allNodes.length}`);
+  debugLog(`Total nodes available: ${allNodes.length}`);
 
   // Analyze polygons and their nodes using turf.js
-  console.log('Polygon analysis with turf.js:');
+  debugLog('Polygon analysis with turf.js:');
   const emptyPolygons = [];
   sahnPolygons.forEach(poly => {
     const nodesInPoly = getNodesInPolygon(allNodes, poly);
-    console.log(`  ${poly.properties?.subGroupValue}: ${nodesInPoly.length} nodes`);
+    debugLog(`  ${poly.properties?.subGroupValue}: ${nodesInPoly.length} nodes`);
     if (nodesInPoly.length === 0) {
       emptyPolygons.push(poly);
     }
   });
   
-  console.log(`Found ${emptyPolygons.length} empty polygons:`);
+  debugLog(`Found ${emptyPolygons.length} empty polygons:`);
   emptyPolygons.forEach(poly => {
-    console.log(`  - ${poly.properties?.subGroupValue}`);
+    debugLog(`  - ${poly.properties?.subGroupValue}`);
   });
 
   // Find unobstructed entry points
@@ -579,7 +580,7 @@ export function analyzeRoute(origin, destination, geoData) {
     }
     
     validNodes.sort((a, b) => a.distance - b.distance);
-    console.log(`Found ${validNodes.length} unobstructed nodes from [${coord[0]}, ${coord[1]}]`);
+    debugLog(`Found ${validNodes.length} unobstructed nodes from [${coord[0]}, ${coord[1]}]`);
     
     return validNodes[nth] || null;
   }
@@ -588,11 +589,11 @@ export function analyzeRoute(origin, destination, geoData) {
   const startEntry = findUnobstructedEntry(origin.coordinates, 0);
   const endEntry = findUnobstructedEntry(destination.coordinates, 0);
   
-  console.log('Start entry:', startEntry ? `Node ${startEntry.index}` : 'None');
-  console.log('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
+  debugLog('Start entry:', startEntry ? `Node ${startEntry.index}` : 'None');
+  debugLog('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
 
   if (!startEntry || !endEntry) {
-    console.log('Could not find valid entry/exit points, returning direct path');
+    debugLog('Could not find valid entry/exit points, returning direct path');
     const geo = {
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: [origin.coordinates, destination.coordinates].map(p => [p[1], p[0]]) }
@@ -609,7 +610,7 @@ export function analyzeRoute(origin, destination, geoData) {
   const nodePath = dijkstraShortestPath(allNodes, startEntry.index, endEntry.index, sahnPolygons);
   
   if (nodePath.length === 0 || nodePath.length === 1) {
-    console.log('No valid path found between entry points, returning direct path');
+    debugLog('No valid path found between entry points, returning direct path');
     const geo = {
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: [origin.coordinates, destination.coordinates].map(p => [p[1], p[0]]) }
@@ -719,7 +720,7 @@ export function analyzeRoute(origin, destination, geoData) {
     };
   });
 
-  console.log(`Final path has ${mainRoute.path.length} points`);
+  debugLog(`Final path has ${mainRoute.path.length} points`);
 
   return { path: mainRoute.path, geo: mainRoute.geo, steps: mainRoute.steps, alternatives };
 }

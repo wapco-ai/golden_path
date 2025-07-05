@@ -1,3 +1,4 @@
+import { debugLog } from '../../utils/debug.js';
 // src/components/map/MapView.jsx  
 import React, { useEffect, useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -118,7 +119,7 @@ const MapView = ({
     const removeListener = advancedDeadReckoningService.addListener((data) => {
       // به‌روزرسانی وضعیت فعال بودن سرویس  
       setIsDrActive(data.isActive);
-      console.log('data.type: ', data.type);
+      debugLog('data.type: ', data.type);
       // if (data.type === 'stepDetected' || data.type === 'serviceStateChanged') {
       // به‌روزرسانی شمارنده گام  
       if (data.stepCount !== undefined && data.stepCount !== null) {
@@ -137,7 +138,7 @@ const MapView = ({
       if (data.geoPosition) {
         // بررسی اعتبار موقعیت  
         if (!isNaN(data.geoPosition.lat) && !isNaN(data.geoPosition.lng)) {
-          // console.log('Updating DR position:', data.geoPosition);
+          // debugLog('Updating DR position:', data.geoPosition);
           setDrPosition(data.geoPosition);
         }
       }
@@ -164,7 +165,7 @@ const MapView = ({
     if (kalmanState?.theta !== undefined) {
       const heading = kalmanState?.theta ?? 0;      // fallback = 0 rad
       // const degrees = ((kalmanState.theta * 180 / Math.PI) + 360) % 360;
-      // console.log(`Updating heading: ${headingInDegrees.toFixed(1)}° → ${degrees.toFixed(1)}°`);
+      // debugLog(`Updating heading: ${headingInDegrees.toFixed(1)}° → ${degrees.toFixed(1)}°`);
       setHeadingInDegrees(heading);
 
     }
@@ -172,7 +173,7 @@ const MapView = ({
 
   // Inside your component, add this useEffect to log state changes  
   useEffect(() => {
-    console.log('Heading state updated:', headingInDegrees.toFixed(2), '°');
+    debugLog('Heading state updated:', headingInDegrees.toFixed(2), '°');
   }, [headingInDegrees]);
   // ارسال داده‌های GPS به سرویس  
   useEffect(() => {
