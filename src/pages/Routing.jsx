@@ -7,6 +7,7 @@ import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
+import { toast } from 'react-toastify';
 import ModeSelector from '../components/common/ModeSelector';
 
 const RoutingPage = () => {
@@ -74,12 +75,20 @@ const RoutingPage = () => {
       fetch(file)
         .then((res) => res.json())
         .then((geoData) => {
-          const { geo, steps, alternatives } = analyzeRoute(
+          const result = analyzeRoute(
             newOrigin,
             newDestination,
             geoData,
             'walking'
           );
+          if (!result) {
+            toast.error(intl.formatMessage({ id: 'noRouteFound' }));
+            setRouteGeo(null);
+            setRouteSteps([]);
+            setAlternativeRoutes([]);
+            return;
+          }
+          const { geo, steps, alternatives } = result;
           setOrigin(newOrigin);
           setDestination(newDestination);
           setRouteGeo(geo);
@@ -96,12 +105,20 @@ const RoutingPage = () => {
     fetch(file)
       .then(res => res.json())
       .then(geoData => {
-        const { geo, steps, alternatives } = analyzeRoute(
+        const result = analyzeRoute(
           origin,
           destination,
           geoData,
           transportMode
         );
+        if (!result) {
+          toast.error(intl.formatMessage({ id: 'noRouteFound' }));
+          setRouteGeo(null);
+          setRouteSteps([]);
+          setAlternativeRoutes([]);
+          return;
+        }
+        const { geo, steps, alternatives } = result;
         setRouteGeo(geo);
         setRouteSteps(steps);
         setAlternativeRoutes(alternatives);

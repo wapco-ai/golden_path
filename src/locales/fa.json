@@ -170,6 +170,7 @@
   ,"pwaInstallPrompt": "برای دسترسی سریع، اپلیکیشن را روی دستگاه خود نصب کنید."
   ,"pwaInstallButton": "نصب"
   ,"mapNoRecentSearches": "جستجوی اخیری وجود ندارد"
+  ,"noRouteFound": "مسیر با حالت انتخابی یافت نشد"
   ,"pwaCloseButton": "بستن"
   ,"stepMoveToDoor": "حرکت به سمت درب {name}"
   ,"stepPassConnection": "عبور از نقطه اتصال {title}"

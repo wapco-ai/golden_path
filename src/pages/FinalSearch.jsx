@@ -13,6 +13,7 @@ import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
+import { toast } from 'react-toastify';
 
 const FinalSearch = () => {
   const [isSwapping, setIsSwapping] = useState(false);
@@ -115,8 +116,15 @@ const FinalSearch = () => {
 
   useEffect(() => {
     if (!geoData) return;
-    const { geo, steps, alternatives } = analyzeRoute(origin, destination, geoData, transportMode);
-    // log analyzed route and alternatives for debugging
+    const result = analyzeRoute(origin, destination, geoData, transportMode);
+    if (!result) {
+      toast.error(intl.formatMessage({ id: 'noRouteFound' }));
+      storeSetRouteGeo(null);
+      storeSetRouteSteps([]);
+      storeSetAlternativeRoutes([]);
+      return;
+    }
+    const { geo, steps, alternatives } = result;
     console.log('analyzeRoute result:', {
       geo,
       steps,
@@ -125,7 +133,7 @@ const FinalSearch = () => {
     storeSetRouteGeo(geo);
     storeSetRouteSteps(steps);
     storeSetAlternativeRoutes(alternatives);
-  }, [geoData, origin, destination, transportMode, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes]);
+  }, [geoData, origin, destination, transportMode, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes, intl]);
 
   const alternativeSummaries = React.useMemo(() => {
     if (!storedAlternativeRoutes) return [];

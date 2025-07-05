@@ -170,6 +170,7 @@
   ,"pwaInstallPrompt": "For quick access, install the app on your device."
   ,"pwaInstallButton": "Install"
   ,"mapNoRecentSearches": "No recent searches"
+  ,"noRouteFound": "No route found for selected mode"
   ,"pwaCloseButton": "Close"
   ,"stepMoveToDoor": "Head toward {name}"
   ,"stepPassConnection": "Pass connection {title}"
