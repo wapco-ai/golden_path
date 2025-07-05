@@ -647,6 +647,15 @@
   color: #333;
 }
 
+/* popup container classes set a CSS variable used for arrow colors */
+.main-popup-container {
+  --popup-bg-color: #0f71ef;
+}
+
+.alt-popup-container {
+  --popup-bg-color: #D5E4F6;
+}
+
 .maplibregl-popup-content,
 .mapboxgl-popup-content,
 .leaflet-popup-content {
@@ -656,5 +665,29 @@
 
 .maplibregl-popup-tip,
 .mapboxgl-popup-tip {
-  display: none;
+  display: block;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+/* arrow colors adapt to the popup container variable */
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: var(--popup-bg-color);
+}
+
+.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  border-bottom-color: var(--popup-bg-color);
+}
+
+.maplibregl-popup-anchor-left .maplibregl-popup-tip,
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+  border-right-color: var(--popup-bg-color);
+}
+
+.maplibregl-popup-anchor-right .maplibregl-popup-tip,
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+  border-left-color: var(--popup-bg-color);
 }

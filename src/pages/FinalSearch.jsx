@@ -459,6 +459,7 @@ const FinalSearch = () => {
                 </Source>
                 {altPopupCoords[idx] && altPopupMinutes[idx] !== null && (
                   <Popup
+                    className="alt-popup-container"
                     longitude={altPopupCoords[idx][1]}
                     latitude={altPopupCoords[idx][0]}
                     closeButton={false}
@@ -479,6 +480,7 @@ const FinalSearch = () => {
           )}
           {popupCoord && popupMinutes !== null && (
             <Popup
+              className="main-popup-container"
               longitude={popupCoord[1]}
               latitude={popupCoord[0]}
               closeButton={false}
