@@ -139,7 +139,7 @@ const FinalSearch = () => {
     storeSetRouteGeo(geo);
     storeSetRouteSteps(steps);
     storeSetAlternativeRoutes(alternatives);
-  }, [geoData, origin, destination, transportMode, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes, intl]);
+  }, [geoData, origin, destination, transportMode, selectedGender, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes, intl]);
 
   const alternativeSummaries = React.useMemo(() => {
     if (!storedAlternativeRoutes) return [];
