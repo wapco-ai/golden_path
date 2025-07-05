@@ -465,7 +465,7 @@ const FinalSearch = () => {
                     closeOnClick={false}
                     anchor="bottom"
                   >
-                    <div className="time-popup">
+                    <div className="time-popup alt-popup">
                       {altPopupMinutes[idx]} {intl.formatMessage({ id: 'minutesUnit' })}
                     </div>
                   </Popup>
@@ -485,7 +485,7 @@ const FinalSearch = () => {
               closeOnClick={false}
               anchor="bottom"
             >
-              <div className="time-popup">
+              <div className="time-popup main-popup">
                 {popupMinutes} {intl.formatMessage({ id: 'minutesUnit' })}
               </div>
             </Popup>
