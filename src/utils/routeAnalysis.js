@@ -670,14 +670,12 @@ export function analyzeRoute(origin, destination, geoData) {
 
   const startEntries = [
     startEntry,
-    findUnobstructedEntry(origin.coordinates, 1),
-    findUnobstructedEntry(origin.coordinates, 2)
+    findUnobstructedEntry(origin.coordinates, 1)
   ].filter(Boolean);
 
   const endEntries = [
     endEntry,
-    findUnobstructedEntry(destination.coordinates, 1),
-    findUnobstructedEntry(destination.coordinates, 2)
+    findUnobstructedEntry(destination.coordinates, 1)
   ].filter(Boolean);
 
   const altCandidates = [];
