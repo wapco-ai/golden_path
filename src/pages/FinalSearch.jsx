@@ -8,6 +8,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../services/osmStyle';
 import '../styles/FinalSearch.css';
+import ModeSelector from '../components/common/ModeSelector';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
@@ -58,7 +59,7 @@ const FinalSearch = () => {
   useEffect(() => {
     storeSetDestination(destination);
   }, [destination, storeSetDestination]);
-  const [selectedTransport, setSelectedTransport] = useState('walking');
+  const { transportMode } = useRouteStore();
   const [selectedGender, setSelectedGender] = useState('male');
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
   const [menuOpen, setMenuOpen] = useState(false);
@@ -70,14 +71,14 @@ const FinalSearch = () => {
   }, []);
 
   React.useEffect(() => {
-    if (selectedTransport === 'walking') {
+    if (transportMode === 'walking') {
       setRouteInfo({ time: '9', distance: '75' });
-    } else if (selectedTransport === 'electric-car') {
+    } else if (transportMode === 'electric-car') {
       setRouteInfo({ time: '5', distance: '120' });
-    } else if (selectedTransport === 'wheelchair') {
+    } else if (transportMode === 'wheelchair') {
       setRouteInfo({ time: '12', distance: '65' });
     }
-  }, [selectedTransport]);
+  }, [transportMode]);
 
   // Fallback to current GPS coordinates if origin coords not provided and no QR data
   useEffect(() => {
@@ -114,12 +115,7 @@ const FinalSearch = () => {
 
   useEffect(() => {
     if (!geoData) return;
-    const { geo, steps, alternatives } = analyzeRoute(
-      origin,
-      destination,
-      geoData,
-      selectedTransport
-    );
+    const { geo, steps, alternatives } = analyzeRoute(origin, destination, geoData, transportMode);
     // log analyzed route and alternatives for debugging
     console.log('analyzeRoute result:', {
       geo,
@@ -129,7 +125,7 @@ const FinalSearch = () => {
     storeSetRouteGeo(geo);
     storeSetRouteSteps(steps);
     storeSetAlternativeRoutes(alternatives);
-  }, [geoData, origin, destination, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes]);
+  }, [geoData, origin, destination, transportMode, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes]);
 
   const alternativeSummaries = React.useMemo(() => {
     if (!storedAlternativeRoutes) return [];
@@ -186,7 +182,7 @@ const FinalSearch = () => {
   };
 
   const getTransportIcon = () => {
-    switch (selectedTransport) {
+    switch (transportMode) {
       case 'walking':
         return (
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#181717" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -427,46 +423,7 @@ const FinalSearch = () => {
 
       {/* Options Section */}
       <div className="options-section">
-        <div className="options-row">
-          <button
-            className={`transport-btn ${selectedTransport === 'walking' ? 'active' : ''}`}
-            onClick={() => setSelectedTransport('walking')}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={selectedTransport === 'walking' ? '#2196F3' : '#666'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              <path d="M7 21l3 -4" />
-              <path d="M16 21l-2 -4l-3 -3l1 -6" />
-              <path d="M6 12l2 -3l4 -1l3 3l3 1" />
-            </svg>
-            <FormattedMessage id="transportWalk" />
-          </button>
-
-          <button
-            className={`transport-btn ${selectedTransport === 'electric-car' ? 'active' : ''}`}
-            onClick={() => setSelectedTransport('electric-car')}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={selectedTransport === 'electric-car' ? '#2196F3' : '#666'}>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M14 5a1 1 0 0 1 .694 .28l.087 .095l3.699 4.625h.52a3 3 0 0 1 2.995 2.824l.005 .176v4a1 1 0 0 1 -1 1h-1.171a3.001 3.001 0 0 1 -5.658 0h-4.342a3.001 3.001 0 0 1 -5.658 0h-1.171a1 1 0 0 1 -1 -1v-6l.007 -.117l.008 -.056l.017 -.078l.012 -.036l.014 -.05l2.014 -5.034a1 1 0 0 1 .928 -.629zm-7 11a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m10 0a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m-6 -9h-5.324l-1.2 3h6.524zm2.52 0h-.52v3h2.92z" />
-            </svg>
-            <FormattedMessage id="transportCar" />
-          </button>
-
-          <button
-            className={`transport-btn ${selectedTransport === 'wheelchair' ? 'active' : ''}`}
-            onClick={() => setSelectedTransport('wheelchair')}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={selectedTransport === 'wheelchair' ? '#2196F3' : '#666'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M11 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-              <path d="M11 7l0 8l4 0l4 5" />
-              <path d="M11 11l5 0" />
-              <path d="M7 11.5a5 5 0 1 0 6 7.5" />
-            </svg>
-            <FormattedMessage id="transportWheelchair" />
-          </button>
-        </div>
+        <ModeSelector />
 
         <div className="options-divider"></div>
 

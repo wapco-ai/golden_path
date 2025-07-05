@@ -7,6 +7,7 @@ import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
+import ModeSelector from '../components/common/ModeSelector';
 
 const RoutingPage = () => {
   const intl = useIntl();
@@ -39,6 +40,7 @@ const RoutingPage = () => {
     routeSteps,
     routeGeo,
     alternativeRoutes,
+    transportMode,
     setOrigin,
     setDestination,
     setRouteGeo,
@@ -87,6 +89,25 @@ const RoutingPage = () => {
         .catch((err) => console.error('failed to build route from QR', err));
     }
   }, [storedLat, storedLng, origin, destination, routeSteps.length, language, intl, setOrigin, setDestination, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
+
+  useEffect(() => {
+    if (!origin || !destination) return;
+    const file = buildGeoJsonPath(language);
+    fetch(file)
+      .then(res => res.json())
+      .then(geoData => {
+        const { geo, steps, alternatives } = analyzeRoute(
+          origin,
+          destination,
+          geoData,
+          transportMode
+        );
+        setRouteGeo(geo);
+        setRouteSteps(steps);
+        setAlternativeRoutes(alternatives);
+      })
+      .catch(err => console.error('failed to rebuild route', err));
+  }, [transportMode, origin, destination, language, intl, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
 
   // Calculate total time in minutes from all steps
   const calculateTotalTime = (steps) => {
@@ -822,9 +843,10 @@ const RoutingPage = () => {
                     </button>
                   </div>
                 </>
-              )}
+                )}
 
-              <div className="bottom-controls">
+                <ModeSelector />
+                <div className="bottom-controls">
                 <button
                   className={`start-routing-button ${isRoutingActive ? 'stop-routing' : ''}`}
                   onClick={toggleRouting}
