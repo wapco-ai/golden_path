@@ -509,9 +509,9 @@ function angleBetween(p1, p2, p3) {
 
 export function analyzeRoute(origin, destination, geoData, transportMode = 'walking') {
   console.log('analyzeRoute called with Connection Priority Logic');
-  
+
   if (!geoData) {
-    return { path: [origin.coordinates, destination.coordinates], steps: [] };
+    return null;
   }
   
   const doors = geoData.features.filter(
@@ -598,34 +598,16 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   console.log('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
 
   if (!startEntry || !endEntry) {
-    console.log('Could not find valid entry/exit points, returning direct path');
-    const geo = {
-      type: 'Feature',
-      geometry: { type: 'LineString', coordinates: [origin.coordinates, destination.coordinates].map(p => [p[1], p[0]]) }
-    };
-    return { 
-      path: [origin.coordinates, destination.coordinates], 
-      steps: [{ coordinates: destination.coordinates, type: 'stepArriveDestination', name: destination.name || '' }],
-      geo,
-      alternatives: []
-    };
+    console.log('Could not find valid entry/exit points');
+    return null;
   }
 
   // Use connection-priority Dijkstra to find the shortest path between entry points
   const nodePath = dijkstraShortestPath(allNodes, startEntry.index, endEntry.index, sahnPolygons);
   
   if (nodePath.length === 0 || nodePath.length === 1) {
-    console.log('No valid path found between entry points, returning direct path');
-    const geo = {
-      type: 'Feature',
-      geometry: { type: 'LineString', coordinates: [origin.coordinates, destination.coordinates].map(p => [p[1], p[0]]) }
-    };
-    return { 
-      path: [origin.coordinates, destination.coordinates], 
-      steps: [{ coordinates: destination.coordinates, type: 'stepArriveDestination', name: destination.name || '' }],
-      geo,
-      alternatives: []
-    };
+    console.log('No valid path found between entry points');
+    return null;
   }
 
   function buildRoute(nodeList) {

@@ -170,6 +170,7 @@
   ,"pwaInstallPrompt": "تیز رسائی کے لیے ایپ اپنے آلے پر انسٹال کریں۔"
   ,"pwaInstallButton": "انسٹال"
   ,"mapNoRecentSearches": "کوئی حالیہ تلاش نہیں"
+  ,"noRouteFound": "منتخب موڈ کے لیے کوئی راستہ نہیں ملا"
   ,"pwaCloseButton": "بند کریں"
   ,"stepMoveToDoor": "{name} کی طرف جائیں"
   ,"stepPassConnection": "کنکشن پوائنٹ {title} سے گزریں"

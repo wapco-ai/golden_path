@@ -170,6 +170,7 @@
   ,"pwaInstallPrompt": "للوصول السريع، ثبّت التطبيق على جهازك."
   ,"pwaInstallButton": "تثبيت"
   ,"mapNoRecentSearches": "لا توجد عمليات بحث حديثة"
+  ,"noRouteFound": "لم يتم العثور على مسار للحالة المحددة"
   ,"pwaCloseButton": "إغلاق"
   ,"stepMoveToDoor": "اتجه نحو {name}"
   ,"stepPassConnection": "عبر نقطة الاتصال {title}"
