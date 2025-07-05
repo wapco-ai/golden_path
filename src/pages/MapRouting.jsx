@@ -4,6 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
+import ModeSelector from '../components/common/ModeSelector';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { useSearchStore } from '../store/searchStore';
@@ -338,6 +339,7 @@ const MapRoutingPage = () => {
 
       {/* Destination Input - Only shown when modal is NOT open and not selecting from map */}
       {!showDestinationModal && !showOriginModal && !isSelectingFromMap && (
+        <>
         <div className="map-destination-input-container" ref={modalRef}>
           <div className="location-icons-container">
             <div className="location-icon origin-icon">
@@ -409,6 +411,8 @@ const MapRoutingPage = () => {
             </div>
           </div>
         </div>
+        <ModeSelector />
+        </>
       )}
 
       {/* Destination Modal */}
