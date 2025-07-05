@@ -656,5 +656,5 @@
 
 .maplibregl-popup-tip,
 .mapboxgl-popup-tip {
-  display: none;
+  display: block;
 }
