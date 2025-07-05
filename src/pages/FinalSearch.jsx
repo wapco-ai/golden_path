@@ -69,6 +69,7 @@ const FinalSearch = () => {
   const [popupMinutes, setPopupMinutes] = useState(null);
   const [altPopupCoords, setAltPopupCoords] = useState([]);
   const [altPopupMinutes, setAltPopupMinutes] = useState([]);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [geoData, setGeoData] = useState(null);
 
@@ -143,7 +144,7 @@ const FinalSearch = () => {
     storeSetRouteGeo(geo);
     storeSetRouteSteps(steps);
     storeSetAlternativeRoutes(alternatives);
-  }, [geoData, origin, destination, transportMode, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes, intl]);
+  }, [geoData, origin, destination, transportMode, selectedGender, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes, intl]);
 
   const alternativeSummaries = React.useMemo(() => {
     if (!storedAlternativeRoutes) return [];
