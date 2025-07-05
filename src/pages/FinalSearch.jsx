@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Map, { Marker, Source, Layer } from 'react-map-gl';
+import Map, { Marker, Source, Layer, Popup } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -65,6 +65,10 @@ const FinalSearch = () => {
   const { transportMode } = useRouteStore();
   const [selectedGender, setSelectedGender] = useState(storedGender || 'male');
   const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
+  const [popupCoord, setPopupCoord] = useState(null);
+  const [popupMinutes, setPopupMinutes] = useState(null);
+  const [altPopupCoords, setAltPopupCoords] = useState([]);
+  const [altPopupMinutes, setAltPopupMinutes] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [geoData, setGeoData] = useState(null);
 
@@ -165,6 +169,87 @@ const FinalSearch = () => {
       (storedAlternativeRoutes || []).map((_, idx) => `alt-route-line-${idx}`),
     [storedAlternativeRoutes]
   );
+
+  // Determine popup location and total minutes for main route
+  useEffect(() => {
+    if (!routeGeo) return;
+    const coords = routeGeo.geometry?.coordinates || [];
+    if (coords.length === 0) return;
+
+    const dist = coords.slice(1).reduce((acc, c, i) => {
+      const prev = coords[i];
+      return acc + Math.hypot(c[0] - prev[0], c[1] - prev[1]) * 100000;
+    }, 0);
+    setPopupMinutes(Math.max(1, Math.round(dist / 60)));
+
+    let chosen = null;
+    for (let i = 0; i < coords.length; i++) {
+      const [lng, lat] = coords[i];
+      const conflict = (storedAlternativeRoutes || []).some((alt) =>
+        alt.geo.geometry.coordinates.some(
+          ([alng, alat]) =>
+            Math.abs(alng - lng) < 1e-6 && Math.abs(alat - lat) < 1e-6
+        )
+      );
+      if (!conflict) {
+        chosen = [lat, lng];
+        break;
+      }
+    }
+    if (!chosen) {
+      const mid = Math.floor(coords.length / 2);
+      chosen = [coords[mid][1], coords[mid][0]];
+    }
+    setPopupCoord(chosen);
+  }, [routeGeo, storedAlternativeRoutes]);
+
+  // Determine popup locations and minutes for alternative routes
+  useEffect(() => {
+    if (!storedAlternativeRoutes) {
+      setAltPopupCoords([]);
+      setAltPopupMinutes([]);
+      return;
+    }
+
+    const coordsArr = [];
+    const minutesArr = [];
+
+    storedAlternativeRoutes.forEach((alt) => {
+      const coords = alt.geo?.geometry?.coordinates || [];
+      if (coords.length === 0) {
+        coordsArr.push(null);
+        minutesArr.push(null);
+        return;
+      }
+
+      const dist = coords.slice(1).reduce((acc, c, i) => {
+        const prev = coords[i];
+        return acc + Math.hypot(c[0] - prev[0], c[1] - prev[1]) * 100000;
+      }, 0);
+      minutesArr.push(Math.max(1, Math.round(dist / 60)));
+
+      let chosen = null;
+      for (let i = 0; i < coords.length; i++) {
+        const [lng, lat] = coords[i];
+        const conflict = routeGeo?.geometry?.coordinates?.some(
+          ([mlng, mlat]) =>
+            Math.abs(mlng - lng) < 1e-6 && Math.abs(mlat - lat) < 1e-6
+        );
+        if (!conflict) {
+          chosen = [lat, lng];
+          break;
+        }
+      }
+      if (!chosen) {
+        const mid = Math.floor(coords.length / 2);
+        chosen = [coords[mid][1], coords[mid][0]];
+      }
+      coordsArr.push(chosen);
+    });
+
+    setAltPopupCoords(coordsArr);
+    setAltPopupMinutes(minutesArr);
+  }, [storedAlternativeRoutes, routeGeo]);
 
   const swapLocations = () => {
     setIsSwapping(true); // This will trigger the rotation
@@ -353,28 +438,56 @@ const FinalSearch = () => {
           
           {storedAlternativeRoutes &&
             storedAlternativeRoutes.map((alt, idx) => (
-              <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
-                <Layer
-                  id={`alt-route-border-${idx}`}
-                  type="line"
-                  paint={{ 'line-color': '#0f71ef', 'line-width': 10 }}
-                  layout={{ 'line-cap': 'round', 'line-join': 'round' }}
-                />
-                <Layer
-                  id={`alt-route-line-${idx}`}
-                  type="line"
-                  paint={{
-                    'line-color': '#D5E4F6',
-                    'line-width': 8,
-                  }}
-                  layout={{ 'line-cap': 'round', 'line-join': 'round' }}
-                />
-              </Source>
+              <React.Fragment key={idx}>
+                <Source id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
+                  <Layer
+                    id={`alt-route-border-${idx}`}
+                    type="line"
+                    paint={{ 'line-color': '#0f71ef', 'line-width': 10 }}
+                    layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+                  />
+                  <Layer
+                    id={`alt-route-line-${idx}`}
+                    type="line"
+                    paint={{
+                      'line-color': '#D5E4F6',
+                      'line-width': 8,
+                    }}
+                    layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+                  />
+                </Source>
+                {altPopupCoords[idx] && altPopupMinutes[idx] !== null && (
+                  <Popup
+                    longitude={altPopupCoords[idx][1]}
+                    latitude={altPopupCoords[idx][0]}
+                    closeButton={false}
+                    closeOnClick={false}
+                    anchor="bottom"
+                  >
+                    <div className="time-popup">
+                      {altPopupMinutes[idx]} {intl.formatMessage({ id: 'minutesUnit' })}
+                    </div>
+                  </Popup>
+                )}
+              </React.Fragment>
             ))}
-            {routeGeo && (
+          {routeGeo && (
             <Source id="main-route" type="geojson" data={routeGeo}>
               <Layer id="main-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
             </Source>
+          )}
+          {popupCoord && popupMinutes !== null && (
+            <Popup
+              longitude={popupCoord[1]}
+              latitude={popupCoord[0]}
+              closeButton={false}
+              closeOnClick={false}
+              anchor="bottom"
+            >
+              <div className="time-popup">
+                {popupMinutes} {intl.formatMessage({ id: 'minutesUnit' })}
+              </div>
+            </Popup>
           )}
           <GeoJsonOverlay />
         </Map>

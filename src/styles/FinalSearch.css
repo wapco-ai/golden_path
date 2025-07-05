@@ -629,3 +629,8 @@
   gap: 8px;
   font-size: 1rem;
 }
+
+.time-popup {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
