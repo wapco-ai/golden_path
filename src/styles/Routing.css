@@ -970,7 +970,7 @@
 }
 
 .info-modal.closed .info-content {
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 

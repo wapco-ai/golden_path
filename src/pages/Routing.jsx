@@ -8,7 +8,6 @@ import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
 import { toast } from 'react-toastify';
-import ModeSelector from '../components/common/ModeSelector';
 
 const RoutingPage = () => {
   const intl = useIntl();
@@ -23,6 +22,8 @@ const RoutingPage = () => {
       ? [parseFloat(storedLat), parseFloat(storedLng)]
       : [36.2880, 59.6157]
   );
+  const [prevInfoModalState, setPrevInfoModalState] = useState(true);
+  const [wasInfoModalOpenBeforeSound, setWasInfoModalOpenBeforeSound] = useState(false);
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [showSoundModal, setShowSoundModal] = useState(false);
   const [selectedEmergency, setSelectedEmergency] = useState(null);
@@ -207,9 +208,9 @@ const RoutingPage = () => {
       }
       const instruction = s.type
         ? intl.formatMessage(
-            { id: s.type },
-            { name: s.name, title: s.title, num: idx + 1 }
-          )
+          { id: s.type },
+          { name: s.name, title: s.title, num: idx + 1 }
+        )
         : s.instruction || '';
       return {
         id: idx + 1,
@@ -235,9 +236,9 @@ const RoutingPage = () => {
         }
         const instruction = st.type
           ? intl.formatMessage(
-              { id: st.type },
-              { name: st.name, title: st.title, num: i + 1 }
-            )
+            { id: st.type },
+            { name: st.name, title: st.title, num: i + 1 }
+          )
           : st.instruction || '';
         return {
           id: i + 1,
@@ -363,9 +364,16 @@ const RoutingPage = () => {
       setTimeout(() => {
         setShowSoundModal(false);
         setIsClosingSound(false);
+        // Restore info modal to its previous state
+        setIsInfoModalOpen(prevInfoModalState);
       }, 300);
     } else {
+      // Store current info modal state before opening sound modal
+      setPrevInfoModalState(isInfoModalOpen);
       setShowSoundModal(true);
+      // Close info modal when opening sound modal
+      setIsInfoModalOpen(false);
+
       if (showEmergencyModal) {
         setIsClosingEmergency(true);
         setTimeout(() => {
@@ -861,8 +869,24 @@ const RoutingPage = () => {
                     </div>
                   </div>
 
-                  <button className="sound-button" onClick={toggleSoundModal}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-volume"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
+                  <button
+                    className="sound-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      toggleSoundModal();
+                    }}
+                    style={{
+                      position: 'relative',
+                      zIndex: 1000 // Ensure it's above other elements
+                    }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-volume">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M15 8a5 5 0 0 1 0 8" />
+                      <path d="M17.7 5a9 9 0 0 1 0 14" />
+                      <path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" />
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -892,10 +916,9 @@ const RoutingPage = () => {
                     </button>
                   </div>
                 </>
-                )}
+              )}
 
-                <ModeSelector />
-                <div className="bottom-controls">
+              <div className="bottom-controls">
                 <button
                   className={`start-routing-button ${isRoutingActive ? 'stop-routing' : ''}`}
                   onClick={toggleRouting}
