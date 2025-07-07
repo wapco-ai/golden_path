@@ -134,6 +134,9 @@ const FinalSearch = () => {
       storeSetRouteGeo(null);
       storeSetRouteSteps([]);
       storeSetAlternativeRoutes([]);
+      sessionStorage.removeItem('routeGeo');
+      sessionStorage.removeItem('routeSteps');
+      sessionStorage.removeItem('alternativeRoutes');
       return;
     }
     const { geo, steps, alternatives } = result;
@@ -145,6 +148,11 @@ const FinalSearch = () => {
     storeSetRouteGeo(geo);
     storeSetRouteSteps(steps);
     storeSetAlternativeRoutes(alternatives);
+    sessionStorage.setItem('routeGeo', JSON.stringify(geo));
+    sessionStorage.setItem('routeSteps', JSON.stringify(steps));
+    sessionStorage.setItem('alternativeRoutes', JSON.stringify(alternatives));
+    sessionStorage.setItem('origin', JSON.stringify(origin));
+    sessionStorage.setItem('destination', JSON.stringify(destination));
   }, [geoData, origin, destination, transportMode, selectedGender, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes, intl]);
 
   const alternativeSummaries = React.useMemo(() => {
