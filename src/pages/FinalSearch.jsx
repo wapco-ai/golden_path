@@ -610,54 +610,6 @@ const FinalSearch = () => {
         </div>
       </div>
 
-      {alternativeSummaries.length > 0 && (
-        <div className="other-routes-section">
-          <h2 className="other-routes-title">
-            <FormattedMessage id="otherRoutes" />
-          </h2>
-          <div className="other-routes-container">
-            {alternativeSummaries.map(route => (
-              <div
-                key={route.id}
-                className="other-route-card"
-                onClick={() => handleSelectAlternativeRoute(storedAlternativeRoutes[route.id - 1])}
-              >
-                <div className="route-title">
-                  <span>
-                    <FormattedMessage id="from" /> {route.from}
-                  </span>
-                  <span>
-                    <FormattedMessage id="to" /> {route.to}
-                  </span>
-                </div>
-                <div className="route-via">{Array.isArray(route.via) ? route.via.join(' – ') : ''}</div>
-                <div className="route-stats">
-                  <div className="route-stat">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                      <path d="M7 21l3 -4" />
-                      <path d="M16 21l-2 -4l-3 -3l1 -6" />
-                      <path d="M6 12l2 -3l4 -1l3 3l3 1" />
-                    </svg>
-                    <span>{route.totalTime}</span>
-                  </div>
-                  <div className="route-stat">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                      <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" />
-                      <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
-                    </svg>
-                    <span>{route.totalDistance}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="action-gap"></div>
 
       {/* Action Buttons */}
