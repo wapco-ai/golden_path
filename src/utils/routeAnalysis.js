@@ -836,42 +836,55 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   const altEndEntries = endEntries.slice(0);
 
   const altCandidates = [];
-  altStartEntries.forEach(s => {
-    altEndEntries.forEach(e => {
-      if (s.index === startEntry.index && e.index === endEntry.index) return;
-      const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
-      if (altNodePath.length === 0 || altNodePath.length === 1) return;
-      const route = buildRoute(altNodePath);
+  function collectCandidates(requireDifferentSahn = true) {
+    altStartEntries.forEach(s => {
+      altEndEntries.forEach(e => {
+        if (s.index === startEntry.index && e.index === endEntry.index) return;
+        const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
+        if (altNodePath.length === 0 || altNodePath.length === 1) return;
+        const route = buildRoute(altNodePath);
 
-      // Skip candidate if it doesn't pass through a different sahn
-      if (navigablePolygons.length > 0) {
-        const altSahnSet = new Set();
-        route.path.forEach(c => {
-          const p = getPolygonContaining(c, navigablePolygons);
-          if (p) {
-            altSahnSet.add(p.properties?.subGroupValue);
-          }
-        });
-        const hasDifferentSahn = [...altSahnSet].some(p => !mainSahnSet.has(p));
-        if (!hasDifferentSahn) return;
-      }
-
-      const isSame = (coords1, coords2) => {
-        if (coords1.length !== coords2.length) return false;
-        for (let i = 0; i < coords1.length; i++) {
-          if (Math.abs(coords1[i][0] - coords2[i][0]) > 1e-6 || Math.abs(coords1[i][1] - coords2[i][1]) > 1e-6) {
-            return false;
-          }
+        // Skip candidate if it doesn't pass through a different sahn when required
+        if (requireDifferentSahn && navigablePolygons.length > 0) {
+          const altSahnSet = new Set();
+          route.path.forEach(c => {
+            const p = getPolygonContaining(c, navigablePolygons);
+            if (p) {
+              altSahnSet.add(p.properties?.subGroupValue);
+            }
+          });
+          const hasDifferentSahn = [...altSahnSet].some(p => !mainSahnSet.has(p));
+          if (!hasDifferentSahn) return;
         }
-        return true;
-      };
 
-      if (isSame(route.geo.geometry.coordinates, mainRoute.geo.geometry.coordinates)) return;
-      if (altCandidates.some(r => isSame(r.geo.geometry.coordinates, route.geo.geometry.coordinates))) return;
+        const isSame = (coords1, coords2) => {
+          if (coords1.length !== coords2.length) return false;
+          for (let i = 0; i < coords1.length; i++) {
+            if (
+              Math.abs(coords1[i][0] - coords2[i][0]) > 1e-6 ||
+              Math.abs(coords1[i][1] - coords2[i][1]) > 1e-6
+            ) {
+              return false;
+            }
+          }
+          return true;
+        };
 
-      altCandidates.push(route);
+        if (isSame(route.geo.geometry.coordinates, mainRoute.geo.geometry.coordinates)) return;
+        if (altCandidates.some(r => isSame(r.geo.geometry.coordinates, route.geo.geometry.coordinates))) return;
+
+        altCandidates.push(route);
+      });
     });
-  });
+  }
+
+  // First attempt: enforce different sahn to encourage diverse routes
+  collectCandidates(true);
+
+  // Fallback: if no alternatives found, relax the sahn restriction
+  if (altCandidates.length === 0) {
+    collectCandidates(false);
+  }
 
   altCandidates.sort((a, b) => a.distance - b.distance);
 
