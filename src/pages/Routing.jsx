@@ -300,6 +300,9 @@ const RoutingPage = () => {
         }
 
         const success = (position) => {
+          if (sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng')) {
+            return;
+          }
           setUserLocation([position.coords.latitude, position.coords.longitude])
         }
 
