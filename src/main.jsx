@@ -12,6 +12,10 @@ if (!search && window.location.hash.includes('?')) {
   search = window.location.hash.split('?')[1];
   if (search) search = '?' + search;
 }
+// Handle encoded ampersands from copied HTML links
+if (search && search.includes('&amp;')) {
+  search = search.replace(/&amp;/g, '&');
+}
 
 const params = new URLSearchParams(search);
 const lat = params.get('lat');
