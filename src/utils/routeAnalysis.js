@@ -239,6 +239,49 @@ function crossesEmptyPolygons(coord1, coord2, polygons, nodes) {
   return false;
 }
 
+// Compute a simple centroid for a polygon
+function polygonCentroid(polygon) {
+  const coords = polygon.geometry.coordinates[0];
+  let area = 0;
+  let cx = 0;
+  let cy = 0;
+  for (let i = 0, j = coords.length - 1; i < coords.length; j = i++) {
+    const x0 = coords[j][0];
+    const y0 = coords[j][1];
+    const x1 = coords[i][0];
+    const y1 = coords[i][1];
+    const a = x0 * y1 - x1 * y0;
+    area += a;
+    cx += (x0 + x1) * a;
+    cy += (y0 + y1) * a;
+  }
+  area *= 0.5;
+  if (Math.abs(area) < 1e-12) {
+    return coords[0];
+  }
+  cx /= (6 * area);
+  cy /= (6 * area);
+  return [cx, cy];
+}
+
+// If a line inside a polygon is obstructed, return a curved path via centroid
+function adjustSegmentInsidePolygon(start, end, polygons) {
+  const poly = getPolygonContaining(start, polygons);
+  if (!poly) return [end];
+  if (getPolygonContaining(end, polygons) !== poly) return [end];
+  if (!isLineObstructed(start, end, [poly])) return [end];
+
+  const centroid = polygonCentroid(poly);
+  const mid = [centroid[1], centroid[0]];
+  if (
+    !isLineObstructed(start, mid, [poly]) &&
+    !isLineObstructed(mid, end, [poly])
+  ) {
+    return [mid, end];
+  }
+  return [end];
+}
+
 // Check if a direct line between two coordinates is obstructed by polygon walls
 function isLineObstructed(coord1, coord2, polygons) {
   const p1 = [coord1[1], coord1[0]]; // Convert to [lng, lat]
@@ -717,7 +760,9 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
 
     nodeList.forEach(node => {
       const coord = [node[0], node[1]];
-      rPath.push(coord);
+      const prev = rPath[rPath.length - 1];
+      const seg = adjustSegmentInsidePolygon(prev, coord, sahnPolygons);
+      seg.forEach(p => rPath.push(p));
 
       if (node[2].nodeFunction === 'door') {
         rSteps.push({
@@ -736,7 +781,9 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       }
     });
 
-    rPath.push(destination.coordinates);
+    const last = rPath[rPath.length - 1];
+    const destSeg = adjustSegmentInsidePolygon(last, destination.coordinates, sahnPolygons);
+    destSeg.forEach(p => rPath.push(p));
     rSteps.push({
       coordinates: destination.coordinates,
       type: 'stepArriveDestination',
