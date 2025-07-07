@@ -1,5 +1,5 @@
 // src/pages/FinalSearch.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Map, { Marker, Source, Layer, Popup } from 'react-map-gl';
@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 const FinalSearch = () => {
   const [isSwapping, setIsSwapping] = useState(false);
   const [isSwapButton, setSwapButton] = useState(true);
+  const mapRef = useRef(null);
   const navigate = useNavigate();
   const intl = useIntl();
   const {
@@ -170,6 +171,21 @@ const FinalSearch = () => {
       (storedAlternativeRoutes || []).map((_, idx) => `alt-route-line-${idx}`),
     [storedAlternativeRoutes]
   );
+
+  // Zoom map to route bounds when a new route is loaded
+  useEffect(() => {
+    if (mapRef.current && routeGeo) {
+      const coords = routeGeo.geometry?.coordinates || [];
+      if (coords.length > 0) {
+        const bounds = new maplibregl.LngLatBounds(
+          [coords[0][0], coords[0][1]],
+          [coords[0][0], coords[0][1]]
+        );
+        coords.forEach(([lng, lat]) => bounds.extend([lng, lat]));
+        mapRef.current.fitBounds(bounds, { padding: 80, duration: 700 });
+      }
+    }
+  }, [routeGeo]);
 
   // Determine popup location and total minutes for main route
   useEffect(() => {
@@ -384,6 +400,7 @@ const FinalSearch = () => {
       {/* Map Section */}
       <div className="mpr">
         <Map
+          ref={mapRef}
           mapLib={maplibregl}
           mapStyle={osmStyle}
           style={{ width: '100%', height: '100%' }}
