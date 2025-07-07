@@ -69,6 +69,21 @@ const RouteMap = ({
     }
   }, [currentStep, routeGeo]);
 
+  // Fit map to the full route when a new route is loaded
+  useEffect(() => {
+    if (mapRef.current && routeGeo) {
+      const coords = routeGeo.geometry?.coordinates || [];
+      if (coords.length > 0) {
+        const bounds = new maplibregl.LngLatBounds(
+          [coords[0][0], coords[0][1]],
+          [coords[0][0], coords[0][1]]
+        );
+        coords.forEach(([lng, lat]) => bounds.extend([lng, lat]));
+        mapRef.current.fitBounds(bounds, { padding: 80, duration: 700 });
+      }
+    }
+  }, [routeGeo]);
+
   return (
     <Map
       ref={mapRef}
