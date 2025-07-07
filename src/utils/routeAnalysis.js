@@ -311,22 +311,23 @@ function isLineObstructed(coord1, coord2, polygons) {
 }
 
 // Enhanced connection logic with PRIORITY for connection nodes
-function findValidNeighbors(nodeIndex, nodes, sahnPolygons) {
+function findValidNeighbors(nodeIndex, nodes, navigablePolygons) {
   const currentNode = nodes[nodeIndex];
   const currentCoord = [currentNode[0], currentNode[1]]; // [lat, lng]
-  const currentPolygon = getPolygonContaining(currentCoord, sahnPolygons);
+  const currentPolygon = getPolygonContaining(currentCoord, navigablePolygons);
   const currentType = currentNode[2]?.nodeFunction;
   const neighbors = [];
   
-  // 80 meters ≈ 0.0008 degrees
-  const MAX_CROSS_POLYGON_DISTANCE = 0.0005;
+  // Maximum straight-line distance allowed when linking nodes across
+  // polygons. 0.0008 degrees is roughly equal to 80 metres.
+  const MAX_CROSS_POLYGON_DISTANCE = 0.0008;
 
   for (let i = 0; i < nodes.length; i++) {
     if (i === nodeIndex) continue;
 
     const otherNode = nodes[i];
     const otherCoord = [otherNode[0], otherNode[1]];
-    const otherPolygon = getPolygonContaining(otherCoord, sahnPolygons);
+    const otherPolygon = getPolygonContaining(otherCoord, navigablePolygons);
     const otherType = otherNode[2]?.nodeFunction;
     const distance = Math.hypot(currentCoord[0] - otherCoord[0], currentCoord[1] - otherCoord[1]);
     
@@ -351,7 +352,7 @@ function findValidNeighbors(nodeIndex, nodes, sahnPolygons) {
     // RULE 3: Cross-polygon connections through connection nodes
     else if (distance <= MAX_CROSS_POLYGON_DISTANCE) {
       // Check if line crosses any empty polygons (forbidden)
-      if (crossesEmptyPolygons(currentCoord, otherCoord, sahnPolygons, nodes)) {
+      if (crossesEmptyPolygons(currentCoord, otherCoord, navigablePolygons, nodes)) {
         isValid = false;
         connectionReason = 'blocked-by-empty-polygon';
       }
@@ -398,8 +399,8 @@ function findValidNeighbors(nodeIndex, nodes, sahnPolygons) {
       }
     }
     // RULE 4: Check if direct line is not obstructed (backup rule)
-    else if (!isLineObstructed(currentCoord, otherCoord, sahnPolygons) && 
-             !crossesEmptyPolygons(currentCoord, otherCoord, sahnPolygons, nodes)) {
+    else if (!isLineObstructed(currentCoord, otherCoord, navigablePolygons) && 
+             !crossesEmptyPolygons(currentCoord, otherCoord, navigablePolygons, nodes)) {
       // Long distance but unobstructed - only within same polygon
       if (currentPolygon && otherPolygon && currentPolygon === otherPolygon) {
         isValid = true;
@@ -421,19 +422,19 @@ function findValidNeighbors(nodeIndex, nodes, sahnPolygons) {
 }
 
 // Dijkstra's algorithm for finding shortest path
-function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons) {
+function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, navigablePolygons) {
   console.log(`Starting Enhanced Dijkstra with Connection Priority from node ${startNodeIndex} to ${endNodeIndex}`);
   console.log(`Start node: [${nodes[startNodeIndex][0]}, ${nodes[startNodeIndex][1]}] - ${nodes[startNodeIndex][2]?.name || nodes[startNodeIndex][2]?.nodeFunction}`);
   console.log(`End node: [${nodes[endNodeIndex][0]}, ${nodes[endNodeIndex][1]}] - ${nodes[endNodeIndex][2]?.name || nodes[endNodeIndex][2]?.nodeFunction}`);
   
   // Debug: Check start node connections
   const startCoord = [nodes[startNodeIndex][0], nodes[startNodeIndex][1]];
-  const startPolygon = getPolygonContaining(startCoord, sahnPolygons);
+  const startPolygon = getPolygonContaining(startCoord, navigablePolygons);
   const startArea = startPolygon ? startPolygon.properties?.subGroupValue : 'outside';
   const startType = nodes[startNodeIndex][2]?.nodeFunction;
   console.log(`Start node: area=${startArea}, type=${startType}`);
   
-  const startNeighbors = findValidNeighbors(startNodeIndex, nodes, sahnPolygons);
+  const startNeighbors = findValidNeighbors(startNodeIndex, nodes, navigablePolygons);
   console.log(`Start node has ${startNeighbors.length} neighbors with connection priority:`);
   
   // Sort neighbors by priority (connection nodes first)
@@ -448,7 +449,7 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
   
   sortedNeighbors.slice(0, 10).forEach(n => {
     const neighborCoord = [nodes[n.index][0], nodes[n.index][1]];
-    const neighborPolygon = getPolygonContaining(neighborCoord, sahnPolygons);
+    const neighborPolygon = getPolygonContaining(neighborCoord, navigablePolygons);
     const neighborArea = neighborPolygon ? neighborPolygon.properties?.subGroupValue : 'outside';
     const neighborType = nodes[n.index][2]?.nodeFunction;
     console.log(`  -> Node ${n.index} (${nodes[n.index][2]?.name || 'unnamed'}) area=${neighborArea}, type=${neighborType}, weight=${n.weight.toFixed(6)}, reason=${n.reason}`);
@@ -495,7 +496,7 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
 
     unvisited.delete(currentIndex);
 
-    const neighbors = findValidNeighbors(currentIndex, nodes, sahnPolygons);
+    const neighbors = findValidNeighbors(currentIndex, nodes, navigablePolygons);
 
     for (const neighbor of neighbors) {
       if (!unvisited.has(neighbor.index)) continue;
@@ -542,7 +543,7 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
 }
 
 // A* algorithm using Euclidean heuristic
-function aStarShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons) {
+function aStarShortestPath(nodes, startNodeIndex, endNodeIndex, navigablePolygons) {
   const heuristic = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 
   const openSet = new Set([startNodeIndex]);
@@ -579,7 +580,7 @@ function aStarShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons) {
 
     openSet.delete(current);
 
-    const neighbors = findValidNeighbors(current, nodes, sahnPolygons);
+    const neighbors = findValidNeighbors(current, nodes, navigablePolygons);
     for (const neighbor of neighbors) {
       const tentativeG = gScore[current] + neighbor.weight;
       if (tentativeG < gScore[neighbor.index]) {
@@ -645,33 +646,51 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       serviceAllowed(f.properties?.services, transportMode) &&
       genderAllowed(f.properties?.gender, gender)
   );
-  const sahnPolygons = geoData.features.filter(
-    f => f.geometry.type === 'Polygon' && f.properties?.subGroupValue?.startsWith('sahn-')
-  );
-  
-  console.log(`Found ${doors.length} doors, ${connections.length} connections, ${sahnPolygons.length} sahns`);
+  // Collect all polygon features. Any polygon that contains at least
+  // one door or connection node is considered traversable.
+  const allPolygons = geoData.features.filter(f => f.geometry.type === 'Polygon');
 
   // Create a unified list of all navigation nodes
   const allNodes = [];
-  
+
   // Add all doors
   doors.forEach(door => {
     const [lng, lat] = door.geometry.coordinates;
     allNodes.push([lat, lng, door.properties, 0, door]);
   });
-  
+
   // Add all connections
   connections.forEach(conn => {
     const [lng, lat] = conn.geometry.coordinates;
     allNodes.push([lat, lng, conn.properties, 0, conn]);
   });
+
+  // Polygons are considered navigable if they contain the required
+  // node types. Sahns and ravaqs need at least one door or connection,
+  // while all other polygons must contain at least one connection.
+  const navigablePolygons = allPolygons.filter(poly => {
+    const polyId = poly.properties?.subGroupValue || '';
+    const nodesInPoly = allNodes.filter(node =>
+      pointInPolygon([node[1], node[0]], poly)
+    );
+
+    if (polyId.startsWith('sahn-') || polyId.startsWith('ravaq-')) {
+      return nodesInPoly.some(n =>
+        n[2]?.nodeFunction === 'door' || n[2]?.nodeFunction === 'connection'
+      );
+    }
+
+    return nodesInPoly.some(n => n[2]?.nodeFunction === 'connection');
+  });
+  
+  console.log(`Found ${doors.length} doors, ${connections.length} connections, ${navigablePolygons.length} navigable polygons`);
   
   console.log(`Total nodes available: ${allNodes.length}`);
 
   // Analyze polygons and their nodes using turf.js
   console.log('Polygon analysis with turf.js:');
   const emptyPolygons = [];
-  sahnPolygons.forEach(poly => {
+  navigablePolygons.forEach(poly => {
     const nodesInPoly = getNodesInPolygon(allNodes, poly);
     console.log(`  ${poly.properties?.subGroupValue}: ${nodesInPoly.length} nodes`);
     if (nodesInPoly.length === 0) {
@@ -692,10 +711,10 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       const node = allNodes[i];
       const nodeCoord = [node[0], node[1]];
 
-      if (!isLineObstructed(coord, nodeCoord, sahnPolygons) &&
-          !crossesEmptyPolygons(coord, nodeCoord, sahnPolygons, allNodes)) {
+      if (!isLineObstructed(coord, nodeCoord, navigablePolygons) &&
+          !crossesEmptyPolygons(coord, nodeCoord, navigablePolygons, allNodes)) {
         const distance = Math.hypot(coord[0] - nodeCoord[0], coord[1] - nodeCoord[1]);
-        const poly = getPolygonContaining(nodeCoord, sahnPolygons);
+        const poly = getPolygonContaining(nodeCoord, navigablePolygons);
         const polyId = poly ? poly.properties?.subGroupValue : 'none';
         validNodes.push({
           index: i,
@@ -747,7 +766,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   }
 
   // Use connection-priority A* to find the shortest path between entry points
-  const nodePath = aStarShortestPath(allNodes, startEntry.index, endEntry.index, sahnPolygons);
+  const nodePath = aStarShortestPath(allNodes, startEntry.index, endEntry.index, navigablePolygons);
   
   if (nodePath.length === 0 || nodePath.length === 1) {
     console.log('No valid path found between entry points');
@@ -761,7 +780,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     nodeList.forEach(node => {
       const coord = [node[0], node[1]];
       const prev = rPath[rPath.length - 1];
-      const seg = adjustSegmentInsidePolygon(prev, coord, sahnPolygons);
+      const seg = adjustSegmentInsidePolygon(prev, coord, navigablePolygons);
       seg.forEach(p => rPath.push(p));
 
       if (node[2].nodeFunction === 'door') {
@@ -782,7 +801,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     });
 
     const last = rPath[rPath.length - 1];
-    const destSeg = adjustSegmentInsidePolygon(last, destination.coordinates, sahnPolygons);
+    const destSeg = adjustSegmentInsidePolygon(last, destination.coordinates, navigablePolygons);
     destSeg.forEach(p => rPath.push(p));
     rSteps.push({
       coordinates: destination.coordinates,
@@ -807,7 +826,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   const mainRoute = buildRoute(nodePath);
   const mainSahnSet = new Set();
   mainRoute.path.forEach(coord => {
-    const poly = getPolygonContaining(coord, sahnPolygons);
+    const poly = getPolygonContaining(coord, navigablePolygons);
     if (poly) {
       mainSahnSet.add(poly.properties?.subGroupValue);
     }
@@ -820,15 +839,15 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   altStartEntries.forEach(s => {
     altEndEntries.forEach(e => {
       if (s.index === startEntry.index && e.index === endEntry.index) return;
-      const altNodePath = aStarShortestPath(allNodes, s.index, e.index, sahnPolygons);
+      const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
       if (altNodePath.length === 0 || altNodePath.length === 1) return;
       const route = buildRoute(altNodePath);
 
       // Skip candidate if it doesn't pass through a different sahn
-      if (sahnPolygons.length > 0) {
+      if (navigablePolygons.length > 0) {
         const altSahnSet = new Set();
         route.path.forEach(c => {
-          const p = getPolygonContaining(c, sahnPolygons);
+          const p = getPolygonContaining(c, navigablePolygons);
           if (p) {
             altSahnSet.add(p.properties?.subGroupValue);
           }
