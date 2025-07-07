@@ -210,17 +210,18 @@ const MapRoutingPage = () => {
     setShowOriginModal(false);
   };
 
-  const handleMapClick = (latlng) => {
+  const handleMapClick = (latlng, feature) => {
     if (isSelectingFromMap) {
+      const locName = feature?.properties?.name || intl.formatMessage({ id: 'mapSelectedLocation' });
       if (activeInput === 'destination') {
         setSelectedDestination({
-          name: intl.formatMessage({ id: 'mapSelectedLocation' }),
+          name: locName,
           location: intl.formatMessage({ id: 'mapSelectedLocationFromMap' }),
           coordinates: [latlng.lat, latlng.lng]
         });
       } else {
         setUserLocation({
-          name: intl.formatMessage({ id: 'mapSelectedLocation' }),
+          name: locName,
           coordinates: [latlng.lat, latlng.lng]
         });
       }

@@ -161,7 +161,28 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       const { lng, lat } = e.lngLat;
       const c = { lat, lng };
       setSelectedCoords(c);
-      if (onMapClick) onMapClick(c);
+
+      // Attempt to find the nearest point feature to use its name
+      let closestFeature = null;
+      if (geoData) {
+        let minDist = Infinity;
+        geoData.features.forEach((f) => {
+          if (f.geometry.type === 'Point') {
+            const [flng, flat] = f.geometry.coordinates;
+            const d = Math.hypot(flng - lng, flat - lat);
+            if (d < minDist) {
+              minDist = d;
+              closestFeature = f;
+            }
+          }
+        });
+        // Use a small threshold (~50m) to avoid accidental selections
+        if (minDist > 0.0005) {
+          closestFeature = null;
+        }
+      }
+
+      if (onMapClick) onMapClick(c, closestFeature);
     }
   };
 
