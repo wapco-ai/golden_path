@@ -33,7 +33,10 @@ const RouteOverview = () => {
   };
 
   const computeTurn = (b1, b2) => {
-    const diff = ((b2 - b1 + 540) % 360) - 180; // [-180, 180]
+    // Compute turn relative to the user's current heading (b1)
+    // Positive diff should mean a left turn and negative diff a right turn
+    // so we reverse the subtraction order.
+    const diff = ((b1 - b2 + 540) % 360) - 180; // [-180, 180]
     const ad = Math.abs(diff);
     if (ad < 30) return 'up';
     if (ad > 150) return 'down';
