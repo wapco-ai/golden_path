@@ -234,7 +234,7 @@ const RouteOverview = () => {
           <p className="instruction-text">
             {routeData[currentSlide]?.instruction}
           </p>
-          {renderServiceIcons(routeData[currentSlide]?.services)}
+          {/* {renderServiceIcons(routeData[currentSlide]?.services)} */}
         </div>
 
           <div className="carousel-controls">
