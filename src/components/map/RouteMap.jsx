@@ -21,7 +21,10 @@ const RouteMap = ({
   const center = userLocation && userLocation.length === 2
     ? userLocation
     : [36.297, 59.606]; // Default to Imam Reza Shrine coordinates
-  const altLayerIds = alternativeRoutes.map((_, idx) => `alt-route-line-${idx}`);
+  const altLayerIds = alternativeRoutes.flatMap((_, idx) => [
+    `alt-route-line-${idx}`,
+    `alt-route-border-${idx}`
+  ]);
 
   // Handle map resize when modal opens/closes
   useEffect(() => {
@@ -92,8 +95,15 @@ const RouteMap = ({
       interactiveLayerIds={altLayerIds}
       onClick={(e) => {
         const feature = e.features && e.features[0];
-        if (feature && feature.layer && feature.layer.id.startsWith('alt-route-line-')) {
-          const idx = parseInt(feature.layer.id.replace('alt-route-line-', ''));
+        if (
+          feature &&
+          feature.layer &&
+          (feature.layer.id.startsWith('alt-route-line-') ||
+            feature.layer.id.startsWith('alt-route-border-'))
+        ) {
+          const idx = parseInt(
+            feature.layer.id.replace(/alt-route-(?:line|border)-/, '')
+          );
           if (!Number.isNaN(idx) && alternativeRoutes[idx] && onSelectAlternativeRoute) {
             onSelectAlternativeRoute(alternativeRoutes[idx]);
           }
