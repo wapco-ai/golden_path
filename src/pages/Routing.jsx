@@ -52,6 +52,21 @@ const RoutingPage = () => {
   } = useRouteStore();
   const language = useLangStore(state => state.language);
 
+  useEffect(() => {
+    const sessGeo = sessionStorage.getItem('routeGeo');
+    const sessSteps = sessionStorage.getItem('routeSteps');
+    const sessAlts = sessionStorage.getItem('alternativeRoutes');
+    const sessOrigin = sessionStorage.getItem('origin');
+    const sessDestination = sessionStorage.getItem('destination');
+    if (sessGeo && sessSteps) {
+      setRouteGeo(JSON.parse(sessGeo));
+      setRouteSteps(JSON.parse(sessSteps));
+      setAlternativeRoutes(sessAlts ? JSON.parse(sessAlts) : []);
+      if (sessOrigin) setOrigin(JSON.parse(sessOrigin));
+      if (sessDestination) setDestination(JSON.parse(sessDestination));
+    }
+  }, [setRouteGeo, setRouteSteps, setAlternativeRoutes, setOrigin, setDestination]);
+
   // If QR coordinates are provided and stored route does not match, rebuild the route
   useEffect(() => {
     if (!storedLat || !storedLng) return;
@@ -104,6 +119,7 @@ const RoutingPage = () => {
 
   useEffect(() => {
     if (!origin || !destination) return;
+    if (routeGeo && routeSteps.length) return;
     const file = buildGeoJsonPath(language);
     fetch(file)
       .then(res => res.json())
@@ -128,7 +144,7 @@ const RoutingPage = () => {
         setAlternativeRoutes(alternatives);
       })
       .catch(err => console.error('failed to rebuild route', err));
-  }, [transportMode, gender, origin, destination, language, intl, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
+  }, [transportMode, gender, origin, destination, language, intl, routeGeo, routeSteps.length, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
 
   // Calculate total time in minutes from all steps
   const calculateTotalTime = (steps) => {
