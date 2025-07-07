@@ -440,7 +440,7 @@ const RoutingPage = () => {
     }
 
     const currentRoute = { geo: routeGeo, steps: routeSteps };
-    const newAlternatives = alternativeRoutes.filter(alt => alt !== route);
+    const newAlternatives = alternativeRoutes.filter((alt) => alt !== route);
 
     if (currentRoute.geo && currentRoute.steps) {
       newAlternatives.push(currentRoute);
@@ -449,9 +449,6 @@ const RoutingPage = () => {
     setRouteGeo(route.geo);
     setRouteSteps(route.steps);
     setAlternativeRoutes(newAlternatives);
-    setCurrentStep(0);
-    setIsRoutingActive(false);
-    setShowAlternativeRoutes(false);
   };
 
   const renderDirectionArrow = (direction) => {
