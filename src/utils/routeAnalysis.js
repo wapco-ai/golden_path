@@ -320,7 +320,7 @@ function findValidNeighbors(nodeIndex, nodes, navigablePolygons) {
   
   // Maximum straight-line distance allowed when linking nodes across
   // polygons. 0.0008 degrees is roughly equal to 80 metres.
-  const MAX_CROSS_POLYGON_DISTANCE = 0.0008;
+  const MAX_CROSS_POLYGON_DISTANCE = 0.0004;
 
   for (let i = 0; i < nodes.length; i++) {
     if (i === nodeIndex) continue;
