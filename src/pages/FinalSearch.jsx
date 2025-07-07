@@ -176,7 +176,10 @@ const FinalSearch = () => {
 
   const altLayerIds = React.useMemo(
     () =>
-      (storedAlternativeRoutes || []).map((_, idx) => `alt-route-line-${idx}`),
+      (storedAlternativeRoutes || []).flatMap((_, idx) => [
+        `alt-route-line-${idx}`,
+        `alt-route-border-${idx}`
+      ]),
     [storedAlternativeRoutes]
   );
 
@@ -428,13 +431,13 @@ const FinalSearch = () => {
             if (
               feature &&
               feature.layer &&
-              feature.layer.id.startsWith('alt-route-line-')
+              (feature.layer.id.startsWith('alt-route-line-') ||
+                feature.layer.id.startsWith('alt-route-border-'))
             ) {
-              const idx = parseInt(feature.layer.id.replace('alt-route-line-', ''));
-              if (
-                !Number.isNaN(idx) &&
-                storedAlternativeRoutes[idx]
-              ) {
+              const idx = parseInt(
+                feature.layer.id.replace(/alt-route-(?:line|border)-/, '')
+              );
+              if (!Number.isNaN(idx) && storedAlternativeRoutes[idx]) {
                 handleSelectAlternativeRoute(storedAlternativeRoutes[idx]);
               }
             }
