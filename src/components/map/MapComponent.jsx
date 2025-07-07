@@ -101,7 +101,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
         name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
         coordinates: [c.lat, c.lng]
       });
-      setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng }));
+      setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng, zoom: 18 }));
       return; // Do not start GPS tracking when QR coords are present
     }
     const success = (pos) => {
