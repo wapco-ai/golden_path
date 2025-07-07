@@ -5360,10 +5360,10 @@
         "longitude": 59.61539715528489,
         "gpsMeta": {},
         "timestamp": "2025-07-02T08:30:22.020Z",
-        "uniqueId": "ravaq-other_2974",
-        "transportModes": []
-      }
-    },
+      "uniqueId": "ravaq-other_2974",
+      "transportModes": []
+    }
+  },
     {
       "type": "Feature",
       "geometry": {
