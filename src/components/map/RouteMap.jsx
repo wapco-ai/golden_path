@@ -99,6 +99,7 @@ const RouteMap = ({
           }
         }
       }}
+      
       initialViewState={{
         longitude: center[1],
         latitude: center[0],
@@ -126,7 +127,7 @@ const RouteMap = ({
 
       {routeGeo && (
         <Source id="route" type="geojson" data={routeGeo}>
-          <Layer id="route-line" type="line" paint={{ 'line-color': '#3498db', 'line-width': 4 }} />
+          <Layer id="route-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
         </Source>
       )}
 
@@ -135,16 +136,15 @@ const RouteMap = ({
           <Layer
             id={`alt-route-border-${idx}`}
             type="line"
-            paint={{ 'line-color': '#3498db', 'line-width': 6 }}
+            paint={{ 'line-color': '#0f71ef', 'line-width': 10 }}
             layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
           <Layer
             id={`alt-route-line-${idx}`}
             type="line"
             paint={{
-              'line-color': '#bbdefb',
-              'line-width': 4,
-              'line-dasharray': [4, 3]
+              'line-color': '#D5E4F6',
+              'line-width': 8,
             }}
             layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
