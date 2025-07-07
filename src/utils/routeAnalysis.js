@@ -758,6 +758,13 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   }
 
   const mainRoute = buildRoute(nodePath);
+  const mainSahnSet = new Set();
+  mainRoute.path.forEach(coord => {
+    const poly = getPolygonContaining(coord, sahnPolygons);
+    if (poly) {
+      mainSahnSet.add(poly.properties?.subGroupValue);
+    }
+  });
 
   const altStartEntries = startEntries.slice(0);
   const altEndEntries = endEntries.slice(0);
@@ -769,6 +776,19 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       const altNodePath = aStarShortestPath(allNodes, s.index, e.index, sahnPolygons);
       if (altNodePath.length === 0 || altNodePath.length === 1) return;
       const route = buildRoute(altNodePath);
+
+      // Skip candidate if it doesn't pass through a different sahn
+      if (sahnPolygons.length > 0) {
+        const altSahnSet = new Set();
+        route.path.forEach(c => {
+          const p = getPolygonContaining(c, sahnPolygons);
+          if (p) {
+            altSahnSet.add(p.properties?.subGroupValue);
+          }
+        });
+        const hasDifferentSahn = [...altSahnSet].some(p => !mainSahnSet.has(p));
+        if (!hasDifferentSahn) return;
+      }
 
       const isSame = (coords1, coords2) => {
         if (coords1.length !== coords2.length) return false;
