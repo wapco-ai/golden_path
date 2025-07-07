@@ -319,7 +319,7 @@ function findValidNeighbors(nodeIndex, nodes, sahnPolygons) {
   const neighbors = [];
   
   // 80 meters ≈ 0.0008 degrees
-  const MAX_CROSS_POLYGON_DISTANCE = 0.0004;
+  const MAX_CROSS_POLYGON_DISTANCE = 0.0005;
 
   for (let i = 0; i < nodes.length; i++) {
     if (i === nodeIndex) continue;
