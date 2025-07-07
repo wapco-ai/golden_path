@@ -102,9 +102,13 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
         coordinates: [c.lat, c.lng]
       });
       setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng }));
-      return;
+      return; // Do not start GPS tracking when QR coords are present
     }
     const success = (pos) => {
+      // Ignore GPS updates if QR coordinates become available later
+      if (sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng')) {
+        return;
+      }
       const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       setUserCoords(c);
       setUserLocation({
