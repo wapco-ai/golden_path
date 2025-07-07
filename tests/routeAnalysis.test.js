@@ -70,3 +70,21 @@ assert.strictEqual(
 );
 
 console.log('analyzeRoute service filtering tests passed');
+
+// Complex routing test using multiple intermediate nodes
+const geoComplex = JSON.parse(fs.readFileSync(new URL('./complex.geojson', import.meta.url)));
+const origin3 = { coordinates: [0, 0] };
+const destination3 = { coordinates: [0.0004, 0.0004] };
+const complexRoute = analyzeRoute(origin3, destination3, geoComplex, 'walking', 'family');
+
+assert.ok(complexRoute.path.length >= 4, 'route should include intermediate nodes');
+
+const totalDistance = complexRoute.path.reduce((acc, cur, idx) => {
+  if (idx === 0) return acc;
+  const prev = complexRoute.path[idx - 1];
+  return acc + Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
+}, 0);
+
+assert.ok(totalDistance < 0.00075, 'A* should find optimal diagonal path');
+
+console.log('complex route test passed');

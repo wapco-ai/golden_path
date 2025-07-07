@@ -1,0 +1,13 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"nodeFunction":"door","name":"A","services":{"walking":true}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0004,0]},"properties":{"nodeFunction":"door","name":"B","services":{"walking":true}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0004,0.0004]},"properties":{"nodeFunction":"door","name":"C","services":{"walking":true}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0,0.0004]},"properties":{"nodeFunction":"door","name":"D","services":{"walking":true}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0002,0]},"properties":{"nodeFunction":"connection","name":"E","services":{"walking":true}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0004,0.0002]},"properties":{"nodeFunction":"connection","name":"F","services":{"walking":true}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0.0002,0.0004]},"properties":{"nodeFunction":"connection","name":"G","services":{"walking":true}}},
+    {"type":"Feature","geometry":{"type":"Point","coordinates":[0,0.0002]},"properties":{"nodeFunction":"connection","name":"H","services":{"walking":true}}}
+  ]
+}
