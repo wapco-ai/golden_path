@@ -456,7 +456,9 @@ const RoutingPage = () => {
     }
 
     const currentRoute = { geo: routeGeo, steps: routeSteps };
-    const newAlternatives = alternativeRoutes.filter(alt => alt !== route);
+    const newAlternatives = alternativeRoutes.filter(
+      (alt) => alt.geo !== route.geo
+    );
 
     if (currentRoute.geo && currentRoute.steps) {
       newAlternatives.push(currentRoute);
