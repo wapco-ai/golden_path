@@ -24,6 +24,8 @@ const functionIcons = {
   ramp: '♿',
   stairs: '🪜',
   service: '🚾',
+  qrcode: '🔳',
+  poi: '⭐',
   other: '📍'
 };
 
@@ -42,7 +44,7 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
         alignItems: 'center',
         justifyContent: 'center',
         color: 'white',
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 'bold',
         boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
       }}
@@ -95,7 +97,7 @@ const GeoJsonOverlay = ({ selectedCategory }) => {
           feature.properties &&
           feature.properties[selectedCategory.property] === selectedCategory.value;
         const hasFilter = !!selectedCategory;
-        const iconSize = hasFilter ? (highlight ? 40 : 25) : 35;
+        const iconSize = hasFilter ? (highlight ? 30 : 15) : 20;
         const iconOpacity = hasFilter ? (highlight ? 1 : 0.4) : 1;
         const rawId = feature.properties?.uniqueId;
         const key = rawId ? `${rawId}-${idx}` : idx;
