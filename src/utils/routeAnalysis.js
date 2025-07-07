@@ -498,6 +498,59 @@ function dijkstraShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons)
   return path.length > 0 && path[0] === nodes[startNodeIndex] ? path : [];
 }
 
+// A* algorithm using Euclidean heuristic
+function aStarShortestPath(nodes, startNodeIndex, endNodeIndex, sahnPolygons) {
+  const heuristic = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+
+  const openSet = new Set([startNodeIndex]);
+  const cameFrom = {};
+  const gScore = {};
+  const fScore = {};
+
+  nodes.forEach((_, idx) => {
+    gScore[idx] = Infinity;
+    fScore[idx] = Infinity;
+  });
+  gScore[startNodeIndex] = 0;
+  fScore[startNodeIndex] = heuristic(nodes[startNodeIndex], nodes[endNodeIndex]);
+
+  while (openSet.size > 0) {
+    let current = null;
+    let minF = Infinity;
+    for (const idx of openSet) {
+      if (fScore[idx] < minF) {
+        minF = fScore[idx];
+        current = idx;
+      }
+    }
+
+    if (current === endNodeIndex) {
+      const path = [];
+      let ci = current;
+      while (ci !== undefined) {
+        path.unshift(nodes[ci]);
+        ci = cameFrom[ci];
+      }
+      return path;
+    }
+
+    openSet.delete(current);
+
+    const neighbors = findValidNeighbors(current, nodes, sahnPolygons);
+    for (const neighbor of neighbors) {
+      const tentativeG = gScore[current] + neighbor.weight;
+      if (tentativeG < gScore[neighbor.index]) {
+        cameFrom[neighbor.index] = current;
+        gScore[neighbor.index] = tentativeG;
+        fScore[neighbor.index] = tentativeG + heuristic(nodes[neighbor.index], nodes[endNodeIndex]);
+        openSet.add(neighbor.index);
+      }
+    }
+  }
+
+  return [];
+}
+
 function angleBetween(p1, p2, p3) {
   const a1 = Math.atan2(p2[0] - p1[0], p2[1] - p1[1]);
   const a2 = Math.atan2(p3[0] - p2[0], p3[1] - p2[1]);
@@ -625,8 +678,8 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     return null;
   }
 
-  // Use connection-priority Dijkstra to find the shortest path between entry points
-  const nodePath = dijkstraShortestPath(allNodes, startEntry.index, endEntry.index, sahnPolygons);
+  // Use connection-priority A* to find the shortest path between entry points
+  const nodePath = aStarShortestPath(allNodes, startEntry.index, endEntry.index, sahnPolygons);
   
   if (nodePath.length === 0 || nodePath.length === 1) {
     console.log('No valid path found between entry points');
@@ -695,7 +748,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   startEntries.forEach(s => {
     endEntries.forEach(e => {
       if (s.index === startEntry.index && e.index === endEntry.index) return;
-      const altNodePath = dijkstraShortestPath(allNodes, s.index, e.index, sahnPolygons);
+      const altNodePath = aStarShortestPath(allNodes, s.index, e.index, sahnPolygons);
       if (altNodePath.length === 0 || altNodePath.length === 1) return;
       const route = buildRoute(altNodePath);
 
