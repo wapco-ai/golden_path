@@ -51,9 +51,14 @@ const RouteOverview = () => {
     () =>
       routeCoordinates.slice(1).map((c, idx) => {
         const step = routeSteps?.[idx];
-        const instruction = step
-          ? intl.formatMessage({ id: step.type }, { name: step.name, title: step.title, num: idx + 1 })
-          : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
+        const instruction = step && step.type
+          ? intl.formatMessage(
+              { id: step.type },
+              { name: step.name, title: step.title, num: idx + 1 }
+            )
+          : step?.instruction
+            ? step.instruction
+            : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
         return {
           id: idx + 1,
           coordinates: [routeCoordinates[idx], c],
