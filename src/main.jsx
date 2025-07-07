@@ -4,14 +4,28 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import IntlProviderWrapper from './IntlProviderWrapper.jsx';
 import './index.css';
+import { useGPSStore } from './store/gpsStore.js';
 
-// Check URL parameters for QR code location and store in session
-const params = new URLSearchParams(window.location.search);
+// Check URL parameters for QR code location (works with ? before or after #)
+let search = window.location.search;
+if (!search && window.location.hash.includes('?')) {
+  search = window.location.hash.split('?')[1];
+  if (search) search = '?' + search;
+}
+
+const params = new URLSearchParams(search);
 const lat = params.get('lat');
 const lng = params.get('lng');
 if (lat && lng) {
   sessionStorage.setItem('qrLat', lat);
   sessionStorage.setItem('qrLng', lng);
+
+  // Also update the GPS store so components can use this location immediately
+  const updateCurrentLocation = useGPSStore.getState().updateCurrentLocation;
+  updateCurrentLocation({
+    coords: { lat: parseFloat(lat), lng: parseFloat(lng), accuracy: 0 },
+    timestamp: Date.now()
+  });
 }
 
 import { registerSW } from 'virtual:pwa-register';
