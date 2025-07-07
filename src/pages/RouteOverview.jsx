@@ -20,6 +20,27 @@ const RouteOverview = () => {
   const [time, setTime] = useState('');
   const [popupCoord, setPopupCoord] = useState(null);
 
+  const toRad = deg => (deg * Math.PI) / 180;
+  const toDeg = rad => (rad * 180) / Math.PI;
+  const bearing = (from, to) => {
+    const [lng1, lat1] = from;
+    const [lng2, lat2] = to;
+    const y = Math.sin(toRad(lng2 - lng1)) * Math.cos(toRad(lat2));
+    const x =
+      Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
+      Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(toRad(lng2 - lng1));
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+  };
+
+  const computeTurn = (b1, b2) => {
+    const diff = ((b2 - b1 + 540) % 360) - 180; // [-180, 180]
+    const ad = Math.abs(diff);
+    if (ad < 30) return 'up';
+    if (ad > 150) return 'down';
+    if (ad < 100) return diff > 0 ? 'left' : 'right';
+    return diff > 0 ? 'bend-left' : 'bend-right';
+  };
+
   const { routeGeo, routeSteps } = useRouteStore();
   const routeCoordinates = routeGeo?.geometry?.coordinates || [];
 
@@ -68,7 +89,16 @@ const RouteOverview = () => {
       setTime(
         `${Math.max(1, Math.round(d / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`
       );
-      setDirectionArrow(currentSlide === routeData.length - 1 ? 'arrived' : 'right');
+
+      if (currentSlide === routeData.length - 1) {
+        setDirectionArrow('arrived');
+      } else {
+        const nextSeg = routeData[currentSlide + 1].coordinates;
+        const b1 = bearing(segment[0], segment[1]);
+        const b2 = bearing(nextSeg[0], nextSeg[1]);
+        setDirectionArrow(computeTurn(b1, b2));
+      }
+
       setViewState({
         latitude: (lat1 + lat2) / 2,
         longitude: (lng1 + lng2) / 2,
