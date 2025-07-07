@@ -642,34 +642,59 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   });
 
   // Find unobstructed entry points
-  function findUnobstructedEntry(coord, nth = 0) {
+  function findUnobstructedEntries(coord, count = 2) {
     const validNodes = [];
-    
+
     for (let i = 0; i < allNodes.length; i++) {
       const node = allNodes[i];
       const nodeCoord = [node[0], node[1]];
-      
+
       if (!isLineObstructed(coord, nodeCoord, sahnPolygons) &&
           !crossesEmptyPolygons(coord, nodeCoord, sahnPolygons, allNodes)) {
         const distance = Math.hypot(coord[0] - nodeCoord[0], coord[1] - nodeCoord[1]);
+        const poly = getPolygonContaining(nodeCoord, sahnPolygons);
+        const polyId = poly ? poly.properties?.subGroupValue : 'none';
         validNodes.push({
           index: i,
           node: node,
-          distance: distance
+          distance: distance,
+          polyId
         });
       }
     }
-    
+
     validNodes.sort((a, b) => a.distance - b.distance);
     console.log(`Found ${validNodes.length} unobstructed nodes from [${coord[0]}, ${coord[1]}]`);
-    
-    return validNodes[nth] || null;
+
+    const unique = [];
+    const seen = new Set();
+    for (const v of validNodes) {
+      if (!seen.has(v.polyId)) {
+        unique.push(v);
+        seen.add(v.polyId);
+      }
+      if (unique.length >= count) break;
+    }
+
+    if (unique.length < count) {
+      for (const v of validNodes) {
+        if (!unique.includes(v)) {
+          unique.push(v);
+        }
+        if (unique.length >= count) break;
+      }
+    }
+
+    return unique.slice(0, count);
   }
 
   // Find entry and exit points
-  const startEntry = findUnobstructedEntry(origin.coordinates, 0);
-  const endEntry = findUnobstructedEntry(destination.coordinates, 0);
-  
+  const startEntries = findUnobstructedEntries(origin.coordinates, 3);
+  const endEntries = findUnobstructedEntries(destination.coordinates, 3);
+
+  const startEntry = startEntries[0];
+  const endEntry = endEntries[0];
+
   console.log('Start entry:', startEntry ? `Node ${startEntry.index}` : 'None');
   console.log('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
 
@@ -734,19 +759,12 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
 
   const mainRoute = buildRoute(nodePath);
 
-  const startEntries = [
-    startEntry,
-    findUnobstructedEntry(origin.coordinates, 1)
-  ].filter(Boolean);
-
-  const endEntries = [
-    endEntry,
-    findUnobstructedEntry(destination.coordinates, 1)
-  ].filter(Boolean);
+  const altStartEntries = startEntries.slice(0);
+  const altEndEntries = endEntries.slice(0);
 
   const altCandidates = [];
-  startEntries.forEach(s => {
-    endEntries.forEach(e => {
+  altStartEntries.forEach(s => {
+    altEndEntries.forEach(e => {
       if (s.index === startEntry.index && e.index === endEntry.index) return;
       const altNodePath = aStarShortestPath(allNodes, s.index, e.index, sahnPolygons);
       if (altNodePath.length === 0 || altNodePath.length === 1) return;
