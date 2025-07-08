@@ -171,25 +171,25 @@ const RouteMap = ({
 
       {routeGeo && (
         <Source id="route" type="geojson" data={routeGeo}>
-          <Layer 
-            id="route-line" 
-            type="line" 
-            paint={{ 
-              'line-color': '#4A90E2', 
+          <Layer
+            id="route-line"
+            type="line"
+            paint={{
+              'line-color': '#4A90E2',
               'line-width': 6,
-              'line-dasharray': [1, 2], // Creates dotted pattern
-              'line-cap': 'round'
-            }} 
+              'line-dasharray': [1, 2] // Creates dotted pattern
+            }}
+            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
-          <Layer 
-            id="route-border" 
-            type="line" 
-            paint={{ 
-              'line-color': 'white', 
+          <Layer
+            id="route-border"
+            type="line"
+            paint={{
+              'line-color': 'white',
               'line-width': 8,
-              'line-dasharray': [1, 2], // Creates dotted pattern
-              'line-cap': 'round'
-            }} 
+              'line-dasharray': [1, 2] // Creates dotted pattern
+            }}
+            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
         </Source>
       )}
@@ -199,12 +199,12 @@ const RouteMap = ({
           <Layer
             id={`alt-route-border-${idx}`}
             type="line"
-            paint={{ 
-              'line-color': 'white', 
+            paint={{
+              'line-color': 'white',
               'line-width': 8,
-              'line-dasharray': [1, 2], // Creates dotted pattern
-              'line-cap': 'round'
+              'line-dasharray': [1, 2] // Creates dotted pattern
             }}
+            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
           <Layer
             id={`alt-route-line-${idx}`}
@@ -212,9 +212,9 @@ const RouteMap = ({
             paint={{
               'line-color': '#A0C4FF', // Lighter blue for alternatives
               'line-width': 6,
-              'line-dasharray': [1, 2], // Creates dotted pattern
-              'line-cap': 'round'
+              'line-dasharray': [1, 2] // Creates dotted pattern
             }}
+            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
         </Source>
       ))}
@@ -223,5 +223,4 @@ const RouteMap = ({
     </Map>
   );
 };
-
 export default RouteMap;
