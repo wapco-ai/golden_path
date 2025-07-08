@@ -96,6 +96,7 @@ const RoutingPage = () => {
       origin.coordinates?.[0] !== lat ||
       origin.coordinates?.[1] !== lng;
 
+
     if (sessGeo && sessSteps && !originChanged) {
       // Session data already provides the route; the first effect will
       // load it into state so skip rebuilding here
