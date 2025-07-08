@@ -341,7 +341,7 @@ function attachLandmarks(path, steps, pois) {
     return (toDeg(Math.atan2(y, x)) + 360) % 360;
   };
 
-  const distLimit = 0.003; // ~300m in degrees
+  const distLimit = 0.0006; // ~30m in degrees
   for (let i = 1; i < path.length && i - 1 < steps.length; i++) {
     const start = [path[i - 1][1], path[i - 1][0]];
     const end = [path[i][1], path[i][0]];
@@ -352,7 +352,7 @@ function attachLandmarks(path, steps, pois) {
       const poiBearing = bearing(start, poiCoord);
       let diff = Math.abs(segBearing - poiBearing);
       if (diff > 180) diff = 360 - diff;
-      const dist = Math.hypot(poiCoord[0] - start[0], poiCoord[1] - start[1]);
+      const dist = Math.hypot(poiCoord[0] - end[0], poiCoord[1] - end[1]);
       if (diff <= 20 && dist <= distLimit) {
         if (!best || diff < best.diff || (diff === best.diff && dist < best.distance)) {
           best = { name: poi.properties?.name || '', distance: dist, diff };
