@@ -26,6 +26,31 @@ const RouteMap = ({
     `alt-route-border-${idx}`
   ]);
 
+  // Custom SVG marker component
+  const OriginMarker = () => (
+    <svg width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="soft-shadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#000000" floodOpacity="0.3" />
+        </filter>
+      </defs>
+
+      <g filter="url(#soft-shadow)">
+        <path 
+          d="M 50 10 L 90 60 A 10 10 0 0 1 80 70 L 20 70 A 10 10 0 0 1 10 60 Z" 
+          fill="#6B7280" />
+          
+        <path 
+          d="M 50 5 L 90 55 A 10 10 0 0 1 80 65 L 20 65 A 10 10 0 0 1 10 55 Z" 
+          fill="#4A90E2" />
+
+        <path 
+          d="M 53 30 A 5 5 0 1 1 43 30 A 5 5 0 0 1 53 30 Z M 60 55 L 52 45 L 48 45 L 40 55 L 45 55 L 48 50 L 52 50 L 55 55 Z" 
+          fill="white" />
+      </g>
+    </svg>
+  );
+
   // Handle map resize when modal opens/closes
   useEffect(() => {
     if (mapRef.current) {
@@ -121,7 +146,9 @@ const RouteMap = ({
     >
       {/* User location marker */}
       <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
-        <div className="user-marker">📍</div>
+        <div className="user-marker">
+          <OriginMarker />
+        </div>
       </Marker>
 
       {/* Current step marker if available */}
@@ -131,13 +158,39 @@ const RouteMap = ({
           latitude={routeSteps[currentStep].coordinates[0]}
           anchor="bottom"
         >
-          <div className="current-step-marker">🔵</div>
+          <div className="current-step-marker" style={{
+            width: '16px',
+            height: '16px',
+            borderRadius: '50%',
+            backgroundColor: '#4A90E2',
+            border: '2px solid white',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+          }} />
         </Marker>
       )}
 
       {routeGeo && (
         <Source id="route" type="geojson" data={routeGeo}>
-          <Layer id="route-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
+          <Layer 
+            id="route-line" 
+            type="line" 
+            paint={{ 
+              'line-color': '#4A90E2', 
+              'line-width': 6,
+              'line-dasharray': [1, 2], // Creates dotted pattern
+              'line-cap': 'round'
+            }} 
+          />
+          <Layer 
+            id="route-border" 
+            type="line" 
+            paint={{ 
+              'line-color': 'white', 
+              'line-width': 8,
+              'line-dasharray': [1, 2], // Creates dotted pattern
+              'line-cap': 'round'
+            }} 
+          />
         </Source>
       )}
 
@@ -146,17 +199,22 @@ const RouteMap = ({
           <Layer
             id={`alt-route-border-${idx}`}
             type="line"
-            paint={{ 'line-color': '#0f71ef', 'line-width': 10 }}
-            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+            paint={{ 
+              'line-color': 'white', 
+              'line-width': 8,
+              'line-dasharray': [1, 2], // Creates dotted pattern
+              'line-cap': 'round'
+            }}
           />
           <Layer
             id={`alt-route-line-${idx}`}
             type="line"
             paint={{
-              'line-color': '#D5E4F6',
-              'line-width': 8,
+              'line-color': '#A0C4FF', // Lighter blue for alternatives
+              'line-width': 6,
+              'line-dasharray': [1, 2], // Creates dotted pattern
+              'line-cap': 'round'
             }}
-            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
         </Source>
       ))}
