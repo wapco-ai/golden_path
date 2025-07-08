@@ -703,11 +703,10 @@ const RoutingPage = () => {
 
         {isMapModalOpen && (
           <div
-            className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${
-              !showAllRoutesView && !showAlternativeRoutes && isInfoModalOpen
-                ? 'dark-overlay'
-                : 'No-dark-overlay'
-            }`}
+            className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${!showAllRoutesView && !showAlternativeRoutes && isInfoModalOpen
+              ? 'dark-overlay'
+              : 'No-dark-overlay'
+              }`}
           >
             <RouteMap
               userLocation={userLocation}
@@ -909,7 +908,27 @@ const RoutingPage = () => {
                     <span className="sdivider"></span>
                     <button className="route-button" onClick={handleShowAlternativeRoutes}>
                       <div className="button-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="1" stdDeviation="1" flood-opacity="0.3" />
+                          </filter>
+
+                          <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#4285F4" />
+                            <stop offset="100%" stop-color="#1A73E8" />
+                          </linearGradient>
+
+                          <g filter="url(#shadow)">
+                            <path d="M12 18.5l7.265 2.463c.196 .077 .42 .032 .57 -.116a.548 .548 0 0 0 .134 -.572l-7.969 -17.275l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463"
+                              stroke="white"
+                              stroke-width="1.5"
+                              fill="url(#blueGradient)" />
+
+                            <path d="M12 4l4 10.5l-4 1.5l-4-1.5z"
+                              fill="rgba(255,255,255,0.3)"
+                              stroke="none" />
+                          </g>
+                        </svg>
                       </div>
                       <span><FormattedMessage id="otherRoutes" /></span>
                     </button>

@@ -201,20 +201,34 @@
   color: #929090;
 }
 
-.carousel-dots {
+.carousel-dots4 {
   display: flex;
-  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  max-width: 200px; /* Fixed maximum width */
+  overflow: hidden;
+  padding: 5px 12px;
+  background-color: rgba(4, 4, 4, 0.426);
+  border-radius: 20px;
 }
 
-.dot {
-  width: 8px;
+.dot4 {
+  flex-shrink: 1;
+  min-width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #ddd;
+  background-color: rgba(255, 255, 255, 0.266);
+  border: none;
+  padding: 0;
+  transition: all 0.3s ease;
 }
 
-.dot.active {
-  background-color: #3498db;
+.dot4.active {
+  background-color: white;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
 }
 
 /* Map Marker Styles */

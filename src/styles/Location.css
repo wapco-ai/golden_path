@@ -117,8 +117,15 @@
   background-color: white;
   width: 10px;
   height: 10px;
-  ;
   border-radius: 4px;
+}
+
+.carousel-dots4.has-many-dots {
+  gap: 4px;
+}
+
+.carousel-dots4.has-very-many-dots {
+  gap: 2px;
 }
 
 .you-are-here {

@@ -53,9 +53,9 @@ const RouteOverview = () => {
         const step = routeSteps?.[idx];
         const instruction = step && step.type
           ? intl.formatMessage(
-              { id: step.type },
-              { name: step.name, title: step.title, num: idx + 1 }
-            )
+            { id: step.type },
+            { name: step.name, title: step.title, num: idx + 1 }
+          )
           : step?.instruction
             ? step.instruction
             : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
@@ -151,7 +151,7 @@ const RouteOverview = () => {
       case 'bend-left':
         return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-merge-alt-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M16 7l-4 -4l-4 4" /><path d="M6 21v.01" /><path d="M6 18.01v.01" /><path d="M7 15.02v.01" /><path d="M10 13.03v.01" /><path d="M12 3v5.394a6.737 6.737 0 0 0 3 5.606a6.737 6.737 0 0 1 3 5.606v1.394" /></svg>;
       case 'arrived':
-        return <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>;
+        return <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>;
       default:
         return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>;
     }
@@ -221,7 +221,7 @@ const RouteOverview = () => {
             anchor="bottom"
           >
             <div className="des-marker">
-              <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>
             </div>
           </Marker>
           <Source id="route" type="geojson" data={allGeo}>
@@ -268,12 +268,12 @@ const RouteOverview = () => {
         </div>
 
         <div className="route-instruction-container">
-        <div className="route-instruction">
-          <p className="instruction-text">
-            {routeData[currentSlide]?.instruction}
-          </p>
-          {/* {renderServiceIcons(routeData[currentSlide]?.services)} */}
-        </div>
+          <div className="route-instruction">
+            <p className="instruction-text">
+              {routeData[currentSlide]?.instruction}
+            </p>
+            {/* {renderServiceIcons(routeData[currentSlide]?.services)} */}
+          </div>
 
           <div className="carousel-controls">
             <button
@@ -287,11 +287,13 @@ const RouteOverview = () => {
               {intl.formatMessage({ id: 'previous' })}
             </button>
 
-            <div className="carousel-dots">
+            <div className={`carousel-dots4 ${routeData.length > 10 ? 'has-very-many-dots' :
+                routeData.length > 5 ? 'has-many-dots' : ''
+              }`}>
               {routeData.map((_, index) => (
                 <span
                   key={index}
-                  className={`dot ${index === currentSlide ? 'active' : ''}`}
+                  className={`dot4 ${index === currentSlide ? 'active' : ''}`}
                   onClick={() => setCurrentSlide(index)}
                 ></span>
               ))}
