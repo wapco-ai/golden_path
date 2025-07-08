@@ -84,10 +84,23 @@ const RoutingPage = () => {
     if (!storedLat || !storedLng) return;
     const lat = parseFloat(storedLat);
     const lng = parseFloat(storedLng);
+    const sessGeo = sessionStorage.getItem('routeGeo');
+    const sessSteps = sessionStorage.getItem('routeSteps');
+    if (sessGeo && sessSteps && !routeSteps.length) {
+      // wait for session data to load via the first effect
+      return;
+    }
+
     const originChanged =
       !origin ||
       origin.coordinates?.[0] !== lat ||
       origin.coordinates?.[1] !== lng;
+
+    if (sessGeo && sessSteps && !originChanged) {
+      // Session data already provides the route; the first effect will
+      // load it into state so skip rebuilding here
+      return;
+    }
 
     if (!routeSteps.length || originChanged) {
       const newOrigin = {
@@ -131,6 +144,13 @@ const RoutingPage = () => {
   }, [storedLat, storedLng, origin, destination, routeSteps.length, language, intl, gender, setOrigin, setDestination, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
 
   useEffect(() => {
+    const sessGeo = sessionStorage.getItem('routeGeo');
+    const sessSteps = sessionStorage.getItem('routeSteps');
+    if (sessGeo && sessSteps && (!routeGeo || !routeSteps.length)) {
+      // session data will populate state via the first effect
+      return;
+    }
+
     if (!origin || !destination) return;
     if (routeGeo && routeSteps.length) return;
     const file = buildGeoJsonPath(language);
