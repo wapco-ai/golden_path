@@ -180,6 +180,7 @@
   position: relative;
   border: 1px solid #e0e0e0;
   margin: 5px 0;
+  cursor: pointer;
 }
 
 .origin-input {
