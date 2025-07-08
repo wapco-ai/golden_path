@@ -578,7 +578,10 @@ const FinalSearch = () => {
         </div>
 
         <div className="location-section">
-          <div className="location-input origin-input">
+          <div
+            className="location-input origin-input"
+            onClick={() => navigate('/mpr?edit=origin')}
+          >
             <div className="location-details">
               <div className="location-name">{origin.name}</div>
             </div>
@@ -608,7 +611,10 @@ const FinalSearch = () => {
             </button>
           </div>
 
-          <div className="location-input destination-input">
+          <div
+            className="location-input destination-input"
+            onClick={() => navigate('/mpr?edit=destination')}
+          >
             <div className="location-details">
               <div className="location-name">{destination.name}</div>
             </div>
