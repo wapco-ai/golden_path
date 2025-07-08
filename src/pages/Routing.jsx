@@ -18,6 +18,9 @@ const RoutingPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const storedLat = sessionStorage.getItem('qrLat');
   const storedLng = sessionStorage.getItem('qrLng');
+  const storedRouteSahns = sessionStorage.getItem('routeSahns')
+    ? JSON.parse(sessionStorage.getItem('routeSahns'))
+    : [];
   const [userLocation, setUserLocation] = useState(
     storedLat && storedLng
       ? [parseFloat(storedLat), parseFloat(storedLng)]
@@ -115,12 +118,13 @@ const RoutingPage = () => {
             setAlternativeRoutes([]);
             return;
           }
-          const { geo, steps, alternatives } = result;
+          const { geo, steps, alternatives, sahns } = result;
           setOrigin(newOrigin);
           setDestination(newDestination);
           setRouteGeo(geo);
           setRouteSteps(steps);
           setAlternativeRoutes(alternatives);
+          sessionStorage.setItem('routeSahns', JSON.stringify(sahns));
         })
         .catch((err) => console.error('failed to build route from QR', err));
     }
@@ -147,10 +151,11 @@ const RoutingPage = () => {
           setAlternativeRoutes([]);
           return;
         }
-        const { geo, steps, alternatives } = result;
+        const { geo, steps, alternatives, sahns } = result;
         setRouteGeo(geo);
         setRouteSteps(steps);
         setAlternativeRoutes(alternatives);
+        sessionStorage.setItem('routeSahns', JSON.stringify(sahns));
       })
       .catch(err => console.error('failed to rebuild route', err));
   }, [transportMode, gender, origin, destination, language, intl, routeGeo, routeSteps.length, setRouteGeo, setRouteSteps, setAlternativeRoutes]);
@@ -283,7 +288,7 @@ const RoutingPage = () => {
         totalDistance: `${distTot} ${intl.formatMessage({ id: 'meters' })}`,
         from: alt.from,
         to: alt.to,
-        via: alt.via
+        via: alt.sahns || []
 
       };
     });
@@ -472,7 +477,8 @@ const RoutingPage = () => {
       steps: routeSteps,
       from: origin?.name || '',
       to: destination?.name || '',
-      via: route.via || []
+      via: route.via || [],
+      sahns: storedRouteSahns
     };
     const newAlternatives = alternativeRoutes.filter(
       (alt) => alt.geo !== route.geo
@@ -488,6 +494,7 @@ const RoutingPage = () => {
     sessionStorage.setItem('routeGeo', JSON.stringify(route.geo));
     sessionStorage.setItem('routeSteps', JSON.stringify(route.steps));
     sessionStorage.setItem('alternativeRoutes', JSON.stringify(newAlternatives));
+    sessionStorage.setItem('routeSahns', JSON.stringify(route.via || []));
     setCurrentStep(0);
     setIsRoutingActive(false);
     setShowAlternativeRoutes(false);
@@ -816,7 +823,7 @@ const RoutingPage = () => {
                     </div>
 
                     <div className="route-via">
-                      {Array.isArray(route.via) ? route.via.join(" – ") : ''}
+                      {Array.isArray(route.via) ? route.via.join(' – ') : ''}
                     </div>
 
                     <div className="route-stats">
