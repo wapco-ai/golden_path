@@ -153,20 +153,16 @@ function translateFeature(feature, lang) {
 }
 
 async function main() {
-  const subGroupMap = await loadSubGroupMap();
+  // Previously this script attempted to normalize the `subGroupValue`
+  // for each feature based on the subGroup label. However, this step
+  // overwrites any values that might already exist in the source file.
+  // The updated requirement is to preserve `subGroupValue` exactly as
+  // provided in `data14040411.geojson`, so we skip that normalization
+  // entirely and simply read the existing data.
 
-  data.features = data.features.map((f) => {
-    if (f.properties && f.properties.subGroup) {
-      const key = f.properties.subGroup.trim();
-      if (subGroupMap[key]) {
-        f.properties.subGroupValue = subGroupMap[key];
-      }
-    }
-    return f;
-  });
 
-  // Update original geojson with subgroup values
-  fs.writeFileSync(srcPath, JSON.stringify(data, null, 2), 'utf8');
+  // Do not rewrite the source geojson. We only generate translated copies
+  // to keep the original data intact.
 
   ['en', 'ar', 'ur'].forEach((lang) => {
     const translated = {
