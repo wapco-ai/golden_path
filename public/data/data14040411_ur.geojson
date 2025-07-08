@@ -4442,10 +4442,10 @@
         ]
       },
       "properties": {
-        "name": "مقبره پیر پالاندوز",
+        "name": "مزار پیر پالاندوز",
         "description": "",
         "group": "cemetery",
-        "subGroup": "قبر",
+        "subGroup": "مقبرہ",
         "subGroupValue": "cemetery",
         "types": [
           "ziyarati",

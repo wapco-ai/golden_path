@@ -4442,10 +4442,10 @@
         ]
       },
       "properties": {
-        "name": "مقبره پیر پالاندوز",
+        "name": "Pir Palandooz Mausoleum",
         "description": "",
         "group": "cemetery",
-        "subGroup": "قبر",
+        "subGroup": "Mausoleum",
         "subGroupValue": "cemetery",
         "types": [
           "ziyarati",
