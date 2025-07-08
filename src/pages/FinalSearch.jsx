@@ -295,7 +295,9 @@ const FinalSearch = () => {
 
     const currentRoute = {
       geo: storedRouteGeo,
-      steps: storedRouteSteps
+      steps: storedRouteSteps,
+      from: storedOrigin?.name || origin.name,
+      to: storedDestination?.name || destination.name
     };
     const newAlternatives = storedAlternativeRoutes.filter(alt => alt !== route);
 
@@ -306,6 +308,9 @@ const FinalSearch = () => {
     storeSetRouteGeo(route.geo);
     storeSetRouteSteps(route.steps);
     storeSetAlternativeRoutes(newAlternatives);
+    sessionStorage.setItem('routeGeo', JSON.stringify(route.geo));
+    sessionStorage.setItem('routeSteps', JSON.stringify(route.steps));
+    sessionStorage.setItem('alternativeRoutes', JSON.stringify(newAlternatives));
   };
 
   const getTransportIcon = () => {
