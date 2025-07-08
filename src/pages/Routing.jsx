@@ -471,7 +471,8 @@ const RoutingPage = () => {
       geo: routeGeo,
       steps: routeSteps,
       from: origin?.name || '',
-      to: destination?.name || ''
+      to: destination?.name || '',
+      via: route.via || []
     };
     const newAlternatives = alternativeRoutes.filter(
       (alt) => alt.geo !== route.geo

@@ -297,7 +297,8 @@ const FinalSearch = () => {
       geo: storedRouteGeo,
       steps: storedRouteSteps,
       from: storedOrigin?.name || origin.name,
-      to: storedDestination?.name || destination.name
+      to: storedDestination?.name || destination.name,
+      via: route.via || []
     };
     const newAlternatives = storedAlternativeRoutes.filter(alt => alt !== route);
 
