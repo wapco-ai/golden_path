@@ -178,4 +178,5 @@
   ,"stepPassDoor": "عبور از درب {name}"
   ,"stepArriveDestination": "رسیدن به مقصد {name}"
   ,"stepNumber": "گام {num}"
+  ,"landmarkSuffix": "به سمت {name} بچرخید و {distance} متر به جلو بروید"
 }
