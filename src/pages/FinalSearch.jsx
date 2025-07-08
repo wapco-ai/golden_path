@@ -356,6 +356,27 @@ const FinalSearch = () => {
 
   const handleShareRoute = () => {
     setMenuOpen(false);
+    if (!origin.coordinates || !destination.coordinates) return;
+    const originCoords = `${origin.coordinates[0]},${origin.coordinates[1]}`;
+    const destCoords = `${destination.coordinates[0]},${destination.coordinates[1]}`;
+    const travel = transportMode === 'electric-car' ? 'driving' : 'walking';
+    const mapsUrl =
+      `https://www.google.com/maps/dir/?api=1&origin=${originCoords}&destination=${destCoords}&travelmode=${travel}`;
+
+    const shareData = {
+      title: intl.formatMessage({ id: 'shareRoute' }),
+      text: intl.formatMessage(
+        { id: 'routeSummary' },
+        { origin: origin.name, destination: destination.name }
+      ),
+      url: mapsUrl
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).catch(err => console.error('share failed', err));
+    } else {
+      window.open(mapsUrl, '_blank');
+    }
   };
 
   return (
