@@ -236,12 +236,15 @@ const RoutingPage = () => {
         const [lng2, lat2] = routeGeo.geometry.coordinates[idx];
         distance = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
       }
-      const instruction = s.type
+      const base = s.type
         ? intl.formatMessage(
-          { id: s.type },
-          { name: s.name, title: s.title, num: idx + 1 }
-        )
+            { id: s.type },
+            { name: s.name, title: s.title, num: idx + 1 }
+          )
         : s.instruction || '';
+      const instruction = s.landmark
+        ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: s.landmark, distance: Math.round(distance) })}`
+        : base;
       return {
         id: idx + 1,
         instruction,
@@ -264,12 +267,15 @@ const RoutingPage = () => {
           const [lng2, lat2] = alt.geo.geometry.coordinates[i];
           dist = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
         }
-        const instruction = st.type
+        const base = st.type
           ? intl.formatMessage(
-            { id: st.type },
-            { name: st.name, title: st.title, num: i + 1 }
-          )
+              { id: st.type },
+              { name: st.name, title: st.title, num: i + 1 }
+            )
           : st.instruction || '';
+        const instruction = st.landmark
+          ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: st.landmark, distance: Math.round(dist) })}`
+          : base;
         return {
           id: i + 1,
           instruction,

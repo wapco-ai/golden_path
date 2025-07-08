@@ -328,6 +328,43 @@ function isLineObstructed(coord1, coord2, polygons) {
   return false;
 }
 
+function attachLandmarks(path, steps, pois) {
+  const toRad = deg => (deg * Math.PI) / 180;
+  const toDeg = rad => (rad * 180) / Math.PI;
+  const bearing = (from, to) => {
+    const [lng1, lat1] = from;
+    const [lng2, lat2] = to;
+    const y = Math.sin(toRad(lng2 - lng1)) * Math.cos(toRad(lat2));
+    const x =
+      Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
+      Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(toRad(lng2 - lng1));
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+  };
+
+  for (let i = 1; i < path.length && i - 1 < steps.length; i++) {
+    const start = [path[i - 1][1], path[i - 1][0]];
+    const end = [path[i][1], path[i][0]];
+    const segBearing = bearing(start, end);
+    let best = null;
+    pois.forEach(poi => {
+      const poiCoord = poi.geometry.coordinates;
+      const poiBearing = bearing(start, poiCoord);
+      let diff = Math.abs(segBearing - poiBearing);
+      if (diff > 180) diff = 360 - diff;
+      if (diff <= 20) {
+        const dist = Math.hypot(poiCoord[0] - start[0], poiCoord[1] - start[1]);
+        if (!best || dist < best.distance) {
+          best = { name: poi.properties?.name || '', distance: dist };
+        }
+      }
+    });
+    if (best) {
+      steps[i - 1].landmark = best.name;
+      steps[i - 1].landmarkDistance = Math.round(best.distance * 100000);
+    }
+  }
+}
+
 // Enhanced connection logic with PRIORITY for connection nodes
 function findValidNeighbors(nodeIndex, nodes, navigablePolygons) {
   const currentNode = nodes[nodeIndex];
@@ -664,6 +701,11 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       serviceAllowed(f.properties?.services, transportMode) &&
       genderAllowed(f.properties?.gender, gender)
   );
+  const pois = geoData.features.filter(
+    f =>
+      f.geometry.type === 'Point' &&
+      f.properties?.nodeFunction === 'poi'
+  );
   // Collect all polygon features. Any polygon that contains at least
   // one door or connection node is considered traversable.
   const allPolygons = geoData.features.filter(f => f.geometry.type === 'Polygon');
@@ -833,6 +875,8 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       const prev = rPath[idx - 1];
       return acc + Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
     }, 0);
+
+    attachLandmarks(rPath, rSteps, pois);
 
     return { path: rPath, steps: rSteps, geo: rGeo, distance: dist };
   }

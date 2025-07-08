@@ -178,4 +178,5 @@
   ,"stepPassDoor": "Go through {name}"
   ,"stepArriveDestination": "Arrive at {name}"
   ,"stepNumber": "Step {num}"
+  ,"landmarkSuffix": "turn toward {name} and go {distance} meters ahead"
 }

@@ -51,14 +51,21 @@ const RouteOverview = () => {
     () =>
       routeCoordinates.slice(1).map((c, idx) => {
         const step = routeSteps?.[idx];
-        const instruction = step && step.type
+        const base = step && step.type
           ? intl.formatMessage(
-            { id: step.type },
-            { name: step.name, title: step.title, num: idx + 1 }
-          )
+              { id: step.type },
+              { name: step.name, title: step.title, num: idx + 1 }
+            )
           : step?.instruction
             ? step.instruction
             : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
+        const dist = Math.hypot(
+          c[0] - routeCoordinates[idx][0],
+          c[1] - routeCoordinates[idx][1]
+        ) * 100000;
+        const instruction = step?.landmark
+          ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: step.landmark, distance: Math.round(dist) })}`
+          : base;
         return {
           id: idx + 1,
           coordinates: [routeCoordinates[idx], c],
