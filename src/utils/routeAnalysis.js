@@ -81,6 +81,19 @@ function getPolygonContaining(coord, polygons) {
   return polygons.find(p => pointInPolygon(point, p));
 }
 
+// Extract ordered list of unique sahn names along a path
+function extractSahnSequence(path, polygons) {
+  const seq = [];
+  path.forEach(coord => {
+    const poly = getPolygonContaining(coord, polygons);
+    const sahnName = poly ? poly.properties?.subGroup : null;
+    if (sahnName && seq[seq.length - 1] !== sahnName) {
+      seq.push(sahnName);
+    }
+  });
+  return seq;
+}
+
 // Check if polygons are adjacent (share a border)
 function arePolygonsAdjacent(poly1, poly2) {
   if (!poly1 || !poly2) return false;
@@ -832,6 +845,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       mainSahnSet.add(poly.properties?.subGroupValue);
     }
   });
+  const mainSahns = extractSahnSequence(mainRoute.path, navigablePolygons);
 
   const altStartEntries = startEntries.slice(0);
   const altEndEntries = endEntries.slice(0);
@@ -894,18 +908,20 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       .filter(st => st.type !== 'stepArriveDestination')
       .map(st => st.name || st.title)
       .filter(Boolean);
+    const sahns = extractSahnSequence(route.path, navigablePolygons);
     return {
       steps: route.steps,
       geo: route.geo,
       from: origin.name || '',
       to: destination.name || '',
-      via
+      via,
+      sahns
     };
   });
 
   console.log(`Final path has ${mainRoute.path.length} points`);
 
-  return { path: mainRoute.path, geo: mainRoute.geo, steps: mainRoute.steps, alternatives };
+  return { path: mainRoute.path, geo: mainRoute.geo, steps: mainRoute.steps, sahns: mainSahns, alternatives };
 }
 
 export function computeShortestPath(origin, destination, features) {

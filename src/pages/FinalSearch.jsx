@@ -27,6 +27,8 @@ const FinalSearch = () => {
     routeGeo: storedRouteGeo,
     routeSteps: storedRouteSteps,
     alternativeRoutes: storedAlternativeRoutes,
+    // sahn sequence for the current route isn't stored in the store,
+    // so fetch it from session below if available
     gender: storedGender,
     setOrigin: storeSetOrigin,
     setDestination: storeSetDestination,
@@ -38,6 +40,9 @@ const FinalSearch = () => {
   const language = useLangStore((state) => state.language);
   const qrLat = sessionStorage.getItem('qrLat');
   const qrLng = sessionStorage.getItem('qrLng');
+  const storedRouteSahns = sessionStorage.getItem('routeSahns')
+    ? JSON.parse(sessionStorage.getItem('routeSahns'))
+    : [];
   const [origin, setOrigin] = useState(
     storedOrigin ||
       (qrLat && qrLng
@@ -137,9 +142,10 @@ const FinalSearch = () => {
       sessionStorage.removeItem('routeGeo');
       sessionStorage.removeItem('routeSteps');
       sessionStorage.removeItem('alternativeRoutes');
+      sessionStorage.removeItem('routeSahns');
       return;
     }
-    const { geo, steps, alternatives } = result;
+    const { geo, steps, alternatives, sahns } = result;
     console.log('analyzeRoute result:', {
       geo,
       steps,
@@ -151,6 +157,7 @@ const FinalSearch = () => {
     sessionStorage.setItem('routeGeo', JSON.stringify(geo));
     sessionStorage.setItem('routeSteps', JSON.stringify(steps));
     sessionStorage.setItem('alternativeRoutes', JSON.stringify(alternatives));
+    sessionStorage.setItem('routeSahns', JSON.stringify(sahns));
     sessionStorage.setItem('origin', JSON.stringify(origin));
     sessionStorage.setItem('destination', JSON.stringify(destination));
   }, [geoData, origin, destination, transportMode, selectedGender, storeSetRouteGeo, storeSetRouteSteps, storeSetAlternativeRoutes, intl]);
@@ -167,7 +174,7 @@ const FinalSearch = () => {
         id: idx + 1,
         from: alt.from,
         to: alt.to,
-        via: alt.via,
+        via: alt.sahns || [],
         totalTime: `${Math.max(1, Math.round(dist / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`,
         totalDistance: `${Math.round(dist)} ${intl.formatMessage({ id: 'meters' })}`
       };
@@ -298,7 +305,8 @@ const FinalSearch = () => {
       steps: storedRouteSteps,
       from: storedOrigin?.name || origin.name,
       to: storedDestination?.name || destination.name,
-      via: route.via || []
+      via: route.via || [],
+      sahns: storedRouteSahns
     };
     const newAlternatives = storedAlternativeRoutes.filter(alt => alt !== route);
 
@@ -312,6 +320,7 @@ const FinalSearch = () => {
     sessionStorage.setItem('routeGeo', JSON.stringify(route.geo));
     sessionStorage.setItem('routeSteps', JSON.stringify(route.steps));
     sessionStorage.setItem('alternativeRoutes', JSON.stringify(newAlternatives));
+    sessionStorage.setItem('routeSahns', JSON.stringify(route.sahns || []));
   };
 
   const getTransportIcon = () => {
