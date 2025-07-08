@@ -1,5 +1,7 @@
 
 
+const COVERED_ENTRY_NAME = 'ورودی مسقف';
+
 function booleanPointInPolygon(point, polygon) {
   const x = point[0];
   const y = point[1];
@@ -220,6 +222,7 @@ function crossesEmptyPolygons(coord1, coord2, polygons, nodes) {
   const p2 = [coord2[1], coord2[0]];
 
   for (const polygon of polygons) {
+    if (polygon.properties?.name === COVERED_ENTRY_NAME) continue;
     // Check if this polygon has any nodes
     const nodesInPoly = getNodesInPolygon(nodes, polygon);
     if (nodesInPoly.length > 0) continue; // Has nodes, OK to cross
@@ -269,6 +272,7 @@ function adjustSegmentInsidePolygon(start, end, polygons) {
   const poly = getPolygonContaining(start, polygons);
   if (!poly) return [end];
   if (getPolygonContaining(end, polygons) !== poly) return [end];
+  if (poly.properties?.name === COVERED_ENTRY_NAME) return [end];
   if (!isLineObstructed(start, end, [poly])) return [end];
 
   const centroid = polygonCentroid(poly);
@@ -288,6 +292,7 @@ function isLineObstructed(coord1, coord2, polygons) {
   const p2 = [coord2[1], coord2[0]];
 
   for (const polygon of polygons) {
+    if (polygon.properties?.name === COVERED_ENTRY_NAME) continue;
     const vertices = polygon.geometry.coordinates[0];
     
     // Check if both points are inside the same polygon (allowed)
@@ -665,22 +670,18 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     allNodes.push([lat, lng, conn.properties, 0, conn]);
   });
 
-  // Polygons are considered navigable if they contain the required
-  // node types. Sahns and ravaqs need at least one door or connection,
-  // while all other polygons must contain at least one connection.
+  // Polygons are traversable if they contain at least one accessible door or
+  // connection node. Polygons named "ورودی مسقف" are always allowed.
   const navigablePolygons = allPolygons.filter(poly => {
-    const polyId = poly.properties?.subGroupValue || '';
+    if (poly.properties?.name === COVERED_ENTRY_NAME) return true;
+
     const nodesInPoly = allNodes.filter(node =>
       pointInPolygon([node[1], node[0]], poly)
     );
 
-    if (polyId.startsWith('sahn-') || polyId.startsWith('ravaq-')) {
-      return nodesInPoly.some(n =>
-        n[2]?.nodeFunction === 'door' || n[2]?.nodeFunction === 'connection'
-      );
-    }
-
-    return nodesInPoly.some(n => n[2]?.nodeFunction === 'connection');
+    return nodesInPoly.some(n =>
+      n[2]?.nodeFunction === 'door' || n[2]?.nodeFunction === 'connection'
+    );
   });
   
   console.log(`Found ${doors.length} doors, ${connections.length} connections, ${navigablePolygons.length} navigable polygons`);
