@@ -6,7 +6,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
 
-const RouteMap = ({
+import { forwardRef, useImperativeHandle } from 'react';
+
+const RouteMap = forwardRef(({
   userLocation,
   routeSteps,
   currentStep,
@@ -16,7 +18,7 @@ const RouteMap = ({
   routeGeo,
   alternativeRoutes = [],
   onSelectAlternativeRoute
-}) => {
+}, ref) => {
   const mapRef = useRef(null);
   const center = userLocation && userLocation.length === 2
     ? userLocation
@@ -111,6 +113,23 @@ const RouteMap = ({
       }
     }
   }, [routeGeo]);
+
+  // Expose a method to parent components for fitting bounds
+  const fitRouteBounds = () => {
+    if (mapRef.current && routeGeo) {
+      const coords = routeGeo.geometry?.coordinates || [];
+      if (coords.length > 0) {
+        const bounds = new maplibregl.LngLatBounds(
+          [coords[0][0], coords[0][1]],
+          [coords[0][0], coords[0][1]]
+        );
+        coords.forEach(([lng, lat]) => bounds.extend([lng, lat]));
+        mapRef.current.fitBounds(bounds, { padding: 80, duration: 700 });
+      }
+    }
+  };
+
+  useImperativeHandle(ref, () => ({ fitRouteBounds }));
 
   return (
     <Map

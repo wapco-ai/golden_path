@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import RouteMap from '../components/map/RouteMap';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 
 const RoutingPage = () => {
   const intl = useIntl();
+  const routeMapRef = useRef(null);
   const [isMapModalOpen, setIsMapModalOpen] = useState(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
   const [routeData, setRouteData] = useState(null);
@@ -430,6 +431,9 @@ const RoutingPage = () => {
     setIs3DView(false); // Force 2D view
     setShowAllRoutesView(true);
     setIsInfoModalOpen(true);
+    if (routeMapRef.current && routeMapRef.current.fitRouteBounds) {
+      routeMapRef.current.fitRouteBounds();
+    }
   };
 
   const handleReturnToRoute = () => {
@@ -710,6 +714,7 @@ const RoutingPage = () => {
             }`}
           >
             <RouteMap
+              ref={routeMapRef}
               userLocation={userLocation}
               routeSteps={routeData.steps}
               currentStep={currentStep}
