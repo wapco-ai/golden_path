@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
@@ -12,28 +12,50 @@ import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const intl = useIntl();
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [showOriginModal, setShowOriginModal] = useState(false);
-  const [selectedDestination, setSelectedDestination] = useState(null);
+  const storedOrigin = useRouteStore(state => state.origin);
+  const storedDestinationData = useRouteStore(state => state.destination);
   const storedLat = sessionStorage.getItem('qrLat');
   const storedLng = sessionStorage.getItem('qrLng');
-  const initialUserLocation = storedLat && storedLng
-    ? {
-        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-        coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
-      }
-    : {
-        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-        coordinates: [36.297, 59.6069]
-      };
-  const [userLocation, setUserLocation] = useState(initialUserLocation);
+
+  const defaultOrigin = storedOrigin
+    ? storedOrigin
+    : storedLat && storedLng
+      ? {
+          name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+          coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
+        }
+      : {
+          name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+          coordinates: [36.297, 59.6069]
+        };
+
+  const [userLocation, setUserLocation] = useState(defaultOrigin);
+  const [selectedDestination, setSelectedDestination] = useState(
+    storedDestinationData || null
+  );
   const [searchQuery, setSearchQuery] = useState('');
   const [activeInput, setActiveInput] = useState(null);
   const [isGPSEnabled, setIsGPSEnabled] = useState(false);
   const [isSelectingFromMap, setIsSelectingFromMap] = useState(false);
   const [mapSelectedLocation, setMapSelectedLocation] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // Open the appropriate input modal if requested via query param
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const edit = params.get('edit');
+    if (edit === 'origin') {
+      setActiveInput('origin');
+      setShowOriginModal(true);
+    } else if (edit === 'destination') {
+      setActiveInput('destination');
+      setShowDestinationModal(true);
+    }
+  }, [location.search]);
 
   const setOriginStore = useRouteStore(state => state.setOrigin);
   const setDestinationStore = useRouteStore(state => state.setDestination);
@@ -95,7 +117,12 @@ const MapRoutingPage = () => {
     : recentSearches;
 
   // Handle navigation when both origin and destination are selected
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (userLocation?.coordinates && selectedDestination?.coordinates) {
       setOriginStore({
         name: userLocation.name,

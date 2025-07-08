@@ -1,6 +1,6 @@
 // src/pages/FinalSearch.jsx
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Map, { Marker, Source, Layer, Popup } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
@@ -578,14 +578,17 @@ const FinalSearch = () => {
         </div>
 
         <div className="location-section">
-          <div className="location-input origin-input">
+          <Link
+            to="/mpr?edit=origin"
+            className="location-input origin-input"
+          >
             <div className="location-details">
               <div className="location-name">{origin.name}</div>
             </div>
             <div className={`current-location-label ${isSwapButton ? 'visible' : 'hidden'}`}>
               <FormattedMessage id="mapCurrentLocationName" />
             </div>
-          </div>
+          </Link>
 
           <div className="swap-container">
             <button className="swap-btn" onClick={swapLocations}>
@@ -608,11 +611,14 @@ const FinalSearch = () => {
             </button>
           </div>
 
-          <div className="location-input destination-input">
+          <Link
+            to="/mpr?edit=destination"
+            className="location-input destination-input"
+          >
             <div className="location-details">
               <div className="location-name">{destination.name}</div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 
