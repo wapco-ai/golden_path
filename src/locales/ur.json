@@ -178,4 +178,6 @@
   ,"stepPassDoor": "{name} سے گزریں"
   ,"stepArriveDestination": "{name} پر پہنچیں"
   ,"stepNumber": "قدم {num}"
+  ,"qrScanInstruction": "QR کوڈ کو فریم کے اندر رکھیں"
+  ,"qrScanError": "QR کوڈ پڑھا نہیں جا سکا"
 }

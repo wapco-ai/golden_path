@@ -179,4 +179,6 @@
   ,"stepArriveDestination": "رسیدن به مقصد {name}"
   ,"stepNumber": "گام {num}"
   ,"landmarkSuffix": "به سمت {name} بچرخید و {distance} متر به جلو بروید"
+  ,"qrScanInstruction": "کد QR را در کادر قرار دهید"
+  ,"qrScanError": "خواندن کد QR ناموفق بود"
 }
