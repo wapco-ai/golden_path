@@ -62,7 +62,15 @@ const RoutingPage = () => {
     if (sessGeo && sessSteps) {
       setRouteGeo(JSON.parse(sessGeo));
       setRouteSteps(JSON.parse(sessSteps));
-      setAlternativeRoutes(sessAlts ? JSON.parse(sessAlts) : []);
+      let alts = sessAlts ? JSON.parse(sessAlts) : [];
+      const originObj = sessOrigin ? JSON.parse(sessOrigin) : origin;
+      const destObj = sessDestination ? JSON.parse(sessDestination) : destination;
+      alts = alts.map(a => ({
+        ...a,
+        from: a.from || originObj?.name || '',
+        to: a.to || destObj?.name || ''
+      }));
+      setAlternativeRoutes(alts);
       if (sessOrigin) setOrigin(JSON.parse(sessOrigin));
       if (sessDestination) setDestination(JSON.parse(sessDestination));
     }
@@ -459,7 +467,12 @@ const RoutingPage = () => {
       return;
     }
 
-    const currentRoute = { geo: routeGeo, steps: routeSteps };
+    const currentRoute = {
+      geo: routeGeo,
+      steps: routeSteps,
+      from: origin?.name || '',
+      to: destination?.name || ''
+    };
     const newAlternatives = alternativeRoutes.filter(
       (alt) => alt.geo !== route.geo
     );
@@ -471,6 +484,9 @@ const RoutingPage = () => {
     setRouteGeo(route.geo);
     setRouteSteps(route.steps);
     setAlternativeRoutes(newAlternatives);
+    sessionStorage.setItem('routeGeo', JSON.stringify(route.geo));
+    sessionStorage.setItem('routeSteps', JSON.stringify(route.steps));
+    sessionStorage.setItem('alternativeRoutes', JSON.stringify(newAlternatives));
     setCurrentStep(0);
     setIsRoutingActive(false);
     setShowAlternativeRoutes(false);
