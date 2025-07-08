@@ -89,6 +89,14 @@ const RoutingPage = () => {
       origin.coordinates?.[0] !== lat ||
       origin.coordinates?.[1] !== lng;
 
+    const sessGeo = sessionStorage.getItem('routeGeo');
+    const sessSteps = sessionStorage.getItem('routeSteps');
+    if (sessGeo && sessSteps && !originChanged) {
+      // Session data already provides the route; the first effect will
+      // load it into state so skip rebuilding here
+      return;
+    }
+
     if (!routeSteps.length || originChanged) {
       const newOrigin = {
         name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
