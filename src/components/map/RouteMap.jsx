@@ -241,5 +241,5 @@ const RouteMap = forwardRef(({
       <GeoJsonOverlay />
     </Map>
   );
-};
+});
 export default RouteMap;
