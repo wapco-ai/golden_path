@@ -178,4 +178,6 @@
   ,"stepPassDoor": "اعبر من {name}"
   ,"stepArriveDestination": "الوصول إلى {name}"
   ,"stepNumber": "الخطوة {num}"
+  ,"qrScanInstruction": "ضع رمز QR داخل الإطار"
+  ,"qrScanError": "فشل قراءة رمز QR"
 }

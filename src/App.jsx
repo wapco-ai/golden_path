@@ -9,6 +9,7 @@ import MapRouting from './pages/MapRouting';
 import Routing from './pages/Routing';
 import RouteOverview from './pages/RouteOverview';
 import Location from './pages/Location';
+import QRScan from './pages/QRScan';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import './App.css';
@@ -88,6 +89,7 @@ const AppContent = () => {
           <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/rng" element={<Routing/>} />
           <Route path="/location" element={<Location />} />
+          <Route path="/qr-scan" element={<QRScan />} />
         </Routes>
       </main>
       {!hideHeaderFooter && <Footer />}
