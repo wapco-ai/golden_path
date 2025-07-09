@@ -68,8 +68,8 @@ const MapComponent = ({
 }) => {
   const intl = useIntl();
   const [viewState, setViewState] = useState({
-    latitude: 36.297,
-    longitude: 59.6069,
+    latitude: 36.2880,  // Original shrine coordinates
+    longitude: 59.6157,
     zoom: 16
   });
   const [userCoords, setUserCoords] = useState(null);
@@ -88,20 +88,78 @@ const MapComponent = ({
     const storedLat = sessionStorage.getItem('qrLat');
     const storedLng = sessionStorage.getItem('qrLng');
     
-    const defaultCoords = { lat: 36.297, lng: 59.6069 };
-    const coords = storedLat && storedLng ? {
-      lat: parseFloat(storedLat),
-      lng: parseFloat(storedLng)
-    } : defaultCoords;
+    // Original shrine coordinates
+    const shrineCoords = { lat: 36.2880, lng: 59.6157 };
+    
+    if (storedLat && storedLng) {
+      const coords = { 
+        lat: parseFloat(storedLat), 
+        lng: parseFloat(storedLng) 
+      };
+      setUserCoords(coords);
+      setUserLocation({
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+        coordinates: [coords.lat, coords.lng]
+      });
+      setViewState(v => ({ 
+        ...v, 
+        latitude: coords.lat, 
+        longitude: coords.lng, 
+        zoom: 18 
+      }));
+      return; // Skip GPS if QR code exists
+    }
 
-    setUserCoords(coords);
-    setViewState(v => ({
-      ...v,
-      latitude: coords.lat,
-      longitude: coords.lng,
-      zoom: storedLat && storedLng ? 18 : 16
-    }));
-  }, []);
+    // GPS tracking
+    const success = (pos) => {
+      if (sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng')) {
+        return; // Don't override QR code location
+      }
+      const c = { 
+        lat: pos.coords.latitude, 
+        lng: pos.coords.longitude 
+      };
+      setUserCoords(c);
+      setUserLocation({
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+        coordinates: [c.lat, c.lng]
+      });
+      setViewState(v => ({ 
+        ...v, 
+        latitude: c.lat, 
+        longitude: c.lng 
+      }));
+    };
+
+    const err = (e) => {
+      console.error('Error getting location', e);
+      // Fallback to shrine location
+      setUserCoords(shrineCoords);
+      setUserLocation({
+        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+        coordinates: [shrineCoords.lat, shrineCoords.lng]
+      });
+      setViewState(v => ({ 
+        ...v, 
+        latitude: shrineCoords.lat, 
+        longitude: shrineCoords.lng 
+      }));
+    };
+
+    navigator.geolocation.getCurrentPosition(success, err, {
+      enableHighAccuracy: false,
+      timeout: 10000,
+      maximumAge: 60000
+    });
+    
+    const watchId = navigator.geolocation.watchPosition(success, err, {
+      enableHighAccuracy: false,
+      maximumAge: 0,
+      timeout: 10000
+    });
+    
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, [setUserLocation, intl]);
 
   // Update user location and center map when it changes
   useEffect(() => {
