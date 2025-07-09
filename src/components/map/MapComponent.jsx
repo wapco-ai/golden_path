@@ -83,33 +83,57 @@ const MapComponent = ({
     setViewState(evt.viewState);
   }, []);
 
+  // Initialize with shrine location or QR code location if available
   useEffect(() => {
     const storedLat = sessionStorage.getItem('qrLat');
     const storedLng = sessionStorage.getItem('qrLng');
     
-    if (storedLat && storedLng) {
-      const coords = { 
-        lat: parseFloat(storedLat), 
-        lng: parseFloat(storedLng) 
-      };
-      setUserCoords(coords);
-      setViewState(v => ({ ...v, latitude: coords.lat, longitude: coords.lng, zoom: 18 }));
-    } else {
-      setUserCoords({ lat: 36.297, lng: 59.6069 });
-    }
+    const defaultCoords = { lat: 36.297, lng: 59.6069 };
+    const coords = storedLat && storedLng ? {
+      lat: parseFloat(storedLat),
+      lng: parseFloat(storedLng)
+    } : defaultCoords;
+
+    setUserCoords(coords);
+    setViewState(v => ({
+      ...v,
+      latitude: coords.lat,
+      longitude: coords.lng,
+      zoom: storedLat && storedLng ? 18 : 16
+    }));
   }, []);
 
+  // Update user location and center map when it changes
   useEffect(() => {
     if (userLocation?.coordinates) {
       const [lat, lng] = userLocation.coordinates;
-      setUserCoords({ lat, lng });
+      const coords = { lat, lng };
+      setUserCoords(coords);
+      setViewState(v => ({
+        ...v,
+        latitude: lat,
+        longitude: lng,
+        zoom: 18
+      }));
     }
   }, [userLocation]);
 
+  // Update destination marker and center map when selection changes
   useEffect(() => {
     if (selectedDestination?.coordinates) {
       const [lat, lng] = selectedDestination.coordinates;
-      setDestCoords({ lat, lng });
+      const coords = { lat, lng };
+      setDestCoords(coords);
+      
+      // Only center map if this is a new destination selection
+      if (!destCoords || destCoords.lat !== lat || destCoords.lng !== lng) {
+        setViewState(v => ({
+          ...v,
+          latitude: lat,
+          longitude: lng,
+          zoom: 18
+        }));
+      }
     } else {
       setDestCoords(null);
     }
@@ -206,6 +230,7 @@ const MapComponent = ({
       onClick={handleClick}
       interactive={true}
     >
+      {/* User location marker */}
       {userCoords && (
         <Marker longitude={userCoords.lng} latitude={userCoords.lat} anchor="center">
           <div className="map-marker-origin">
@@ -214,6 +239,7 @@ const MapComponent = ({
         </Marker>
       )}
 
+      {/* Destination marker */}
       {destCoords && (
         <Marker longitude={destCoords.lng} latitude={destCoords.lat} anchor="center">
           <div className="map-marker-destination">
@@ -222,6 +248,7 @@ const MapComponent = ({
         </Marker>
       )}
 
+      {/* Temporary selection marker when choosing location */}
       {selectedCoords && isSelectingLocation && (
         <Marker longitude={selectedCoords.lng} latitude={selectedCoords.lat} anchor="center">
           <div className="map-marker-selecting">
@@ -230,18 +257,21 @@ const MapComponent = ({
         </Marker>
       )}
 
+      {/* Route line */}
       {routeCoords && (
         <Source id="route" type="geojson" data={{ type: 'Feature', geometry: { type: 'LineString', coordinates: routeCoords } }}>
           <Layer id="route-line" type="line" paint={{ 'line-color': '#4285F4', 'line-width': 4, 'line-opacity': 0.7 }} />
         </Source>
       )}
 
+      {/* Building polygons */}
       {polygonFeatures.length > 0 && (
         <Source id="polygons" type="geojson" data={{ type: 'FeatureCollection', features: polygonFeatures }}>
           <Layer id="polygon-lines" type="line" paint={{ 'line-color': '#333', 'line-width': 2 }} />
         </Source>
       )}
 
+      {/* Point features (doors, services, etc.) */}
       {pointFeatures.map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;
         const { group, nodeFunction } = feature.properties || {};
