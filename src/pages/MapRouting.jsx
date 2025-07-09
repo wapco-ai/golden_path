@@ -20,13 +20,13 @@ const MapRoutingPage = () => {
   const storedLng = sessionStorage.getItem('qrLng');
   const initialUserLocation = storedLat && storedLng
     ? {
-        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-        coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
-      }
+      name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+      coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
+    }
     : {
-        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-        coordinates: [36.297, 59.6069]
-      };
+      name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+      coordinates: [36.297, 59.6069]
+    };
   const [userLocation, setUserLocation] = useState(initialUserLocation);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeInput, setActiveInput] = useState(null);
@@ -84,14 +84,14 @@ const MapRoutingPage = () => {
 
   const filteredDestinations = searchQuery
     ? geoResults.map((f) => {
-        const center = getFeatureCenter(f);
-        return {
-          id: f.properties?.uniqueId || f.id,
-          name: f.properties?.name || '',
-          location: f.properties?.subGroup || '',
-          coordinates: center ? [center[1], center[0]] : null
-        };
-      })
+      const center = getFeatureCenter(f);
+      return {
+        id: f.properties?.uniqueId || f.id,
+        name: f.properties?.name || '',
+        location: f.properties?.subGroup || '',
+        coordinates: center ? [center[1], center[0]] : null
+      };
+    })
     : recentSearches;
 
   // Handle navigation when both origin and destination are selected
@@ -128,14 +128,14 @@ const MapRoutingPage = () => {
 
   // Lazy load geojson data on first search
   useEffect(() => {
-      if (searchQuery && !geoData) {
-        const file = buildGeoJsonPath(language);
+    if (searchQuery && !geoData) {
+      const file = buildGeoJsonPath(language);
 
-        fetch(file)
-          .then((res) => res.json())
-          .then(setGeoData)
-          .catch((err) => console.error('failed to load geojson', err));
-      }
+      fetch(file)
+        .then((res) => res.json())
+        .then(setGeoData)
+        .catch((err) => console.error('failed to load geojson', err));
+    }
   }, [searchQuery, geoData, language]);
 
   // Filter geojson features based on search query
@@ -213,6 +213,14 @@ const MapRoutingPage = () => {
   const handleMapClick = (latlng, feature) => {
     if (isSelectingFromMap) {
       const locName = feature?.properties?.name || intl.formatMessage({ id: 'mapSelectedLocation' });
+      const location = {
+        name: locName,
+        coordinates: [latlng.lat, latlng.lng],
+        type: activeInput // 'origin' or 'destination'
+      };
+
+      setMapSelectedLocation(location);
+
       if (activeInput === 'destination') {
         setSelectedDestination({
           name: locName,
@@ -297,11 +305,10 @@ const MapRoutingPage = () => {
             {groups.map((category) => (
               <div
                 key={category.value}
-                className={`map-category-item ${
-                  selectedCategory && selectedCategory.value === category.value
-                    ? 'active'
-                    : ''
-                }`}
+                className={`map-category-item ${selectedCategory && selectedCategory.value === category.value
+                  ? 'active'
+                  : ''
+                  }`}
                 onClick={() => handleCategoryClick(category)}
               >
                 <div className={`map-category-icon ${category.icon}`}>
@@ -324,6 +331,8 @@ const MapRoutingPage = () => {
           onMapClick={handleMapClick}
           isSelectingLocation={isSelectingFromMap}
           selectedCategory={selectedCategory}
+          userLocation={userLocation}
+          mapSelectedLocation={mapSelectedLocation}
         />
         <button className="map-gps-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -341,78 +350,78 @@ const MapRoutingPage = () => {
       {/* Destination Input - Only shown when modal is NOT open and not selecting from map */}
       {!showDestinationModal && !showOriginModal && !isSelectingFromMap && (
         <>
-        <div className="map-destination-input-container" ref={modalRef}>
-          <div className="location-icons-container">
-            <div className="location-icon origin-icon">
-              <div className="n-circle"></div>
-            </div>
-            <div className="tdots">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-            </div>
-            <div className="location-icon destination-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
-                <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
-              </svg>
-            </div>
-          </div>
-          <div className="map-location-inputs-container">
-            {/* Fixed divider line */}
-            <div className="map-inputs-divider"></div>
-
-            {/* Origin Input */}
-            <div
-              className="map-current-location"
-              onClick={() => handleInputClick('origin')}
-            >
-              <div className="map-location-text">
-                {userLocation ? (
-                  <>
-                    <span className="map-location-name">
-                      {userLocation.name}
-                    </span>
-                    <span className="map-location-label">
-                      {intl.formatMessage({ id: 'mapCurrentOriginLabel' })}
-                    </span>
-                  </>
-                ) : (
-                  <input
-                    type="text"
-                    className="map-origin-input"
-                    placeholder={intl.formatMessage({ id: 'originPlaceholder' })}
-                    readOnly
-                  />
-                )}
+          <div className="map-destination-input-container" ref={modalRef}>
+            <div className="location-icons-container">
+              <div className="location-icon origin-icon">
+                <div className="n-circle"></div>
+              </div>
+              <div className="tdots">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+              </div>
+              <div className="location-icon destination-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
+                  <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
+                </svg>
               </div>
             </div>
+            <div className="map-location-inputs-container">
+              {/* Fixed divider line */}
+              <div className="map-inputs-divider"></div>
 
-            <button
-              className="map-swap-button"
-              onClick={handleSwapLocations}
-              ref={swapButtonRef}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M3 9l4 -4l4 4m-4 -4v14" />
-                <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-              </svg>
-            </button>
+              {/* Origin Input */}
+              <div
+                className="map-current-location"
+                onClick={() => handleInputClick('origin')}
+              >
+                <div className="map-location-text">
+                  {userLocation ? (
+                    <>
+                      <span className="map-location-name">
+                        {userLocation.name}
+                      </span>
+                      <span className="map-location-label">
+                        {intl.formatMessage({ id: 'mapCurrentOriginLabel' })}
+                      </span>
+                    </>
+                  ) : (
+                    <input
+                      type="text"
+                      className="map-origin-input"
+                      placeholder={intl.formatMessage({ id: 'originPlaceholder' })}
+                      readOnly
+                    />
+                  )}
+                </div>
+              </div>
 
-            {/* Destination Input */}
-            <div
-              className="map-destination-input-wrapper"
-              onClick={() => handleInputClick('destination')}
-            >
-              <input
-                type="text"
-                placeholder={intl.formatMessage({ id: 'destinationPlaceholder' })}
-                value={selectedDestination ? selectedDestination.name : ''}
-                readOnly
-              />
+              <button
+                className="map-swap-button"
+                onClick={handleSwapLocations}
+                ref={swapButtonRef}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrows-sort">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M3 9l4 -4l4 4m-4 -4v14" />
+                  <path d="M21 15l-4 4l-4 -4m4 4v-14" />
+                </svg>
+              </button>
+
+              {/* Destination Input */}
+              <div
+                className="map-destination-input-wrapper"
+                onClick={() => handleInputClick('destination')}
+              >
+                <input
+                  type="text"
+                  placeholder={intl.formatMessage({ id: 'destinationPlaceholder' })}
+                  value={selectedDestination ? selectedDestination.name : ''}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <ModeSelector />
+          <ModeSelector />
         </>
       )}
 

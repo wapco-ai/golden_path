@@ -7,7 +7,6 @@ import osmStyle from '../../services/osmStyle';
 import { useLangStore } from '../../store/langStore';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
 
-// Colors for different location groups
 const groupColors = {
   sahn: '#4caf50',
   eyvan: '#2196f3',
@@ -20,7 +19,6 @@ const groupColors = {
   other: '#757575'
 };
 
-// Icons for different node functions
 const functionIcons = {
   door: '🚪',
   connection: '🔗',
@@ -34,8 +32,6 @@ const functionIcons = {
   other: '📍'
 };
 
-// Create a composite icon element based on group and nodeFunction
-// Additional size and opacity params allow styling when filters are active
 const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   const color = groupColors[group] || '#999';
   const icon = functionIcons[nodeFunction] || '📌';
@@ -62,11 +58,18 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   );
 };
 
-const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapClick, isSelectingLocation, selectedCategory }) => {
+const MapComponent = ({ 
+  setUserLocation, 
+  selectedDestination, 
+  onMapClick, 
+  isSelectingLocation, 
+  selectedCategory,
+  userLocation
+}) => {
   const intl = useIntl();
   const [viewState, setViewState] = useState({
-    latitude: 36.2880,
-    longitude: 59.6157,
+    latitude: 36.297,
+    longitude: 59.6069,
     zoom: 16
   });
   const [userCoords, setUserCoords] = useState(null);
@@ -76,14 +79,35 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   const [routeCoords, setRouteCoords] = useState(null);
   const language = useLangStore((state) => state.language);
 
-  // Add this handler for view state changes
   const onMove = useCallback((evt) => {
     setViewState(evt.viewState);
   }, []);
 
-  // Update destination marker when selection changes
   useEffect(() => {
-    if (selectedDestination && selectedDestination.coordinates) {
+    const storedLat = sessionStorage.getItem('qrLat');
+    const storedLng = sessionStorage.getItem('qrLng');
+    
+    if (storedLat && storedLng) {
+      const coords = { 
+        lat: parseFloat(storedLat), 
+        lng: parseFloat(storedLng) 
+      };
+      setUserCoords(coords);
+      setViewState(v => ({ ...v, latitude: coords.lat, longitude: coords.lng, zoom: 18 }));
+    } else {
+      setUserCoords({ lat: 36.297, lng: 59.6069 });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userLocation?.coordinates) {
+      const [lat, lng] = userLocation.coordinates;
+      setUserCoords({ lat, lng });
+    }
+  }, [userLocation]);
+
+  useEffect(() => {
+    if (selectedDestination?.coordinates) {
       const [lat, lng] = selectedDestination.coordinates;
       setDestCoords({ lat, lng });
     } else {
@@ -91,78 +115,12 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
     }
   }, [selectedDestination]);
 
-  useEffect(() => {
-    const storedLat = sessionStorage.getItem('qrLat');
-    const storedLng = sessionStorage.getItem('qrLng');
-    if (storedLat && storedLng) {
-      const c = { lat: parseFloat(storedLat), lng: parseFloat(storedLng) };
-      setUserCoords(c);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-        coordinates: [c.lat, c.lng]
-      });
-      setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng, zoom: 18 }));
-      return; // Do not start GPS tracking when QR coords are present
-    }
-    const success = (pos) => {
-      // Ignore GPS updates if QR coordinates become available later
-      if (sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng')) {
-        return;
-      }
-      const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      setUserCoords(c);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-        coordinates: [c.lat, c.lng]
-      });
-      setViewState((v) => ({ ...v, latitude: c.lat, longitude: c.lng }));
-    };
-    const err = (e) => {
-      console.error('Error getting location', e);
-      const fallback = { lat: 36.2880, lng: 59.6157 };
-      setUserCoords(fallback);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-        coordinates: [fallback.lat, fallback.lng]
-      });
-    };
-    navigator.geolocation.getCurrentPosition(success, err, {
-      enableHighAccuracy: false,
-      timeout: 10000,
-      maximumAge: 60000
-    });
-    const watchId = navigator.geolocation.watchPosition(success, err, {
-      enableHighAccuracy: false,
-      maximumAge: 0,
-      timeout: 10000
-    });
-    return () => navigator.geolocation.clearWatch(watchId);
-  }, [setUserLocation, intl]);
-
-  useEffect(() => {
-    if (isSwapped && userCoords && destCoords) {
-      const u = userCoords;
-      setUserCoords(destCoords);
-      setDestCoords(u);
-    }
-  }, [isSwapped]);
-
-  useEffect(() => {
-    const file = buildGeoJsonPath(language);
-
-    fetch(file)
-      .then((res) => res.json())
-      .then(setGeoData)
-      .catch((err) => console.error('failed to load geojson', err));
-  }, [language]);
-
   const handleClick = (e) => {
     if (isSelectingLocation) {
       const { lng, lat } = e.lngLat;
       const c = { lat, lng };
       setSelectedCoords(c);
 
-      // Attempt to find the nearest point feature to use its name
       let closestFeature = null;
       if (geoData) {
         let minDist = Infinity;
@@ -176,7 +134,6 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
             }
           }
         });
-        // Use a small threshold (~50m) to avoid accidental selections
         if (minDist > 0.0005) {
           closestFeature = null;
         }
@@ -187,12 +144,21 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
   };
 
   useEffect(() => {
+    const file = buildGeoJsonPath(language);
+    fetch(file)
+      .then((res) => res.json())
+      .then(setGeoData)
+      .catch((err) => console.error('failed to load geojson', err));
+  }, [language]);
+
+  useEffect(() => {
     if (userCoords && destCoords && geoData) {
       const points = geoData.features.filter(
         (f) =>
           f.geometry.type === 'Point' &&
           ['door', 'connection'].includes(f.properties?.nodeFunction)
       );
+      
       const nearest = (coords) => {
         let best = null;
         let dmin = Infinity;
@@ -206,6 +172,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
         });
         return best;
       };
+      
       const start = nearest(userCoords);
       const end = nearest(destCoords);
       const coords = [
@@ -237,35 +204,44 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
       {...viewState}
       onMove={onMove}
       onClick={handleClick}
-      interactive={true} // Ensure this is true
+      interactive={true}
     >
       {userCoords && (
         <Marker longitude={userCoords.lng} latitude={userCoords.lat} anchor="center">
-          <div style={{ width: 20, height: 20, backgroundColor: 'white', borderRadius: '50%', border: '6px solid #4285F4' }} />
+          <div className="map-marker-origin">
+            <div className="map-marker-origin-inner" />
+          </div>
         </Marker>
       )}
+
       {destCoords && (
-        <Marker longitude={destCoords.lng} latitude={destCoords.lat} anchor="bottom">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
-            <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
-          </svg>
+        <Marker longitude={destCoords.lng} latitude={destCoords.lat} anchor="center">
+          <div className="map-marker-destination">
+            <div className="map-marker-destination-inner" />
+          </div>
         </Marker>
       )}
+
       {selectedCoords && isSelectingLocation && (
         <Marker longitude={selectedCoords.lng} latitude={selectedCoords.lat} anchor="center">
-          <div style={{ width: 24, height: 24, backgroundColor: '#1E90FF', borderRadius: '50%', border: '3px solid white' }} />
+          <div className="map-marker-selecting">
+            <div className="map-marker-selecting-inner" />
+          </div>
         </Marker>
       )}
+
       {routeCoords && (
         <Source id="route" type="geojson" data={{ type: 'Feature', geometry: { type: 'LineString', coordinates: routeCoords } }}>
           <Layer id="route-line" type="line" paint={{ 'line-color': '#4285F4', 'line-width': 4, 'line-opacity': 0.7 }} />
         </Source>
       )}
+
       {polygonFeatures.length > 0 && (
         <Source id="polygons" type="geojson" data={{ type: 'FeatureCollection', features: polygonFeatures }}>
           <Layer id="polygon-lines" type="line" paint={{ 'line-color': '#333', 'line-width': 2 }} />
         </Source>
       )}
+
       {pointFeatures.map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;
         const { group, nodeFunction } = feature.properties || {};
@@ -278,6 +254,7 @@ const MapComponent = ({ setUserLocation, selectedDestination, isSwapped, onMapCl
         const iconOpacity = hasFilter ? (highlight ? 1 : 0.4) : 1;
         const rawId = feature.properties?.uniqueId;
         const key = rawId ? `${rawId}-${idx}` : idx;
+        
         return (
           <Marker key={key} longitude={lng} latitude={lat} anchor="center">
             <div style={{ position: 'relative' }}>
