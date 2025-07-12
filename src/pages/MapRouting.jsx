@@ -158,7 +158,9 @@ const MapRoutingPage = () => {
   };
 
   const handleInputChange = (e) => {
-    setSearchQuery(e.target.value);
+    // Normalize the search query to lowercase to allow
+    // case-insensitive matching against destination names
+    setSearchQuery(e.target.value.toLowerCase());
   };
 
   // Load geojson data whenever the selected language changes
