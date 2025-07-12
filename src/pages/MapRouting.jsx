@@ -266,6 +266,7 @@ const MapRoutingPage = () => {
 
   const handleMapSelection = () => {
     setIsSelectingFromMap(true);
+    setIsTracking(false);
     setShowDestinationModal(false);
     setShowOriginModal(false);
   };

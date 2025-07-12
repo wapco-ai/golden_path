@@ -141,20 +141,25 @@ const MapComponent = ({
       });
     };
 
-    navigator.geolocation.getCurrentPosition(success, err, {
-      enableHighAccuracy: false,
-      timeout: 10000,
-      maximumAge: 60000
-    });
-    
-    const watchId = navigator.geolocation.watchPosition(success, err, {
-      enableHighAccuracy: false,
-      maximumAge: 0,
-      timeout: 10000
-    });
-    
-    return () => navigator.geolocation.clearWatch(watchId);
-  }, [setUserLocation, intl]);
+    let watchId;
+    if (isTracking) {
+      navigator.geolocation.getCurrentPosition(success, err, {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 60000
+      });
+
+      watchId = navigator.geolocation.watchPosition(success, err, {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: 10000
+      });
+    }
+
+    return () => {
+      if (watchId) navigator.geolocation.clearWatch(watchId);
+    };
+  }, [setUserLocation, intl, isTracking]);
 
   // Update user location and optionally center map when it changes
   useEffect(() => {
