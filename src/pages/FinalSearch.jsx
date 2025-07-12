@@ -134,6 +134,7 @@ const FinalSearch = () => {
   const handleOriginClick = () => {
     sessionStorage.setItem('returnToFinalSearch', 'true');
     sessionStorage.setItem('activeInput', 'origin');
+    sessionStorage.setItem('currentOrigin', JSON.stringify(origin));
     sessionStorage.setItem('currentDestination', JSON.stringify(destination));
     navigate('/mpr', { state: { showOriginModal: true } });
   };

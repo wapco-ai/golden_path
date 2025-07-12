@@ -87,11 +87,19 @@ const MapRoutingPage = () => {
     if (returnToFinalSearch === 'true') {
       if (activeInput === 'origin') {
         const storedDest = sessionStorage.getItem('currentDestination');
+        const storedOrig = sessionStorage.getItem('currentOrigin');
         if (storedDest) {
           try {
             setSelectedDestination(JSON.parse(storedDest));
           } catch (err) {
             console.error('failed to parse currentDestination', err);
+          }
+        }
+        if (storedOrig) {
+          try {
+            setUserLocation(JSON.parse(storedOrig));
+          } catch (err) {
+            console.error('failed to parse currentOrigin', err);
           }
         }
         setShowOriginModal(true);
