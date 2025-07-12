@@ -58,13 +58,15 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   );
 };
 
-const MapComponent = ({ 
-  setUserLocation, 
-  selectedDestination, 
-  onMapClick, 
-  isSelectingLocation, 
+const MapComponent = ({
+  setUserLocation,
+  selectedDestination,
+  onMapClick,
+  isSelectingLocation,
   selectedCategory,
-  userLocation
+  userLocation,
+  isTracking = true,
+  onUserMove
 }) => {
   const intl = useIntl();
   const [viewState, setViewState] = useState({
@@ -81,7 +83,10 @@ const MapComponent = ({
 
   const onMove = useCallback((evt) => {
     setViewState(evt.viewState);
-  }, []);
+    if (onUserMove && evt.originalEvent) {
+      onUserMove();
+    }
+  }, [onUserMove]);
 
   // Initialize with shrine location or QR code location if available
   useEffect(() => {
@@ -115,20 +120,15 @@ const MapComponent = ({
       if (sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng')) {
         return; // Don't override QR code location
       }
-      const c = { 
-        lat: pos.coords.latitude, 
-        lng: pos.coords.longitude 
+      const c = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
       };
       setUserCoords(c);
       setUserLocation({
         name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
         coordinates: [c.lat, c.lng]
       });
-      setViewState(v => ({ 
-        ...v, 
-        latitude: c.lat, 
-        longitude: c.lng 
-      }));
     };
 
     const err = (e) => {
@@ -139,11 +139,6 @@ const MapComponent = ({
         name: intl.formatMessage({ id: 'defaultBabRezaName' }),
         coordinates: [shrineCoords.lat, shrineCoords.lng]
       });
-      setViewState(v => ({ 
-        ...v, 
-        latitude: shrineCoords.lat, 
-        longitude: shrineCoords.lng 
-      }));
     };
 
     navigator.geolocation.getCurrentPosition(success, err, {
@@ -161,20 +156,22 @@ const MapComponent = ({
     return () => navigator.geolocation.clearWatch(watchId);
   }, [setUserLocation, intl]);
 
-  // Update user location and center map when it changes
+  // Update user location and optionally center map when it changes
   useEffect(() => {
     if (userLocation?.coordinates) {
       const [lat, lng] = userLocation.coordinates;
       const coords = { lat, lng };
       setUserCoords(coords);
-      setViewState(v => ({
-        ...v,
-        latitude: lat,
-        longitude: lng,
-        zoom: 18
-      }));
+      if (isTracking) {
+        setViewState(v => ({
+          ...v,
+          latitude: lat,
+          longitude: lng,
+          zoom: 18
+        }));
+      }
     }
-  }, [userLocation]);
+  }, [userLocation, isTracking]);
 
   // Update destination marker and center map when selection changes
   useEffect(() => {
