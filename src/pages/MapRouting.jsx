@@ -158,7 +158,7 @@ const MapRoutingPage = () => {
   };
 
   const handleInputChange = (e) => {
-    setSearchQuery(e.target.value.toLowerCase());
+    setSearchQuery(e.target.value);
   };
 
   // Load geojson data whenever the selected language changes
@@ -174,10 +174,11 @@ const MapRoutingPage = () => {
   // Filter geojson features based on search query
   useEffect(() => {
     if (geoData && searchQuery) {
+      const query = searchQuery.toLowerCase();
       const results = geoData.features.filter((f) => {
         const name = (f.properties?.name || '').toLowerCase();
         const subGroup = (f.properties?.subGroup || '').toLowerCase();
-        return name.includes(searchQuery) || subGroup.includes(searchQuery);
+        return name.includes(query) || subGroup.includes(query);
       });
       setGeoResults(results);
     } else {
