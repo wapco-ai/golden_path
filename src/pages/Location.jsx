@@ -307,21 +307,31 @@ const Location = () => {
         </svg>`
       );
 
-      const results = [];
-      Object.entries(subGroups).forEach(([groupValue, subgroups]) => {
-        subgroups.forEach(subgroup => {
-          if (
-            subgroup.label.toLowerCase().includes(query) ||
-            (subgroup.description && subgroup.description.toLowerCase().includes(query))
-          ) {
+      let results = [];
+      if (geoData) {
+        const matched = geoData.features.filter(f => {
+          const name = (f.properties?.name || '').toLowerCase();
+          const subGroup = (f.properties?.subGroup || '').toLowerCase();
+          return name.includes(query) || subGroup.includes(query);
+        });
+
+        const seen = new Set();
+        matched.forEach(f => {
+          const label = f.properties?.name || '';
+          const key = `${label}-${f.properties?.subGroupValue}`;
+          if (!seen.has(key)) {
+            seen.add(key);
             results.push({
               type: 'subgroup',
-              ...subgroup,
-              groupValue
+              label,
+              description: f.properties?.description || '',
+              groupValue: f.properties?.group,
+              subGroupValue: f.properties?.subGroupValue
             });
           }
         });
-      });
+      }
+
       setSearchResults(results);
       setSelectedCategory(null);
     } else {
