@@ -160,17 +160,15 @@ const MapRoutingPage = () => {
     setSearchQuery(e.target.value);
   };
 
-  // Lazy load geojson data on first search
+  // Load geojson data whenever the selected language changes
   useEffect(() => {
-    if (searchQuery && !geoData) {
-      const file = buildGeoJsonPath(language);
+    const file = buildGeoJsonPath(language);
 
-      fetch(file)
-        .then((res) => res.json())
-        .then(setGeoData)
-        .catch((err) => console.error('failed to load geojson', err));
-    }
-  }, [searchQuery, geoData, language]);
+    fetch(file)
+      .then((res) => res.json())
+      .then(setGeoData)
+      .catch((err) => console.error('failed to load geojson', err));
+  }, [language]);
 
   // Filter geojson features based on search query
   useEffect(() => {
