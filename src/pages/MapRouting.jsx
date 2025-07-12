@@ -86,9 +86,25 @@ const MapRoutingPage = () => {
 
     if (returnToFinalSearch === 'true') {
       if (activeInput === 'origin') {
+        const storedDest = sessionStorage.getItem('currentDestination');
+        if (storedDest) {
+          try {
+            setSelectedDestination(JSON.parse(storedDest));
+          } catch (err) {
+            console.error('failed to parse currentDestination', err);
+          }
+        }
         setShowOriginModal(true);
         setActiveInput('origin');
       } else if (activeInput === 'destination') {
+        const storedOrig = sessionStorage.getItem('currentOrigin');
+        if (storedOrig) {
+          try {
+            setUserLocation(JSON.parse(storedOrig));
+          } catch (err) {
+            console.error('failed to parse currentOrigin', err);
+          }
+        }
         setShowDestinationModal(true);
         setActiveInput('destination');
       }
