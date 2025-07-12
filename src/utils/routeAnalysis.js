@@ -1,6 +1,18 @@
 
 
-const COVERED_ENTRY_NAME = 'ورودی مسقف';
+import { useLangStore } from '../store/langStore.js';
+
+const COVERED_ENTRY_NAMES = {
+  fa: 'ورودی مسقف',
+  en: 'Covered Entrance',
+  ar: 'مدخل مسقوف',
+  ur: 'ڈھکا ہوا داخلہ'
+};
+
+function getCoveredEntryName() {
+  const lang = useLangStore.getState().language;
+  return COVERED_ENTRY_NAMES[lang] || COVERED_ENTRY_NAMES.fa;
+}
 
 function booleanPointInPolygon(point, polygon) {
   const x = point[0];
@@ -234,8 +246,9 @@ function crossesEmptyPolygons(coord1, coord2, polygons, nodes) {
   const p1 = [coord1[1], coord1[0]]; // Convert to [lng, lat]
   const p2 = [coord2[1], coord2[0]];
 
+  const coveredName = getCoveredEntryName();
   for (const polygon of polygons) {
-    if (polygon.properties?.name === COVERED_ENTRY_NAME) continue;
+    if (polygon.properties?.name === coveredName) continue;
     // Check if this polygon has any nodes
     const nodesInPoly = getNodesInPolygon(nodes, polygon);
     if (nodesInPoly.length > 0) continue; // Has nodes, OK to cross
@@ -285,7 +298,8 @@ function adjustSegmentInsidePolygon(start, end, polygons) {
   const poly = getPolygonContaining(start, polygons);
   if (!poly) return [end];
   if (getPolygonContaining(end, polygons) !== poly) return [end];
-  if (poly.properties?.name === COVERED_ENTRY_NAME) return [end];
+  const coveredName = getCoveredEntryName();
+  if (poly.properties?.name === coveredName) return [end];
   if (!isLineObstructed(start, end, [poly])) return [end];
 
   const centroid = polygonCentroid(poly);
@@ -304,8 +318,9 @@ function isLineObstructed(coord1, coord2, polygons) {
   const p1 = [coord1[1], coord1[0]]; // Convert to [lng, lat]
   const p2 = [coord2[1], coord2[0]];
 
+  const coveredName = getCoveredEntryName();
   for (const polygon of polygons) {
-    if (polygon.properties?.name === COVERED_ENTRY_NAME) continue;
+    if (polygon.properties?.name === coveredName) continue;
     const vertices = polygon.geometry.coordinates[0];
     
     // Check if both points are inside the same polygon (allowed)
@@ -728,8 +743,9 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
 
   // Polygons are traversable if they contain at least one accessible door or
   // connection node. Polygons named "ورودی مسقف" are always allowed.
+  const coveredName = getCoveredEntryName();
   const navigablePolygons = allPolygons.filter(poly => {
-    if (poly.properties?.name === COVERED_ENTRY_NAME) return true;
+    if (poly.properties?.name === coveredName) return true;
 
     const nodesInPoly = allNodes.filter(node =>
       pointInPolygon([node[1], node[0]], poly)
