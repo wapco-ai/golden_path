@@ -1,4 +1,33 @@
 // src/data/groupData.js
+
+import s1 from '/img/s1.jpg';
+import s2 from '/img/s2.jpg';
+import s3 from '/img/s3.jpg';
+import s4 from '/img/s4.jpg';
+import s5 from '/img/s5.jpg';
+import s6 from '/img/s6.jpg';
+import s7 from '/img/s7.jpg';
+import s8 from '/img/s8.jpg';
+import s9 from '/img/s9.jpg';
+import s10 from '/img/s10.png';
+import s11 from '/img/s11.jpg';
+import s12 from '/img/s12.jpg';
+import s13 from '/img/s13.png';
+import s14 from '/img/s14.jpg';
+import s15 from '/img/s15.jpg';
+import s16 from '/img/s16.jpg';
+import s17 from '/img/s17.jpg';
+import s18 from '/img/s18.jpg';
+import s19 from '/img/s19.jpg';
+import s20 from '/img/s20.jpg';
+import s21 from '/img/s21.jpg';
+import s22 from '/img/s22.jpg';
+import s23 from '/img/s23.jpg';
+import s24 from '/img/s24.jpg';
+import s25 from '/img/s25.jpg';
+import s26 from '/img/s26.jpg';
+import s27 from '/img/s27.jpg';
+
 export const groups = [
   {
     value: 'sahn',
@@ -80,7 +109,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s1.jpg'
+      img: s1
     },
     {
       value: 'sahn-azadi',
@@ -88,7 +117,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s2.jpg'
+      img: s2
     },
     {
       value: 'sahn-jomhouri',
@@ -96,7 +125,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s3.jpg'
+      img: s3
     },
     {
       value: 'sahn-qods',
@@ -104,7 +133,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s4.jpg'
+      img: s4
     },
     {
       value: 'sahn-jame-razavi',
@@ -112,7 +141,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s5.jpg'
+      img: s5
     },
     {
       value: 'sahn-ghadir',
@@ -120,7 +149,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s6.jpg'
+      img: s6
     },
     {
       value: 'sahn-kosar',
@@ -128,7 +157,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-     img: '/img/s7.jpg'
+      img: s7
     },
     {
       value: 'sahn-emam-hasan',
@@ -136,7 +165,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s8.jpg'
+      img: s8
     },
     {
       value: 'sahn-payambar-azam',
@@ -144,7 +173,7 @@ export const subGroups = {
       icon: 'courtyard',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01"/><path d="M3 21h18"/><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s9.jpg'
+      img: s9
     }
   ],
   eyvan: [
@@ -154,7 +183,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s10.png'
+      img: s10
     },
     {
       value: 'eyvan-talayi',
@@ -162,7 +191,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s11.jpg'
+      img: s11
     },
     {
       value: 'eyvan-saat',
@@ -170,7 +199,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s12.jpg'
+      img: s12
     },
     {
       value: 'eyvan-naqare',
@@ -178,7 +207,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s13.png'
+      img: s13
     },
     {
       value: 'eyvan-valiasr',
@@ -186,7 +215,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s14.jpg'
+      img: s14
     },
     {
       value: 'eyvan-talaye-azadi',
@@ -194,7 +223,7 @@ export const subGroups = {
       icon: 'eyvan',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M4 21v-15a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v15"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s15.jpg'
+      img: s15
     }
   ],
   ravaq: [
@@ -204,7 +233,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s16.jpg'
+      img: s16
     },
     {
       value: 'daralsiade',
@@ -212,7 +241,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s17.jpg'
+      img: s17
     },
     {
       value: 'daralsalam',
@@ -220,7 +249,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s18.jpg'
+      img: s18
     },
     {
       value: 'hatamkhani',
@@ -228,7 +257,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s19.jpg'
+      img: s19
     },
     {
       value: 'gonbadallahverdi',
@@ -236,7 +265,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s20.jpg'
+      img: s20
     },
     {
       value: 'daralziafe',
@@ -244,7 +273,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s21.jpg'
+      img: s21
     },
     {
       value: 'tohidkhane',
@@ -252,7 +281,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s22.jpg'
+      img: s22
     },
     {
       value: 'daralfeyz',
@@ -260,14 +289,14 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s22.jpg'
+      img: s23
     },
     {
       value: 'daralsaade',
       label: 'دارالسعاده', icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s24.jpg'
+      img: s24
     },
     {
       value: 'goharsad',
@@ -275,7 +304,7 @@ export const subGroups = {
       icon: 'shrine',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 18l2 -13l2 -2l2 2l2 13"/><path d="M5 21v-3h14v3"/><path d="M3 21l18 0"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s25.jpg'
+      img: s25
     }
   ],
   masjed: [
@@ -285,7 +314,7 @@ export const subGroups = {
       icon: 'mosque',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21h7v-2a2 2 0 1 1 4 0v2h7"/><path d="M4 21v-10"/><path d="M20 21v-10"/><path d="M4 16h3v-3h10v3h3"/><path d="M17 13a5 5 0 0 0 -10 0"/><path d="M21 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M5 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M12 2a2 2 0 1 0 2 2"/><path d="M12 6v2"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s26.jpg'
+      img: s26
     },
     {
       value: 'goharsad',
@@ -293,7 +322,7 @@ export const subGroups = {
       icon: 'mosque',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21h7v-2a2 2 0 1 1 4 0v2h7"/><path d="M4 21v-10"/><path d="M20 21v-10"/><path d="M4 16h3v-3h10v3h3"/><path d="M17 13a5 5 0 0 0 -10 0"/><path d="M21 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M5 10.5c0 -.329 -.077 -.653 -.224 -.947l-.776 -1.553l-.776 1.553a2.118 2.118 0 0 0 -.224 .947a.5 .5 0 0 0 .5 .5h1a.5 .5 0 0 0 .5 -.5z"/><path d="M12 2a2 2 0 1 0 2 2"/><path d="M12 6v2"/></svg>`,
       description: 'توضیحات',
-      img: '/img/s27.jpg'
+      img: s27
     }
   ],
   madrese: [

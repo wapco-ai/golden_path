@@ -45,15 +45,15 @@ const FinalSearch = () => {
     : [];
   const [origin, setOrigin] = useState(
     storedOrigin ||
-      (qrLat && qrLng
-        ? {
-            name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-            coordinates: [parseFloat(qrLat), parseFloat(qrLng)]
-          }
-        : {
-            name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-            coordinates: [36.2970, 59.6069]
-          })
+    (qrLat && qrLng
+      ? {
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+        coordinates: [parseFloat(qrLat), parseFloat(qrLng)]
+      }
+      : {
+        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+        coordinates: [36.2970, 59.6069]
+      })
   );
   const [destination, setDestination] = useState(
     storedDestination || {
@@ -111,6 +111,39 @@ const FinalSearch = () => {
       )
     }
   }, [origin.coordinates, qrLat, qrLng])
+
+  useEffect(() => {
+    const checkForUpdates = () => {
+      const updatedOrigin = sessionStorage.getItem('updatedOrigin');
+      const updatedDestination = sessionStorage.getItem('updatedDestination');
+
+      if (updatedOrigin) {
+        setOrigin(JSON.parse(updatedOrigin));
+        sessionStorage.removeItem('updatedOrigin');
+      }
+
+      if (updatedDestination) {
+        setDestination(JSON.parse(updatedDestination));
+        sessionStorage.removeItem('updatedDestination');
+      }
+    };
+
+    checkForUpdates();
+  }, []);
+
+  const handleOriginClick = () => {
+    sessionStorage.setItem('returnToFinalSearch', 'true');
+    sessionStorage.setItem('activeInput', 'origin');
+    sessionStorage.setItem('currentDestination', JSON.stringify(destination));
+    navigate('/mpr', { state: { showOriginModal: true } });
+  };
+
+  const handleDestinationClick = () => {
+    sessionStorage.setItem('returnToFinalSearch', 'true');
+    sessionStorage.setItem('activeInput', 'destination');
+    sessionStorage.setItem('currentOrigin', JSON.stringify(origin));
+    navigate('/mpr', { state: { showDestinationModal: true } });
+  };
 
   useEffect(() => {
     const file = buildGeoJsonPath(language);
@@ -500,7 +533,7 @@ const FinalSearch = () => {
             </Marker>
           )}
 
-          
+
           {storedAlternativeRoutes &&
             storedAlternativeRoutes.map((alt, idx) => (
               <React.Fragment key={idx}>
@@ -578,7 +611,10 @@ const FinalSearch = () => {
         </div>
 
         <div className="location-section">
-          <div className="location-input origin-input">
+          <div
+            className="location-input origin-input"
+            onClick={handleOriginClick} // Add this onClick handler
+          >
             <div className="location-details">
               <div className="location-name">{origin.name}</div>
             </div>
@@ -608,7 +644,10 @@ const FinalSearch = () => {
             </button>
           </div>
 
-          <div className="location-input destination-input">
+          <div
+            className="location-input destination-input"
+            onClick={handleDestinationClick} // Add this onClick handler
+          >
             <div className="location-details">
               <div className="location-name">{destination.name}</div>
             </div>

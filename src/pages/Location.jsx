@@ -126,6 +126,14 @@ const Location = () => {
     }, 500);
   };
 
+  const [currentSearchIcon, setCurrentSearchIcon] = useState(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
+      <path d="M21 21l-6 -6" />
+    </svg>`
+  );
+
   // Auto-advance carousel (optional)
   useEffect(() => {
     if (!locationData?.images) return;
@@ -231,7 +239,7 @@ const Location = () => {
         return;
       }
     }
-    
+
     toast.error(intl.formatMessage({ id: 'noDataFound' }));
   };
 
@@ -246,52 +254,60 @@ const Location = () => {
   };
 
   const closeSearchModal = (e) => {
-    // Prevent event bubbling if needed
     if (e) {
       e.stopPropagation();
     }
 
     if (searchQuery.trim() !== '') {
-      // First click - clear the search text
       setSearchQuery('');
       setSearchResults([]);
       setIsSearching(false);
-      setSelectedCategory(null); // Add this to clear selected category
-      setFilteredSubGroups([]); // Add this to clear filtered subgroups
+      setSelectedCategory(null);
+      setFilteredSubGroups([]);
 
-      // Keep focus on search input after clearing
       setTimeout(() => {
         if (searchInputRef.current) {
           searchInputRef.current.focus();
         }
       }, 0);
     } else {
-      // Second click (or first if already empty) - close the modal
       setIsSearchModalClosing(true);
       setTimeout(() => {
         setShowSearchModal(false);
         setIsSearchModalClosing(false);
         document.body.style.overflow = 'auto';
-        // Reset all search-related states
         setSearchQuery('');
         setSearchResults([]);
         setIsSearching(false);
         setSelectedCategory(null);
         setFilteredSubGroups([]);
+        // Reset the search icon to default
+        setCurrentSearchIcon(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
+            <path d="M21 21l-6 -6" />
+          </svg>`
+        );
       }, 300);
     }
   };
-
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
     if (query.length > 0) {
       setIsSearching(true);
-      // Search across all groups and subgroups
-      const results = [];
+      // Reset to search icon when typing
+      setCurrentSearchIcon(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
+          <path d="M21 21l-6 -6" />
+        </svg>`
+      );
 
-      // Search in subgroups
+      const results = [];
       Object.entries(subGroups).forEach(([groupValue, subgroups]) => {
         subgroups.forEach(subgroup => {
           if (
@@ -306,7 +322,6 @@ const Location = () => {
           }
         });
       });
-
       setSearchResults(results);
       setSelectedCategory(null);
     } else {
@@ -319,6 +334,7 @@ const Location = () => {
     setFilteredSubGroups(subGroups[category.value] || []);
     setShowSearchModal(true);
     setSearchQuery('');
+    setCurrentSearchIcon(category.svg); // Set the icon to the category's icon
     document.body.style.overflow = 'hidden';
   };
 
@@ -629,11 +645,7 @@ const Location = () => {
 
         <form className="search-bar" onSubmit={handleSearchSubmit}>
           <button type="submit" className="search-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
-              <path d="M21 21l-6 -6" />
-            </svg>
+            <div dangerouslySetInnerHTML={{ __html: currentSearchIcon }} />
           </button>
 
           <input
@@ -999,11 +1011,7 @@ const Location = () => {
             <div className="search-modal-header">
               <form className="search-bar expanded-search" onSubmit={handleSearchSubmit}>
                 <button type="submit" className="search-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
-                    <path d="M21 21l-6 -6" />
-                  </svg>
+                  <div dangerouslySetInnerHTML={{ __html: currentSearchIcon }} />
                 </button>
 
                 <input
@@ -1078,24 +1086,24 @@ const Location = () => {
                       {subGroups[selectedCategory.value]
                         .filter(subgroup => subgroup.img)
                         .map((subgroup, index) => (
-                        <div
-                          key={index}
-                          className="subgroup-item with-image"
-                          onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value)}
-                          style={{
-                            backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            backgroundColor: 'rgba(255,255,255,0.7)',
-                            backgroundBlendMode: 'lighten'
-                          }}
-                        >
-                          <div className="subgroup-info">
-                            <h4>{subgroup.label}</h4>
-                            {subgroup.description && <p>{subgroup.description}</p>}
+                          <div
+                            key={index}
+                            className="subgroup-item with-image"
+                            onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value)}
+                            style={{
+                              backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center',
+                              backgroundColor: 'rgba(255,255,255,0.7)',
+                              backgroundBlendMode: 'lighten'
+                            }}
+                          >
+                            <div className="subgroup-info">
+                              <h4>{subgroup.label}</h4>
+                              {subgroup.description && <p>{subgroup.description}</p>}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
 
@@ -1103,18 +1111,18 @@ const Location = () => {
                     {subGroups[selectedCategory.value]
                       .filter(subgroup => !subgroup.img)
                       .map((subgroup, index) => (
-                      <div
-                        key={index}
-                        className="subgroup-item-no-image"
-                        onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value)}
-                      >
-                        <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: subgroup.svg }} />
-                        <div className="subgroup-text">
-                          <h4>{subgroup.label}</h4>
-                          {subgroup.description && <p>{subgroup.description}</p>}
+                        <div
+                          key={index}
+                          className="subgroup-item-no-image"
+                          onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value)}
+                        >
+                          <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: subgroup.svg }} />
+                          <div className="subgroup-text">
+                            <h4>{subgroup.label}</h4>
+                            {subgroup.description && <p>{subgroup.description}</p>}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               ) : (

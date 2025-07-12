@@ -79,6 +79,25 @@ const MapRoutingPage = () => {
     return null;
   };
 
+  useEffect(() => {
+    const returnToFinalSearch = sessionStorage.getItem('returnToFinalSearch');
+    const activeInput = sessionStorage.getItem('activeInput');
+
+    if (returnToFinalSearch === 'true') {
+      if (activeInput === 'origin') {
+        setShowOriginModal(true);
+        setActiveInput('origin');
+      } else if (activeInput === 'destination') {
+        setShowDestinationModal(true);
+        setActiveInput('destination');
+      }
+
+      // Clear the flags
+      sessionStorage.removeItem('returnToFinalSearch');
+      sessionStorage.removeItem('activeInput');
+    }
+  }, []);
+
 
   // Recent searches data from store
 
@@ -115,9 +134,24 @@ const MapRoutingPage = () => {
       setSelectedDestination(destination);
       addSearch(destination);
       setShowDestinationModal(false);
+
+      // If coming from FinalSearch, store the new destination and return
+      if (location.state?.showDestinationModal) {
+        sessionStorage.setItem('updatedDestination', JSON.stringify(destination));
+        navigate('/fs');
+      }
     } else {
       setUserLocation({ name: destination.name, coordinates: destination.coordinates });
       setShowOriginModal(false);
+
+      // If coming from FinalSearch, store the new origin and return
+      if (location.state?.showOriginModal) {
+        sessionStorage.setItem('updatedOrigin', JSON.stringify({
+          name: destination.name,
+          coordinates: destination.coordinates
+        }));
+        navigate('/fs');
+      }
     }
     setSearchQuery('');
   };
