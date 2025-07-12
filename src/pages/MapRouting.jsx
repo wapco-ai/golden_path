@@ -32,6 +32,7 @@ const MapRoutingPage = () => {
   const [activeInput, setActiveInput] = useState(null);
   const [isGPSEnabled, setIsGPSEnabled] = useState(false);
   const [isSelectingFromMap, setIsSelectingFromMap] = useState(false);
+  const [isTracking, setIsTracking] = useState(true);
   const [mapSelectedLocation, setMapSelectedLocation] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -367,8 +368,13 @@ const MapRoutingPage = () => {
           selectedCategory={selectedCategory}
           userLocation={userLocation}
           mapSelectedLocation={mapSelectedLocation}
+          isTracking={isTracking}
+          onUserMove={() => setIsTracking(false)}
         />
-        <button className="map-gps-button">
+        <button
+          className={`map-gps-button ${isTracking ? 'active' : ''}`}
+          onClick={() => setIsTracking(true)}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />

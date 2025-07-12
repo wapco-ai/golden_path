@@ -137,6 +137,14 @@
   color: #333;
 }
 
+.map-gps-button.active {
+  background-color: #2196f3;
+}
+
+.map-gps-button.active svg {
+  color: #fff;
+}
+
 /* Destination Input */
 .map-destination-input-container {
   display: flex;
