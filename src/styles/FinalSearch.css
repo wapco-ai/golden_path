@@ -691,11 +691,3 @@
 .mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
   border-left-color: var(--popup-bg-color);
 }
-
-.location-input {
-  cursor: pointer;
-}
-
-.location-input:hover {
-  background-color: #f5f5f5;
-}
