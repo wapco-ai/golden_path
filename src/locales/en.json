@@ -23,162 +23,166 @@
   "wrongPhone": "Is the phone number incorrect?",
   "edit": "Edit",
   "resendCode": "Resend code in 50 seconds",
-  "phonePlaceholder": "Mobile number"
-  ,"profileTitle": "Account"
-  ,"completeProfile": "Complete Profile"
-  ,"accountSection": "Account"
-  ,"accountInfo": "Account Information"
-  ,"myRoutes": "My Routes"
-  ,"savedPlaces": "Saved Locations"
-  ,"settingsSection": "Settings"
-  ,"notifications": "Notifications"
-  ,"supportSection": "Astan Quds"
-  ,"support": "Support"
-  ,"faq": "FAQ"
-  ,"termsRegulation": "Terms and Conditions"
-  ,"logoutTitle": "Logout"
-  ,"logoutAccount": "Sign out"
-  ,"commentPlaceholder": "Write your comment..."
-  ,"commentModalTitle": "Write your opinion"
-  ,"commentModalInstruction": "Write your comment about this place. After approval, your comment will be published."
-  ,"ratingPrompt": "Rate:"
-  ,"submitComment": "Submit Comment"
-  ,"youAreHere": "You are here!"
-  ,"aboutLocation": "About {title}"
-  ,"readMore": "Read more"
-  ,"close": "Close"
-  ,"audioTextContent": "Audio and text content of {title}"
-  ,"commentsTitle": "Comments ({count})"
-  ,"viewAll": "View all"
-  ,"commentPromptTitle": "Write your comment about this place"
-  ,"commentPromptInstruction": "Write your comment about this place and give it a rating. After approval, your comment will be published."
-  ,"showLess": "Show less"
-  ,"showMore": "View more"
-  ,"shrineEventsTitle": "Shrine programs"
-  ,"navigate": "Navigate"
-  ,"mostVisited": "Most visited places"
-  ,"nearMe": "Places near me"
-  ,"save": "Save"
-  ,"commentsLabel": "comments"
-  ,"defaultCommentAuthor": "New user"
-  ,"searchSuggestions": "Search suggestions"
-  ,"loading": "Loading..."
-  ,"fetchError": "Error fetching data: {error}"
-  ,"noDataFound": "No data found"
-  ,"goToSlide": "Go to slide {n}"
-  ,"searchPlaceholder": "Where do you want to go?"
-  ,"originPlaceholder": "Select origin"
-  ,"destinationPlaceholder": "Select destination"
-  ,"destinationSearchPlaceholder": "Search destination"
-  ,"originSearchPlaceholder": "Search origin"
-  ,"closeSearch": "Close search"
-  ,"clearSearch": "Clear search"
-  ,"noResultsFound": "No results found for \"{query}\""
-  ,"enterSearchTerm": "Enter a search term"
-  ,"chooseFromMap": "Choose from map"
-  ,"emergencyPlaceholder": "More details..."
-  ,"emergencySubmit": "Confirm and send request"
-  ,"mapSelectFromMap": "Select location from map"
-  ,"mapRoutingTitle": "Shrine Routing"
-  ,"mapCurrentOriginLabel": "Current origin"
-  ,"mapCurrentLocation": "Current location ({loc})"
-  ,"mapCurrentLocationName": "Your current location"
-  ,"mapSelectedLocation": "Selected location"
-  ,"mapSelectedLocationFromMap": "Location selected from map"
-  ,"mapRecentSearches": "Your recent searches"
-  ,"groupCourtyardPlural": "Courtyards"
-  ,"groupEyvanPlural": "Eyvans"
-  ,"groupRavaqPlural": "Ravaqs"
-  ,"groupMosques": "Mosques"
-  ,"groupSchools": "Schools"
-  ,"groupServices": "Services"
-  ,"groupCulture": "Cultural"
-  ,"groupCemetery": "Cemetery"
-  ,"groupQRScan": "QR Scan"
-  ,"groupOther": "Other"
-  ,"mapStopFollow": "Stop following"
-  ,"mapStartFollow": "Follow location"
-  ,"mapCenter": "Center to current location"
-  ,"mapLatitude": "Lat:"
-  ,"mapLongitude": "Lng:"
-  ,"mapAccuracy": "Accuracy:"
-  ,"drStepWarning": "Warning: steps not detected. Ensure the device is moving and sensors are active."
-  ,"drSensorsUnsupported": "Device sensors are not supported."
-  ,"drPermissionNeeded": "Enable sensor permissions to proceed."
-  ,"drCalibrating": "Calibrating sensors..."
-  ,"drStopTracking": "Stop advanced tracking"
-  ,"drStartTracking": "Start advanced tracking"
-  ,"drReset": "Reset system"
-  ,"drExportLog": "Export log"
-  ,"drStepCount": "Steps:"
-  ,"drStrideLength": "Stride length (m):"
-  ,"drRelPosition": "Relative position:"
-  ,"drHeading": "Heading (deg):"
-  ,"drLinearSpeed": "Linear speed:"
-  ,"drAngularSpeed": "Angular speed:"
-  ,"drEstimatedStride": "Estimated stride:"
-  ,"emergencyTitle": "Shrine emergency request"
-  ,"emergencySubtitle": "Please select the request type and describe it. Shrine staff will reach you shortly."
-  ,"emergencyFire": "Report fire"
-  ,"emergencyTheft": "Report theft"
-  ,"emergencyMedical": "Request medical services"
-  ,"emergencyMissing": "Report missing person"
-  ,"soundSettingsTitle": "Sound settings"
-  ,"soundOptionOn": "On"
-  ,"soundOptionAlertOnly": "Alerts only"
-  ,"soundOptionOff": "Off"
-  ,"emergencyButtonLabel": "Shrine emergencies"
-  ,"arrivalTime": "Arrival time"
-  ,"routeOverview": "Route overview"
-  ,"allRoutes": "All routes"
-  ,"otherRoutes": "Other routes"
-  ,"startRouting": "Start navigation"
-  ,"stopRouting": "End trip"
-  ,"returnToRoute": "Return to route"
-  ,"from": "From"
-  ,"to": "To"
-  ,"meters": "m"
-  ,"metersPerSecond": "m/s"
-  ,"degreesPerSecond": "deg/s"
-  ,"defaultUserName": "Astan Quds User"
-  ,"defaultLocation": "Astan Quds Razavi"
-  ,"defaultBabRezaName": "Bab al-Reza Gate"
-  ,"destSahnEnqelabName": "Sahn Enqelab"
-  ,"destSahnEnqelabLocation": "Imam Reza Shrine, Sahn Enqelab"
-  ,"destEyvanTalaName": "Golden Eyvan"
-  ,"destEyvanTalaLocation": "Imam Reza Shrine, between Tabarsi ..."
-  ,"destRavaqMasoumehName": "Ravaq Hazrat Masoumeh (s)"
-  ,"destRavaqMasoumehLocation": "Imam Reza Shrine, Sahn Ayatollah ..."
-  ,"destMasjedGoharshadName": "Goharshad Mosque"
-  ,"destMasjedGoharshadLocation": "Imam Reza Shrine, Sahn Goharshad"
-  ,"destSahnPayambarAzamName": "Sahn Payambar Azam"
-  ,"destSahnPayambarAzamLocation": "Imam Reza Shrine, Sahn Payambar ..."
-  ,"finalSearchTitle": "Final route details"
-  ,"saveDestination": "Save destination"
-  ,"shareRoute": "Share"
-  ,"transportWalk": "Walking"
-  ,"transportCar": "Electric van"
-  ,"transportWheelchair": "Wheelchair"
-  ,"routeForMen": "Route for men"
-  ,"routeForWomen": "Route for women"
-  ,"routeSummary": "From {origin} to {destination}"
-  ,"minutesUnit": "min"
-  ,"secondsUnit": "sec"
-  ,"previous": "Previous"
-  ,"next": "Next"
-  ,"pwaInstallTitle": "Install App"
-  ,"pwaInstallPrompt": "For quick access, install the app on your device."
-  ,"pwaInstallButton": "Install"
-  ,"mapNoRecentSearches": "No recent searches"
-  ,"noRouteFound": "No route found for selected mode"
-  ,"pwaCloseButton": "Close"
-  ,"stepMoveToDoor": "Head toward {name}"
-  ,"stepPassConnection": "Pass connection {title}"
-  ,"stepEnterNextSahn": "Enter next courtyard via {title}"
-  ,"stepPassDoor": "Go through {name}"
-  ,"stepArriveDestination": "Arrive at {name}"
-  ,"stepNumber": "Step {num}"
-  ,"landmarkSuffix": "turn toward {name} and go {distance} meters ahead"
-  ,"qrScanInstruction": "Align the QR code within the frame"
-  ,"qrScanError": "Failed to read QR code"
+  "phonePlaceholder": "Mobile number",
+  "profileTitle": "Account",
+  "completeProfile": "Complete Profile",
+  "accountSection": "Account",
+  "accountInfo": "Account Information",
+  "myRoutes": "My Routes",
+  "savedPlaces": "Saved Locations",
+  "settingsSection": "Settings",
+  "notifications": "Notifications",
+  "supportSection": "Astan Quds",
+  "support": "Support",
+  "faq": "FAQ",
+  "termsRegulation": "Terms and Conditions",
+  "logoutTitle": "Logout",
+  "logoutAccount": "Sign out",
+  "commentPlaceholder": "Write your comment...",
+  "commentModalTitle": "Write your opinion",
+  "commentModalInstruction": "Write your comment about this place. After approval, your comment will be published.",
+  "ratingPrompt": "Rate:",
+  "submitComment": "Submit Comment",
+  "youAreHere": "You are here!",
+  "aboutLocation": "About {title}",
+  "readMore": "Read more",
+  "close": "Close",
+  "audioTextContent": "Audio and text content of {title}",
+  "commentsTitle": "Comments ({count})",
+  "viewAll": "View all",
+  "commentPromptTitle": "Write your comment about this place",
+  "commentPromptInstruction": "Write your comment about this place and give it a rating. After approval, your comment will be published.",
+  "showLess": "Show less",
+  "showMore": "View more",
+  "shrineEventsTitle": "Shrine programs",
+  "navigate": "Navigate",
+  "mostVisited": "Most visited places",
+  "nearMe": "Places near me",
+  "save": "Save",
+  "commentsLabel": "comments",
+  "defaultCommentAuthor": "New user",
+  "searchSuggestions": "Search suggestions",
+  "loading": "Loading...",
+  "fetchError": "Error fetching data: {error}",
+  "noDataFound": "No data found",
+  "goToSlide": "Go to slide {n}",
+  "searchPlaceholder": "Where do you want to go?",
+  "originPlaceholder": "Select origin",
+  "destinationPlaceholder": "Select destination",
+  "destinationSearchPlaceholder": "Search destination",
+  "originSearchPlaceholder": "Search origin",
+  "closeSearch": "Close search",
+  "clearSearch": "Clear search",
+  "noResultsFound": "No results found for \"{query}\"",
+  "enterSearchTerm": "Enter a search term",
+  "chooseFromMap": "Choose from map",
+  "emergencyPlaceholder": "More details...",
+  "emergencySubmit": "Confirm and send request",
+  "mapSelectFromMap": "Select location from map",
+  "mapRoutingTitle": "Shrine Routing",
+  "mapCurrentOriginLabel": "Current origin",
+  "mapCurrentLocation": "Current location ({loc})",
+  "mapCurrentLocationName": "Your current location",
+  "mapSelectedLocation": "Selected location",
+  "mapSelectedLocationFromMap": "Location selected from map",
+  "mapRecentSearches": "Your recent searches",
+  "groupCourtyardPlural": "Courtyards",
+  "groupEyvanPlural": "Eyvans",
+  "groupRavaqPlural": "Ravaqs",
+  "groupMosques": "Mosques",
+  "groupSchools": "Schools",
+  "groupServices": "Services",
+  "groupCulture": "Cultural",
+  "groupCemetery": "Cemetery",
+  "groupQRScan": "QR Scan",
+  "groupOther": "Other",
+  "mapStopFollow": "Stop following",
+  "mapStartFollow": "Follow location",
+  "mapCenter": "Center to current location",
+  "mapLatitude": "Lat:",
+  "mapLongitude": "Lng:",
+  "mapAccuracy": "Accuracy:",
+  "drStepWarning": "Warning: steps not detected. Ensure the device is moving and sensors are active.",
+  "drSensorsUnsupported": "Device sensors are not supported.",
+  "drPermissionNeeded": "Enable sensor permissions to proceed.",
+  "drCalibrating": "Calibrating sensors...",
+  "drStopTracking": "Stop advanced tracking",
+  "drStartTracking": "Start advanced tracking",
+  "drReset": "Reset system",
+  "drExportLog": "Export log",
+  "drStepCount": "Steps:",
+  "drStrideLength": "Stride length (m):",
+  "drRelPosition": "Relative position:",
+  "drHeading": "Heading (deg):",
+  "drLinearSpeed": "Linear speed:",
+  "drAngularSpeed": "Angular speed:",
+  "drEstimatedStride": "Estimated stride:",
+  "emergencyTitle": "Shrine emergency request",
+  "emergencySubtitle": "Please select the request type and describe it. Shrine staff will reach you shortly.",
+  "emergencyFire": "Report fire",
+  "emergencyTheft": "Report theft",
+  "emergencyMedical": "Request medical services",
+  "emergencyMissing": "Report missing person",
+  "soundSettingsTitle": "Sound settings",
+  "soundOptionOn": "On",
+  "soundOptionAlertOnly": "Alerts only",
+  "soundOptionOff": "Off",
+  "emergencyButtonLabel": "Shrine emergencies",
+  "arrivalTime": "Arrival time",
+  "routeOverview": "Route overview",
+  "allRoutes": "All routes",
+  "otherRoutes": "Other routes",
+  "startRouting": "Start navigation",
+  "stopRouting": "End trip",
+  "returnToRoute": "Return to route",
+  "from": "From",
+  "to": "To",
+  "meters": "m",
+  "metersPerSecond": "m/s",
+  "degreesPerSecond": "deg/s",
+  "defaultUserName": "Astan Quds User",
+  "defaultLocation": "Astan Quds Razavi",
+  "defaultBabRezaName": "Current Origin",
+  "destSahnEnqelabName": "Sahn Enqelab",
+  "destSahnEnqelabLocation": "Imam Reza Shrine, Sahn Enqelab",
+  "destEyvanTalaName": "Golden Eyvan",
+  "destEyvanTalaLocation": "Imam Reza Shrine, between Tabarsi ...",
+  "destRavaqMasoumehName": "Ravaq Hazrat Masoumeh (s)",
+  "destRavaqMasoumehLocation": "Imam Reza Shrine, Sahn Ayatollah ...",
+  "destMasjedGoharshadName": "Goharshad Mosque",
+  "destMasjedGoharshadLocation": "Imam Reza Shrine, Sahn Goharshad",
+  "destSahnPayambarAzamName": "Sahn Payambar Azam",
+  "destSahnPayambarAzamLocation": "Imam Reza Shrine, Sahn Payambar ...",
+  "finalSearchTitle": "Final route details",
+  "saveDestination": "Save destination",
+  "shareRoute": "Share",
+  "transportWalk": "Walking",
+  "transportCar": "Electric van",
+  "transportWheelchair": "Wheelchair",
+  "routeForMen": "Route for men",
+  "routeForWomen": "Route for women",
+  "routeSummary": "From {origin} to {destination}",
+  "minutesUnit": "min",
+  "secondsUnit": "sec",
+  "previous": "Previous",
+  "next": "Next",
+  "pwaInstallTitle": "Install App",
+  "pwaInstallPrompt": "For quick access, install the app on your device.",
+  "pwaInstallButton": "Install",
+  "mapNoRecentSearches": "No recent searches",
+  "noRouteFound": "No route found for selected mode",
+  "pwaCloseButton": "Close",
+  "stepMoveToDoor": "Head toward {name}",
+  "stepPassConnection": "Pass connection {title}",
+  "stepEnterNextSahn": "Enter next courtyard via {title}",
+  "stepPassDoor": "Go through {name}",
+  "stepArriveDestination": "Arrive at {name}",
+  "stepNumber": "Step {num}",
+  "landmarkSuffix": "turn toward {name} and go {distance} meters ahead",
+  "qrScanInstruction": "Align the QR code within the frame",
+  "qrScanError": "Failed to read QR code",
+  "emergencySubmissionSuccess": "Your emergency request has been submitted successfully",
+  "emergencySubmissionError": "Error submitting emergency request",
+  "emergencySelectType": "Please select an emergency type",
+  "emergencyEnterDetails": "Please enter more details"
 }

@@ -136,14 +136,24 @@ const FinalSearch = () => {
     sessionStorage.setItem('activeInput', 'origin');
     sessionStorage.setItem('currentOrigin', JSON.stringify(origin));
     sessionStorage.setItem('currentDestination', JSON.stringify(destination));
-    navigate('/mpr', { state: { showOriginModal: true } });
+    navigate('/mpr', {
+      state: {
+        showOriginModal: true,
+        fromFinalSearch: true  // Add this flag
+      }
+    });
   };
 
   const handleDestinationClick = () => {
     sessionStorage.setItem('returnToFinalSearch', 'true');
     sessionStorage.setItem('activeInput', 'destination');
     sessionStorage.setItem('currentOrigin', JSON.stringify(origin));
-    navigate('/mpr', { state: { showDestinationModal: true } });
+    navigate('/mpr', {
+      state: {
+        showDestinationModal: true,
+        fromFinalSearch: true  // Add this flag
+      }
+    });
   };
 
   useEffect(() => {
@@ -620,7 +630,7 @@ const FinalSearch = () => {
               <div className="location-name">{origin.name}</div>
             </div>
             <div className={`current-location-label ${isSwapButton ? 'visible' : 'hidden'}`}>
-              <FormattedMessage id="mapCurrentLocationName" />
+              {/* <FormattedMessage id="mapCurrentLocationName" /> */}
             </div>
           </div>
 

@@ -1886,9 +1886,12 @@
 
 
 /* Fix for RTL/LTR mixing */
-:root:lang(en) .comment-input-header,
-:root:lang(en) .modal-header h3,
-:root:lang(en) .rating-section p {
+:root:lang(en) .search-results-container,
+:root:lang(en) .subgroups-without-images,
+:root:lang(en) .subgroup-item-no-image,
+:root:lang(en) .subgroup-text,
+:root:lang(en) .subgroup-text h4,
+:root:lang(en) .subgroup-text p {
   direction: ltr;
   text-align: left;
 }

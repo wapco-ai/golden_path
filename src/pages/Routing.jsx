@@ -31,6 +31,7 @@ const RoutingPage = () => {
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [showSoundModal, setShowSoundModal] = useState(false);
   const [selectedEmergency, setSelectedEmergency] = useState(null);
+  const [emergencyDescription, setEmergencyDescription] = useState('');
   const [selectedSoundOption, setSelectedSoundOption] = useState('on');
   const [isRoutingActive, setIsRoutingActive] = useState(false);
   const [isClosingEmergency, setIsClosingEmergency] = useState(false);
@@ -198,6 +199,34 @@ const RoutingPage = () => {
     return totalMinutes;
   };
 
+  const handleEmergencySubmit = () => {
+    if (!selectedEmergency) {
+      toast.error(intl.formatMessage({ id: 'emergencySelectType' }));
+      return;
+    }
+
+    if (!emergencyDescription.trim()) {
+      toast.error(intl.formatMessage({ id: 'emergencyEnterDetails' }));
+      return;
+    }
+    const emergencyData = {
+      type: selectedEmergency,
+      description: emergencyDescription,
+      location: userLocation,
+      timestamp: new Date().toISOString()
+    };
+
+    console.log('Emergency data:', emergencyData); // For debugging
+
+    // Simulate API call
+    setTimeout(() => {
+      toast.success(intl.formatMessage({ id: 'emergencySubmissionSuccess' }));
+      setSelectedEmergency(null);
+      setEmergencyDescription('');
+      toggleEmergencyModal();
+    }, 1000);
+  };
+
   // Format total time as "X <minutes> Y <seconds>"
   const formatTotalTime = (totalMinutes) => {
     if (totalMinutes < 1) {
@@ -259,9 +288,9 @@ const RoutingPage = () => {
       }
       const base = s.type
         ? intl.formatMessage(
-            { id: s.type },
-            { name: s.name, title: s.title, num: idx + 1 }
-          )
+          { id: s.type },
+          { name: s.name, title: s.title, num: idx + 1 }
+        )
         : s.instruction || '';
       const instruction = s.landmark
         ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: s.landmark, distance: Math.round(distance) })}`
@@ -290,9 +319,9 @@ const RoutingPage = () => {
         }
         const base = st.type
           ? intl.formatMessage(
-              { id: st.type },
-              { name: st.name, title: st.title, num: i + 1 }
-            )
+            { id: st.type },
+            { name: st.name, title: st.title, num: i + 1 }
+          )
           : st.instruction || '';
         const instruction = st.landmark
           ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: st.landmark, distance: Math.round(dist) })}`
@@ -401,12 +430,16 @@ const RoutingPage = () => {
 
   const toggleEmergencyModal = () => {
     if (showEmergencyModal) {
+      // Clear form when closing modal without submission
+      setSelectedEmergency(null);
+      setEmergencyDescription('');
       setIsClosingEmergency(true);
       setTimeout(() => {
         setShowEmergencyModal(false);
         setIsClosingEmergency(false);
       }, 300);
     } else {
+      // Opening modal - keep existing behavior
       setShowEmergencyModal(true);
       if (showSoundModal) {
         setIsClosingSound(true);
@@ -616,10 +649,15 @@ const RoutingPage = () => {
               <textarea
                 placeholder={intl.formatMessage({ id: 'emergencyPlaceholder' })}
                 className="emergency-textarea"
+                value={emergencyDescription}
+                onChange={(e) => setEmergencyDescription(e.target.value)}
               />
             </div>
 
-            <button className="emergency-submit-button">
+            <button
+              className="emergency-submit-button"
+              onClick={handleEmergencySubmit}
+            >
               <FormattedMessage id="emergencySubmit" />
             </button>
           </div>
@@ -758,11 +796,10 @@ const RoutingPage = () => {
 
         {isMapModalOpen && (
           <div
-            className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${
-              !showAllRoutesView && !showAlternativeRoutes && isInfoModalOpen
-                ? 'dark-overlay'
-                : 'No-dark-overlay'
-            }`}
+            className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${!showAllRoutesView && !showAlternativeRoutes && isInfoModalOpen
+              ? 'dark-overlay'
+              : 'No-dark-overlay'
+              }`}
           >
             <RouteMap
               ref={routeMapRef}

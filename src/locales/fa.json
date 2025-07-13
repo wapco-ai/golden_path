@@ -23,162 +23,166 @@
   "wrongPhone": "شماره موبایل اشتباه است؟",
   "edit": "ویرایش",
   "resendCode": "ارسال دوباره کد تایید تا ۵۰ ثانیه",
-  "phonePlaceholder": "شماره موبایل"
-  ,"profileTitle": "حساب کاربری"
-  ,"completeProfile": "تکمیل پروفایل"
-  ,"accountSection": "حساب کاربری"
-  ,"accountInfo": "اطلاعات حساب کاربری"
-  ,"myRoutes": "مسیرهای پیموده شده من"
-  ,"savedPlaces": "مکان های ذخیره شده"
-  ,"settingsSection": "تنظیمات"
-  ,"notifications": "اطلاع رسانی"
-  ,"supportSection": "آستان قدس"
-  ,"support": "پشتیبان"
-  ,"faq": "سوالات متداول"
-  ,"termsRegulation": "قوانین و مقررات"
-  ,"logoutTitle": "خروج"
-  ,"logoutAccount": "خروج از حساب کاربری"
-  ,"commentPlaceholder": "دیدگاه خود را بنویسید..."
-  ,"commentModalTitle": "دیدگاه و نظر خود را بنویسید"
-  ,"commentModalInstruction": "دیدگاه خودتان را که مربوط به این مکان می‌باشد را بنویسید. پس از تایید شدن، دیدگاه شما منتشر خواهد شد."
-  ,"ratingPrompt": "امتیاز دهید:"
-  ,"submitComment": "ارسال و ثبت دیدگاه"
-  ,"youAreHere": "شما الان اینجایید!"
-  ,"aboutLocation": "درباره {title}"
-  ,"readMore": "بیشتر بخوانید"
-  ,"close": "بستن"
-  ,"audioTextContent": "محتواهای صوتی و متنی {title}"
-  ,"commentsTitle": "دیدگاه‌ها ({count})"
-  ,"viewAll": "مشاهده همه"
-  ,"commentPromptTitle": "دیدگاه خود را درباره این مکان بنویسید"
-  ,"commentPromptInstruction": "دیدگاه خود را درباره این مکان بنویسید و به آن امتیاز دهید. پس از تایید شدن، دیدگاه‌تان منتشر می‌شود."
-  ,"showLess": "نمایش کمتر"
-  ,"showMore": "مشاهده بیشتر"
-  ,"shrineEventsTitle": "برنامه‌های حرم مطهر"
-  ,"navigate": "مسیریابی"
-  ,"mostVisited": "پربازدیدترین‌های حرم"
-  ,"nearMe": "مکان‌های نزدیک من"
-  ,"save": "ذخیره"
-  ,"commentsLabel": "نظر"
-  ,"defaultCommentAuthor": "کاربر جدید"
-  ,"searchSuggestions": "پیشنهاد‌های جستجو"
-  ,"loading": "در حال بارگذاری..."
-  ,"fetchError": "خطا در دریافت اطلاعات: {error}"
-  ,"noDataFound": "موردی یافت نشد"
-  ,"goToSlide": "رفتن به اسلاید {n}"
-  ,"searchPlaceholder": "کجا میخوای بری؟"
-  ,"originPlaceholder": "مبدا را انتخاب کنید"
-  ,"destinationPlaceholder": "مقصد را انتخاب کنید"
-  ,"destinationSearchPlaceholder": "جستجوی مقصد"
-  ,"originSearchPlaceholder": "جستجوی مبدا"
-  ,"closeSearch": "بستن جستجو"
-  ,"clearSearch": "پاک کردن جستجو"
-  ,"noResultsFound": "نتیجه‌ای برای \"{query}\" یافت نشد"
-  ,"enterSearchTerm": "برای جستجو عبارت مورد نظر را وارد کنید"
-  ,"chooseFromMap": "انتخاب از روی نقشه"
-  ,"emergencyPlaceholder": "توضیحات بیشتر..."
-  ,"emergencySubmit": "تایید و ارسال درخواست"
-  ,"mapSelectFromMap": "انتخاب موقعیت از روی نقشه"
-  ,"mapRoutingTitle": "مسیریابی حرم مطهر"
-  ,"mapCurrentOriginLabel": "مبداء فعلی شما"
-  ,"mapCurrentLocation": "مکان فعلی شما ({loc})"
-  ,"mapCurrentLocationName": "موقعیت فعلی شما"
-  ,"mapSelectedLocation": "موقعیت انتخاب شده"
-  ,"mapSelectedLocationFromMap": "موقعیت انتخاب شده از روی نقشه"
-  ,"mapRecentSearches": "جستوجوهای اخیر شما"
-  ,"groupCourtyardPlural": "صحن ها"
-  ,"groupEyvanPlural": "ایوان ها"
-  ,"groupRavaqPlural": "رواق ها"
-  ,"groupMosques": "مساجد"
-  ,"groupSchools": "مدارس"
-  ,"groupServices": "خدماتی"
-  ,"groupCulture": "فرهنگی"
-  ,"groupCemetery": "آرامستان"
-  ,"groupQRScan": "محل اسکن "
-  ,"groupOther": "سایر"
-  ,"mapStopFollow": "توقف تعقیب موقعیت"
-  ,"mapStartFollow": "تعقیب موقعیت"
-  ,"mapCenter": "مرکز به موقعیت فعلی"
-  ,"mapLatitude": "عرض:"
-  ,"mapLongitude": "طول:"
-  ,"mapAccuracy": "دقت:"
-  ,"drStepWarning": "توجه: گام برداری ثبت نمی‌شود. مطمئن شوید دستگاه حرکت دارد و سنسورها فعال هستند."
-  ,"drSensorsUnsupported": "سنسورهای دستگاه پشتیبانی نمی‌شوند."
-  ,"drPermissionNeeded": "برای استفاده، دسترسی به سنسورها را فعال کنید."
-  ,"drCalibrating": "درحال کالیبراسیون سنسورها..."
-  ,"drStopTracking": "توقف ردیابی پیشرفته"
-  ,"drStartTracking": "شروع ردیابی پیشرفته"
-  ,"drReset": "بازنشانی سیستم"
-  ,"drExportLog": "خروجی لاگ"
-  ,"drStepCount": "تعداد گام‌ها:"
-  ,"drStrideLength": "طول گام (متر):"
-  ,"drRelPosition": "موقعیت نسبی:"
-  ,"drHeading": "جهت (درجه):"
-  ,"drLinearSpeed": "سرعت خطی:"
-  ,"drAngularSpeed": "سرعت زاویه‌ای:"
-  ,"drEstimatedStride": "طول گام تخمینی:"
-  ,"emergencyTitle": "درخواست کمک‌های فوریتی حرم مطهر"
-  ,"emergencySubtitle": "لطفا نوع درخواست خود را انتخاب کنید و توضیحاتی درباره آن بنویسید. در سریع‌ترین زمان ممکن خادمین به مکان شما خواهند رسید."
-  ,"emergencyFire": "اعلام حریق"
-  ,"emergencyTheft": "اعلام سرقت"
-  ,"emergencyMedical": "درخواست خدمات پزشکی"
-  ,"emergencyMissing": "اعلام مفقودی"
-  ,"soundSettingsTitle": "تنظیمات صدا"
-  ,"soundOptionOn": "روشن"
-  ,"soundOptionAlertOnly": "فقط هشدار"
-  ,"soundOptionOff": "خاموش"
-  ,"emergencyButtonLabel": "فوریت‌های حرم"
-  ,"arrivalTime": "زمان رسیدن"
-  ,"routeOverview": "مسیر در یک نگاه"
-  ,"allRoutes": "همه مسیر"
-  ,"otherRoutes": "سایر مسیرها"
-  ,"startRouting": "شروع مسیریابی"
-  ,"stopRouting": "پایان و بستن سفر"
-  ,"returnToRoute": "برگرد به مسیر"
-  ,"from": "از"
-  ,"to": "به"
-  ,"meters": "متر"
-  ,"metersPerSecond": "متر بر ثانیه"
-  ,"degreesPerSecond": "درجه بر ثانیه"
-  ,"defaultUserName": "کاربر مسیربایی آستان قدس"
-  ,"defaultLocation": "آستان قدس رضوی"
-  ,"defaultBabRezaName": "باب الرضا (ع)"
-  ,"destSahnEnqelabName": "صحن انقلاب"
-  ,"destSahnEnqelabLocation": "حرم مطهر امام رضا علیه‌السلام، صحن انقلاب"
-  ,"destEyvanTalaName": "ایوان طلا"
-  ,"destEyvanTalaLocation": "حرم مطهر امام رضا علیه‌السلام، بین طبریسی و ..."
-  ,"destRavaqMasoumehName": "رواق حضرت معصومه (س)"
-  ,"destRavaqMasoumehLocation": "حرم مطهر امام رضا علیه‌السلام، صحن آیت الله ..."
-  ,"destMasjedGoharshadName": "مسجد جامع گوهرشاد"
-  ,"destMasjedGoharshadLocation": "حرم مطهر امام رضا علیه‌السلام، صحن گوهرشاد"
-  ,"destSahnPayambarAzamName": "صحن پیامبر اعظم"
-  ,"destSahnPayambarAzamLocation": "حرم مطهر امام رضا علیه‌السلام، صحن پیامبر..."
-  ,"finalSearchTitle": "جزئیات نهایی مسیر"
-  ,"saveDestination": "ذخیره مقصد"
-  ,"shareRoute": "اشتراک گذاری"
-  ,"transportWalk": "پیاده"
-  ,"transportCar": "ون برقی"
-  ,"transportWheelchair": "ویلچر"
-  ,"routeForMen": "مسیر مناسب برادران"
-  ,"routeForWomen": "مسیر مناسب خواهران"
-  ,"routeSummary": "از {origin} به {destination}"
-  ,"minutesUnit": "دقیقه"
-  ,"secondsUnit": "ثانیه"
-  ,"previous": "قبلی"
-  ,"next": "بعدی"
-  ,"pwaInstallTitle": "نصب اپلیکیشن"
-  ,"pwaInstallPrompt": "برای دسترسی سریع، اپلیکیشن را روی دستگاه خود نصب کنید."
-  ,"pwaInstallButton": "نصب"
-  ,"mapNoRecentSearches": "جستجوی اخیری وجود ندارد"
-  ,"noRouteFound": "مسیر با حالت انتخابی یافت نشد"
-  ,"pwaCloseButton": "بستن"
-  ,"stepMoveToDoor": "حرکت به سمت درب {name}"
-  ,"stepPassConnection": "عبور از نقطه اتصال {title}"
-  ,"stepEnterNextSahn": "ورود به صحن بعدی از طریق نقطه اتصال {title}"
-  ,"stepPassDoor": "عبور از درب {name}"
-  ,"stepArriveDestination": "رسیدن به مقصد {name}"
-  ,"stepNumber": "گام {num}"
-  ,"landmarkSuffix": "به سمت {name} بچرخید و {distance} متر به جلو بروید"
-  ,"qrScanInstruction": "کد QR را در کادر قرار دهید"
-  ,"qrScanError": "خواندن کد QR ناموفق بود"
+  "phonePlaceholder": "شماره موبایل",
+  "profileTitle": "حساب کاربری",
+  "completeProfile": "تکمیل پروفایل",
+  "accountSection": "حساب کاربری",
+  "accountInfo": "اطلاعات حساب کاربری",
+  "myRoutes": "مسیرهای پیموده شده من",
+  "savedPlaces": "مکان های ذخیره شده",
+  "settingsSection": "تنظیمات",
+  "notifications": "اطلاع رسانی",
+  "supportSection": "آستان قدس",
+  "support": "پشتیبان",
+  "faq": "سوالات متداول",
+  "termsRegulation": "قوانین و مقررات",
+  "logoutTitle": "خروج",
+  "logoutAccount": "خروج از حساب کاربری",
+  "commentPlaceholder": "دیدگاه خود را بنویسید...",
+  "commentModalTitle": "دیدگاه و نظر خود را بنویسید",
+  "commentModalInstruction": "دیدگاه خودتان را که مربوط به این مکان می‌باشد را بنویسید. پس از تایید شدن، دیدگاه شما منتشر خواهد شد.",
+  "ratingPrompt": "امتیاز دهید:",
+  "submitComment": "ارسال و ثبت دیدگاه",
+  "youAreHere": "شما الان اینجایید!",
+  "aboutLocation": "درباره {title}",
+  "readMore": "بیشتر بخوانید",
+  "close": "بستن",
+  "audioTextContent": "محتواهای صوتی و متنی {title}",
+  "commentsTitle": "دیدگاه‌ها ({count})",
+  "viewAll": "مشاهده همه",
+  "commentPromptTitle": "دیدگاه خود را درباره این مکان بنویسید",
+  "commentPromptInstruction": "دیدگاه خود را درباره این مکان بنویسید و به آن امتیاز دهید. پس از تایید شدن، دیدگاه‌تان منتشر می‌شود.",
+  "showLess": "نمایش کمتر",
+  "showMore": "مشاهده بیشتر",
+  "shrineEventsTitle": "برنامه‌های حرم مطهر",
+  "navigate": "مسیریابی",
+  "mostVisited": "پربازدیدترین‌های حرم",
+  "nearMe": "مکان‌های نزدیک من",
+  "save": "ذخیره",
+  "commentsLabel": "نظر",
+  "defaultCommentAuthor": "کاربر جدید",
+  "searchSuggestions": "پیشنهاد‌های جستجو",
+  "loading": "در حال بارگذاری...",
+  "fetchError": "خطا در دریافت اطلاعات: {error}",
+  "noDataFound": "موردی یافت نشد",
+  "goToSlide": "رفتن به اسلاید {n}",
+  "searchPlaceholder": "کجا میخوای بری؟",
+  "originPlaceholder": "مبدا را انتخاب کنید",
+  "destinationPlaceholder": "مقصد را انتخاب کنید",
+  "destinationSearchPlaceholder": "جستجوی مقصد",
+  "originSearchPlaceholder": "جستجوی مبدا",
+  "closeSearch": "بستن جستجو",
+  "clearSearch": "پاک کردن جستجو",
+  "noResultsFound": "نتیجه‌ای برای \"{query}\" یافت نشد",
+  "enterSearchTerm": "برای جستجو عبارت مورد نظر را وارد کنید",
+  "chooseFromMap": "انتخاب از روی نقشه",
+  "emergencyPlaceholder": "توضیحات بیشتر...",
+  "emergencySubmit": "تایید و ارسال درخواست",
+  "mapSelectFromMap": "انتخاب موقعیت از روی نقشه",
+  "mapRoutingTitle": "مسیریابی حرم مطهر",
+  "mapCurrentOriginLabel": "مبداء فعلی شما",
+  "mapCurrentLocation": "مکان فعلی شما ({loc})",
+  "mapCurrentLocationName": "موقعیت فعلی شما",
+  "mapSelectedLocation": "موقعیت انتخاب شده",
+  "mapSelectedLocationFromMap": "موقعیت انتخاب شده از روی نقشه",
+  "mapRecentSearches": "جستوجوهای اخیر شما",
+  "groupCourtyardPlural": "صحن ها",
+  "groupEyvanPlural": "ایوان ها",
+  "groupRavaqPlural": "رواق ها",
+  "groupMosques": "مساجد",
+  "groupSchools": "مدارس",
+  "groupServices": "خدماتی",
+  "groupCulture": "فرهنگی",
+  "groupCemetery": "آرامستان",
+  "groupQRScan": "محل اسکن ",
+  "groupOther": "سایر",
+  "mapStopFollow": "توقف تعقیب موقعیت",
+  "mapStartFollow": "تعقیب موقعیت",
+  "mapCenter": "مرکز به موقعیت فعلی",
+  "mapLatitude": "عرض:",
+  "mapLongitude": "طول:",
+  "mapAccuracy": "دقت:",
+  "drStepWarning": "توجه: گام برداری ثبت نمی‌شود. مطمئن شوید دستگاه حرکت دارد و سنسورها فعال هستند.",
+  "drSensorsUnsupported": "سنسورهای دستگاه پشتیبانی نمی‌شوند.",
+  "drPermissionNeeded": "برای استفاده، دسترسی به سنسورها را فعال کنید.",
+  "drCalibrating": "درحال کالیبراسیون سنسورها...",
+  "drStopTracking": "توقف ردیابی پیشرفته",
+  "drStartTracking": "شروع ردیابی پیشرفته",
+  "drReset": "بازنشانی سیستم",
+  "drExportLog": "خروجی لاگ",
+  "drStepCount": "تعداد گام‌ها:",
+  "drStrideLength": "طول گام (متر):",
+  "drRelPosition": "موقعیت نسبی:",
+  "drHeading": "جهت (درجه):",
+  "drLinearSpeed": "سرعت خطی:",
+  "drAngularSpeed": "سرعت زاویه‌ای:",
+  "drEstimatedStride": "طول گام تخمینی:",
+  "emergencyTitle": "درخواست کمک‌های فوریتی حرم مطهر",
+  "emergencySubtitle": "لطفا نوع درخواست خود را انتخاب کنید و توضیحاتی درباره آن بنویسید. در سریع‌ترین زمان ممکن خادمین به مکان شما خواهند رسید.",
+  "emergencyFire": "اعلام حریق",
+  "emergencyTheft": "اعلام سرقت",
+  "emergencyMedical": "درخواست خدمات پزشکی",
+  "emergencyMissing": "اعلام مفقودی",
+  "soundSettingsTitle": "تنظیمات صدا",
+  "soundOptionOn": "روشن",
+  "soundOptionAlertOnly": "فقط هشدار",
+  "soundOptionOff": "خاموش",
+  "emergencyButtonLabel": "فوریت‌های حرم",
+  "arrivalTime": "زمان رسیدن",
+  "routeOverview": "مسیر در یک نگاه",
+  "allRoutes": "همه مسیر",
+  "otherRoutes": "سایر مسیرها",
+  "startRouting": "شروع مسیریابی",
+  "stopRouting": "پایان و بستن سفر",
+  "returnToRoute": "برگرد به مسیر",
+  "from": "از",
+  "to": "به",
+  "meters": "متر",
+  "metersPerSecond": "متر بر ثانیه",
+  "degreesPerSecond": "درجه بر ثانیه",
+  "defaultUserName": "کاربر مسیربایی آستان قدس",
+  "defaultLocation": "آستان قدس رضوی",
+  "defaultBabRezaName": "موقعیت فعلی شما",
+  "destSahnEnqelabName": "صحن انقلاب",
+  "destSahnEnqelabLocation": "حرم مطهر امام رضا علیه‌السلام، صحن انقلاب",
+  "destEyvanTalaName": "ایوان طلا",
+  "destEyvanTalaLocation": "حرم مطهر امام رضا علیه‌السلام، بین طبریسی و ...",
+  "destRavaqMasoumehName": "رواق حضرت معصومه (س)",
+  "destRavaqMasoumehLocation": "حرم مطهر امام رضا علیه‌السلام، صحن آیت الله ...",
+  "destMasjedGoharshadName": "مسجد جامع گوهرشاد",
+  "destMasjedGoharshadLocation": "حرم مطهر امام رضا علیه‌السلام، صحن گوهرشاد",
+  "destSahnPayambarAzamName": "صحن پیامبر اعظم",
+  "destSahnPayambarAzamLocation": "حرم مطهر امام رضا علیه‌السلام، صحن پیامبر...",
+  "finalSearchTitle": "جزئیات نهایی مسیر",
+  "saveDestination": "ذخیره مقصد",
+  "shareRoute": "اشتراک گذاری",
+  "transportWalk": "پیاده",
+  "transportCar": "ون برقی",
+  "transportWheelchair": "ویلچر",
+  "routeForMen": "مسیر مناسب برادران",
+  "routeForWomen": "مسیر مناسب خواهران",
+  "routeSummary": "از {origin} به {destination}",
+  "minutesUnit": "دقیقه",
+  "secondsUnit": "ثانیه",
+  "previous": "قبلی",
+  "next": "بعدی",
+  "pwaInstallTitle": "نصب اپلیکیشن",
+  "pwaInstallPrompt": "برای دسترسی سریع، اپلیکیشن را روی دستگاه خود نصب کنید.",
+  "pwaInstallButton": "نصب",
+  "mapNoRecentSearches": "جستجوی اخیری وجود ندارد",
+  "noRouteFound": "مسیر با حالت انتخابی یافت نشد",
+  "pwaCloseButton": "بستن",
+  "stepMoveToDoor": "حرکت به سمت درب {name}",
+  "stepPassConnection": "عبور از نقطه اتصال {title}",
+  "stepEnterNextSahn": "ورود به صحن بعدی از طریق نقطه اتصال {title}",
+  "stepPassDoor": "عبور از درب {name}",
+  "stepArriveDestination": "رسیدن به مقصد {name}",
+  "stepNumber": "گام {num}",
+  "landmarkSuffix": "به سمت {name} بچرخید و {distance} متر به جلو بروید",
+  "qrScanInstruction": "کد QR را در کادر قرار دهید",
+  "qrScanError": "خواندن کد QR ناموفق بود",
+  "emergencySubmissionSuccess": "درخواست کمک شما با موفقیت ارسال شد",
+  "emergencySubmissionError": "خطا در ارسال درخواست کمک",
+  "emergencySelectType": "لطفاً نوع درخواست کمک را انتخاب کنید",
+  "emergencyEnterDetails": "لطفاً توضیحات بیشتری وارد کنید"
 }

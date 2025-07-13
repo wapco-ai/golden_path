@@ -95,89 +95,93 @@
   "groupCulture": "ثقافي",
   "groupCemetery": "المقبرة",
   "groupQRScan": "أماكن مسح ",
-  "groupOther": "أخرى"
-  ,"mapStopFollow": "إيقاف تتبع الموقع"
-  ,"mapStartFollow": "تتبع الموقع"
-  ,"mapCenter": "تمركز على الموقع الحالي"
-  ,"mapLatitude": "خط العرض:"
-  ,"mapLongitude": "خط الطول:"
-  ,"mapAccuracy": "الدقة:"
-  ,"drStepWarning": "تحذير: لا يتم تسجيل الخطوات. تأكد من أن الجهاز يتحرك وأن الحساسات مفعلة."
-  ,"drSensorsUnsupported": "حساسات الجهاز غير مدعومة."
-  ,"drPermissionNeeded": "فعّل صلاحيات الحساسات للاستمرار."
-  ,"drCalibrating": "جاري معايرة الحساسات..."
-  ,"drStopTracking": "إيقاف التتبع المتقدم"
-  ,"drStartTracking": "بدء التتبع المتقدم"
-  ,"drReset": "إعادة ضبط النظام"
-  ,"drExportLog": "تصدير السجل"
-  ,"drStepCount": "عدد الخطوات:"
-  ,"drStrideLength": "طول الخطوة (متر):"
-  ,"drRelPosition": "الموقع النسبي:"
-  ,"drHeading": "الاتجاه (درجة):"
-  ,"drLinearSpeed": "السرعة الخطية:"
-  ,"drAngularSpeed": "السرعة الزاوية:"
-  ,"drEstimatedStride": "طول الخطوة المقدر:"
-  ,"emergencyTitle": "طلب طوارئ الحرم"
-  ,"emergencySubtitle": "يرجى اختيار نوع الطلب وكتابة وصف عنه. سيصل الخدم إلى موقعك بأسرع وقت."
-  ,"emergencyFire": "بلاغ حريق"
-  ,"emergencyTheft": "بلاغ سرقة"
-  ,"emergencyMedical": "طلب خدمات طبية"
-  ,"emergencyMissing": "بلاغ مفقود"
-  ,"soundSettingsTitle": "إعدادات الصوت"
-  ,"soundOptionOn": "تشغيل"
-  ,"soundOptionAlertOnly": "تنبيهات فقط"
-  ,"soundOptionOff": "إيقاف"
-  ,"emergencyButtonLabel": "طوارئ الحرم"
-  ,"arrivalTime": "وقت الوصول"
-  ,"routeOverview": "نظرة على المسار"
-  ,"allRoutes": "كل المسارات"
-  ,"otherRoutes": "مسارات أخرى"
-  ,"startRouting": "بدء المسار"
-  ,"stopRouting": "إنهاء الرحلة"
-  ,"returnToRoute": "العودة للمسار"
-  ,"from": "من"
-  ,"to": "إلى"
-  ,"meters": "متر"
-  ,"metersPerSecond": "متر/ثانية"
-  ,"degreesPerSecond": "درجة/ثانية"
-  ,"defaultUserName": "مستخدم المسير"
-  ,"defaultLocation": "العتبة الرضوية"
-  ,"defaultBabRezaName": "باب الرضا"
-  ,"destSahnEnqelabName": "صحن الثورة"
-  ,"destSahnEnqelabLocation": "العتبة الرضوية، صحن الثورة"
-  ,"destEyvanTalaName": "الإيوان الذهبي"
-  ,"destEyvanTalaLocation": "العتبة الرضوية، بين طبرسي ..."
-  ,"destRavaqMasoumehName": "رواق السيدة معصومة"
-  ,"destRavaqMasoumehLocation": "العتبة الرضوية، صحن آية الله ..."
-  ,"destMasjedGoharshadName": "مسجد گوهرشاد"
-  ,"destMasjedGoharshadLocation": "العتبة الرضوية، صحن گوهرشاد"
-  ,"destSahnPayambarAzamName": "صحن النبي الأعظم"
-  ,"destSahnPayambarAzamLocation": "العتبة الرضوية، صحن النبي ..."
-  ,"finalSearchTitle": "تفاصيل المسار النهائية"
-  ,"saveDestination": "حفظ الوجهة"
-  ,"shareRoute": "مشاركة"
-  ,"transportWalk": "مشياً"
-  ,"transportCar": "حافلة كهربائية"
-  ,"transportWheelchair": "كرسي متحرك"
-  ,"routeForMen": "مسار للرجال"
-  ,"routeForWomen": "مسار للنساء"
-  ,"routeSummary": "من {origin} إلى {destination}"
-  ,"minutesUnit": "دقيقة"
-  ,"secondsUnit": "ثانية"
-  ,"previous": "السابق"
-  ,"next": "التالي"
-  ,"pwaInstallTitle": "تثبيت التطبيق"
-  ,"pwaInstallPrompt": "للوصول السريع، ثبّت التطبيق على جهازك."
-  ,"pwaInstallButton": "تثبيت"
-  ,"mapNoRecentSearches": "لا توجد عمليات بحث حديثة"
-  ,"noRouteFound": "لم يتم العثور على مسار للحالة المحددة"
-  ,"pwaCloseButton": "إغلاق"
-  ,"stepMoveToDoor": "اتجه نحو {name}"
-  ,"stepPassConnection": "عبر نقطة الاتصال {title}"
-  ,"stepEnterNextSahn": "ادخل الساحة التالية عبر {title}"
-  ,"stepPassDoor": "اعبر من {name}"
-  ,"stepArriveDestination": "الوصول إلى {name}"
-  ,"stepNumber": "الخطوة {num}"
-  ,"qrScanInstruction": "ضع رمز QR داخل الإطار"
-  ,"qrScanError": "فشل قراءة رمز QR"
+  "groupOther": "أخرى",
+  "mapStopFollow": "إيقاف تتبع الموقع",
+  "mapStartFollow": "تتبع الموقع",
+  "mapCenter": "تمركز على الموقع الحالي",
+  "mapLatitude": "خط العرض:",
+  "mapLongitude": "خط الطول:",
+  "mapAccuracy": "الدقة:",
+  "drStepWarning": "تحذير: لا يتم تسجيل الخطوات. تأكد من أن الجهاز يتحرك وأن الحساسات مفعلة.",
+  "drSensorsUnsupported": "حساسات الجهاز غير مدعومة.",
+  "drPermissionNeeded": "فعّل صلاحيات الحساسات للاستمرار.",
+  "drCalibrating": "جاري معايرة الحساسات...",
+  "drStopTracking": "إيقاف التتبع المتقدم",
+  "drStartTracking": "بدء التتبع المتقدم",
+  "drReset": "إعادة ضبط النظام",
+  "drExportLog": "تصدير السجل",
+  "drStepCount": "عدد الخطوات:",
+  "drStrideLength": "طول الخطوة (متر):",
+  "drRelPosition": "الموقع النسبي:",
+  "drHeading": "الاتجاه (درجة):",
+  "drLinearSpeed": "السرعة الخطية:",
+  "drAngularSpeed": "السرعة الزاوية:",
+  "drEstimatedStride": "طول الخطوة المقدر:",
+  "emergencyTitle": "طلب طوارئ الحرم",
+  "emergencySubtitle": "يرجى اختيار نوع الطلب وكتابة وصف عنه. سيصل الخدم إلى موقعك بأسرع وقت.",
+  "emergencyFire": "بلاغ حريق",
+  "emergencyTheft": "بلاغ سرقة",
+  "emergencyMedical": "طلب خدمات طبية",
+  "emergencyMissing": "بلاغ مفقود",
+  "soundSettingsTitle": "إعدادات الصوت",
+  "soundOptionOn": "تشغيل",
+  "soundOptionAlertOnly": "تنبيهات فقط",
+  "soundOptionOff": "إيقاف",
+  "emergencyButtonLabel": "طوارئ الحرم",
+  "arrivalTime": "وقت الوصول",
+  "routeOverview": "نظرة على المسار",
+  "allRoutes": "كل المسارات",
+  "otherRoutes": "مسارات أخرى",
+  "startRouting": "بدء المسار",
+  "stopRouting": "إنهاء الرحلة",
+  "returnToRoute": "العودة للمسار",
+  "from": "من",
+  "to": "إلى",
+  "meters": "متر",
+  "metersPerSecond": "متر/ثانية",
+  "degreesPerSecond": "درجة/ثانية",
+  "defaultUserName": "مستخدم المسير",
+  "defaultLocation": "العتبة الرضوية",
+  "defaultBabRezaName": "موقعك الحالي",
+  "destSahnEnqelabName": "صحن الثورة",
+  "destSahnEnqelabLocation": "العتبة الرضوية، صحن الثورة",
+  "destEyvanTalaName": "الإيوان الذهبي",
+  "destEyvanTalaLocation": "العتبة الرضوية، بين طبرسي ...",
+  "destRavaqMasoumehName": "رواق السيدة معصومة",
+  "destRavaqMasoumehLocation": "العتبة الرضوية، صحن آية الله ...",
+  "destMasjedGoharshadName": "مسجد گوهرشاد",
+  "destMasjedGoharshadLocation": "العتبة الرضوية، صحن گوهرشاد",
+  "destSahnPayambarAzamName": "صحن النبي الأعظم",
+  "destSahnPayambarAzamLocation": "العتبة الرضوية، صحن النبي ...",
+  "finalSearchTitle": "تفاصيل المسار النهائية",
+  "saveDestination": "حفظ الوجهة",
+  "shareRoute": "مشاركة",
+  "transportWalk": "مشياً",
+  "transportCar": "حافلة كهربائية",
+  "transportWheelchair": "كرسي متحرك",
+  "routeForMen": "مسار للرجال",
+  "routeForWomen": "مسار للنساء",
+  "routeSummary": "من {origin} إلى {destination}",
+  "minutesUnit": "دقيقة",
+  "secondsUnit": "ثانية",
+  "previous": "السابق",
+  "next": "التالي",
+  "pwaInstallTitle": "تثبيت التطبيق",
+  "pwaInstallPrompt": "للوصول السريع، ثبّت التطبيق على جهازك.",
+  "pwaInstallButton": "تثبيت",
+  "mapNoRecentSearches": "لا توجد عمليات بحث حديثة",
+  "noRouteFound": "لم يتم العثور على مسار للحالة المحددة",
+  "pwaCloseButton": "إغلاق",
+  "stepMoveToDoor": "اتجه نحو {name}",
+  "stepPassConnection": "عبر نقطة الاتصال {title}",
+  "stepEnterNextSahn": "ادخل الساحة التالية عبر {title}",
+  "stepPassDoor": "اعبر من {name}",
+  "stepArriveDestination": "الوصول إلى {name}",
+  "stepNumber": "الخطوة {num}",
+  "qrScanInstruction": "ضع رمز QR داخل الإطار",
+  "qrScanError": "فشل قراءة رمز QR",
+  "emergencySubmissionSuccess": "تم إرسال طلب المساعدة بنجاح",
+  "emergencySubmissionError": "خطأ في إرسال طلب المساعدة",
+  "emergencySelectType": "الرجاء اختيار نوع الطلب",
+  "emergencyEnterDetails": "الرجاء إدخال مزيد من التفاصيل"
 }

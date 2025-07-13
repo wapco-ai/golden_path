@@ -123,9 +123,6 @@ const MapRoutingPage = () => {
     }
   }, []);
 
-
-  // Recent searches data from store
-
   const filteredDestinations = searchQuery
     ? geoResults.map((f) => {
       const center = getFeatureCenter(f);
@@ -138,12 +135,14 @@ const MapRoutingPage = () => {
     })
     : recentSearches;
 
-  // Handle navigation when both origin and destination are selected
   useEffect(() => {
-    if (userLocation?.coordinates && selectedDestination?.coordinates) {
+    if (userLocation?.coordinates &&
+      selectedDestination?.coordinates &&
+      !showDestinationModal &&
+      !showOriginModal &&
+      !isSelectingFromMap) {  // Add this condition
       setOriginStore({
         name: userLocation.name,
-
         coordinates: userLocation.coordinates
       });
       setDestinationStore({
@@ -152,7 +151,16 @@ const MapRoutingPage = () => {
       });
       navigate('/fs');
     }
-  }, [userLocation, selectedDestination, navigate, setOriginStore, setDestinationStore]);
+  }, [
+    userLocation,
+    selectedDestination,
+    navigate,
+    setOriginStore,
+    setDestinationStore,
+    showDestinationModal,
+    showOriginModal,
+    isSelectingFromMap  // Add to dependencies
+  ]);
 
   const handleDestinationSelect = (destination) => {
     if (activeInput === 'destination') {
@@ -160,7 +168,6 @@ const MapRoutingPage = () => {
       addSearch(destination);
       setShowDestinationModal(false);
 
-      // If coming from FinalSearch, store the new destination and return
       if (location.state?.showDestinationModal) {
         sessionStorage.setItem('updatedDestination', JSON.stringify(destination));
         navigate('/fs');
@@ -169,7 +176,6 @@ const MapRoutingPage = () => {
       setUserLocation({ name: destination.name, coordinates: destination.coordinates });
       setShowOriginModal(false);
 
-      // If coming from FinalSearch, store the new origin and return
       if (location.state?.showOriginModal) {
         sessionStorage.setItem('updatedOrigin', JSON.stringify({
           name: destination.name,
@@ -182,12 +188,9 @@ const MapRoutingPage = () => {
   };
 
   const handleInputChange = (e) => {
-    // Normalize the search query to lowercase to allow
-    // case-insensitive matching against destination names
     setSearchQuery(e.target.value.toLowerCase());
   };
 
-  // Load geojson data whenever the selected language changes
   useEffect(() => {
     const file = buildGeoJsonPath(language);
 
@@ -197,7 +200,6 @@ const MapRoutingPage = () => {
       .catch((err) => console.error('failed to load geojson', err));
   }, [language]);
 
-  // Filter geojson features based on search query
   useEffect(() => {
     if (geoData && searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -213,7 +215,6 @@ const MapRoutingPage = () => {
   }, [searchQuery, geoData]);
 
   const handleSwapLocations = () => {
-    // Only swap the values between origin and destination
     const temp = userLocation;
     setUserLocation(
       selectedDestination
@@ -224,7 +225,6 @@ const MapRoutingPage = () => {
       temp ? { name: temp.name, location: temp.name, coordinates: temp.coordinates } : null
     );
 
-    // Add animation to swap button
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
       setTimeout(() => {
@@ -277,7 +277,7 @@ const MapRoutingPage = () => {
       const location = {
         name: locName,
         coordinates: [latlng.lat, latlng.lng],
-        type: activeInput // 'origin' or 'destination'
+        type: activeInput
       };
 
       setMapSelectedLocation(location);
@@ -331,7 +331,6 @@ const MapRoutingPage = () => {
     }
   }, [showDestinationModal, showOriginModal]);
 
-  // Function to create SVG elements from the SVG strings
   const renderSVG = (svgString) => {
     return <div dangerouslySetInnerHTML={{ __html: svgString }} />;
   };
@@ -345,7 +344,7 @@ const MapRoutingPage = () => {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
           </button>
         ) : (
-          <button className="map-back-button" onClick={() => navigate(-1)}>
+          <button className="map-back-button" onClick={() => navigate('/location')}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
           </button>
         )}
@@ -385,7 +384,7 @@ const MapRoutingPage = () => {
       )}
 
       {/* Map Container */}
-      <div className="map-routing-container">
+      <div className={`map-routing-container ${isSelectingFromMap ? 'hide-attribution' : ''}`}>
         <MapComponent
           setUserLocation={setUserLocation}
           selectedDestination={selectedDestination}
@@ -397,20 +396,22 @@ const MapRoutingPage = () => {
           isTracking={isTracking}
           onUserMove={() => setIsTracking(false)}
         />
-        <button
-          className={`map-gps-button ${isTracking ? 'active' : ''}`}
-          onClick={() => setIsTracking((t) => !t)}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-            <path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" />
-            <path d="M12 2l0 2" />
-            <path d="M12 20l0 2" />
-            <path d="M20 12l2 0" />
-            <path d="M2 12l2 0" />
-          </svg>
-        </button>
+        {!isSelectingFromMap && (
+          <button
+            className={`map-gps-button ${isTracking ? 'active' : ''}`}
+            onClick={() => setIsTracking((t) => !t)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+              <path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" />
+              <path d="M12 2l0 2" />
+              <path d="M12 20l0 2" />
+              <path d="M20 12l2 0" />
+              <path d="M2 12l2 0" />
+            </svg>
+          </button>
+        )}
       </div>
 
       {/* Destination Input - Only shown when modal is NOT open and not selecting from map */}
@@ -441,23 +442,14 @@ const MapRoutingPage = () => {
                 onClick={() => handleInputClick('origin')}
               >
                 <div className="map-location-text">
-                  {userLocation ? (
-                    <>
-                      <span className="map-location-name">
-                        {userLocation.name}
-                      </span>
-                      <span className="map-location-label">
-                        {intl.formatMessage({ id: 'mapCurrentOriginLabel' })}
-                      </span>
-                    </>
-                  ) : (
-                    <input
-                      type="text"
-                      className="map-origin-input"
-                      placeholder={intl.formatMessage({ id: 'originPlaceholder' })}
-                      readOnly
-                    />
-                  )}
+                  <span className="map-location-name">
+                    {userLocation.name}
+                  </span>
+                  {/* {userLocation.name !== intl.formatMessage({ id: 'defaultBabRezaName' }) && (
+                    <span className="map-location-label">
+                      {intl.formatMessage({ id: 'mapCurrentOriginLabel' })}
+                    </span>
+                  )} */}
                 </div>
               </div>
 
@@ -487,7 +479,6 @@ const MapRoutingPage = () => {
               </div>
             </div>
           </div>
-          <ModeSelector />
         </>
       )}
 
@@ -575,7 +566,6 @@ const MapRoutingPage = () => {
               )}
             </>
           )}
-
 
           {searchQuery && filteredDestinations.length > 0 && (
             <ul className="map-destination-list">
