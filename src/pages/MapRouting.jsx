@@ -115,6 +115,9 @@ const MapRoutingPage = () => {
         }
         setShowDestinationModal(true);
         setActiveInput('destination');
+        // Disable GPS tracking when editing only the destination
+        // to avoid overwriting the origin with the current location
+        setIsTracking(false);
       }
 
       // Clear the flags
