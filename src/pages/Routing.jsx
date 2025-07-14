@@ -593,7 +593,15 @@ const RoutingPage = () => {
     <div className="routing-page">
       {/* Separate overlay for info modal */}
       {isInfoModalOpen && isMapModalOpen && !showAllRoutesView && !showAlternativeRoutes && (
-        <div className="info-modal-overlay" onClick={toggleInfoModal} />
+        <div
+          className="info-modal-overlay"
+          onClick={(e) => {
+            // Only close if clicking on the overlay itself, not children
+            if (e.target === e.currentTarget) {
+              toggleInfoModal();
+            }
+          }}
+        />
       )}
 
       {/* Existing overlay for other modals */}
@@ -801,6 +809,11 @@ const RoutingPage = () => {
               ? 'dark-overlay'
               : 'No-dark-overlay'
               }`}
+            onClick={() => {
+              if (isMapModalOpen && isInfoModalOpen) {
+                toggleInfoModal();
+              }
+            }}
           >
             <RouteMap
               ref={routeMapRef}
