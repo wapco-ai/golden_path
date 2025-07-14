@@ -68,6 +68,13 @@ class AdvancedDeadReckoningService {
           return;
         }
       }
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const res = await DeviceOrientationEvent.requestPermission();
+        if (res !== 'granted') {
+          this._emit('permissionNeeded');
+          return;
+        }
+      }
     } catch (e) {
       console.warn('Sensor permission error', e);
     }
