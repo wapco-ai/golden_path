@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import RouteMap from '../components/map/RouteMap';
+import DeadReckoningControls from '../components/map/DeadReckoningControls';
+import advancedDeadReckoningService from '../services/AdvancedDeadReckoningService';
 import '../styles/Routing.css';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
@@ -40,6 +42,9 @@ const RoutingPage = () => {
   const [showAlternativeRoutes, setShowAlternativeRoutes] = useState(false);
   const [was3DViewBeforeRouteView, setWas3DViewBeforeRouteView] = useState(false);
   const [is3DView, setIs3DView] = useState(false);
+  const [drPosition, setDrPosition] = useState(null);
+  const [drGeoPath, setDrGeoPath] = useState([]);
+  const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
   const navigate = useNavigate();
   const {
     origin,
@@ -56,6 +61,15 @@ const RoutingPage = () => {
     setAlternativeRoutes
   } = useRouteStore();
   const language = useLangStore(state => state.language);
+
+  useEffect(() => {
+    const remove = advancedDeadReckoningService.addListener(data => {
+      setIsDrActive(data.isActive);
+      if (data.geoPosition) setDrPosition(data.geoPosition);
+      if (data.geoPath) setDrGeoPath(data.geoPath);
+    });
+    return remove;
+  }, []);
 
   useEffect(() => {
     const sessGeo = sessionStorage.getItem('routeGeo');
@@ -390,6 +404,10 @@ const RoutingPage = () => {
             return;
           }
           setUserLocation([position.coords.latitude, position.coords.longitude])
+          advancedDeadReckoningService.processGpsData(
+            { lat: position.coords.latitude, lng: position.coords.longitude },
+            position.coords.accuracy
+          )
         }
 
         const error = (err) => {
@@ -483,6 +501,13 @@ const RoutingPage = () => {
 
     if (newRoutingState && currentStep >= routeData?.steps?.length - 1) {
       setCurrentStep(0);
+    }
+
+    if (newRoutingState) {
+      const [lat, lng] = userLocation;
+      advancedDeadReckoningService.start({ lat, lng });
+    } else {
+      advancedDeadReckoningService.stop();
     }
 
     // Only change 3D view if not in all routes or alternative routes view
@@ -826,6 +851,9 @@ const RoutingPage = () => {
               routeGeo={routeGeo}
               alternativeRoutes={routeData.alternativeRoutes}
               onSelectAlternativeRoute={handleSelectAlternativeRoute}
+            />
+            <DeadReckoningControls
+              currentLocation={{ coords: { lat: userLocation[0], lng: userLocation[1] } }}
             />
           </div>
         )}
