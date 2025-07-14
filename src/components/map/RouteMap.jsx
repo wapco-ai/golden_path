@@ -5,6 +5,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
+import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 
 import { forwardRef, useImperativeHandle } from 'react';
 
@@ -27,6 +28,19 @@ const RouteMap = forwardRef(({
     `alt-route-line-${idx}`,
     `alt-route-border-${idx}`
   ]);
+
+  const [drPosition, setDrPosition] = useState(null);
+  const [drGeoPath, setDrGeoPath] = useState([]);
+  const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
+
+  useEffect(() => {
+    const remove = advancedDeadReckoningService.addListener(data => {
+      setIsDrActive(data.isActive);
+      if (data.geoPosition) setDrPosition(data.geoPosition);
+      if (data.geoPath) setDrGeoPath(data.geoPath);
+    });
+    return remove;
+  }, []);
 
   // Custom SVG marker component
   const OriginMarker = () => (
@@ -169,6 +183,34 @@ const RouteMap = forwardRef(({
           <OriginMarker />
         </div>
       </Marker>
+
+      {isDrActive && drPosition && (
+        <Marker longitude={drPosition.lng} latitude={drPosition.lat} anchor="center">
+          <div style={{
+            width: 20,
+            height: 20,
+            backgroundColor: '#e53935',
+            borderRadius: '50%',
+            border: '3px solid white'
+          }} />
+        </Marker>
+      )}
+
+      {isDrActive && drGeoPath.length > 1 && (
+        <Source
+          id="dr-path"
+          type="geojson"
+          data={{
+            type: 'Feature',
+            geometry: {
+              type: 'LineString',
+              coordinates: drGeoPath.map(p => [p.lng, p.lat])
+            }
+          }}
+        >
+          <Layer id="dr-line" type="line" paint={{ 'line-color': '#e53935', 'line-width': 3, 'line-opacity': 0.7 }} />
+        </Source>
+      )}
 
       {/* Current step marker if available */}
       {routeSteps && currentStep < routeSteps.length && routeSteps[currentStep].coordinates && (
