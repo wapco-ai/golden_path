@@ -764,30 +764,31 @@ const RoutingPage = () => {
 
       {/* Main Guide Text Layer */}
       <div className="guide-text-layer">
-        {routeData.steps.map((step, index) => (
-          <div
-            key={step.id}
-            className={`guide-step ${index === currentStep ? 'active' : ''}`}
-            style={{
-              display: index < currentStep ? 'none' : 'block',
-              order: index === currentStep ? -1 : index
-            }}
-          >
-            <div className="step-header">
-              <div className="step-distance-container">
-                <span className="direction-icon">
-                  {renderDirectionArrow(step.direction)}
-                </span>
-                <span className="step-distance">{step.distance}</span>
+        <div className="guide-steps-container">
+          {routeData.steps.map((step, index) => (
+            <div
+              key={step.id}
+              className={`guide-step ${index === currentStep ? 'active' : ''}`}
+              style={{
+                display: index < currentStep ? 'none' : 'block',
+                order: index === currentStep ? -1 : index
+              }}
+            >
+              <div className="step-header">
+                <div className="step-distance-container">
+                  <span className="direction-icon">
+                    {renderDirectionArrow(step.direction)}
+                  </span>
+                  <span className="step-distance">{step.distance}</span>
+                </div>
+                <span className="step-time">{step.time}</span>
               </div>
-              <span className="step-time">{step.time}</span>
+              <p className="step-instruction">{step.instruction}</p>
+              {index < routeData.steps.length - 1 && <hr className="step-divider" />}
             </div>
-            <p className="step-instruction">{step.instruction}</p>
-            {index < routeData.steps.length - 1 && <hr className="step-divider" />}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-
       {/* Map Modal with faded line when closed */}
       <div className={`map-modal ${isMapModalOpen ? 'open' : 'closed'}`}>
         <div className="modal-toggle map-toggle" onClick={toggleMapModal}>
