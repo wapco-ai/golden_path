@@ -53,9 +53,9 @@ const RouteOverview = () => {
         const step = routeSteps?.[idx];
         const base = step && step.type
           ? intl.formatMessage(
-              { id: step.type },
-              { name: step.name, title: step.title, num: idx + 1 }
-            )
+            { id: step.type },
+            { name: step.name, title: step.title, num: idx + 1 }
+          )
           : step?.instruction
             ? step.instruction
             : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
@@ -204,7 +204,10 @@ const RouteOverview = () => {
             {intl.formatMessage({ id: 'routeOverview' })}
           </h1>
           <button className="map-profile-button" onClick={() => navigate('/Profile')}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="9.99984" cy="5" r="3.33333" fill="#1E2023" />
+              <ellipse cx="9.99984" cy="14.1667" rx="5.83333" ry="3.33333" fill="#1E2023" />
+            </svg>
           </button>
         </header>
         <div className="header-gradient"></div>
@@ -295,7 +298,7 @@ const RouteOverview = () => {
             </button>
 
             <div className={`carousel-dots4 ${routeData.length > 10 ? 'has-very-many-dots' :
-                routeData.length > 5 ? 'has-many-dots' : ''
+              routeData.length > 5 ? 'has-many-dots' : ''
               }`}>
               {routeData.map((_, index) => (
                 <span
