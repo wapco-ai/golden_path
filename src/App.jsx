@@ -5,9 +5,12 @@ import Profile from './pages/Profile';
 import FinalSearch from './pages/FinalSearch';
 import LangPage from './pages/LangPage';
 import LoginPage from './pages/LoginPage';
+<<<<<<< Updated upstream
 import MapRouting from './pages/MapRouting';
 import Routing from './pages/Routing';
 import RouteOverview from './pages/RouteOverview';
+=======
+>>>>>>> Stashed changes
 import Location from './pages/Location';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -16,6 +19,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const AppContent = () => {
   const location = useLocation();
+<<<<<<< Updated upstream
   const intl = useIntl();
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
@@ -54,6 +58,9 @@ const AppContent = () => {
     setShowInstall(false);
   };
   // --- END PWA Install Prompt State ---
+=======
+  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang' || location.pathname === '/location';
+>>>>>>> Stashed changes
 
   return (
     <div className="app">
@@ -88,6 +95,10 @@ const AppContent = () => {
           <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/rng" element={<Routing/>} />
           <Route path="/location" element={<Location />} />
+<<<<<<< Updated upstream
+=======
+          <Route path="*" element={<Navigate to="/404" replace />} />
+>>>>>>> Stashed changes
         </Routes>
       </main>
       {!hideHeaderFooter && <Footer />}
