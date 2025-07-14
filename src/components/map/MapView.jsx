@@ -6,6 +6,7 @@ import maplibregl from 'maplibre-gl';
 import DeadReckoningControls from './DeadReckoningControls';
 import osmStyle from '../../services/osmStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
+import ArrowMarker from './ArrowMarker';
 
 
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -36,18 +37,10 @@ const drLocationIcon = (
 
 const DirectionIndicator = ({ position, heading }) => (
   <Marker longitude={position.lng} latitude={position.lat} anchor="center">
-    {headingArrowIcon(heading)}
+    <div className="user-marker" style={{ transform: `rotate(${heading}deg)` }}>
+      <ArrowMarker />
+    </div>
   </Marker>
-);
-
-const headingArrowIcon = (headingInDegrees) => (
-  <div style={{
-    transform: `rotate(${headingInDegrees}deg)`
-  }}>
-    <svg width="30" height="30" viewBox="0 0 30 30">
-      <path d="M15 0 L30 30 L15 20 L0 30 Z" fill="#ff4500" />
-    </svg>
-  </div>
 );
 
 
@@ -82,13 +75,17 @@ const MapView = ({
   const [viewState, setViewState] = useState({
     latitude: getInitialCenter()[0],
     longitude: getInitialCenter()[1],
-    zoom: initialZoom
+    zoom: initialZoom,
+    bearing: 0
   });
 
   const handleMove = React.useCallback((evt) => {
     const ns = evt.viewState;
     setViewState((v) =>
-      v.latitude === ns.latitude && v.longitude === ns.longitude && v.zoom === ns.zoom
+      v.latitude === ns.latitude &&
+      v.longitude === ns.longitude &&
+      v.zoom === ns.zoom &&
+      v.bearing === ns.bearing
         ? v
         : ns
     );
@@ -123,6 +120,10 @@ const MapView = ({
       // به‌روزرسانی شمارنده گام  
       if (data.stepCount !== undefined && data.stepCount !== null) {
         setStepCount(data.stepCount);
+      }
+
+      if (data.heading !== undefined && data.heading !== null) {
+        setHeadingInDegrees(data.heading);
       }
 
       // به‌روزرسانی وضعیت کالمن  
@@ -174,6 +175,13 @@ const MapView = ({
   useEffect(() => {
     console.log('Heading state updated:', headingInDegrees.toFixed(2), '°');
   }, [headingInDegrees]);
+
+  // Rotate map to match user heading when following
+  useEffect(() => {
+    if (isFollowing) {
+      setViewState(v => ({ ...v, bearing: headingInDegrees }));
+    }
+  }, [headingInDegrees, isFollowing]);
   // ارسال داده‌های GPS به سرویس  
   useEffect(() => {
     if (isDrActive && currentLocation?.coords) {
