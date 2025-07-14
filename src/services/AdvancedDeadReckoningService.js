@@ -107,7 +107,11 @@ class AdvancedDeadReckoningService {
     if (!this.isActive) return;
     const alpha = e.alpha;
     if (alpha !== null && alpha !== undefined) {
-      this.heading = alpha;
+      // alpha increases clockwise but maplibre expects bearing clockwise from north.
+      // Subtract from 360 so rotating the device clockwise turns the map in the
+      // same direction.
+      this.heading = (360 - alpha) % 360;
+      this._emit('orientationChanged');
     }
   }
 
