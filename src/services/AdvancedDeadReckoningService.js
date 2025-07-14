@@ -518,13 +518,7 @@ class AdvancedDeadReckoningService {
             position.lng
         );
 
-        // اگر دقت موقعیت پایین باشد، فیلتر کالمن را به‌روز نکنید
-        if (accuracy > 20) {
-            console.log('GPS accuracy too low:', accuracy);
-            return;
-        }
-
-        // به‌روزرسانی فیلتر کالمن با اندازه‌گیری GPS جدید
+        // به‌روزرسانی فیلتر کالمن با اندازه‌گیری GPS جدید  
         this.kalmanFilter.update(
             {
                 x_gps: relativePosition.x,
