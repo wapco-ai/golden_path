@@ -50,10 +50,9 @@ const useIMUSensors = () => {
     const handleMotion = (event) => {
       if (!event) return;
 
-      // تشخیص نوع داده شتاب‌سنج  
+      // تشخیص نوع داده شتاب‌سنج
       if (event.acceleration && event.acceleration.x !== null) {
-        // شتاب خالص (بدون جاذبه)  
-        // خط 65 تا 71 را پیدا کنید و به این شکل تغییر دهید:  
+        // استفاده از شتاب خالص (بدون جاذبه)
         const accel = {
           x: event.acceleration.x || 0,
           y: event.acceleration.y || 0,

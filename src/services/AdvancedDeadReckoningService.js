@@ -463,8 +463,14 @@ class AdvancedDeadReckoningService {
     processGpsData(position, accuracy = 5.0, timestamp = Date.now()) {
         if (!this.isActive) return;
 
-        // لاگ داده‌های ورودی  
+        // لاگ داده‌های ورودی
         this._logSensorData('gps', { ...position, accuracy }, timestamp);
+
+        // نادیده گرفتن داده‌های GPS با دقت پایین
+        if (accuracy > 20) {
+            console.warn('Ignoring GPS fix due to low accuracy:', accuracy);
+            return;
+        }
 
         // اگر موقعیت مرجع تنظیم نشده است، آن را تنظیم کنید  
         if (!this.referencePosition) {
