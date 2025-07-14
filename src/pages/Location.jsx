@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Location.css';
-<<<<<<< Updated upstream
 import { groups, subGroups } from '../components/groupData';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouteStore } from '../store/routeStore';
@@ -17,9 +16,6 @@ const labelToValueMap = Object.values(subGroups).flat().reduce((acc, sg) => {
   acc[sg.label] = sg.value;
   return acc;
 }, {});
-=======
-import Routing from './Routing';
->>>>>>> Stashed changes
 
 const Location = () => {
   const navigate = useNavigate();
@@ -39,7 +35,6 @@ const Location = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showRouting, setShowRouting] = useState(false);
-<<<<<<< Updated upstream
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [activeTab, setActiveTab] = useState('mostVisited');
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -50,8 +45,6 @@ const Location = () => {
   const [filteredSubGroups, setFilteredSubGroups] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-=======
->>>>>>> Stashed changes
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -64,7 +57,6 @@ const Location = () => {
   const recentSearches = useSearchStore(state => state.recentSearches);
   const addSearch = useSearchStore(state => state.addSearch);
 
-<<<<<<< Updated upstream
   // Split groups into initial (first 9) and additional (rest)
   const initialCategories = groups.slice(0, 9);
   const additionalCategories = groups.slice(9);
@@ -102,13 +94,6 @@ const Location = () => {
       (Math.min(...lngs) + Math.max(...lngs)) / 2,
       (Math.min(...lats) + Math.max(...lats)) / 2,
     ];
-=======
-  const handleSlideChange = (index) => {
-    setActiveSlide(index);
-    if (carouselRef.current) {
-      carouselRef.current.style.transform = `translateX(-${index * 100}%)`;
-    }
->>>>>>> Stashed changes
   };
 
   const getFeatureCenter = (feature) => {
@@ -467,15 +452,7 @@ const Location = () => {
 
         <div className="location-meta">
           <div className="opening-hours-badge">
-<<<<<<< Updated upstream
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-clock"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 7v5l3 3" /></svg>
-=======
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <path d="M3 12a9 9 0 0 1 18 0a9 9 0 0 0 -18 0" />
-              <path d="M12 7v5l3 3" />
-            </svg>
->>>>>>> Stashed changes
             <span>{locationData.openingHours}</span>
           </div>
           <div className="views-rating">
@@ -565,17 +542,10 @@ const Location = () => {
               readOnly
             />
             <button type="button" className="send-comment">
-<<<<<<< Updated upstream
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-send-2">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M19.302 4.034l-16.302 7.966l16.302 7.966a.503 .503 0 0 0 .546 -.124a.555 .555 0 0 0 .12 -.568l-2.468 -7.274l2.468 -7.274a.555 .555 0 0 0 -.12 -.568a.503 .503 0 0 0 -.546 -.124z" />
                 <path d="M17.5 12h-14.5" />
-=======
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-send-2">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M19.302 4.034l-16.302 7.966l16.302 7.966a.503.503 0 0 0 .546 -.124a.555.555 0 0 0 .12 -.568l-2.468 -7.274l2.468 -7.274a.555.555 0 0 0 -.12 -.568a.503.503 0 0 0 -.546 -.124z" />
-                <path d="M13 12h-14" />
->>>>>>> Stashed changes
               </svg>
             </button>
           </div>
@@ -693,13 +663,8 @@ const Location = () => {
           </button>
 
           <input
-<<<<<<< Updated upstream
             type="text"
             placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}
-=======
-            type="text" 
-            placeholder="کجا میخوای بری؟" 
->>>>>>> Stashed changes
             value={searchQuery}
             onChange={handleSearchChange}
             onFocus={handleSearchFocus}
@@ -738,7 +703,6 @@ const Location = () => {
           )}
         </form>
 
-<<<<<<< Updated upstream
         {/* Integrated Routing Content */}
         {showRouting && routingData && (
           <div className="integrated-routing-content">
@@ -1048,19 +1012,6 @@ const Location = () => {
             </div>
           </div>
         )}
-=======
-        {/* Routing Content */}
-        {showRouting && (
-          <div className="routing-content">
-            <Routing />
-          </div>
-        )}
-
-        {/* Routing Backdrop */}
-        {showRouting && (
-          <div className="routing-backdrop" onClick={handleSearchToggle}></div>
-        )}
->>>>>>> Stashed changes
       </div>
 
       {/* Search Modal */}

@@ -601,11 +601,7 @@
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-<<<<<<< Updated upstream
   transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
-=======
-  transition: all 0.3s ease;
->>>>>>> Stashed changes
   z-index: 1000;
   overflow: hidden;
   height: 140px;
@@ -613,29 +609,19 @@
   bottom: 0;
 }
 
-<<<<<<< Updated upstream
 .search-bar-container.expanded {
   height: 100vh;
   bottom: 0;
   top: 0;
   overflow-y: auto;
   border-radius: 0px;
-=======
-.search-bar-container.close {
-  bottom: calc(100% - 60px);
-  top: 0;
->>>>>>> Stashed changes
 }
 
 /* Routing Content Styling */
 .routing-content {
   position: fixed;
-<<<<<<< Updated upstream
   top: 60px;
   /* Start below the search bar */
-=======
-  top: 60px; /* Start below the search bar */
->>>>>>> Stashed changes
   left: 0;
   right: 0;
   bottom: 0;
@@ -643,47 +629,9 @@
   z-index: 999;
   padding: 20px;
   overflow-y: auto;
-<<<<<<< Updated upstream
   height: calc(100vh - 60px);
   /* Adjust height to account for search bar */
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-=======
-  height: calc(100vh - 60px); /* Adjust height to account for search bar */
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Scrollbar Styling */
-.routing-content::-webkit-scrollbar {
-  width: 5px;
-}
-
-.routing-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.routing-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
-}
-
-.routing-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Routing Backdrop */
-.routing-backdrop {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  z-index: 1000;
->>>>>>> Stashed changes
 }
 
 .search-bar-toggle {
@@ -954,7 +902,6 @@
   color: #d32f2f;
 }
 
-<<<<<<< Updated upstream
 /* Integrated Routing Content */
 .integrated-routing-content {
   padding: 15px;
@@ -964,23 +911,10 @@
 }
 
 /* Routing Categories Section */
-=======
-/* Routing Page Styles */
-.routing-page {
-  padding: 15px;
-  direction: rtl;
-  font-family: 'Vazir', Tahoma, sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Categories Section */
->>>>>>> Stashed changes
 .routing-categories-section {
   background-color: white;
   border-radius: 12px;
   padding: 15px;
-<<<<<<< Updated upstream
   margin-bottom: 15px;
   padding-top: 0px;
 }
@@ -991,17 +925,6 @@
   margin-bottom: 15px;
   font-weight: bold;
   margin-bottom: 20px;
-=======
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
-}
-
-.routing-section-title {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 15px;
-  font-weight: bold;
->>>>>>> Stashed changes
 }
 
 .routing-categories-grid {
@@ -1010,20 +933,12 @@
   gap: 15px;
   transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
   overflow: hidden;
-<<<<<<< Updated upstream
   max-height: 400px;
-=======
-  max-height: 400px; /* Collapsed height */
->>>>>>> Stashed changes
   opacity: 1;
 }
 
 .routing-categories-grid.expanded {
-<<<<<<< Updated upstream
   max-height: 880px;
-=======
-  max-height: 880px; /* Expanded height */
->>>>>>> Stashed changes
   opacity: 1;
 }
 
@@ -1035,7 +950,6 @@
   padding: 10px;
   text-align: center;
   font-size: 0.9rem;
-<<<<<<< Updated upstream
   font-weight: bold;
   color: #333;
   transition: all 0.3s ease;
@@ -1046,23 +960,6 @@
 .category-icon {
   font-size: 1.5rem;
   margin-bottom: 2px;
-=======
-  color: #333;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid #000;
-  border-radius: 8px;
-}
-
-.routing-category-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.category-icon {
-  font-size: 1.5rem;
-  margin-bottom: 8px;
->>>>>>> Stashed changes
 }
 
 .routing-show-more-btn {
@@ -1073,10 +970,6 @@
   border: none;
   color: #4285F4;
   margin-top: 15px;
-<<<<<<< Updated upstream
-=======
-  cursor: pointer;
->>>>>>> Stashed changes
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1107,16 +1000,12 @@
 }
 
 .routing-tab {
-<<<<<<< Updated upstream
   flex: 1;
-=======
->>>>>>> Stashed changes
   padding: 10px 15px;
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
   font-family: 'Vazir', Tahoma, sans-serif;
-<<<<<<< Updated upstream
   font-size: 0.87rem;
   color: #666;
   transition: all 0.3s ease;
@@ -1125,15 +1014,6 @@
 }
 
 
-=======
-  font-size: 0.9rem;
-  color: #666;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
->>>>>>> Stashed changes
 .routing-tab.active {
   color: #4285F4;
   border-bottom-color: #4285F4;
@@ -1166,37 +1046,24 @@
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-<<<<<<< Updated upstream
   margin-bottom: 15px;
 }
 
 
-=======
-  transition: transform 0.3s ease;
-}
-
->>>>>>> Stashed changes
 .routing-place-card:hover {
   transform: translateY(-2px);
 }
 
 .place-image-placeholder {
   width: 100%;
-<<<<<<< Updated upstream
   height: 150px;
   background-color: #f5f5f5;
   background-size: cover;
   background-position: center;
-=======
-  height: 120px;
-  background-color: #f5f5f5;
-  cursor: pointer;
->>>>>>> Stashed changes
 }
 
 .place-info {
   padding: 12px;
-<<<<<<< Updated upstream
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
@@ -1219,19 +1086,12 @@
 }
 
 
-=======
-}
-
->>>>>>> Stashed changes
 .place-info h4 {
   font-size: 1rem;
   color: #333;
   margin-bottom: 8px;
-<<<<<<< Updated upstream
   font-weight: bold;
   font-family: 'Vazir', Tahoma, sans-serif;
-=======
->>>>>>> Stashed changes
 }
 
 .place-info p {
@@ -1239,7 +1099,6 @@
   color: #666;
   margin-bottom: 12px;
   line-height: 1.5;
-<<<<<<< Updated upstream
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
@@ -1249,13 +1108,10 @@
   margin-bottom: 8px;
   font-weight: bold;
   font-family: 'Vazir', Tahoma, sans-serif;
-=======
->>>>>>> Stashed changes
 }
 
 .place-meta {
   display: flex;
-<<<<<<< Updated upstream
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
@@ -1269,16 +1125,6 @@
 }
 
 
-=======
-  gap: 8px;
-  font-size: 0.8rem;
-  color: #888;
-  margin-bottom: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
->>>>>>> Stashed changes
 .place-rating {
   color: #2ecc71;
 }
@@ -1286,7 +1132,6 @@
 .place-actions {
   display: flex;
   gap: 8px;
-<<<<<<< Updated upstream
   border-top: 1px solid #eee;
   padding-top: 12px;
 }
@@ -1341,35 +1186,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-=======
-  margin-top: 10px;
-}
-
-.place-action-btn {
-  background-color: #f5f5f5;
-  border: none;
-  border-radius: 15px;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-  color: #333;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  flex: 1;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.place-action-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.action-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
->>>>>>> Stashed changes
 }
 
 /* Responsive adjustments */
@@ -1377,10 +1193,6 @@
   .routing-places-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 }
 
 @media (max-width: 480px) {
@@ -1389,7 +1201,6 @@
   }
 }
 
-<<<<<<< Updated upstream
 /* Shrine Events Section */
 .shrine-events-section {
   background-color: white;
@@ -1879,21 +1690,12 @@
     transform: translateY(10px);
   }
 
-=======
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
->>>>>>> Stashed changes
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-<<<<<<< Updated upstream
 .search-results-container {
   padding: 15px;
 }
@@ -2181,8 +1983,3 @@
   font-size: 13px;
   color: #666;
 }
-=======
-.routing-category-item {
-  animation: fadeIn 0.4s ease-out forwards;
-}
->>>>>>> Stashed changes
