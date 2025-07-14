@@ -167,7 +167,7 @@ const RouteMap = forwardRef(({
       {/* User location marker */}
       {!isDrActive && (
         <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
-          <div className="user-marker" style={{ transform: `rotate(${heading}deg)` }}>
+          <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}>
             <ArrowMarker />
           </div>
         </Marker>
@@ -175,7 +175,7 @@ const RouteMap = forwardRef(({
 
       {isDrActive && drPosition && (
         <Marker longitude={drPosition.lng} latitude={drPosition.lat} anchor="center">
-          <div className="user-marker" style={{ transform: `rotate(${heading}deg)` }}>
+          <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}>
             <ArrowMarker />
           </div>
         </Marker>
