@@ -183,5 +183,10 @@
   "emergencySubmissionSuccess": "آپ کی مدد کی درخواست کامیابی کے ساتھ بھیج دی گئی",
   "emergencySubmissionError": "مدد کی درخواست بھیجنے میں خرابی",
   "emergencySelectType": "براہ کرم مدد کی قسم منتخب کریں",
-  "emergencyEnterDetails": "براہ کرم مزید تفصیلات درج کریں"
+  "emergencyEnterDetails": "براہ کرم مزید تفصیلات درج کریں",
+  "landmarkSuffix": "{name} کی طرف مڑیں اور {distance} میٹر آگے بڑھیں",
+  "fa": "فارسی",
+  "ur": "اردو",
+  "ar": "عربی",
+  "en": "انگریزی"
 }
