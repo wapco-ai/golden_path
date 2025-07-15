@@ -183,5 +183,10 @@
   "emergencySubmissionSuccess": "تم إرسال طلب المساعدة بنجاح",
   "emergencySubmissionError": "خطأ في إرسال طلب المساعدة",
   "emergencySelectType": "الرجاء اختيار نوع الطلب",
-  "emergencyEnterDetails": "الرجاء إدخال مزيد من التفاصيل"
+  "emergencyEnterDetails": "الرجاء إدخال مزيد من التفاصيل",
+  "landmarkSuffix": "ثم اتجه نحو {name} وتقدم {distance} متراً إلى الأمام",
+  "fa": "الفارسية",
+  "ur": "الأردية",
+  "ar": "العربية",
+  "en": "الإنجليزية"
 }
