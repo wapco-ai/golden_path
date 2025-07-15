@@ -828,35 +828,33 @@ const RoutingPage = () => {
           <div className="toggle-handle"></div>
         </div>
 
-        {isMapModalOpen && (
-          <div
-            className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${!showAllRoutesView && !showAlternativeRoutes && isInfoModalOpen
-              ? 'dark-overlay'
-              : 'No-dark-overlay'
-              }`}
-            onClick={() => {
-              if (isMapModalOpen && isInfoModalOpen) {
-                toggleInfoModal();
-              }
-            }}
-          >
-            <RouteMap
-              ref={routeMapRef}
-              userLocation={userLocation}
-              routeSteps={routeData.steps}
-              currentStep={currentStep}
-              isInfoModalOpen={isInfoModalOpen}
-              isMapModalOpen={isMapModalOpen}
-              is3DView={is3DView}
-              routeGeo={routeGeo}
-              alternativeRoutes={routeData.alternativeRoutes}
-              onSelectAlternativeRoute={handleSelectAlternativeRoute}
-            />
-            <DeadReckoningControls
-              currentLocation={{ coords: { lat: userLocation[0], lng: userLocation[1] } }}
-            />
-          </div>
-        )}
+        <div
+          className={`map-container ${isMapModalOpen ? 'open' : 'closed'} ${!showAllRoutesView && !showAlternativeRoutes && isInfoModalOpen
+            ? 'dark-overlay'
+            : 'No-dark-overlay'
+            }`}
+          onClick={() => {
+            if (isMapModalOpen && isInfoModalOpen) {
+              toggleInfoModal();
+            }
+          }}
+        >
+          <RouteMap
+            ref={routeMapRef}
+            userLocation={userLocation}
+            routeSteps={routeData.steps}
+            currentStep={currentStep}
+            isInfoModalOpen={isInfoModalOpen}
+            isMapModalOpen={isMapModalOpen}
+            is3DView={is3DView}
+            routeGeo={routeGeo}
+            alternativeRoutes={routeData.alternativeRoutes}
+            onSelectAlternativeRoute={handleSelectAlternativeRoute}
+          />
+          <DeadReckoningControls
+            currentLocation={{ coords: { lat: userLocation[0], lng: userLocation[1] } }}
+          />
+        </div>
 
         {/* Emergency Button */}
         <button className="emergency-button" onClick={toggleEmergencyModal}>
