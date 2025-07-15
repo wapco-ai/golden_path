@@ -1041,6 +1041,10 @@
   margin-left: 10px;
 }
 
+:root:lang(en) .close-button svg {
+  transform: rotate(180deg);
+}
+
 /* Ensure the emergency button text and icon are properly aligned in English */
 :root:lang(en) .emergency-button {
   flex-direction: row-reverse;
@@ -1059,4 +1063,12 @@
   padding-right: 5px; /* Space for scrollbar */
 }
 
+
+.map-container > * {
+  pointer-events: auto;
+}
+
+.map-container {
+  pointer-events: auto;
+}
 

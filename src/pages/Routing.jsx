@@ -945,9 +945,8 @@ const RoutingPage = () => {
                   <div className="toggle-handle3"></div>
                 </div>
                 <div className="info-header">
-                  <button className="close-button" onClick={toggleInfoModal}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" ></path><path d="M18 6l-12 12" />
-                      <path d="M6 6l12 12" /></svg>
+                  <button className="close-button" onClick={() => navigate(-1)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
                   </button>
                   <div className="info-title">
                     <div className="info-stat">
@@ -1027,7 +1026,12 @@ const RoutingPage = () => {
               <div className="bottom-controls">
                 <button
                   className={`start-routing-button ${isRoutingActive ? 'stop-routing' : ''}`}
-                  onClick={toggleRouting}
+                  onClick={() => {
+                    toggleRouting();
+                    if (!isRoutingActive) {
+                      toggleInfoModal(); // Call only when not active
+                    }
+                  }}
                 >
                   {isRoutingActive ? (
                     <FormattedMessage id="stopRouting" />
