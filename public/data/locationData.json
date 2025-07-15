@@ -3,7 +3,7 @@
   "title": "سقاخانه رضوی",
   "location": "صحن انقلاب اسلامی | حرم مطهر رضوی",
   "images": [
-    "https://cdn.yjc.ir/files/fa/news/1403/4/30/19596378_964.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNNt0G4fngdfkRBSoGvrkm0uB20Nruia7n6Q&s",
     "https://cdn.alibaba.ir/ostorage/alibaba-mag/wp-content/uploads/2021/07/SHAKHES.jpg",
     "https://soltansafar.com/media/attractions/1885/original/%D8%B3%D9%82%D8%A7%D8%AE%D8%A7%D9%86%D9%87.jpg",
     "https://media.chtn.ir/old/upload/files/2022-10/12716449_652_1665388842.jpg",
@@ -18,19 +18,139 @@
   "comments": [
     {
       "id": "comment1",
-      "author": "نازنین",
-      "text": "آبی که همیشه شفا میده",
-      "date": "۲۶ بهمن",
+      "author": "محمد حسين ميرشفيتي",
+      "text": "آبی که همیشه شفا میدهد",
+      "date": "۴ بهمن",
       "rating": 4
     },
     {
       "id": "comment2",
-      "author": "محمود حسین میرشفیتی",
-      "text": "آب خوردن اینجا یه کیف دیگه ای داره",
-      "date": "۱۳ اسفند",
+      "author": "محمد حسين ميرشفيتي",
+      "text": "ما يكه أي دل ما يكون كيف إذا كان",
+      "date": "۵ اسفند",
       "rating": 5
     }
   ],
   "views": 2,
-  "averageRating": 4.5
+  "averageRating": 4.5,
+  "locations": [
+    {
+      "id": "sahne ghadir",
+      "title": "ورودی شمالی صحن غدیر",
+      "location": "صحن غدیر | حرم مطهر رضوی",
+      "images": [
+        " https://aqrt.ir/portal/wp-content/uploads/2023/07/%D8%B5%D8%AD%D9%86_%D8%BA%D8%AF%DB%8C%D8%B1.jpg ",
+        " https://www.mashhadbooking.ir/wp-content/uploads/2019/04/%D8%B5%D8%AD%D9%86-%D8%BA%D8%AF%DB%8C%D8%B1.jpg ",
+        " https://static.neshanmap.ir/places/images/ff1/166297_384488--%D8%B5%D8%AD%D9%86-%D8%BA%D8%AF%DB%8C%D8%B1.jpeg",
+        " https://static.neshanmap.ir/places/images/ff1/300470_719004--%D8%B5%D8%AD%D9%86-%D8%BA%D8%AF%DB%8C%D8%B1.jpeg "
+    
+      ],
+      "openingHours": "۲۴ ساعت باز میباشد",
+      "about": {
+        "short": " صحن غدیر در محله بالا خیابان مشهد و در بلوار امام رضا،زیر‌گذر حرم واقع شده است. ",
+        "full": " صحن غدیر در محله بالا خیابان مشهد و در بلوار امام رضا، زیر‌گذر حرم قرار دارد. این مکان نزدیک بازار رضا (ع)، بازار امام رضا (ع)، رستوران لیالی لبنان، گنبد طلا و حرم حضرت علی بن موسی الرضا (ع) است. نزدیک‌ترین ایستگاه مترو به این مکان، ایستگاه شهدا و نزدیک‌ترین ایستگاه اتوبوس، ایستگاه حرم مطهر است که دسترسی به صحن غدیر را برای کاربران حمل‌ونقل عمومی آسان می‌کند.."
+      },
+      "events": [],
+      "comments": [],
+      "views": 0,
+      "averageRating": 0
+    },
+    {
+      "id": "sheykh tosi gate  ",
+      "title": "ورودی شیخ طوسی",
+      "location": "  بست شیخ طوسی  |  حرم مطهر رضوی ",
+      "images": [
+        " https://www.epersianhotel.com/magadmin/assets/upload/1399/02/sheykh-toosi-sanctuary1.jpg",
+        "https://www.epersianhotel.com/magadmin/assets/upload/1399/02/sheykh-toosi-sanctuary2.jpg",
+        " https://www.epersianhotel.com/magadmin/assets/upload/1399/02/sheykh-toosi-sanctuary.jpg"
+      ],
+      "openingHours": "۲۴ ساعت باز میباشد",
+      "about": {
+        "short": "ورودی شیخ طوسی در محله بالا خیابان مشهد و در بلوار امام رضا،زیر‌گذر حرم واقع شده است.",
+        "full": "ورودی شیخ طوسی در محله بالا خیابان مشهد و در بلوار امام رضا، زیر‌گذر حرم قرار دارد. این مکان نزدیک بازار رضا (ع)، رستوران لیالی لبنان، گنبد طلا، هتل ولایت حوزه علمیه مشهد و حرم حضرت علی بن موسی الرضا (ع) است. نزدیک‌ترین ایستگاه مترو به این مکان، ایستگاه شهدا و نزدیک‌ترین ایستگاه اتوبوس، ایستگاه حرم مطهر است که دسترسی به ورودی شیخ طوسی را برای کاربران حمل‌ونقل عمومی آسان می‌کند."
+      },
+      "events": [],
+      "comments": [],
+      "views": 0,
+      "averageRating": 0
+    },
+    {
+      "id": "navab gate",
+      "title": "باب الحر عاملی",
+      "location": "  بست نواب صفوی  |  حرم مطهر رضوی ",
+      "images": [
+        " https://cdn.balad.ir/crowd-images/all/original/1864f210308d485983555986ccf7e86c-ei_1658396439802.jpg",
+        " https://media.qudsonline.ir/d/2023/03/14/4/1168730.jpg?ts=1678810615000 ",
+        " https://static.neshanmap.ir/places/images/ca0/165143_380455_Thumbnail.jpeg"
+      ],
+      "openingHours": "۲۴ ساعت باز میباشد",
+      "about": {
+        "short": "بست نواب صفوی یکی از ورودی‌های حرم مطهر امام رضا (ع) در مشهد است که به صحن کوثر منتهی می‌شود. ",
+        "full": "بست نواب صفوی یکی از ورودی‌های حرم مطهر امام رضا (ع) در مشهد است که به صحن کوثر منتهی می‌شود. این ورودی در انتهای خیابان شهید نواب صفوی واقع شده و دسترسی به بخش‌های مختلف حرم، از جمله صحن جامع رضوی و صحن هدایت را فراهم می‌کند. به عنوان یک ورودی اصلی، نقش کلیدی در تسهیل تردد زائران دارد. صحن کوثر به عنوان ورودی و راه ارتباطی بین بخش‌های مختلف حرم با تزئینات کاشی‌کاری معرق مزین شده و معمولاً شاهد برگزاری مراسم مذهبی بزرگ نیست. بست نواب صفوی همچنین در نزدیکی اماکن مهمی مانند بازار عباسقلی خان و مجموعه موزه های آستان قدس رضوی واقع شده و دارای دسترسی آسان از طریق خیابان نواب صفوی است."
+      },
+      "events": [],
+      "comments": [],
+      "views": 0,
+      "averageRating": 0
+    },
+    {
+      "id": "sheykh tabarsi gate",
+      "title": "ورودی شیخ طبرسی",
+      "location": "  بست شیخ طبرسی  |  حرم مطهر رضوی ",
+      "images": [
+        " https://cdn.balad.ir/crowd-images/all/original/49e8e206c8f348cb994d6198f4b0ef57-image_pickerf1607a6e-67a8-4805-8504-72b853c41a28.jpg",
+        "https://static.neshanmap.ir/places/images/e54/671373_2195071--%D8%A8%D8%B3%D8%AA-%D8%B4%DB%8C%D8%AE-%D8%B7%D8%A8%D8%B1%D8%B3%DB%8C.jpeg ",
+        " https://static.neshanmap.ir/places/images/ff1/166297_384488--%D8%B5%D8%AD%D9%86-%D8%BA%D8%AF%DB%8C%D8%B1.jpeg",
+        " https://static.neshanmap.ir/places/images/f44/735375_2507995--%D8%B1%D9%88%D8%A7%D9%82-%D8%AF%D8%A7%D8%B1%D8%A7%D9%84%D8%AD%D8%AC%D9%87-(%D8%A8%D8%B3%D8%AA-%D8%B4%DB%8C%D8%AE-%D8%B7%D9%88%D8%B3%DB%8C).jpeg "
+    
+      ],
+      "openingHours": "۲۴ ساعت باز میباشد",
+      "about": {
+        "short": "بست شیخ طبرسی در محله طبرسی مشهد و در زیر‌گذر حرم،خیابان طبرسی واقع شده است.",
+        "full": "بست شیخ طبرسی در محله طبرسی مشهد و در زیر‌گذر حرم، خیابان طبرسی قرار دارد. این مکان نزدیک مراکزی مانند بازار رضا (ع)، گنبد طلا، هتل آرمان، رستوران لیالی لبنان و حرم حضرت علی بن موسی الرضا (ع) است. نزدیک‌ترین ایستگاه اتوبوس به این مکان، ایستگاه اتوبوس روگذر حرم مطهر است که دسترسی به آن را برای کاربران حمل‌ونقل عمومی آسان می‌کند."
+      },
+      "events": [],
+      "comments": [],
+      "views": 0,
+      "averageRating": 0
+    },
+    {
+      "id": "bab ol javad",
+      "title": "ورودی باب الجواد",
+      "location": "  باب الجواد  |  حرم مطهر رضوی ",
+      "images": [
+        " https://media.qudsonline.ir/d/2023/06/19/4/1207537.jpg?ts=1687165640000",
+        " https://irs01.wisgoon.com/irs01/30/31/ad/6a/irs01_s3old_1548387562717468.jpg ",
+        " https://dl1.negarestock.ir/S/p/2024/9/24/1727180933_44854_baboljavad-1403.7.3-NegareStock.ir%20(1).jpg",
+        "https://static.neshanmap.ir/places/images/fc6/644601_2056563--%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%AF.jpeg "
+      ],
+      "openingHours": "۲۴ ساعت باز میباشد",
+      "about": {
+        "short": "ورودی باب الجواد در محله بالا خیابان مشهد و در میدان بیت المقدس،خیابان خسروی نو واقع شده است.",
+        "full": "ورودی باب الجواد در محله بالا خیابان مشهد و در میدان بیت المقدس، خیابان خسروی نو واقع شده است. این مکان نزدیک مراکزی مانند بازار رضا (ع)، گنبد طلا، بازار امام رضا (ع)، رستوران لیالی لبنان و حرم حضرت علی بن موسی الرضا (ع) قرار دارد. نزدیک‌ترین ایستگاه اتوبوس به این مکان، ایستگاه اتوبوس حرم مطهر است که دسترسی به آن را برای کاربران حمل‌ونقل عمومی آسان می‌کند."
+      },
+      "events": [],
+      "comments": [],
+      "views": 0,
+      "averageRating": 0
+    },
+    {
+      "id": "bab ol reza",
+      "title": "ورودی باب الرضا",
+      "location": "  باب الرضا  |  حرم مطهر رضوی ",
+      "images": [
+        " https://static.neshanmap.ir/places/images/ade/165393_380875--%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%B1%D8%B6%D8%A7.jpeg ",
+        " https://static.neshanmap.ir/places/images/ade/263419_623029--%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%B1%D8%B6%D8%A7.jpeg "
+      ],
+      "openingHours": "۲۴ ساعت باز میباشد",
+      "about": {
+        "short": "درب ورودی باب الرضا در محله عیدگاه مشهد و در درب ورودی باب الرضا واقع شده است.",
+        "full": "درب ورودی باب الرضا در محله عیدگاه مشهد و در درب ورودی باب الرضا واقع شده است. این مکان نزدیک مراکزی مانند بازار رضا (ع)، گنبد طلا، بازار امام رضا (ع)، هتل ولایت حوزه علمیه مشهد و حرم حضرت علی بن موسی الرضا (ع) قرار دارد. نزدیک‌ترین ایستگاه اتوبوس به این مکان، ایستگاه اتوبوس باب الجواد (ع) است که دسترسی به آن را برای کاربران حمل‌ونقل عمومی آسان می‌کند."
+      },
+      "events": [],
+      "comments": [],
+      "views": 0,
+      "averageRating": 0
+    }
+  ]
 }

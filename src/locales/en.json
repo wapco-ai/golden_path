@@ -184,5 +184,9 @@
   "emergencySubmissionSuccess": "Your emergency request has been submitted successfully",
   "emergencySubmissionError": "Error submitting emergency request",
   "emergencySelectType": "Please select an emergency type",
-  "emergencyEnterDetails": "Please enter more details"
+  "emergencyEnterDetails": "Please enter more details",
+  "fa": "Persian",
+  "ur": "Urdu",
+  "ar": "Arabic",
+  "en": "English"
 }

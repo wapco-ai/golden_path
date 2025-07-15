@@ -13,10 +13,10 @@ const LangPage = () => {
   const intl = useIntl();
 
   const languages = [
-    { id: 1, name: 'فارسی', code: '(FA)', locale: 'fa' },
-    { id: 2, name: 'اردو', code: '(Ur)', locale: 'ur' },
-    { id: 3, name: 'العربیة', code: '(AR)', locale: 'ar' },
-    { id: 4, name: 'English', code: '(EN)', locale: 'en' }
+    { id: 1, name: 'فارسی', code: '(FA)', locale: 'fa', englishName: intl.formatMessage({ id: 'Persian' }) },
+    { id: 2, name: 'اردو', code: '(Ur)', locale: 'ur', englishName: intl.formatMessage({ id: 'Urdu' }) },
+    { id: 3, name: 'العربیة', code: '(AR)', locale: 'ar', englishName: intl.formatMessage({ id: 'Arabic' }) },
+    { id: 4, name: 'English', code: '(EN)', locale: 'en', englishName: intl.formatMessage({ id: 'English' }) }
   ];
 
   const handleLogin = () => {
@@ -55,7 +55,9 @@ const LangPage = () => {
               <span className={`lang-code lang-code-${lang.code.replace(/[()]/g, '').toLowerCase()}`}>
                 {lang.code}
               </span>
-              <span className={`lang-name ${lang.locale === 'en' ? 'force-rtl' : ''}`}>{lang.name}</span>
+              <span className={`lang-name ${lang.locale === 'en' ? 'force-rtl' : ''}`}>
+                {intl.locale === 'en' ? lang.englishName : lang.name}
+              </span>
             </div>
           </div>
         ))}
