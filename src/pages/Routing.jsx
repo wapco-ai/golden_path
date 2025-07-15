@@ -276,6 +276,27 @@ const RoutingPage = () => {
     return `${hours}:${minutes}`;
   };
 
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const toDeg = (rad) => (rad * 180) / Math.PI;
+  const bearing = (from, to) => {
+    const [lng1, lat1] = from;
+    const [lng2, lat2] = to;
+    const y = Math.sin(toRad(lng2 - lng1)) * Math.cos(toRad(lat2));
+    const x =
+      Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
+      Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(toRad(lng2 - lng1));
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+  };
+
+  const computeTurn = (b1, b2) => {
+    const diff = ((b1 - b2 + 540) % 360) - 180;
+    const ad = Math.abs(diff);
+    if (ad < 30) return 'up';
+    if (ad > 150) return 'down';
+    if (ad < 100) return diff > 0 ? 'left' : 'right';
+    return diff > 0 ? 'bend-left' : 'bend-right';
+  };
+
   // Load route data from JSON for initial display when no analyzed route exists
   useEffect(() => {
     if (routeSteps.length) return;
@@ -299,11 +320,12 @@ const RoutingPage = () => {
   // Build route data from stored steps
   useEffect(() => {
     if (!routeSteps || routeSteps.length === 0 || !routeGeo) return;
+    const coords = routeGeo.geometry.coordinates;
     const steps = routeSteps.map((s, idx) => {
       let distance = 0;
       if (idx > 0) {
-        const [lng1, lat1] = routeGeo.geometry.coordinates[idx - 1];
-        const [lng2, lat2] = routeGeo.geometry.coordinates[idx];
+        const [lng1, lat1] = coords[idx - 1];
+        const [lng2, lat2] = coords[idx];
         distance = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
       }
       const base = s.type
@@ -315,13 +337,20 @@ const RoutingPage = () => {
       const instruction = s.landmark
         ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: s.landmark, distance: Math.round(distance) })}`
         : base;
+      let direction = 'arrived';
+      if (idx < coords.length - 2) {
+        const b1 = bearing(coords[idx], coords[idx + 1]);
+        const b2 = bearing(coords[idx + 1], coords[idx + 2]);
+        direction = computeTurn(b1, b2);
+      }
       return {
         id: idx + 1,
         instruction,
         distance: `${Math.round(distance)} ${intl.formatMessage({ id: 'meters' })}`,
         time: `${Math.max(1, Math.round(distance / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`,
         coordinates: s.coordinates,
-        services: s.services || {}
+        services: s.services || {},
+        direction
       };
     });
     const totalMinutes = calculateTotalTime(steps);
@@ -330,11 +359,12 @@ const RoutingPage = () => {
     const totalDistance = steps.reduce((acc, st) => acc + parseInt(st.distance), 0);
 
     const alternativesData = (alternativeRoutes || []).map((alt, ridx) => {
+      const altCoords = alt.geo.geometry.coordinates;
       const altSteps = alt.steps.map((st, i) => {
         let dist = 0;
         if (i > 0) {
-          const [lng1, lat1] = alt.geo.geometry.coordinates[i - 1];
-          const [lng2, lat2] = alt.geo.geometry.coordinates[i];
+          const [lng1, lat1] = altCoords[i - 1];
+          const [lng2, lat2] = altCoords[i];
           dist = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
         }
         const base = st.type
@@ -346,12 +376,19 @@ const RoutingPage = () => {
         const instruction = st.landmark
           ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: st.landmark, distance: Math.round(dist) })}`
           : base;
+        let direction = 'arrived';
+        if (i < altCoords.length - 2) {
+          const b1 = bearing(altCoords[i], altCoords[i + 1]);
+          const b2 = bearing(altCoords[i + 1], altCoords[i + 2]);
+          direction = computeTurn(b1, b2);
+        }
         return {
           id: i + 1,
           instruction,
           distance: `${Math.round(dist)} ${intl.formatMessage({ id: 'meters' })}`,
           time: `${Math.max(1, Math.round(dist / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`,
-          coordinates: st.coordinates
+          coordinates: st.coordinates,
+          direction
         };
       });
       const minutes = calculateTotalTime(altSteps);
