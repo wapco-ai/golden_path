@@ -72,6 +72,12 @@ const RoutingPage = () => {
   }, []);
 
   useEffect(() => {
+    if (isDrActive) {
+      setShowAlternativeRoutes(false);
+    }
+  }, [isDrActive]);
+
+  useEffect(() => {
     const sessGeo = sessionStorage.getItem('routeGeo');
     const sessSteps = sessionStorage.getItem('routeSteps');
     const sessAlts = sessionStorage.getItem('alternativeRoutes');
@@ -848,7 +854,7 @@ const RoutingPage = () => {
             isMapModalOpen={isMapModalOpen}
             is3DView={is3DView}
             routeGeo={routeGeo}
-            alternativeRoutes={routeData.alternativeRoutes}
+            alternativeRoutes={isDrActive ? [] : routeData.alternativeRoutes}
             onSelectAlternativeRoute={handleSelectAlternativeRoute}
           />
           <DeadReckoningControls
@@ -902,7 +908,7 @@ const RoutingPage = () => {
                 </button>
               </div>
             </div>
-          ) : showAlternativeRoutes ? (
+          ) : showAlternativeRoutes && !isDrActive ? (
             <div className="alternative-routes-view">
               <button className="return-to-route-button5" onClick={handleReturnFromAlternativeRoutes}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -1038,13 +1044,17 @@ const RoutingPage = () => {
                       </div>
                       <span><FormattedMessage id="allRoutes" /></span>
                     </button>
-                    <span className="sdivider"></span>
-                    <button className="route-button" onClick={handleShowAlternativeRoutes}>
-                      <div className="button-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
-                      </div>
-                      <span><FormattedMessage id="otherRoutes" /></span>
-                    </button>
+                    {!isDrActive && routeData.alternativeRoutes.length > 0 && (
+                      <>
+                        <span className="sdivider"></span>
+                        <button className="route-button" onClick={handleShowAlternativeRoutes}>
+                          <div className="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
+                          </div>
+                          <span><FormattedMessage id="otherRoutes" /></span>
+                        </button>
+                      </>
+                    )}
                   </div>
                 </>
               )}
