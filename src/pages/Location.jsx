@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation as useReactLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Location.css';
 import { groups, subGroups } from '../components/groupData';
@@ -19,6 +19,8 @@ const labelToValueMap = Object.values(subGroups).flat().reduce((acc, sg) => {
 
 const Location = () => {
   const navigate = useNavigate();
+  const currentLocation = useReactLocation();
+  const locationId = new URLSearchParams(currentLocation.search).get('id');
   const intl = useIntl();
   const [activeSlide, setActiveSlide] = useState(0);
   const [comment, setComment] = useState('');
@@ -353,10 +355,14 @@ const Location = () => {
     const fetchLocationData = async () => {
       try {
         const response = await axios.get(`./data/locationData.json`);
-        setLocationData(response.data);
-        setComments(response.data.comments || []);
-        setViews(response.data.views || 0);
-        setOverallRating(response.data.averageRating || 0);
+        let data = response.data;
+        if (Array.isArray(data)) {
+          data = data.find(loc => loc.id === locationId) || data[0];
+        }
+        setLocationData(data);
+        setComments(data.comments || []);
+        setViews(data.views || 0);
+        setOverallRating(data.averageRating || 0);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -365,7 +371,7 @@ const Location = () => {
     };
 
     fetchLocationData();
-  }, []);
+  }, [locationId]);
 
   useEffect(() => {
     calculateAverageRating();
