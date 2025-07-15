@@ -72,23 +72,36 @@ const RouteMap = forwardRef(({
     }
   }, [is3DView]);
 
-  // Restore pitch if WebGL context is lost and then restored
+  // Restore pitch when the WebGL context resets
+  const savedPitchRef = useRef(0);
   useEffect(() => {
-    if (!mapRef.current) return;
-    const canvas = mapRef.current.getCanvas();
+    if (mapRef.current) {
+      savedPitchRef.current = mapRef.current.getPitch();
+    }
+  }, [is3DView]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const canvas = map.getCanvas();
+
     const handleContextLost = e => {
       e.preventDefault();
+      savedPitchRef.current = map.getPitch();
     };
     const handleContextRestored = () => {
-      mapRef.current.setPitch(is3DView ? 60 : 0);
+      map.setPitch(savedPitchRef.current);
     };
+
+
     canvas.addEventListener('webglcontextlost', handleContextLost, false);
     canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
     return () => {
       canvas.removeEventListener('webglcontextlost', handleContextLost, false);
       canvas.removeEventListener('webglcontextrestored', handleContextRestored, false);
     };
-  }, [is3DView]);
+  }, []);
+
 
   // Rotate map based on user heading with smoothing to avoid sudden jumps
   const lastHeading = useRef(null);
