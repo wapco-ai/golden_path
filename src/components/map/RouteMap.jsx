@@ -93,6 +93,7 @@ const RouteMap = forwardRef(({
       map.setPitch(savedPitchRef.current);
     };
 
+
     canvas.addEventListener('webglcontextlost', handleContextLost, false);
     canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
     return () => {
@@ -100,6 +101,7 @@ const RouteMap = forwardRef(({
       canvas.removeEventListener('webglcontextrestored', handleContextRestored, false);
     };
   }, []);
+
 
   // Rotate map based on user heading with smoothing to avoid sudden jumps
   const lastHeading = useRef(null);
