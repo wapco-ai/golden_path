@@ -68,19 +68,30 @@ const RouteMap = forwardRef(({
   // Toggle 3D view effect
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.easeTo({
-        pitch: is3DView ? 60 : 0,
-        duration: 500
-      });
+      mapRef.current.setPitch(is3DView ? 60 : 0);
     }
   }, [is3DView]);
 
   // Rotate map based on user heading
+  const lastHeading = useRef(null);
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.easeTo({ bearing: heading, duration: 0 });
+      if (lastHeading.current === null || Math.abs(heading - lastHeading.current) > 1) {
+        mapRef.current.setBearing(heading);
+        lastHeading.current = heading;
+      }
     }
   }, [heading]);
+
+  // Keep map centered on the user's location
+  useEffect(() => {
+    if (!mapRef.current) return;
+    if (isDrActive && drPosition) {
+      mapRef.current.setCenter([drPosition.lng, drPosition.lat]);
+    } else if (!isDrActive && userLocation && userLocation.length === 2) {
+      mapRef.current.setCenter([userLocation[1], userLocation[0]]);
+    }
+  }, [drPosition, userLocation, isDrActive]);
 
   // Zoom to current segment when step changes
   useEffect(() => {
