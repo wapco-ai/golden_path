@@ -184,5 +184,9 @@
   "emergencySubmissionSuccess": "درخواست کمک شما با موفقیت ارسال شد",
   "emergencySubmissionError": "خطا در ارسال درخواست کمک",
   "emergencySelectType": "لطفاً نوع درخواست کمک را انتخاب کنید",
-  "emergencyEnterDetails": "لطفاً توضیحات بیشتری وارد کنید"
+  "emergencyEnterDetails": "لطفاً توضیحات بیشتری وارد کنید",
+  "fa": "فارسی",
+  "ur": "اردو",
+  "ar": "عربی",
+  "en": "انگلیسی"
 }
