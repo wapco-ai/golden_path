@@ -25,15 +25,18 @@ const RouteMap = forwardRef(({
   const center = userLocation && userLocation.length === 2
     ? userLocation
     : [36.297, 59.606]; // Default to Imam Reza Shrine coordinates
-  const altLayerIds = alternativeRoutes.flatMap((_, idx) => [
-    `alt-route-line-${idx}`,
-    `alt-route-border-${idx}`
-  ]);
 
   const [drPosition, setDrPosition] = useState(null);
   const [drGeoPath, setDrGeoPath] = useState([]);
   const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
   const [heading, setHeading] = useState(0);
+
+  const altLayerIds = !isDrActive
+    ? alternativeRoutes.flatMap((_, idx) => [
+        `alt-route-line-${idx}`,
+        `alt-route-border-${idx}`
+      ])
+    : [];
 
   useEffect(() => {
     const remove = advancedDeadReckoningService.addListener(data => {
@@ -291,12 +294,13 @@ const RouteMap = forwardRef(({
         </Source>
       )}
 
-      {alternativeRoutes.map((alt, idx) => (
-        <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
-          <Layer
-            id={`alt-route-border-${idx}`}
-            type="line"
-            paint={{
+      {!isDrActive &&
+        alternativeRoutes.map((alt, idx) => (
+          <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
+            <Layer
+              id={`alt-route-border-${idx}`}
+              type="line"
+              paint={{
               'line-color': 'white',
               'line-width': 8,
               'line-dasharray': [1, 2] // Creates dotted pattern
@@ -314,7 +318,7 @@ const RouteMap = forwardRef(({
             layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
         </Source>
-      ))}
+        ))}
 
       <GeoJsonOverlay />
     </Map>
