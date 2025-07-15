@@ -72,15 +72,23 @@ const RouteMap = forwardRef(({
     }
   }, [is3DView]);
 
-  // Rotate map based on user heading
+  // Rotate map based on user heading with smoothing to avoid sudden jumps
   const lastHeading = useRef(null);
   useEffect(() => {
-    if (mapRef.current) {
-      if (lastHeading.current === null || Math.abs(heading - lastHeading.current) > 1) {
-        mapRef.current.setBearing(heading);
-        lastHeading.current = heading;
-      }
+    if (!mapRef.current) return;
+
+    if (lastHeading.current === null) {
+      lastHeading.current = heading;
+      mapRef.current.setBearing(heading);
+      return;
     }
+
+    let diff = heading - lastHeading.current;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+
+    lastHeading.current = (lastHeading.current + diff * 0.2 + 360) % 360;
+    mapRef.current.easeTo({ bearing: lastHeading.current, duration: 200 });
   }, [heading]);
 
   // Keep map centered on the user's location
