@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../styles/Location.css';
 import { groups, subGroups } from '../components/groupData';
 import { FormattedMessage, useIntl } from 'react-intl';
+import localizeLocationData from '../utils/localizeLocationData.js';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { useSearchStore } from '../store/searchStore';
@@ -372,6 +373,7 @@ const Location = () => {
         if (Array.isArray(data)) {
           data = data.find(loc => loc.id === locationId) || data[0];
         }
+        data = localizeLocationData(data, language);
         setLocationData(data);
         setComments(data.comments || []);
         setViews(data.views || 0);
@@ -384,7 +386,7 @@ const Location = () => {
     };
 
     fetchLocationData();
-  }, [locationId]);
+  }, [locationId, language]);
 
   useEffect(() => {
     calculateAverageRating();
