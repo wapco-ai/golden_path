@@ -20,7 +20,20 @@ const labelToValueMap = Object.values(subGroups).flat().reduce((acc, sg) => {
 const Location = () => {
   const navigate = useNavigate();
   const currentLocation = useReactLocation();
-  const locationId = new URLSearchParams(currentLocation.search).get('id');
+
+  const getSearchParams = () => {
+    let search = currentLocation.search || window.location.search;
+    if (!search && window.location.hash.includes('?')) {
+      search = window.location.hash.split('?')[1];
+      if (search) search = '?' + search;
+    }
+    if (search && search.includes('&amp;')) {
+      search = search.replace(/&amp;/g, '&');
+    }
+    return new URLSearchParams(search);
+  };
+
+  const locationId = getSearchParams().get('id');
   const intl = useIntl();
   const [activeSlide, setActiveSlide] = useState(0);
   const [comment, setComment] = useState('');
