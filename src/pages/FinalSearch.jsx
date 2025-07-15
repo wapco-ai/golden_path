@@ -89,14 +89,24 @@ const FinalSearch = () => {
   }, []);
 
   React.useEffect(() => {
-    if (transportMode === 'walking') {
+    if (routeGeo) {
+      const coords = routeGeo.geometry?.coordinates || [];
+      const dist = coords.slice(1).reduce((acc, c, i) => {
+        const prev = coords[i];
+        return acc + Math.hypot(c[0] - prev[0], c[1] - prev[1]) * 100000;
+      }, 0);
+      setRouteInfo({
+        time: `${Math.max(1, Math.round(dist / 60))}`,
+        distance: `${Math.round(dist)}`
+      });
+    } else if (transportMode === 'walking') {
       setRouteInfo({ time: '9', distance: '75' });
     } else if (transportMode === 'electric-car') {
       setRouteInfo({ time: '5', distance: '120' });
     } else if (transportMode === 'wheelchair') {
       setRouteInfo({ time: '12', distance: '65' });
     }
-  }, [transportMode]);
+  }, [transportMode, routeGeo]);
 
   // Fallback to current GPS coordinates if origin coords not provided and no QR data
   useEffect(() => {
