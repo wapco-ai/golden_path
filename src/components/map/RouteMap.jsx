@@ -5,6 +5,8 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
+import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
+import ArrowMarker from './ArrowMarker';
 
 import { forwardRef, useImperativeHandle } from 'react';
 
@@ -28,30 +30,22 @@ const RouteMap = forwardRef(({
     `alt-route-border-${idx}`
   ]);
 
-  // Custom SVG marker component
-  const OriginMarker = () => (
-    <svg width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="soft-shadow" x="-50%" y="-50%" width="200%" height="200%">
-          <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#000000" floodOpacity="0.3" />
-        </filter>
-      </defs>
+  const [drPosition, setDrPosition] = useState(null);
+  const [drGeoPath, setDrGeoPath] = useState([]);
+  const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
+  const [heading, setHeading] = useState(0);
 
-      <g filter="url(#soft-shadow)">
-        <path 
-          d="M 50 10 L 90 60 A 10 10 0 0 1 80 70 L 20 70 A 10 10 0 0 1 10 60 Z" 
-          fill="#6B7280" />
-          
-        <path 
-          d="M 50 5 L 90 55 A 10 10 0 0 1 80 65 L 20 65 A 10 10 0 0 1 10 55 Z" 
-          fill="#4A90E2" />
-
-        <path 
-          d="M 53 30 A 5 5 0 1 1 43 30 A 5 5 0 0 1 53 30 Z M 60 55 L 52 45 L 48 45 L 40 55 L 45 55 L 48 50 L 52 50 L 55 55 Z" 
-          fill="white" />
-      </g>
-    </svg>
-  );
+  useEffect(() => {
+    const remove = advancedDeadReckoningService.addListener(data => {
+      setIsDrActive(data.isActive);
+      if (data.geoPosition) setDrPosition(data.geoPosition);
+      if (data.geoPath) setDrGeoPath(data.geoPath);
+      if (data.heading !== undefined && data.heading !== null) {
+        setHeading(data.heading);
+      }
+    });
+    return remove;
+  }, []);
 
   // Handle map resize when modal opens/closes
   useEffect(() => {
@@ -80,6 +74,13 @@ const RouteMap = forwardRef(({
       });
     }
   }, [is3DView]);
+
+  // Rotate map based on user heading
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.easeTo({ bearing: heading, duration: 0 });
+    }
+  }, [heading]);
 
   // Zoom to current segment when step changes
   useEffect(() => {
@@ -164,11 +165,37 @@ const RouteMap = forwardRef(({
       terrain={is3DView ? { source: 'terrain', exaggeration: 1.5 } : undefined}
     >
       {/* User location marker */}
-      <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
-        <div className="user-marker">
-          <OriginMarker />
-        </div>
-      </Marker>
+      {!isDrActive && (
+        <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
+          {/* <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}> */}
+            <ArrowMarker />
+          {/* </div> */}
+        </Marker>
+      )}
+
+      {isDrActive && drPosition && (
+        <Marker longitude={drPosition.lng} latitude={drPosition.lat} anchor="center">
+          {/* <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}> */}
+            <ArrowMarker />
+          {/* </div> */}
+        </Marker>
+      )}
+
+      {isDrActive && drGeoPath.length > 1 && (
+        <Source
+          id="dr-path"
+          type="geojson"
+          data={{
+            type: 'Feature',
+            geometry: {
+              type: 'LineString',
+              coordinates: drGeoPath.map(p => [p.lng, p.lat])
+            }
+          }}
+        >
+          <Layer id="dr-line" type="line" paint={{ 'line-color': '#e53935', 'line-width': 3, 'line-opacity': 0.7 }} />
+        </Source>
+      )}
 
       {/* Current step marker if available */}
       {routeSteps && currentStep < routeSteps.length && routeSteps[currentStep].coordinates && (
