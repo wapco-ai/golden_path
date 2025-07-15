@@ -55,7 +55,7 @@ const RouteMap = forwardRef(({
         if (userLocation && userLocation.length === 2) {
           mapRef.current.flyTo({
             center: [userLocation[1], userLocation[0]],
-            zoom: 18,
+            zoom: is3DView ? 17 : 18,
             pitch: is3DView ? 60 : 0 // Set pitch based on 3D view state
           });
         }
@@ -69,6 +69,7 @@ const RouteMap = forwardRef(({
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.setPitch(is3DView ? 60 : 0);
+      mapRef.current.easeTo({ zoom: is3DView ? 17 : 18 });
     }
   }, [is3DView]);
 
@@ -208,7 +209,7 @@ const RouteMap = forwardRef(({
       initialViewState={{
         longitude: center[1],
         latitude: center[0],
-        zoom: 18,
+        zoom: is3DView ? 17 : 18,
         pitch: 0
       }}
       attributionControl={false}
