@@ -188,5 +188,7 @@
   "fa": "Persian",
   "ur": "Urdu",
   "ar": "Arabic",
-  "en": "English"
+  "en": "English",
+  "gpsOfflineTitle_en": "Your device is offline",
+  "gpsOfflineMessage_en": "For accurate routing, please turn on your device's GPS"
 }

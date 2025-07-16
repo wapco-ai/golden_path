@@ -61,6 +61,9 @@ const Location = () => {
   const [filteredSubGroups, setFilteredSubGroups] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -120,6 +123,42 @@ const Location = () => {
       return getPolygonCenter(geometry.coordinates);
     }
     return null;
+  };
+
+  const handleSaveDestination = () => {
+    setMenuOpen(false);
+    // Implement save destination logic
+    toast.success(intl.formatMessage({ id: 'destinationSaved' }));
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    const isRTL = document.documentElement.dir === 'rtl';
+
+    if (touchStart - touchEnd > 50) {
+      // Swipe left (or right in RTL)
+      if (isRTL) {
+        handleSlideChange((activeSlide - 1 + locationData.images.length) % locationData.images.length);
+      } else {
+        handleSlideChange((activeSlide + 1) % locationData.images.length);
+      }
+    }
+
+    if (touchStart - touchEnd < -50) {
+      // Swipe right (or left in RTL)
+      if (isRTL) {
+        handleSlideChange((activeSlide + 1) % locationData.images.length);
+      } else {
+        handleSlideChange((activeSlide - 1 + locationData.images.length) % locationData.images.length);
+      }
+    }
   };
 
   // Initialize carousel position
@@ -260,10 +299,18 @@ const Location = () => {
     toast.error(intl.formatMessage({ id: 'noDataFound' }));
   };
 
-  const handleSearchFocus = () => {
-    setIsSearchFocused(true);
-    setShowSearchModal(true);
-    document.body.style.overflow = 'hidden';
+  const handleSearchFocus = (e) => {
+    if (!showRouting) {
+      e.preventDefault();
+      handleSearchToggle();
+      if (searchInputRef.current) {
+        searchInputRef.current.blur();
+      }
+    } else {
+      setIsSearchFocused(true);
+      setShowSearchModal(true);
+      document.body.style.overflow = 'hidden';
+    }
   };
 
   const handleSearchBlur = () => {
@@ -408,14 +455,37 @@ const Location = () => {
       {/* Updated Carousel */}
       <div className="carousel-wrapper">
         <div className="fixed-header-icons">
-          <button className="menu-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-            </svg>
-          </button>
+          <div className="menu-container2">
+            <button className={`menu-icon2 ${menuOpen ? 'active' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+              </svg>
+            </button>
+
+            <div className={`menu-dropdown2 ${menuOpen ? 'open' : ''}`}>
+              <button className="menu-item2" onClick={handleSaveDestination}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M17.286 21.09q -1.69 .001 -5.288 -2.615q -3.596 2.617 -5.288 2.616q -2.726 0 -.495 -6.8q -9.389 -6.775 2.135 -6.775h.076q 1.785 -5.516 3.574 -5.516q 1.785 0 3.574 5.516h.076q 11.525 0 2.133 6.774q 2.23 6.802 -.497 6.8" />
+                </svg>
+                <FormattedMessage id="saveDestination" />
+              </button>
+              <button className="menu-item2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M8.7 10.7l6.6 -3.4" />
+                  <path d="M8.7 13.3l6.6 3.4" />
+                </svg>
+                <FormattedMessage id="shareRoute" />
+              </button>
+            </div>
+          </div>
           <button className="profile-icon" onClick={() => navigate('/Profile')}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="9.99984" cy="5" r="3.33333" fill="#1E2023" />
@@ -429,6 +499,9 @@ const Location = () => {
             className="carousel"
             ref={carouselRef}
             style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {locationData.images?.map((image, index) => (
               <div key={index} className="carousel-slide">
@@ -688,6 +761,12 @@ const Location = () => {
             value={searchQuery}
             onChange={handleSearchChange}
             onFocus={handleSearchFocus}
+            onMouseDown={(e) => {
+              if (!showRouting) {
+                e.preventDefault();
+                handleSearchToggle();
+              }
+            }}
             onBlur={handleSearchBlur}
             ref={searchInputRef}
           />
@@ -804,15 +883,16 @@ const Location = () => {
                       <p className="place-description">{event.description}</p>
                       <div className="place-info2">
                         <span className="place-address">
-                          <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.39464 15.0728L5.34893 13.05C1.81466 11.2829 0.0475295 10.3993 0.0475289 9.00008C0.047529 7.60087 1.81466 6.7173 5.34892 4.95017L9.39463 2.92732C12.2471 1.50107 13.6734 0.787951 14.5002 1.00685C15.2868 1.21509 15.9011 1.82943 16.1094 2.61602C16.3283 3.44287 15.6152 4.86911 14.1889 7.72161C14.0122 8.07512 13.6508 8.31029 13.2555 8.31213L6.79714 8.34219C6.4338 8.34388 6.14063 8.6398 6.14232 9.00314C6.14401 9.36648 6.43993 9.65966 6.80327 9.65797L13.1574 9.62839C13.593 9.62637 13.9941 9.88892 14.1889 10.2786C15.6152 13.131 16.3283 14.5573 16.1094 15.3841C15.9011 16.1707 15.2868 16.7851 14.5002 16.9933C13.6734 17.2122 12.2471 16.4991 9.39464 15.0728Z" fill="#1E2023" />
+                          <svg width="24" height="24" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.2073 2.9087C9.5 3.53569 9.5 4.68259 9.5 6.9764V18.0236C9.5 20.3174 9.5 21.4643 10.2073 22.0913C10.9145 22.7183 11.9955 22.5297 14.1576 22.1526L16.4864 21.7465C18.8809 21.3288 20.0781 21.12 20.7891 20.2417C21.5 19.3635 21.5 18.0933 21.5 15.5529V9.44711C21.5 6.90671 21.5 5.63652 20.7891 4.75826C20.0781 3.87999 18.8809 3.67118 16.4864 3.25354L14.1576 2.84736C11.9955 2.47026 10.9145 2.28171 10.2073 2.9087ZM12.5 10.6686C12.9142 10.6686 13.25 11.02 13.25 11.4535V13.5465C13.25 13.98 12.9142 14.3314 12.5 14.3314C12.0858 14.3314 11.75 13.98 11.75 13.5465V11.4535C11.75 11.02 12.0858 10.6686 12.5 10.6686Z" fill="#1E2023" />
+                            <path d="M8.04717 5C5.98889 5.003 4.91599 5.04826 4.23223 5.73202C3.5 6.46425 3.5 7.64276 3.5 9.99979V14.9998C3.5 17.3568 3.5 18.5353 4.23223 19.2676C4.91599 19.9513 5.98889 19.9966 8.04717 19.9996C7.99985 19.3763 7.99992 18.6557 8.00001 17.8768V7.1227C7.99992 6.34388 7.99985 5.6233 8.04717 5Z" fill="#1E2023" />
                           </svg>
 
                           {event.location}
                         </span>
                         <div className="place-meta">
                           <span className="shrine-event-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="black">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                               <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z" />
                             </svg>
