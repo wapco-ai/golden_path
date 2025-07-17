@@ -280,6 +280,7 @@ const RouteOverview = () => {
         <div className="route-instruction-container">
           <div className="route-instruction">
             <p className="instruction-text">
+              {intl.formatMessage({ id: 'stepPrefix' }, { num: currentSlide + 1 })}
               {routeData[currentSlide]?.instruction}
             </p>
             {/* {renderServiceIcons(routeData[currentSlide]?.services)} */}

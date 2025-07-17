@@ -129,7 +129,7 @@
   "soundOptionOff": "بند",
   "emergencyButtonLabel": "حرم ہنگامی حالات",
   "arrivalTime": "پہنچنے کا وقت",
-  "routeOverview": "مسار کا خلاصہ",
+  "routeOverview": "راستے کے مراحل",
   "allRoutes": "تمام راستے",
   "otherRoutes": "دیگر راستے",
   "startRouting": " روٹنگ شروع کریں ",
@@ -189,6 +189,6 @@
   "ur": "اردو",
   "ar": "عربی",
   "en": "انگریزی",
-  "gpsOfflineTitle_ur": "آپ کا ڈیوائس بند ہے",
-  "gpsOfflineMessage_ur": "درست راستہ بتانے کے لیے، براہ کرم اپنے ڈیوائس کا GPS آن کریں"
+  "gpsOfflineMessage":  "آپ کا GPS ڈیوائس بند ہے",
+  "stepPrefix": "قدم {num} - "
 }

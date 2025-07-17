@@ -129,7 +129,7 @@
   "soundOptionOff": "إيقاف",
   "emergencyButtonLabel": "طوارئ الحرم",
   "arrivalTime": "وقت الوصول",
-  "routeOverview": "نظرة على المسار",
+  "routeOverview": "خطوات المسار",
   "allRoutes": "كل المسارات",
   "otherRoutes": "مسارات أخرى",
   "startRouting": "بدء المسار",
@@ -189,6 +189,6 @@
   "ur": "الأردية",
   "ar": "العربية",
   "en": "الإنجليزية",
-  "gpsOfflineTitle_ar": "جهازك مغلق",
-  "gpsOfflineMessage_ar": "للاستفادة من التوجيه الدقيق، يرجى تشغيل GPS لجهازك"
+  "gpsOfflineMessage": "جهاز تحديد المواقع الخاص بك مغلق",
+  "stepPrefix": "الخطوة {num} - "
 }
