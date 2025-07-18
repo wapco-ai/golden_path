@@ -9,7 +9,7 @@
         "rating": 4.5,
         "views": 26,
         "description": "ضریح امام رضا(ع) سازه شنگ از چوب با فلز با ترکیبی از هر دو که بر روی قبر امام رضا(ع) قرار گرفته است...",
-        "image": "https://example.com/place1.jpg"
+        "image": "https://aqrt.ir/portal/wp-content/uploads/2022/07/00000.jpg"
       },
       {
         "title": "سقاخانه صحن انقلاب",
@@ -19,7 +19,7 @@
         "rating": 4.3,
         "views": 14,
         "description": "سقاخانه صحن انقلاب حرم امام رضا، معروف ترین سقاخانه در حرم امام رضاست و به سقاخانه اسماعیل طالیی...",
-        "image": "https://example.com/place2.jpg"
+        "image": "https://newsmedia.tasnimnews.com/Tasnim/Uploaded/Image/1399/03/25/139903250954177720591044.jpg"
       }
     ],
     "nearest": [
@@ -29,25 +29,25 @@
         "distance": "210 متر",
         "time": "3 دقیقه پیاده روی",
         "description": "روش اصلی، سطوح چهارم",
-        "image": "https://example.com/place3.jpg"
+        "image": "https://media.atabenews.com/d/2023/06/28/3/5468.jpg?ts=1687948127000"
       }
     ],
     "shrineEvents": [
-      {
-        "title": "زیرات امین الله",
-        "speaker": "حاج مهدی رسولی",
-        "location": "رواق امام خمینی",
-        "time": "14:00",
-        "image": "https://example.com/event1.jpg",
-        "description": "مراسم زیارت امین الله با حضور حاج مهدی رسولی"
-      },
       {
         "title": "سخنرانی",
         "speaker": "آیت الله سید احمد خاتمی",
         "location": "رواق امام خمینی",
         "time": "16:30",
-        "image": "https://example.com/event2.jpg",
+        "image": "https://borna.news/files/fa/news/1403/9/2/12720808_138.jpg",
         "description": "سخنرانی آیت الله سید احمد خاتمی در رواق امام خمینی"
+      },
+      {
+        "title": "زیارت امین الله",
+        "speaker": "حاج مهدی رسولی",
+        "location": "رواق امام خمینی",
+        "time": "14:00",
+        "image": "https://cdn.ilna.ir/thumbnail/uV1hcffPbqzc/XWHCw76VBsxziNocTLLHoesUW68OoqO1axxWWNC-1_29u4R4x8JTWBcfKP1V5I-iDmJKOH1CIz0,/1.jpg",
+        "description": "مراسم زیارت امین الله با حضور حاج مهدی رسولی"
       }
     ]
   }

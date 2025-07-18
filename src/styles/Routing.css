@@ -160,7 +160,7 @@
 .modal-toggle {
   display: flex;
   justify-content: center;
-  padding: 10px 0;
+  padding: 15px 0;
   background-color: #fff;
   margin: 0;
 }
@@ -1072,3 +1072,60 @@
   pointer-events: auto;
 }
 
+/* GPS Offline Notification */
+.gps-offline-notification {
+  position: relative;
+  bottom: 190px;
+  background-color: black;
+  opacity: 0.9;
+  border-radius: 12px;
+  padding: 15px;
+  padding-bottom: 700px;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slideIn 0.3s ease-out;
+  width: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.gps-offline-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.gps-offline-content svg {
+  width: 24px;
+  height: 24px;
+  color: #e74c3c;
+}
+
+.gps-offline-message {
+  font-size: 1.0rem;
+  color: #e74c3c;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.gps-offline-notification.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}

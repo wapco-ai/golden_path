@@ -129,7 +129,7 @@
   "soundOptionOff": "Off",
   "emergencyButtonLabel": "Shrine emergencies",
   "arrivalTime": "Arrival time",
-  "routeOverview": "Route overview",
+  "routeOverview": "Route Steps",
   "allRoutes": "All routes",
   "otherRoutes": "Other routes",
   "startRouting": "Start navigation",
@@ -188,5 +188,7 @@
   "fa": "Persian",
   "ur": "Urdu",
   "ar": "Arabic",
-  "en": "English"
+  "en": "English",
+  "gpsOfflineMessage": "Your GPS is off",
+  "stepPrefix": "Step {num} - "
 }

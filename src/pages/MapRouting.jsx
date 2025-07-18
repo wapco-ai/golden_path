@@ -4,7 +4,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import MapComponent from '../components/map/MapComponent';
 import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
-import ModeSelector from '../components/common/ModeSelector';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { useSearchStore } from '../store/searchStore';

@@ -129,7 +129,7 @@
   "soundOptionOff": "خاموش",
   "emergencyButtonLabel": "فوریت‌های حرم",
   "arrivalTime": "زمان رسیدن",
-  "routeOverview": "مسیر در یک نگاه",
+  "routeOverview": " گام های مسیر  ",
   "allRoutes": "همه مسیر",
   "otherRoutes": "سایر مسیرها",
   "startRouting": "شروع مسیریابی",
@@ -188,5 +188,7 @@
   "fa": "فارسی",
   "ur": "اردو",
   "ar": "عربی",
-  "en": "انگلیسی"
+  "en": "انگلیسی",
+  "gpsOfflineMessage": "GPS دستگاه شما خاموش است",
+  "stepPrefix": "گام {num} - "
 }

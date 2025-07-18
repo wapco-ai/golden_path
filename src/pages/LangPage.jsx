@@ -6,7 +6,7 @@ import { useLangStore } from '../store/langStore';
 import '../styles/LangPage.css';
 
 const LangPage = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState(1); // Set default to 1 (Persian)
   const navigate = useNavigate();
 
   const setLanguage = useLangStore((state) => state.setLanguage);
