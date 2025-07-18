@@ -190,5 +190,7 @@
   "ar": "عربی",
   "en": "انگریزی",
   "gpsOfflineMessage":  "آپ کا GPS ڈیوائس بند ہے",
-  "stepPrefix": "قدم {num} - "
+  "stepPrefix": "قدم {num} - ",
+  "appVersionLabel": "ایپ ورژن: {version}",
+  "newVersionAvailable": "نیا ورژن {version} دستیاب ہے"
 }
