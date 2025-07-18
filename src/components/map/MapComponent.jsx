@@ -17,6 +17,8 @@ const groupColors = {
   khadamat: '#607d8b',
   elmi: '#00bcd4',
   cemetery: '#795548',
+  qrcode: '#607d8b',
+  elevator: '#ffc107',
   other: '#757575'
 };
 
