@@ -1,12 +1,24 @@
 // src/pages/Profile.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import logo from '../assets/images/logo.png';
+import packageInfo from '../../package.json';
 
 function Profile() {
   const navigate = useNavigate();
   const intl = useIntl();
+  const appVersion = packageInfo.version;
+
+  useEffect(() => {
+    const savedVersion = localStorage.getItem('appVersion');
+    if (savedVersion && savedVersion !== appVersion) {
+      toast.info(intl.formatMessage({ id: 'newVersionAvailable' }, { version: appVersion }));
+    }
+    localStorage.setItem('appVersion', appVersion);
+  }, [appVersion, intl]);
 
   return (
     <div className="profile-container">
@@ -230,6 +242,9 @@ function Profile() {
             <span className="item-arrow">›</span>
           </div>
         </div>
+      </div>
+      <div className="app-version">
+        <FormattedMessage id="appVersionLabel" values={{ version: appVersion }} />
       </div>
     </div>
   );

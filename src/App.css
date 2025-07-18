@@ -1030,6 +1030,13 @@ body {
   font-weight: normal;
 }
 
+.app-version {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+}
+
 /* ICON STYLES */
 .item-icon {
   width: 24px;

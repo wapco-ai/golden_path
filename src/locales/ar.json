@@ -190,5 +190,7 @@
   "ar": "العربية",
   "en": "الإنجليزية",
   "gpsOfflineMessage": "جهاز تحديد المواقع الخاص بك مغلق",
-  "stepPrefix": "الخطوة {num} - "
+  "stepPrefix": "الخطوة {num} - ",
+  "appVersionLabel": "إصدار التطبيق: {version}",
+  "newVersionAvailable": "إصدار جديد {version} متوفر"
 }
