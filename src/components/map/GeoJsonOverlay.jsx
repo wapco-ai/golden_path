@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Marker, Source, Layer } from 'react-map-gl';
 import { useLangStore } from '../../store/langStore';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
+import { groups } from '../groupData';
 
-// Reuse the same color and icon mapping used in MapComponent
 const groupColors = {
   sahn: '#4caf50',
   eyvan: '#2196f3',
@@ -16,22 +16,13 @@ const groupColors = {
   other: '#757575'
 };
 
-const functionIcons = {
-  door: '🚪',
-  connection: '🔗',
-  elevator: '🛗',
-  escalator: '↕️',
-  ramp: '♿',
-  stairs: '🪜',
-  service: '🚾',
-  qrcode: '🔳',
-  poi: '⭐',
-  other: '📍'
-};
-
 const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   const color = groupColors[group] || '#999';
-  const icon = functionIcons[nodeFunction] || '📌';
+  let iconData =
+    groups.find((g) => g.value === group) ||
+    groups.find((g) => g.value === nodeFunction) ||
+    groups.find((g) => g.value === 'other');
+
   return (
     <div
       style={{
@@ -43,13 +34,14 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'white',
-        fontSize: 14,
-        fontWeight: 'bold',
         boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
       }}
     >
-      {icon}
+      <div
+        className={`map-category-icon ${iconData.icon}`}
+        style={{ width: '18px', height: '18px', marginTop: 0 }}
+        dangerouslySetInnerHTML={{ __html: iconData.svg }}
+      />
     </div>
   );
 };
