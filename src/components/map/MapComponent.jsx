@@ -6,6 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import { useLangStore } from '../../store/langStore';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
+import { groups } from '../groupData';
 
 const groupColors = {
   sahn: '#4caf50',
@@ -19,22 +20,12 @@ const groupColors = {
   other: '#757575'
 };
 
-const functionIcons = {
-  door: '🚪',
-  connection: '🔗',
-  elevator: '🛗',
-  escalator: '↕️',
-  ramp: '♿',
-  stairs: '🪜',
-  service: '🚾',
-  poi: '⭐',
-  qrcode: '🔳',
-  other: '📍'
-};
-
 const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   const color = groupColors[group] || '#999';
-  const icon = functionIcons[nodeFunction] || '📌';
+  let iconData =
+    groups.find((g) => g.value === group) ||
+    groups.find((g) => g.value === nodeFunction) ||
+    groups.find((g) => g.value === 'other');
 
   return (
     <div
@@ -47,13 +38,14 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
         boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
       }}
     >
-      {icon}
+      <div
+        className={`map-category-icon ${iconData.icon}`}
+        style={{ width: '22px', height: '22px', marginTop: 0 }}
+        dangerouslySetInnerHTML={{ __html: iconData.svg }}
+      />
     </div>
   );
 };
