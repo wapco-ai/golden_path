@@ -72,7 +72,11 @@ const FinalSearch = () => {
   }, [destination, storeSetDestination]);
   const { transportMode } = useRouteStore();
   const [selectedGender, setSelectedGender] = useState(storedGender || 'male');
-  const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
+  const [routeInfo, setRouteInfo] = useState({
+    time: '9',
+    distance: '75',
+    mode: transportMode
+  });
   const [popupCoord, setPopupCoord] = useState(null);
   const [popupMinutes, setPopupMinutes] = useState(null);
   const [altPopupCoords, setAltPopupCoords] = useState([]);
@@ -100,14 +104,15 @@ const FinalSearch = () => {
       }, 0);
       info = {
         time: `${Math.max(1, Math.round(dist / 60))}`,
-        distance: `${Math.round(dist)}`
+        distance: `${Math.round(dist)}`,
+        mode: transportMode
       };
     } else if (transportMode === 'walking') {
-      info = { time: '9', distance: '75' };
+      info = { time: '9', distance: '75', mode: 'walking' };
     } else if (transportMode === 'electric-car') {
-      info = { time: '5', distance: '120' };
+      info = { time: '5', distance: '120', mode: 'electric-car' };
     } else if (transportMode === 'wheelchair') {
-      info = { time: '12', distance: '65' };
+      info = { time: '12', distance: '65', mode: 'wheelchair' };
     }
 
     if (info) {
