@@ -238,7 +238,9 @@ const Location = () => {
       const newComment = {
         author: intl.formatMessage({ id: 'defaultCommentAuthor' }),
         text: comment,
-        date: new Date().toLocaleDateString('fa-IR'),
+        date: ['fa', 'ur', 'ar'].includes(language)
+          ? new Date().toLocaleDateString('fa-IR')
+          : new Date().toLocaleDateString(),
         rating: rating || 0
       };
 
