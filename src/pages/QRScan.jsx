@@ -16,9 +16,11 @@ const QRScan = () => {
       const url = new URL(text);
       const lat = url.searchParams.get('lat');
       const lng = url.searchParams.get('lng');
+      const id = url.searchParams.get('id');
       if (lat && lng) {
         sessionStorage.setItem('qrLat', lat);
         sessionStorage.setItem('qrLng', lng);
+        if (id) sessionStorage.setItem('qrId', id);
         const loc = { lat: parseFloat(lat), lng: parseFloat(lng) };
         updateCurrentLocation({ coords: loc, timestamp: Date.now() });
         addQRCodeLocation(text, loc);
