@@ -223,19 +223,33 @@ const RoutingPage = () => {
   };
 
   // If no steps available but route geometry exists (e.g. when navigating
-  // directly from the search page), compute summary info from the geometry so
-  // the displayed time and distance match the final search page.
+  // directly from the search page), compute summary info from stored summary
+  // or from the geometry so the displayed values match the final search page.
   useEffect(() => {
     if (!routeGeo || routeSteps.length) return;
 
-    const coords = routeGeo.geometry.coordinates || [];
-    if (coords.length === 0) return;
+    let minutes;
+    let dist;
+    try {
+      const stored = sessionStorage.getItem('routeSummaryData');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        minutes = parseInt(parsed.time, 10);
+        dist = parseInt(parsed.distance, 10);
+      }
+    } catch (err) {
+      console.warn('failed to read stored route summary', err);
+    }
 
-    const dist = coords.slice(1).reduce((acc, c, i) => {
-      const prev = coords[i];
-      return acc + Math.hypot(c[0] - prev[0], c[1] - prev[1]) * 100000;
-    }, 0);
-    const minutes = Math.max(1, Math.round(dist / 60));
+    if (!minutes || !dist) {
+      const coords = routeGeo.geometry.coordinates || [];
+      if (coords.length === 0) return;
+      dist = coords.slice(1).reduce((acc, c, i) => {
+        const prev = coords[i];
+        return acc + Math.hypot(c[0] - prev[0], c[1] - prev[1]) * 100000;
+      }, 0);
+      minutes = Math.max(1, Math.round(dist / 60));
+    }
 
     setRouteData(prev => ({
       steps: [],
