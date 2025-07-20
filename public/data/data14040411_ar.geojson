@@ -110,7 +110,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -2267,7 +2267,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "elmi",
         "subGroup": "أخرى",
@@ -2335,7 +2335,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -2573,7 +2573,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الشرقي مدخل صحن الثورة",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الثورة",
@@ -2607,7 +2607,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -2675,7 +2675,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الغربي مدخل صحن الثورة",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الثورة",
@@ -2709,7 +2709,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -2777,7 +2777,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الشمالي مدخل صحن الغدير",
         "description": "ورودی مهمانسرا",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -2811,7 +2811,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الغربي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -2845,7 +2845,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الغربي مدخل صحن الغدير",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -2879,7 +2879,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3015,7 +3015,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "کتابخانه",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3049,7 +3049,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الغربي مدخل صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3083,7 +3083,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3117,7 +3117,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3151,7 +3151,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "masjed",
         "subGroup": "أخرى",
@@ -3185,7 +3185,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "masjed",
         "subGroup": "أخرى",
@@ -3219,7 +3219,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3253,7 +3253,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3287,7 +3287,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3321,7 +3321,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الغربي مدخل صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3389,7 +3389,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الشرقي مدخل صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3423,7 +3423,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3491,7 +3491,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الشرقي مدخل صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3525,7 +3525,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3593,7 +3593,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3627,7 +3627,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3694,7 +3694,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3728,7 +3728,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الشرقي مدخل صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الإمام الحسن المجتبى",
@@ -3796,7 +3796,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "الشرقي مدخل صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -3830,7 +3830,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4136,7 +4136,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4340,7 +4340,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "masjed",
         "subGroup": "أخرى",
@@ -4374,7 +4374,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل",
+        "name": "مدخل أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",

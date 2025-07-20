@@ -110,7 +110,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -2267,7 +2267,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "elmi",
         "subGroup": "دیگر",
@@ -2335,7 +2335,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -2573,7 +2573,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مشرقی داخلہ صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -2607,7 +2607,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "ravaq",
         "subGroup": "دیگر",
@@ -2675,7 +2675,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مغربی داخلہ صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -2709,7 +2709,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -2777,7 +2777,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "شمالی داخلہ صحن غدیر",
         "description": "ورودی مهمانسرا",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -2811,7 +2811,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مغربی داخلہ صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -2845,7 +2845,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مغربی داخلہ صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -2879,7 +2879,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -3015,7 +3015,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "کتابخانه",
         "group": "ravaq",
         "subGroup": "دیگر",
@@ -3049,7 +3049,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مغربی داخلہ صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3083,7 +3083,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -3117,7 +3117,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "ravaq",
         "subGroup": "دیگر",
@@ -3151,7 +3151,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "masjed",
         "subGroup": "دیگر",
@@ -3185,7 +3185,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "masjed",
         "subGroup": "دیگر",
@@ -3219,7 +3219,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "ravaq",
         "subGroup": "دیگر",
@@ -3253,7 +3253,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -3287,7 +3287,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -3321,7 +3321,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مغربی داخلہ صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3389,7 +3389,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مشرقی داخلہ صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3423,7 +3423,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "ravaq",
         "subGroup": "دیگر",
@@ -3491,7 +3491,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مشرقی داخلہ صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3525,7 +3525,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -3593,7 +3593,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "ravaq",
         "subGroup": "دیگر",
@@ -3627,7 +3627,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -3694,7 +3694,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -3728,7 +3728,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مشرقی داخلہ صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -3796,7 +3796,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "مشرقی داخلہ صحن پیغمبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیغمبر اعظم",
@@ -3830,7 +3830,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -4136,7 +4136,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
@@ -4340,7 +4340,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "masjed",
         "subGroup": "دیگر",
@@ -4374,7 +4374,7 @@
         ]
       },
       "properties": {
-        "name": "داخلہ",
+        "name": "داخلہ دیگر",
         "description": "",
         "group": "other",
         "subGroup": "دیگر",
