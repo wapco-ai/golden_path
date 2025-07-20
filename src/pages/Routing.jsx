@@ -369,7 +369,7 @@ const RoutingPage = () => {
 
   // Load route data from JSON for initial display when no analyzed route exists
   useEffect(() => {
-    if (routeSteps.length) return;
+    if (routeSteps.length || routeGeo) return;
     fetch('./data/routeData.json')
       .then(response => response.json())
       .then(data => {
@@ -385,7 +385,7 @@ const RoutingPage = () => {
         });
       })
       .catch(error => console.error('Error loading route data:', error));
-  }, [routeSteps.length]);
+  }, [routeSteps.length, routeGeo]);
 
   // Build route data from stored steps
   useEffect(() => {
