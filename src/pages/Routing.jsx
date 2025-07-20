@@ -231,6 +231,7 @@ const RoutingPage = () => {
     let minutes;
     let dist;
     let storedMode;
+
     try {
       const stored = sessionStorage.getItem('routeSummaryData');
       if (stored) {
@@ -238,6 +239,7 @@ const RoutingPage = () => {
         minutes = parseInt(parsed.time, 10);
         dist = parseInt(parsed.distance, 10);
         storedMode = parsed.mode;
+
       }
     } catch (err) {
       console.warn('failed to read stored route summary', err);
@@ -445,6 +447,7 @@ const RoutingPage = () => {
     let summaryMinutes;
     let summaryDistance;
     let summaryMode;
+
     try {
       const stored = sessionStorage.getItem('routeSummaryData');
       if (stored) {
@@ -452,6 +455,7 @@ const RoutingPage = () => {
         summaryMinutes = parseInt(parsed.time, 10);
         summaryDistance = parseInt(parsed.distance, 10);
         summaryMode = parsed.mode;
+
       }
     } catch (err) {
       console.warn('failed to read stored route summary', err);
@@ -533,6 +537,7 @@ const RoutingPage = () => {
       console.warn('failed to persist route summary', err);
     }
   }, [routeSteps, routeGeo, alternativeRoutes, transportMode]);
+
 
   // Update arrival time every minute
   useEffect(() => {
