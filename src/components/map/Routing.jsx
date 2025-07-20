@@ -4,9 +4,11 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
+import useLocaleDigits from '../../utils/useLocaleDigits';
 
 
 const Routing = ({ userLocation, routeSteps, currentStep }) => {
+  const formatDigits = useLocaleDigits();
   const initial = routeSteps && routeSteps.length > 0 ? routeSteps[0].coordinates : [36.2880, 59.6157];
   const [viewState, setViewState] = useState({ latitude: initial[0], longitude: initial[1], zoom: 18 });
 
@@ -45,7 +47,7 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
         {routeSteps &&
           routeSteps.map((step, idx) => (
             <Marker key={idx} longitude={step.coordinates[1]} latitude={step.coordinates[0]} anchor="bottom">
-              <div className={`custom-marker ${idx === currentStep ? 'active' : ''}`}>{idx + 1}</div>
+              <div className={`custom-marker ${idx === currentStep ? 'active' : ''}`}>{formatDigits(idx + 1)}</div>
             </Marker>
           ))}
         {routeSteps && (

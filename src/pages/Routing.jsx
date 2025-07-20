@@ -9,10 +9,12 @@ import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
+import useLocaleDigits from '../utils/useLocaleDigits';
 import { toast } from 'react-toastify';
 
 const RoutingPage = () => {
   const intl = useIntl();
+  const formatDigits = useLocaleDigits();
   const routeMapRef = useRef(null);
   const [isMapModalOpen, setIsMapModalOpen] = useState(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
@@ -972,7 +974,7 @@ const RoutingPage = () => {
                 <div className="all-routes-header">
                   <div className="all-routes-info">
                     <span><FormattedMessage id="arrivalTime" /></span>
-                    <span className="all-routes-arrival-time">{routeData.arrivalTime}</span>
+                    <span className="all-routes-arrival-time">{formatDigits(routeData.arrivalTime)}</span>
                   </div>
                   <div className="all-routes-details">
                     <div className="all-routes-item">
@@ -980,7 +982,7 @@ const RoutingPage = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M7 21l3 -4" /><path d="M16 21l-2 -4l-3 -3l1 -6" /><path d="M6 12l2 -3l4 -1l3 3l3 1" /></svg>
                       </div>
                       <div className="all-routes-text">
-                        <span className="all-routes-value">{routeData.totalTime}</span>
+                        <span className="all-routes-value">{formatDigits(routeData.totalTime)}</span>
                       </div>
                     </div>
                     <div className="all-routes-item">
@@ -988,7 +990,7 @@ const RoutingPage = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
                       </div>
                       <div className="all-routes-text">
-                        <span className="all-routes-value">{routeData.totalDistance}</span>
+                        <span className="all-routes-value">{formatDigits(routeData.totalDistance)}</span>
                       </div>
                     </div>
                   </div>
@@ -1041,7 +1043,7 @@ const RoutingPage = () => {
                           <path d="M16 21l-2 -4l-3 -3l1 -6" />
                           <path d="M6 12l2 -3l4 -1l3 3l3 1" />
                         </svg>
-                        <span>{route.totalTime}</span>
+                        <span>{formatDigits(route.totalTime)}</span>
                       </div>
 
                       <div className="route-stat">
@@ -1051,7 +1053,7 @@ const RoutingPage = () => {
                           <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" />
                           <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
                         </svg>
-                        <span>{route.totalDistance}</span>
+                        <span>{formatDigits(route.totalDistance)}</span>
                       </div>
                     </div>
 
@@ -1095,7 +1097,7 @@ const RoutingPage = () => {
                   <div className="info-title">
                     <div className="info-stat">
                       <span><FormattedMessage id="arrivalTime" /></span>
-                      <span className="arrival-time">{routeData.arrivalTime}</span>
+                      <span className="arrival-time">{formatDigits(routeData.arrivalTime)}</span>
                     </div>
                     <div className="info-details">
                       <div className="info-item">
@@ -1103,7 +1105,7 @@ const RoutingPage = () => {
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-walk"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M7 21l3 -4" /><path d="M16 21l-2 -4l-3 -3l1 -6" /><path d="M6 12l2 -3l4 -1l3 3l3 1" /></svg>
                         </div>
                         <div className="info-text">
-                          <span className="info-value">{routeData.totalTime}</span>
+                          <span className="info-value">{formatDigits(routeData.totalTime)}</span>
                         </div>
                       </div>
 
@@ -1112,7 +1114,7 @@ const RoutingPage = () => {
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
                         </div>
                         <div className="info-text">
-                          <span className="info-value">{routeData.totalDistance}</span>
+                          <span className="info-value">{formatDigits(routeData.totalDistance)}</span>
                         </div>
                       </div>
                     </div>
