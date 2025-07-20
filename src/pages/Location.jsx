@@ -585,21 +585,58 @@ const Location = () => {
         </div>
       </section>
 
-      {/* Events Section */}
-      <section className="events-section">
-        <h3>
-          <FormattedMessage id="audioTextContent" values={{ title: locationData.title }} />
-        </h3>
-        <div className="events-list">
-          {locationData.events?.map(event => (
-            <div key={event.id} className="event-item">
-              <h4>{event.title}</h4>
-              <span className="event-date">{event.date}</span>
-              <p>{event.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+
+      {/* Audio/Video/Text Content Section */}
+      {locationData.contents && locationData.contents.length > 0 && (
+        <section className="content-section">
+          <h3>
+            <FormattedMessage id="audioTextContent" values={{ title: locationData.title }} />
+          </h3>
+          <div className="content-list">
+            {locationData.contents.map((content) => (
+              <div key={content.id} className="content-item">
+                <div className="content-media">
+                  {content.type === 'audio' && (
+                    <div className="audio-thumbnail" style={{ backgroundImage: `url(${content.thumbnail})` }}>
+                      <div className="play-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+                  {content.type === 'video' && (
+                    <div className="video-thumbnail" style={{ backgroundImage: `url(${content.thumbnail})` }}>
+                      <div className="play-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+                  {content.type === 'pdf' && (
+                    <div className="pdf-thumbnail">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <path d="M10 11H8v2h2v-2z"></path>
+                        <path d="M16 11h-2v2h2v-2z"></path>
+                        <path d="M14 11h-2v2h2v-2z"></path>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                <div className="content-info">
+                  <h4>{content.title[language]}</h4>
+                  <p>{content.description[language]}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Comments Section */}
       <section className="comments-section">

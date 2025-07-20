@@ -37,10 +37,66 @@
         "fa": "در میانه صحن انقلاب اسلامی، بنای زیبای سقّاخانه وجود دارد. سنگاب (منبع آب) این سقّاخانه سنگ مرمر یکپارچه‌ای با گنجایش سه کر آب، معادل ۱۱۳۰ لیتر است که به دستور نادرشاه افشار از هرات به مشهد منتقل شده است. در گذشته‌های دور که امکانات لوله‌کشی مثل امروز نبود، آب را با مراسم خاصی از قنات‌های اطراف مشهد به حرم می‌آوردند و برای استفاده زائران، داخل این سنگاب می‌ریختند. در دوره فتحعلی‌شاه قاجار، به دستور شخصی به‌نام اسماعیل، بنایی هشت‌ضلعی به فراز این سنگاب ساختند و بدنبال آن، سقف بنا با خشتی‌های طلا تزیین شد. این بنا به سقاخانه یا اسماعیل طلایی شهرت داشت. در سال ۱۳۴۵ شمسی، بنای این سقّاخانه که بر اثر گذر زمان کهنه و فرسوده شده بود، تخریب و از نو طراحی زیبا و مجلل بازسازی شد و پس از پیروزی انقلاب اسلامی نیز مجدداً مرمت شد و در هنگام احداث رواق دارالحدیجه، در طبقه زیرین صحن انقلاب اسلامی، بنای سقّاخانه نیز محکم‌سازی شد. مساحت سقاخانه ۵۷٫۵۷ متر مربع، ارتفاع آن ۶٫۶۷ و شعاع گنبد ۳٫۳۲ متر است و دارای پایه‌هایی مرنّب به سنگ مرمر گنبدکاری‌شده و کاشی و نیز سقف گنبدی آراسته به خشتی‌های مطلاست.",
         "en": "In the middle of the Islamic Revolution Courtyard stands the beautiful Saqqakhaneh. The marble basin, holding about 1130 liters, was brought from Herat by order of Nader Shah. In the past water was ceremonially brought from nearby qanats for pilgrims. During the Qajar era an octagonal structure with a gilded roof was built over it. The building was rebuilt in 1966 and renovated after the Islamic Revolution. It covers 57.57 m² with marble columns and a gilded dome.",
         "ar": "في وسط صحن الثورة الإسلامية يقع السقاخانه الجميل الذي نُقل حوضه الرخامي من هرات بأمر نادر شاه. كان الماء يجلب من القنوات المحيطة ويصب في الحوض للزوار. في عهد القاجار بُني بناء مثمن ذو سقف مذهّب فوقه. أُعيد بناؤه عام 1966 ورُمم بعد الثورة الإسلامية. مساحته نحو 57 متراً مربعاً ويعلوه قبة مذهّبة.",
-        "ur": "صحنِ انقلاب اسلامی کے وسط میں واقع اس سقاہ خانے کا سنگ مرمر کا حوض نادر شاہ کے حکم سے ہرات سے لایا گیا تھا۔ قدیم زمانے میں پانی قناتوں سے لا کر زائرین کے لئے اس میں ڈالا جاتا تھا۔ دورِ قاجار میں اس پر ایک ہشت ضلعی عمارت اور سنہری گنبد بنایا گیا۔ 1966ء میں اسے دوبارہ تعمیر کیا گیا اور بعد از انقلاب اسلامی مرمت کی گئی۔ اس کی مساحت تقریباً 57 مربع میٹر ہے اور گنبد سونے سے مزین ہے."
+        "ur": "صحنِ انقلاب اسلامی کے وسط میں واقع اس سقاہ خانے کا سنگ مرمر کا حوض نادر شاہ کے حکم سے ہرات سے لایا گیا تھا۔ قدیم زمانے میں پانی قناتوں سے لا کر زائرین کے لئے اس میں ڈالا جاتا تھا۔ دورِ قاجار میں اس پر ایک ہشت ضلعی عمارت اور سنہری گنبد بنایا گیا۔ 1966ء میں اسے دوبارہ تعمیر کیا گیا اور بعد از انقلاب اسلامی مرمت کی گئی۔ اس کی مساحت تقریباً 57 مربع میٹر ہے اور گنبد سونے سے مزین ہے۔"
       }
     },
     "events": [],
+    "contents": [
+      {
+        "id": "content1",
+        "type": "audio",
+        "title": {
+          "fa": "کرنایی حسین",
+          "en": "Hussain's Lament",
+          "ar": "نوح الحسين",
+          "ur": "حسین کا مرثیہ"
+        },
+        "description": {
+          "fa": "تماهنگ: میروم مشهد",
+          "en": "Theme: I'm going to Mashhad",
+          "ar": "موضوع: أنا ذاهب إلى مشهد",
+          "ur": "موضوع: میں مشہد جا رہا ہوں"
+        },
+        "mediaUrl": "https://www.aparat.com/v/ndz1qa0",
+        "thumbnail": "https://betaplusofficial.com/wp-content/uploads/2022/11/25.jpg"
+      },
+      {
+        "id": "content2",
+        "type": "audio",
+        "title": {
+          "fa": "کرنایی حسین",
+          "en": "Hussain's Lament",
+          "ar": "نوح الحسين",
+          "ur": "حسین کا مرثیہ"
+        },
+        "description": {
+          "fa": "تماهنگ: فرزویر",
+          "en": "Theme: Fervor",
+          "ar": "موضوع: الحماس",
+          "ur": "موضوع: جوش"
+        },
+        "mediaUrl": "/audio/hussain2.mp3",
+        "thumbnail": "/images/audio-thumbnail2.jpg"
+      },
+      {
+        "id": "content3",
+        "type": "video",
+        "title": {
+          "fa": "تاریخچه سقاخانه",
+          "en": "History of Saqqakhaneh",
+          "ar": "تاريخ السقاخانه",
+          "ur": "سقاخانہ کی تاریخ"
+        },
+        "description": {
+          "fa": "مستند کوتاه درباره بنای سقاخانه",
+          "en": "Short documentary about Saqqakhaneh",
+          "ar": "فيلم وثائقي قصير عن السقاخانه",
+          "ur": "سقاخانہ کے بارے میں مختصر دستاویزی فلم"
+        },
+        "mediaUrl": "/videos/saqqa-history.mp4",
+        "thumbnail": "/images/video-thumbnail1.jpg"
+      }
+    ],
     "comments": [
       {
         "id": "comment1",
@@ -247,16 +303,16 @@
       "ur": "ورودی باب الجواد"
     },
     "location": {
-      "fa": "  باب الجواد  |  حرم مطهر رضوی ",
+      "fa": "باب الجواد | حرم مطهر رضوی",
       "en": "Bab al-Javad | Razavi Holy Shrine",
       "ar": "باب الجواد | الحرم الرضوي",
       "ur": "باب الجواد | حرم مطهر رضوی"
     },
     "images": [
-      " https://media.qudsonline.ir/d/2023/06/19/4/1207537.jpg?ts=1687165640000",
-      " https://irs01.wisgoon.com/irs01/30/31/ad/6a/irs01_s3old_1548387562717468.jpg ",
-      " https://dl1.negarestock.ir/S/p/2024/9/24/1727180933_44854_baboljavad-1403.7.3-NegareStock.ir%20(1).jpg",
-      "https://static.neshanmap.ir/places/images/fc6/644601_2056563--%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%AF.jpeg "
+      "https://media.qudsonline.ir/d/2023/06/19/4/1207537.jpg?ts=1687165640000",
+      "https://irs01.wisgoon.com/irs01/30/31/ad/6a/irs01_s3old_1548387562717468.jpg",
+      "https://dl1.negarestock.ir/S/p/2024/9/24/1727180933_44854_baboljavad-1403.7.3-NegareStock.ir%20(1).jpg",
+      "https://static.neshanmap.ir/places/images/fc6/644601_2056563--%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%AF.jpeg"
     ],
     "openingHours": {
       "fa": "۲۴ ساعت باز میباشد",
@@ -275,13 +331,84 @@
         "fa": "ورودی باب الجواد در محله بالا خیابان مشهد و در میدان بیت المقدس، خیابان خسروی نو واقع شده است. این مکان نزدیک مراکزی مانند بازار رضا (ع)، گنبد طلا، بازار امام رضا (ع)، رستوران لیالی لبنان و حرم حضرت علی بن موسی الرضا (ع) قرار دارد. نزدیک‌ترین ایستگاه اتوبوس به این مکان، ایستگاه اتوبوس حرم مطهر است که دسترسی به آن را برای کاربران حمل‌ونقل عمومی آسان می‌کند.",
         "en": "Bab al-Javad entrance is situated in the Bala Kheyaban area of Mashhad at Bait al-Moqaddas Square on Khosravi-e-No Street. It is close to Reza Bazaar, the Golden Dome, Imam Reza Bazaar, the Layali Lebanon restaurant and the holy shrine. The nearest bus stop is the shrine stop, offering easy access for public transport users.",
         "ar": "يقع مدخل باب الجواد في منطقة بالا خيابان بمشهد في ساحة بيت المقدس بشارع خسروي نو، قريب من سوق رضا والقبة الذهبية وسوق الإمام رضا ومطعم ليالي لبنان والحرم الرضوي. أقرب موقف للحافلات هو موقف الحرم مما يسهل الوصول إليه.",
-        "ur": "ورودی باب الجواد محلہ بالا خیابان مشہد میں میدان بیت المقدس، خیابان خسروی نو پر واقع ہے۔ یہ بازار رضا، گنبد طلا، بازار امام رضا، ریسٹورنٹ لیالی لبنان اور حرم مطهر کے قریب ہے۔ نزدیک ترین بس اسٹاپ حرم مطهر ہے، جس سے عوامی ٹرانسپورٹ والوں کو سہولت ملتی ہے."
+        "ur": "ورودی باب الجواد محلہ بالا خیابان مشہد میں میدان بیت المقدس، خیابان خسروی نو پر واقع ہے۔ یہ بازار رضا، گنبد طلا، بازار امام رضا، ریسٹورنٹ لیالی لبنان اور حرم مطهر کے قریب ہے۔ نزدیک ترین بس اسٹاپ حرم مطهر ہے، جس سے عوامی ٹرانسپورٹ والوں کو سہولت ملتی ہے۔"
       }
     },
     "events": [],
-    "comments": [],
-    "views": 0,
-    "averageRating": 0
+    "contents": [
+      {
+        "id": "content1",
+        "type": "audio",
+        "title": {
+          "fa": "فضائل باب الجواد",
+          "en": "Virtues of Bab al-Javad",
+          "ar": "فضائل باب الجواد",
+          "ur": "باب الجواد کی فضیلتیں"
+        },
+        "description": {
+          "fa": "سخنرانی از آیت‌الله جوادی آملی",
+          "en": "Speech by Ayatollah Javadi Amoli",
+          "ar": "كلام آية الله جوادي آملي",
+          "ur": "آیت اللہ جوادی آملی کا خطاب"
+        },
+        "mediaUrl": "/audio/bab-al-javad.mp3",
+        "thumbnail": "https://commons.wikishia.net/w/images/1/18/%D8%A8%D8%A7%D8%A8_%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%AF_%D8%AD%D8%B1%D9%85_%D8%A7%D9%85%D8%A7%D9%85_%D8%B1%D8%B6%D8%A7.png"
+      },
+      {
+        "id": "content2",
+        "type": "video",
+        "title": {
+          "fa": "تاریخچه باب الجواد",
+          "en": "History of Bab al-Javad",
+          "ar": "تاريخ باب الجواد",
+          "ur": "باب الجواد کی تاریخ"
+        },
+        "description": {
+          "fa": "مستند کوتاه درباره این ورودی مقدس",
+          "en": "Short documentary about this holy entrance",
+          "ar": "فيلم وثائقي قصير عن هذا المدخل المقدس",
+          "ur": "اس مقدس دروازے کے بارے میں مختصر دستاویزی فلم"
+        },
+        "mediaUrl": "/videos/bab-al-javad-history.mp4",
+        "thumbnail": "https://iqna.ir/files/fa/news/1402/11/1/3308359_485.jpg"
+      },
+      {
+        "id": "content3",
+        "type": "pdf",
+        "title": {
+          "fa": "نقشه راهنمای باب الجواد",
+          "en": "Bab al-Javad Guide Map",
+          "ar": "خريطة دليل باب الجواد",
+          "ur": "باب الجواد کی رہنمائی کا نقشہ"
+        },
+        "description": {
+          "fa": "راهنمای کامل مسیرهای دسترسی",
+          "en": "Complete access routes guide",
+          "ar": "دليل كامل لطرق الوصول",
+          "ur": "رسائی کے مکمل راستوں کی رہنمائی"
+        },
+        "mediaUrl": "/pdf/bab-al-javad-map.pdf",
+        "thumbnail": "https://aghigh.ir/files/fa/news/1393/6/11/66382_608.jpg"
+      }
+    ],
+    "comments": [
+      {
+        "id": "comment1",
+        "author": "زائر رضوی",
+        "text": "باب الجواد یکی از زیباترین ورودی‌های حرم است",
+        "date": "۱۲ فروردین",
+        "rating": 5
+      },
+      {
+        "id": "comment2",
+        "author": "محمد حسینی",
+        "text": "دسترسی بسیار خوبی به صحن غدیر دارد",
+        "date": "۳ اردیبهشت",
+        "rating": 4
+      }
+    ],
+    "views": 1245,
+    "averageRating": 4.7
   },
   {
     "id": "sahn-payambar-azam_2658",
