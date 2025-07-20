@@ -19,6 +19,7 @@ const MapRoutingPage = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const storedLat = sessionStorage.getItem('qrLat');
   const storedLng = sessionStorage.getItem('qrLng');
+  const storedId = sessionStorage.getItem('qrId');
   const initialUserLocation = storedLat && storedLng
     ? {
       name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
@@ -38,9 +39,9 @@ const MapRoutingPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
-    const id = sessionStorage.getItem('qrId');
-    if (storedLat && storedLng && id) {
-      getLocationTitleById(id).then((title) => {
+    if (storedLat && storedLng && storedId) {
+      getLocationTitleById(storedId).then((title) => {
+
         if (title) {
           setUserLocation({
             name: title,
@@ -49,7 +50,8 @@ const MapRoutingPage = () => {
         }
       });
     }
-  }, [storedLat, storedLng, language]);
+  }, [storedLat, storedLng, storedId, language]);
+
 
   const setOriginStore = useRouteStore(state => state.setOrigin);
   const setDestinationStore = useRouteStore(state => state.setDestination);
@@ -274,9 +276,9 @@ const MapRoutingPage = () => {
   };
 
   const handleCurrentLocationSelect = () => {
-    const id = sessionStorage.getItem('qrId');
-    if (storedLat && storedLng && id) {
-      getLocationTitleById(id).then((title) => {
+    if (storedLat && storedLng && storedId) {
+      getLocationTitleById(storedId).then((title) => {
+
         setUserLocation({
           name: title || intl.formatMessage({ id: 'mapCurrentLocationName' }),
           coordinates: [parseFloat(storedLat), parseFloat(storedLng)]

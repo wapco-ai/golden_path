@@ -87,6 +87,7 @@ const MapComponent = ({
   useEffect(() => {
     const storedLat = sessionStorage.getItem('qrLat');
     const storedLng = sessionStorage.getItem('qrLng');
+    const storedId = sessionStorage.getItem('qrId');
     
     // Original shrine coordinates
     const shrineCoords = { lat: 36.2880, lng: 59.6157 };
@@ -99,9 +100,9 @@ const MapComponent = ({
       setUserCoords(coords);
       (async () => {
         let name = intl.formatMessage({ id: 'mapCurrentLocationName' });
-        const qrId = sessionStorage.getItem('qrId');
-        if (qrId) {
-          const title = await getLocationTitleById(qrId);
+        if (storedId) {
+          const title = await getLocationTitleById(storedId);
+
           if (title) name = title;
         }
         setUserLocation({
