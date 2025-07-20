@@ -13,6 +13,7 @@ import '../styles/MapRouting.css';
 const MapRoutingPage = () => {
   const navigate = useNavigate();
   const intl = useIntl();
+  const language = useLangStore(state => state.language);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -52,7 +53,6 @@ const MapRoutingPage = () => {
 
   const setOriginStore = useRouteStore(state => state.setOrigin);
   const setDestinationStore = useRouteStore(state => state.setDestination);
-  const language = useLangStore(state => state.language);
   const recentSearches = useSearchStore(state => state.recentSearches);
   const addSearch = useSearchStore(state => state.addSearch);
 
