@@ -222,6 +222,31 @@ const RoutingPage = () => {
     return totalMinutes;
   };
 
+  // If no steps available but route geometry exists (e.g. when navigating
+  // directly from the search page), compute summary info from the geometry so
+  // the displayed time and distance match the final search page.
+  useEffect(() => {
+    if (!routeGeo || routeSteps.length) return;
+
+    const coords = routeGeo.geometry.coordinates || [];
+    if (coords.length === 0) return;
+
+    const dist = coords.slice(1).reduce((acc, c, i) => {
+      const prev = coords[i];
+      return acc + Math.hypot(c[0] - prev[0], c[1] - prev[1]) * 100000;
+    }, 0);
+    const minutes = Math.max(1, Math.round(dist / 60));
+
+    setRouteData(prev => ({
+      steps: [],
+      totalTime: formatTotalTime(minutes),
+      arrivalTime: calculateArrivalTime(minutes),
+      totalDistance: `${Math.round(dist)} ${intl.formatMessage({ id: 'meters' })}`,
+      alternativeRoutes: [],
+      ...prev,
+    }));
+  }, [routeGeo, routeSteps.length, intl]);
+
   const handleEmergencySubmit = () => {
     if (!selectedEmergency) {
       toast.error(intl.formatMessage({ id: 'emergencySelectType' }));
