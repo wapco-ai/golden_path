@@ -8,6 +8,7 @@ import localizeLocationData from '../utils/localizeLocationData.js';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { useSearchStore } from '../store/searchStore';
+import useLocaleDigits from '../utils/useLocaleDigits';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,6 +37,7 @@ const Location = () => {
 
   const locationId = getSearchParams().get('id');
   const intl = useIntl();
+  const formatDigits = useLocaleDigits();
   const [activeSlide, setActiveSlide] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
@@ -557,9 +559,9 @@ const Location = () => {
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
               </svg>
-              {overallRating.toFixed(1)}
+              {formatDigits(overallRating.toFixed(1))}
             </span>
-            <span className="views">({views} {intl.formatMessage({ id: 'commentsLabel' })})</span>
+            <span className="views">({formatDigits(views)} {intl.formatMessage({ id: 'commentsLabel' })})</span>
           </div>
         </div>
 
@@ -1008,7 +1010,7 @@ const Location = () => {
                                 </svg>
                               ))}
                             </div>
-                            <span className="place-views">({place.views} {intl.formatMessage({ id: 'commentsLabel' })})</span>
+                            <span className="place-views">({formatDigits(place.views)} {intl.formatMessage({ id: 'commentsLabel' })})</span>
                           </div>
                           <p className="place-description">{place.description}</p>
                           <button className="read-more-btn">

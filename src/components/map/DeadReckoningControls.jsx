@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import useLocaleDigits from '../../utils/useLocaleDigits';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 import '../../styles/DeadReckoning.css';
 
 const DeadReckoningControls = ({ currentLocation }) => {
   const intl = useIntl();
+  const formatDigits = useLocaleDigits();
   const [isActive, setIsActive] = useState(advancedDeadReckoningService.isActive);
   const [stepCount, setStepCount] = useState(0);
 
@@ -44,7 +46,7 @@ const DeadReckoningControls = ({ currentLocation }) => {
         {intl.formatMessage({ id: 'drReset' })}
       </button>
       <div className="step-counter">
-        {intl.formatMessage({ id: 'drStepCount' })} {stepCount}
+        {intl.formatMessage({ id: 'drStepCount' })} {formatDigits(stepCount)}
       </div>
     </div>
   );

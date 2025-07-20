@@ -8,10 +8,12 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/RouteOverview.css';
 import osmStyle from '../services/osmStyle';
 import { useRouteStore } from '../store/routeStore';
+import useLocaleDigits from '../utils/useLocaleDigits';
 
 const RouteOverview = () => {
   const navigate = useNavigate();
   const intl = useIntl();
+  const formatDigits = useLocaleDigits();
 
   const mapRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -99,10 +101,10 @@ const RouteOverview = () => {
       const [lng2, lat2] = segment[1];
       const d = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
       setDistance(
-        `${Math.round(d)} ${intl.formatMessage({ id: 'meters' })}`
+        `${formatDigits(Math.round(d))} ${intl.formatMessage({ id: 'meters' })}`
       );
       setTime(
-        `${Math.max(1, Math.round(d / 60))} ${intl.formatMessage({ id: 'minutesUnit' })}`
+        `${formatDigits(Math.max(1, Math.round(d / 60)))} ${intl.formatMessage({ id: 'minutesUnit' })}`
       );
 
       if (currentSlide === routeData.length - 1) {

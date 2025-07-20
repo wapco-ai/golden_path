@@ -13,6 +13,7 @@ import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
+import useLocaleDigits from '../utils/useLocaleDigits';
 import { toast } from 'react-toastify';
 
 const FinalSearch = () => {
@@ -21,6 +22,7 @@ const FinalSearch = () => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
   const intl = useIntl();
+  const formatDigits = useLocaleDigits();
   const {
     origin: storedOrigin,
     destination: storedDestination,
@@ -760,7 +762,7 @@ const FinalSearch = () => {
           <div className="info-time">
             {getTransportIcon()}
             <span>
-              {routeInfo.time} <FormattedMessage id="minutesUnit" />
+              {formatDigits(routeInfo.time)} <FormattedMessage id="minutesUnit" />
             </span>
           </div>
           <div className="info-distance">
@@ -771,7 +773,7 @@ const FinalSearch = () => {
               <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
             </svg>
             <span>
-              {routeInfo.distance} <FormattedMessage id="meters" />
+              {formatDigits(routeInfo.distance)} <FormattedMessage id="meters" />
             </span>
           </div>
         </div>
