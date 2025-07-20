@@ -437,10 +437,26 @@ const RoutingPage = () => {
         direction
       };
     });
-    const totalMinutes = calculateTotalTime(steps);
+    // Use summary from session storage if available to ensure consistency with
+    // the FinalSearch page calculations
+    let summaryMinutes;
+    let summaryDistance;
+    try {
+      const stored = sessionStorage.getItem('routeSummaryData');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        summaryMinutes = parseInt(parsed.time, 10);
+        summaryDistance = parseInt(parsed.distance, 10);
+      }
+    } catch (err) {
+      console.warn('failed to read stored route summary', err);
+    }
+
+    const totalMinutes = summaryMinutes || calculateTotalTime(steps);
+    const totalDistance = summaryDistance ||
+      steps.reduce((acc, st) => acc + parseInt(st.distance), 0);
     const formattedTotalTime = formatTotalTime(totalMinutes);
     const arrivalTime = calculateArrivalTime(totalMinutes);
-    const totalDistance = steps.reduce((acc, st) => acc + parseInt(st.distance), 0);
 
     const alternativesData = (alternativeRoutes || []).map((alt, ridx) => {
       const altCoords = alt.geo.geometry.coordinates;
@@ -497,6 +513,18 @@ const RoutingPage = () => {
       totalDistance: `${totalDistance} ${intl.formatMessage({ id: 'meters' })}`,
       alternativeRoutes: alternativesData
     });
+
+    try {
+      sessionStorage.setItem(
+        'routeSummaryData',
+        JSON.stringify({
+          time: totalMinutes.toString(),
+          distance: totalDistance.toString()
+        })
+      );
+    } catch (err) {
+      console.warn('failed to persist route summary', err);
+    }
   }, [routeSteps, routeGeo, alternativeRoutes]);
 
   // Update arrival time every minute
