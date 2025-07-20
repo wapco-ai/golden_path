@@ -20,9 +20,11 @@ if (search && search.includes('&amp;')) {
 const params = new URLSearchParams(search);
 const lat = params.get('lat');
 const lng = params.get('lng');
+const qrId = params.get('id');
 if (lat && lng) {
   sessionStorage.setItem('qrLat', lat);
   sessionStorage.setItem('qrLng', lng);
+  if (qrId) sessionStorage.setItem('qrId', qrId);
 
   // Also update the GPS store so components can use this location immediately
   const updateCurrentLocation = useGPSStore.getState().updateCurrentLocation;

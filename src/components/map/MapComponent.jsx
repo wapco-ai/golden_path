@@ -7,6 +7,7 @@ import osmStyle from '../../services/osmStyle';
 import { useLangStore } from '../../store/langStore';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
 import { groups } from '../groupData';
+import { getLocationTitleById } from '../../utils/getLocationTitle';
 
 const groupColors = {
   sahn: '#4caf50',
@@ -86,25 +87,33 @@ const MapComponent = ({
   useEffect(() => {
     const storedLat = sessionStorage.getItem('qrLat');
     const storedLng = sessionStorage.getItem('qrLng');
+    const storedId = sessionStorage.getItem('qrId');
     
     // Original shrine coordinates
     const shrineCoords = { lat: 36.2880, lng: 59.6157 };
     
     if (storedLat && storedLng) {
-      const coords = { 
-        lat: parseFloat(storedLat), 
-        lng: parseFloat(storedLng) 
+      const coords = {
+        lat: parseFloat(storedLat),
+        lng: parseFloat(storedLng)
       };
       setUserCoords(coords);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-        coordinates: [coords.lat, coords.lng]
-      });
-      setViewState(v => ({ 
-        ...v, 
-        latitude: coords.lat, 
-        longitude: coords.lng, 
-        zoom: 18 
+      (async () => {
+        let name = intl.formatMessage({ id: 'mapCurrentLocationName' });
+        if (storedId) {
+          const title = await getLocationTitleById(storedId);
+          if (title) name = title;
+        }
+        setUserLocation({
+          name,
+          coordinates: [coords.lat, coords.lng]
+        });
+      })();
+      setViewState(v => ({
+        ...v,
+        latitude: coords.lat,
+        longitude: coords.lng,
+        zoom: 18
       }));
       return; // Skip GPS if QR code exists
     }

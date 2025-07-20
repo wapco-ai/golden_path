@@ -6,17 +6,20 @@ import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
+import { getLocationTitleById } from '../utils/getLocationTitle';
 import { useSearchStore } from '../store/searchStore';
 import '../styles/MapRouting.css';
 
 const MapRoutingPage = () => {
   const navigate = useNavigate();
   const intl = useIntl();
+  const language = useLangStore(state => state.language);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const storedLat = sessionStorage.getItem('qrLat');
   const storedLng = sessionStorage.getItem('qrLng');
+  const storedId = sessionStorage.getItem('qrId');
   const initialUserLocation = storedLat && storedLng
     ? {
       name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
@@ -35,9 +38,21 @@ const MapRoutingPage = () => {
   const [mapSelectedLocation, setMapSelectedLocation] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  useEffect(() => {
+    if (storedLat && storedLng && storedId) {
+      getLocationTitleById(storedId).then((title) => {
+        if (title) {
+          setUserLocation({
+            name: title,
+            coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
+          });
+        }
+      });
+    }
+  }, [storedLat, storedLng, storedId, language]);
+
   const setOriginStore = useRouteStore(state => state.setOrigin);
   const setDestinationStore = useRouteStore(state => state.setDestination);
-  const language = useLangStore(state => state.language);
   const recentSearches = useSearchStore(state => state.recentSearches);
   const addSearch = useSearchStore(state => state.addSearch);
 
@@ -259,10 +274,19 @@ const MapRoutingPage = () => {
   };
 
   const handleCurrentLocationSelect = () => {
-    setUserLocation((prev) => ({
-      ...prev,
-      name: intl.formatMessage({ id: 'mapCurrentLocationName' })
-    }));
+    if (storedLat && storedLng && storedId) {
+      getLocationTitleById(storedId).then((title) => {
+        setUserLocation({
+          name: title || intl.formatMessage({ id: 'mapCurrentLocationName' }),
+          coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
+        });
+      });
+    } else {
+      setUserLocation((prev) => ({
+        ...prev,
+        name: intl.formatMessage({ id: 'mapCurrentLocationName' })
+      }));
+    }
     setShowOriginModal(false);
   };
 
