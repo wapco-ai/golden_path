@@ -72,7 +72,11 @@ const FinalSearch = () => {
   }, [destination, storeSetDestination]);
   const { transportMode } = useRouteStore();
   const [selectedGender, setSelectedGender] = useState(storedGender || 'male');
-  const [routeInfo, setRouteInfo] = useState({ time: '9', distance: '75' });
+  const [routeInfo, setRouteInfo] = useState({
+    time: '9',
+    distance: '75',
+    mode: transportMode
+  });
   const [popupCoord, setPopupCoord] = useState(null);
   const [popupMinutes, setPopupMinutes] = useState(null);
   const [altPopupCoords, setAltPopupCoords] = useState([]);
@@ -91,22 +95,33 @@ const FinalSearch = () => {
   }, []);
 
   React.useEffect(() => {
+    let info;
     if (routeGeo) {
       const coords = routeGeo.geometry?.coordinates || [];
       const dist = coords.slice(1).reduce((acc, c, i) => {
         const prev = coords[i];
         return acc + Math.hypot(c[0] - prev[0], c[1] - prev[1]) * 100000;
       }, 0);
-      setRouteInfo({
+      info = {
         time: `${Math.max(1, Math.round(dist / 60))}`,
-        distance: `${Math.round(dist)}`
-      });
+        distance: `${Math.round(dist)}`,
+        mode: transportMode
+      };
     } else if (transportMode === 'walking') {
-      setRouteInfo({ time: '9', distance: '75' });
+      info = { time: '9', distance: '75', mode: 'walking' };
     } else if (transportMode === 'electric-car') {
-      setRouteInfo({ time: '5', distance: '120' });
+      info = { time: '5', distance: '120', mode: 'electric-car' };
     } else if (transportMode === 'wheelchair') {
-      setRouteInfo({ time: '12', distance: '65' });
+      info = { time: '12', distance: '65', mode: 'wheelchair' };
+    }
+
+    if (info) {
+      setRouteInfo(info);
+      try {
+        sessionStorage.setItem('routeSummaryData', JSON.stringify(info));
+      } catch (err) {
+        console.warn('failed to persist route summary', err);
+      }
     }
   }, [transportMode, routeGeo]);
 
