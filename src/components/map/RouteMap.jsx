@@ -150,7 +150,10 @@ const RouteMap = forwardRef(({
         [start[0], start[1]]
       );
       bounds.extend([end[0], end[1]]);
-      mapRef.current.fitBounds(bounds, { padding: 80, duration: 700 });
+      const dist = Math.hypot(end[0] - start[0], end[1] - start[1]) * 100000;
+      const options = { padding: 80, duration: 700 };
+      if (dist < 50) options.maxZoom = 17;
+      mapRef.current.fitBounds(bounds, options);
     }
   }, [currentStep, routeGeo]);
 

@@ -41,6 +41,7 @@ const MapRoutingPage = () => {
   useEffect(() => {
     if (storedLat && storedLng && storedId) {
       getLocationTitleById(storedId).then((title) => {
+
         if (title) {
           setUserLocation({
             name: title,
@@ -50,6 +51,7 @@ const MapRoutingPage = () => {
       });
     }
   }, [storedLat, storedLng, storedId, language]);
+
 
   const setOriginStore = useRouteStore(state => state.setOrigin);
   const setDestinationStore = useRouteStore(state => state.setDestination);
@@ -276,6 +278,7 @@ const MapRoutingPage = () => {
   const handleCurrentLocationSelect = () => {
     if (storedLat && storedLng && storedId) {
       getLocationTitleById(storedId).then((title) => {
+
         setUserLocation({
           name: title || intl.formatMessage({ id: 'mapCurrentLocationName' }),
           coordinates: [parseFloat(storedLat), parseFloat(storedLng)]

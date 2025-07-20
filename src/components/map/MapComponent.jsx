@@ -102,6 +102,7 @@ const MapComponent = ({
         let name = intl.formatMessage({ id: 'mapCurrentLocationName' });
         if (storedId) {
           const title = await getLocationTitleById(storedId);
+
           if (title) name = title;
         }
         setUserLocation({

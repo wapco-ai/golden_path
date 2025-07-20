@@ -114,15 +114,18 @@ const RouteOverview = () => {
         setDirectionArrow(computeTurn(b1, b2));
       }
 
+      const isShort = d < 50;
       setViewState({
         latitude: (lat1 + lat2) / 2,
         longitude: (lng1 + lng2) / 2,
-        zoom: 18
+        zoom: isShort ? 17 : 18
       });
       setPopupCoord([(lng1 + lng2) / 2, (lat1 + lat2) / 2]);
       if (mapRef.current) {
         const bounds = new maplibregl.LngLatBounds([lng1, lat1], [lng2, lat2]);
-        mapRef.current.fitBounds(bounds, { padding: 50, duration: 700 });
+        const options = { padding: 50, duration: 700 };
+        if (isShort) options.maxZoom = 17;
+        mapRef.current.fitBounds(bounds, options);
       }
     }
   }, [currentSlide, routeData]);
