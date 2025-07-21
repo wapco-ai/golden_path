@@ -638,7 +638,7 @@ const FinalSearch = () => {
               </div>
             </Popup>
           )}
-          <GeoJsonOverlay />
+          {/* <GeoJsonOverlay /> */}
         </Map>
       </div>
 
