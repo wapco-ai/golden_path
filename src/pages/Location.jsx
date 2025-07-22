@@ -303,6 +303,15 @@ const Location = () => {
     toast.error(intl.formatMessage({ id: 'noDataFound' }));
   };
 
+  const handleRecentPlaceClick = (item) => {
+    if (!item?.coordinates) return;
+    setDestinationStore({ name: item.name, coordinates: item.coordinates });
+    addSearch(item);
+    setShowSearchModal(false);
+    document.body.style.overflow = 'auto';
+    navigate('/fs');
+  };
+
   const handleSearchFocus = (e) => {
     if (!showRouting) {
       e.preventDefault();
@@ -1276,7 +1285,7 @@ const Location = () => {
                       </h2>
                       <ul className="location-destination-list">
                         {recentSearches.map((item) => (
-                          <li key={item.id} onClick={() => handlePlaceClick(item)}>
+                          <li key={item.id} onClick={() => handleRecentPlaceClick(item)}>
                             <div className="location-recent-icon">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
