@@ -242,25 +242,32 @@ const MapRoutingPage = () => {
 
     const temp = userLocation;
 
-    setUserLocation(
-      selectedDestination
-        ? {
-            name: selectedDestination.name,
-            coordinates: selectedDestination.coordinates
-          }
-        : null
-    );
+    if (selectedDestination) {
+      const originData = {
+        name: selectedDestination.name,
+        location: selectedDestination.location || selectedDestination.name,
+        coordinates: selectedDestination.coordinates
+      };
+      setUserLocation(originData);
+      sessionStorage.setItem('currentOrigin', JSON.stringify(originData));
+    } else {
+      setUserLocation(null);
+      sessionStorage.removeItem('currentOrigin');
+    }
 
+    if (temp) {
+      const destData = {
+        name: temp.name,
+        location: temp.location || temp.name,
+        coordinates: temp.coordinates
+      };
+      setSelectedDestination(destData);
+      sessionStorage.setItem('currentDestination', JSON.stringify(destData));
+    } else {
+      setSelectedDestination(null);
+      sessionStorage.removeItem('currentDestination');
+    }
 
-    setSelectedDestination(
-      temp
-        ? {
-            name: temp.name,
-            location: temp.location || temp.name,
-            coordinates: temp.coordinates
-          }
-        : null
-    );
 
 
     if (swapButtonRef.current) {
