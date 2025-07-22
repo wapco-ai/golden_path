@@ -235,14 +235,32 @@ const MapRoutingPage = () => {
 
   const handleSwapLocations = () => {
     const temp = userLocation;
-    setUserLocation(
-      selectedDestination
-        ? { name: selectedDestination.name, coordinates: selectedDestination.coordinates }
-        : null
-    );
-    setSelectedDestination(
-      temp ? { name: temp.name, location: temp.name, coordinates: temp.coordinates } : null
-    );
+
+    if (selectedDestination) {
+      const originData = {
+        name: selectedDestination.name,
+        location: selectedDestination.location || selectedDestination.name,
+        coordinates: selectedDestination.coordinates
+      };
+      setUserLocation(originData);
+      sessionStorage.setItem('currentOrigin', JSON.stringify(originData));
+    } else {
+      setUserLocation(null);
+      sessionStorage.removeItem('currentOrigin');
+    }
+
+    if (temp) {
+      const destData = {
+        name: temp.name,
+        location: temp.location || temp.name,
+        coordinates: temp.coordinates
+      };
+      setSelectedDestination(destData);
+      sessionStorage.setItem('currentDestination', JSON.stringify(destData));
+    } else {
+      setSelectedDestination(null);
+      sessionStorage.removeItem('currentDestination');
+    }
 
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
@@ -507,7 +525,7 @@ const MapRoutingPage = () => {
               >
                 <div className="map-location-text">
                   <span className="map-location-name">
-                    {userLocation.name}
+                    {userLocation?.name || ''}
                   </span>
                   {/* {userLocation.name !== intl.formatMessage({ id: 'defaultBabRezaName' }) && (
                     <span className="map-location-label">
@@ -617,7 +635,7 @@ const MapRoutingPage = () => {
                     </svg>
                   </div>
                   <span className="map-option-text">
-                    {intl.formatMessage({ id: 'mapCurrentLocation' }, { loc: userLocation.name })}
+                    {intl.formatMessage({ id: 'mapCurrentLocation' }, { loc: userLocation?.name || '' })}
                   </span>
                 </div>
               )}
