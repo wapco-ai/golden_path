@@ -236,6 +236,7 @@ const MapRoutingPage = () => {
   const handleSwapLocations = () => {
     // Only swap when a destination is selected
     if (!selectedDestination) {
+
       return;
     }
 
@@ -255,6 +256,7 @@ const MapRoutingPage = () => {
           }
         : null
     );
+
 
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
