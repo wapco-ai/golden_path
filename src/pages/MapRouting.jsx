@@ -234,6 +234,12 @@ const MapRoutingPage = () => {
   }, [searchQuery, geoData]);
 
   const handleSwapLocations = () => {
+    // Only swap when a destination is selected
+    if (!selectedDestination) {
+
+      return;
+    }
+
     const temp = userLocation;
 
     if (selectedDestination) {
@@ -261,6 +267,8 @@ const MapRoutingPage = () => {
       setSelectedDestination(null);
       sessionStorage.removeItem('currentDestination');
     }
+
+
 
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
