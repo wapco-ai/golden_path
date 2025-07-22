@@ -235,13 +235,24 @@ const MapRoutingPage = () => {
 
   const handleSwapLocations = () => {
     const temp = userLocation;
+
     setUserLocation(
       selectedDestination
-        ? { name: selectedDestination.name, coordinates: selectedDestination.coordinates }
+        ? {
+            name: selectedDestination.name,
+            coordinates: selectedDestination.coordinates
+          }
         : null
     );
+
     setSelectedDestination(
-      temp ? { name: temp.name, location: temp.name, coordinates: temp.coordinates } : null
+      temp
+        ? {
+            name: temp.name,
+            location: temp.location || temp.name,
+            coordinates: temp.coordinates
+          }
+        : null
     );
 
     if (swapButtonRef.current) {
@@ -507,7 +518,7 @@ const MapRoutingPage = () => {
               >
                 <div className="map-location-text">
                   <span className="map-location-name">
-                    {userLocation.name}
+                    {userLocation?.name || ''}
                   </span>
                   {/* {userLocation.name !== intl.formatMessage({ id: 'defaultBabRezaName' }) && (
                     <span className="map-location-label">
@@ -617,7 +628,7 @@ const MapRoutingPage = () => {
                     </svg>
                   </div>
                   <span className="map-option-text">
-                    {intl.formatMessage({ id: 'mapCurrentLocation' }, { loc: userLocation.name })}
+                    {intl.formatMessage({ id: 'mapCurrentLocation' }, { loc: userLocation?.name || '' })}
                   </span>
                 </div>
               )}
