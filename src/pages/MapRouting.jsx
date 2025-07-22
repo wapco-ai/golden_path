@@ -234,14 +234,26 @@ const MapRoutingPage = () => {
   }, [searchQuery, geoData]);
 
   const handleSwapLocations = () => {
+    // Only swap when a destination is selected
+    if (!selectedDestination) {
+      return;
+    }
+
     const temp = userLocation;
-    setUserLocation(
-      selectedDestination
-        ? { name: selectedDestination.name, coordinates: selectedDestination.coordinates }
-        : null
-    );
+
+    setUserLocation({
+      name: selectedDestination.name,
+      coordinates: selectedDestination.coordinates
+    });
+
     setSelectedDestination(
-      temp ? { name: temp.name, location: temp.name, coordinates: temp.coordinates } : null
+      temp
+        ? {
+            name: temp.name,
+            location: temp.location || temp.name,
+            coordinates: temp.coordinates
+          }
+        : null
     );
 
     if (swapButtonRef.current) {
