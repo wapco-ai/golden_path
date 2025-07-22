@@ -234,15 +234,23 @@ const MapRoutingPage = () => {
   }, [searchQuery, geoData]);
 
   const handleSwapLocations = () => {
+    // Do nothing if either location is missing
+    if (!selectedDestination || !userLocation) {
+      return;
+    }
+
     const temp = userLocation;
-    setUserLocation(
-      selectedDestination
-        ? { name: selectedDestination.name, coordinates: selectedDestination.coordinates }
-        : null
-    );
-    setSelectedDestination(
-      temp ? { name: temp.name, location: temp.name, coordinates: temp.coordinates } : null
-    );
+
+    setUserLocation({
+      name: selectedDestination.name,
+      coordinates: selectedDestination.coordinates
+    });
+
+    setSelectedDestination({
+      name: temp.name,
+      location: temp.name,
+      coordinates: temp.coordinates
+    });
 
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
