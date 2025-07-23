@@ -193,5 +193,7 @@
   "gpsOfflineMessage": "جهاز تحديد المواقع الخاص بك مغلق",
   "stepPrefix": "الخطوة {num} - ",
   "appVersionLabel": "إصدار التطبيق: {version}",
-  "newVersionAvailable": "إصدار جديد {version} متوفر"
+  "newVersionAvailable": "إصدار جديد {version} متوفر",
+  "destinationSaved":" تم حفظ الموقع ",
+  "savePlace": "يحفظ "
 }

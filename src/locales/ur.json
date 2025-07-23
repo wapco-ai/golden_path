@@ -193,5 +193,7 @@
   "gpsOfflineMessage":  "آپ کا GPS ڈیوائس بند ہے",
   "stepPrefix": "قدم {num} - ",
   "appVersionLabel": "ایپ ورژن: {version}",
-  "newVersionAvailable": "نیا ورژن {version} دستیاب ہے"
+  "newVersionAvailable": "نیا ورژن {version} دستیاب ہے",
+  "destinationSaved":"محفوظ کر لیا",
+  "savePlace": "محفوظ کریں"
 }

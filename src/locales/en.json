@@ -58,7 +58,7 @@
   "navigate": "Navigate",
   "mostVisited": "Most visited places",
   "nearMe": "Places near me",
-  "save": "Save",
+  "save": "Saved",
   "commentsLabel": "comments",
   "defaultCommentAuthor": "New user",
   "searchSuggestions": "Search suggestions",
@@ -193,5 +193,6 @@
   "gpsOfflineMessage": "Your GPS is off",
   "stepPrefix": "Step {num} - ",
   "appVersionLabel": "Version: {version}",
-  "newVersionAvailable": "New version {version} is available"
+  "newVersionAvailable": "New version {version} is available",
+  "destinationSaved":"Save"
 }
