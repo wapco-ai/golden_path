@@ -247,9 +247,10 @@ const MapRoutingPage = () => {
 
         setUserLocation(null);
         sessionStorage.removeItem('currentOrigin');
-
+        
         // Stop GPS tracking so the origin isn't restored automatically
         setIsTracking(false);
+
       }
     } else {
       const temp = userLocation;
