@@ -2778,7 +2778,7 @@
       },
       "properties": {
         "name": "North Entrance Ghadir Courtyard",
-        "description": "ورودی مهمانسرا",
+        "description": "درب مهمانسرا",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
         "subGroupValue": "sahn-ghadir",
