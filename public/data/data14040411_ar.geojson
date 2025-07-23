@@ -11,7 +11,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الكوثر",
+        "name": "الغربي باب صحن الكوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الكوثر",
@@ -44,7 +44,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن النبي الأعظم",
+        "name": "الغربي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -77,7 +77,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل صحن النبي الأعظم",
+        "name": "الجنوبي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -110,7 +110,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -143,7 +143,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن النبي الأعظم",
+        "name": "الشمالي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -177,7 +177,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل صحن الغدير",
+        "name": "الجنوبي باب صحن الغدير",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -211,7 +211,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن النبي الأعظم",
+        "name": "الشمالي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -245,7 +245,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل أخرى",
+        "name": "الغربي باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -279,7 +279,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن النبي الأعظم",
+        "name": "الشرقي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -313,7 +313,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الكوثر",
+        "name": "الغربي باب صحن الكوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الكوثر",
@@ -381,7 +381,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل صحن الكوثر",
+        "name": "الجنوبي باب صحن الكوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الكوثر",
@@ -415,7 +415,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن الكوثر",
+        "name": "الشمالي باب صحن الكوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الكوثر",
@@ -449,7 +449,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن الكوثر",
+        "name": "الشمالي باب صحن الكوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الكوثر",
@@ -483,7 +483,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل الإمام الخميني",
+        "name": "الغربي باب الإمام الخميني",
         "description": "",
         "group": "ravaq",
         "subGroup": "الإمام الخميني",
@@ -516,7 +516,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن النبي الأعظم",
+        "name": "الشرقي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -550,7 +550,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن النبي الأعظم",
+        "name": "الشرقي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -584,7 +584,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل الإمام الخميني",
+        "name": "الغربي باب الإمام الخميني",
         "description": "",
         "group": "ravaq",
         "subGroup": "الإمام الخميني",
@@ -617,7 +617,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن النبي الأعظم",
+        "name": "الشرقي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -651,7 +651,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل صحن القدس",
+        "name": "الجنوبي باب صحن القدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن القدس",
@@ -719,7 +719,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن النبي الأعظم",
+        "name": "الشمالي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -753,7 +753,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن القدس",
+        "name": "الغربي باب صحن القدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن القدس",
@@ -821,7 +821,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن النبي الأعظم",
+        "name": "الشمالي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -855,7 +855,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل الشيخ البهائي",
+        "name": "الغربي باب الشيخ البهائي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ البهائي",
@@ -922,7 +922,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن القدس",
+        "name": "الغربي باب صحن القدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن القدس",
@@ -956,7 +956,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن القدس",
+        "name": "الشمالي باب صحن القدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن القدس",
@@ -990,7 +990,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن القدس",
+        "name": "الشرقي باب صحن القدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن القدس",
@@ -1024,7 +1024,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل صحن القدس",
+        "name": "الجنوبي باب صحن القدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن القدس",
@@ -1058,7 +1058,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل الشيخ البهائي",
+        "name": "الشمالي باب الشيخ البهائي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ البهائي",
@@ -1090,7 +1090,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل الشيخ البهائي",
+        "name": "الشرقي باب الشيخ البهائي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ البهائي",
@@ -1123,7 +1123,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل مسجد گوهرشاد",
+        "name": "الغربي باب مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1189,7 +1189,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل الشيخ البهائي",
+        "name": "الشرقي باب الشيخ البهائي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ البهائي",
@@ -1256,7 +1256,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل صحن الجمهورية الإسلامية",
+        "name": "الجنوبي باب صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الجمهورية الإسلامية",
@@ -1290,7 +1290,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الجمهورية الإسلامية",
+        "name": "الغربي باب صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الجمهورية الإسلامية",
@@ -1324,7 +1324,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الغدير",
+        "name": "الشرقي باب صحن الغدير",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -1392,7 +1392,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الغدير",
+        "name": "الشرقي باب صحن الغدير",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -1426,7 +1426,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل الشيخ الطوسي",
+        "name": "الغربي باب الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ الطوسي",
@@ -1459,7 +1459,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل الشيخ الطوسي",
+        "name": "الشمالي باب الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ الطوسي",
@@ -1492,7 +1492,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل أخرى",
+        "name": "الشمالي باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -1526,7 +1526,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل مسجد گوهرشاد",
+        "name": "الجنوبي باب مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1559,7 +1559,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل مسجد گوهرشاد",
+        "name": "الشرقي باب مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1592,7 +1592,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الثورة",
+        "name": "الشرقي باب صحن الثورة",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الثورة",
@@ -1626,7 +1626,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل أخرى",
+        "name": "الشرقي باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -1694,7 +1694,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الثورة",
+        "name": "الغربي باب صحن الثورة",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الثورة",
@@ -1728,7 +1728,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل الشيخ الطوسي",
+        "name": "الشرقي باب الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ الطوسي",
@@ -1761,7 +1761,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الجمهورية الإسلامية",
+        "name": "الشرقي باب صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الجمهورية الإسلامية",
@@ -1795,7 +1795,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل الشيخ الطوسي",
+        "name": "الشرقي باب الشيخ الطوسي",
         "description": "",
         "group": "ravaq",
         "subGroup": "الشيخ الطوسي",
@@ -1828,7 +1828,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الجمهورية الإسلامية",
+        "name": "الشرقي باب صحن الجمهورية الإسلامية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الجمهورية الإسلامية",
@@ -1862,7 +1862,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل مسجد گوهرشاد",
+        "name": "الشرقي باب مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1895,7 +1895,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل أخرى",
+        "name": "الشرقي باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -1929,7 +1929,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل أخرى",
+        "name": "الشرقي باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -1962,7 +1962,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الإمام الحسن المجتبى",
+        "name": "الغربي باب صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الإمام الحسن المجتبى",
@@ -1996,7 +1996,7 @@
         ]
       },
       "properties": {
-        "name": "الجنوبي مدخل صحن الإمام الحسن المجتبى",
+        "name": "الجنوبي باب صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الإمام الحسن المجتبى",
@@ -2030,7 +2030,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل أخرى",
+        "name": "الشرقي باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -2064,7 +2064,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل دار الضيافة",
+        "name": "الشرقي باب دار الضيافة",
         "description": "",
         "group": "khadamat",
         "subGroup": "دار الضيافة",
@@ -2097,7 +2097,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الإمام الحسن المجتبى",
+        "name": "الشرقي باب صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الإمام الحسن المجتبى",
@@ -2131,7 +2131,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل جامعة العلوم الإسلامية الرضوية",
+        "name": "الشمالي باب جامعة العلوم الإسلامية الرضوية",
         "description": "",
         "group": "elmi",
         "subGroup": "جامعة العلوم الإسلامية الرضوية",
@@ -2165,7 +2165,7 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن الإمام الحسن المجتبى",
+        "name": "الشمالي باب صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الإمام الحسن المجتبى",
@@ -2199,7 +2199,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل أخرى",
+        "name": "الشرقي باب أخرى",
         "description": "بست شیخ طبرسی",
         "group": "other",
         "subGroup": "أخرى",
@@ -2233,7 +2233,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل أخرى",
+        "name": "الشرقي باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -2267,7 +2267,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "elmi",
         "subGroup": "أخرى",
@@ -2335,7 +2335,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -2573,7 +2573,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الثورة",
+        "name": "الشرقي باب صحن الثورة",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الثورة",
@@ -2607,7 +2607,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -2675,7 +2675,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الثورة",
+        "name": "الغربي باب صحن الثورة",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الثورة",
@@ -2709,7 +2709,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -2777,8 +2777,8 @@
         ]
       },
       "properties": {
-        "name": "الشمالي مدخل صحن الغدير",
-        "description": "ورودی مهمانسرا",
+        "name": "الشمالي باب صحن الغدير",
+        "description": "درب مهمانسرا",
         "group": "sahn",
         "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
@@ -2811,7 +2811,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الغدير",
+        "name": "الغربي باب صحن الغدير",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -2845,7 +2845,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الغدير",
+        "name": "الغربي باب صحن الغدير",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الغدير",
@@ -2879,7 +2879,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3015,7 +3015,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "کتابخانه",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3049,7 +3049,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الحرية",
+        "name": "الغربي باب صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3083,7 +3083,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3117,7 +3117,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3151,7 +3151,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "masjed",
         "subGroup": "أخرى",
@@ -3185,7 +3185,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "masjed",
         "subGroup": "أخرى",
@@ -3219,7 +3219,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3253,7 +3253,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3287,7 +3287,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3321,7 +3321,7 @@
         ]
       },
       "properties": {
-        "name": "الغربي مدخل صحن الحرية",
+        "name": "الغربي باب صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3389,7 +3389,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الحرية",
+        "name": "الشرقي باب صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3423,7 +3423,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3491,7 +3491,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الحرية",
+        "name": "الشرقي باب صحن الحرية",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الحرية",
@@ -3525,7 +3525,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3593,7 +3593,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "ravaq",
         "subGroup": "أخرى",
@@ -3627,7 +3627,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3694,7 +3694,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -3728,7 +3728,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن الإمام الحسن المجتبى",
+        "name": "الشرقي باب صحن الإمام الحسن المجتبى",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن الإمام الحسن المجتبى",
@@ -3796,7 +3796,7 @@
         ]
       },
       "properties": {
-        "name": "الشرقي مدخل صحن النبي الأعظم",
+        "name": "الشرقي باب صحن النبي الأعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن النبي الأعظم",
@@ -3830,7 +3830,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4136,7 +4136,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4340,7 +4340,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "masjed",
         "subGroup": "أخرى",
@@ -4374,7 +4374,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل أخرى",
+        "name": "باب أخرى",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4531,7 +4531,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4579,7 +4579,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4630,7 +4630,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -4677,7 +4677,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -5009,7 +5009,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -5211,7 +5211,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -5258,7 +5258,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -5808,7 +5808,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -5935,7 +5935,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -6136,7 +6136,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -6520,7 +6520,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7047,7 +7047,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -7741,7 +7741,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -7974,7 +7974,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",
@@ -8258,7 +8258,7 @@
         ]
       },
       "properties": {
-        "name": "مدخل مسقوف",
+        "name": "باب مسقوف",
         "description": "",
         "group": "other",
         "subGroup": "أخرى",

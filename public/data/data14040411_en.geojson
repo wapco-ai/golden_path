@@ -11,7 +11,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Kowsar Courtyard",
+        "name": "West Door Kowsar Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Kowsar Courtyard",
@@ -44,7 +44,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Prophet Mohammad Courtyard",
+        "name": "West Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -77,7 +77,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Prophet Mohammad Courtyard",
+        "name": "South Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -110,7 +110,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -143,7 +143,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Prophet Mohammad Courtyard",
+        "name": "North Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -177,7 +177,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Ghadir Courtyard",
+        "name": "South Door Ghadir Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
@@ -211,7 +211,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Prophet Mohammad Courtyard",
+        "name": "North Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -245,7 +245,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Other",
+        "name": "West Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -279,7 +279,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Prophet Mohammad Courtyard",
+        "name": "East Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -313,7 +313,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Kowsar Courtyard",
+        "name": "West Door Kowsar Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Kowsar Courtyard",
@@ -381,7 +381,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Kowsar Courtyard",
+        "name": "South Door Kowsar Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Kowsar Courtyard",
@@ -415,7 +415,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Kowsar Courtyard",
+        "name": "North Door Kowsar Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Kowsar Courtyard",
@@ -449,7 +449,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Kowsar Courtyard",
+        "name": "North Door Kowsar Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Kowsar Courtyard",
@@ -483,7 +483,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Imam Khomeini",
+        "name": "West Door Imam Khomeini",
         "description": "",
         "group": "ravaq",
         "subGroup": "Imam Khomeini",
@@ -516,7 +516,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Prophet Mohammad Courtyard",
+        "name": "East Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -550,7 +550,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Prophet Mohammad Courtyard",
+        "name": "East Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -584,7 +584,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Imam Khomeini",
+        "name": "West Door Imam Khomeini",
         "description": "",
         "group": "ravaq",
         "subGroup": "Imam Khomeini",
@@ -617,7 +617,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Prophet Mohammad Courtyard",
+        "name": "East Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -651,7 +651,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Qods Courtyard",
+        "name": "South Door Qods Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Qods Courtyard",
@@ -719,7 +719,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Prophet Mohammad Courtyard",
+        "name": "North Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -753,7 +753,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Qods Courtyard",
+        "name": "West Door Qods Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Qods Courtyard",
@@ -821,7 +821,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Prophet Mohammad Courtyard",
+        "name": "North Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -855,7 +855,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Sheikh Bahaei",
+        "name": "West Door Sheikh Bahaei",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Bahaei",
@@ -922,7 +922,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Qods Courtyard",
+        "name": "West Door Qods Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Qods Courtyard",
@@ -956,7 +956,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Qods Courtyard",
+        "name": "North Door Qods Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Qods Courtyard",
@@ -990,7 +990,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Qods Courtyard",
+        "name": "East Door Qods Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Qods Courtyard",
@@ -1024,7 +1024,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Qods Courtyard",
+        "name": "South Door Qods Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Qods Courtyard",
@@ -1058,7 +1058,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Sheikh Bahaei",
+        "name": "North Door Sheikh Bahaei",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Bahaei",
@@ -1090,7 +1090,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Sheikh Bahaei",
+        "name": "East Door Sheikh Bahaei",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Bahaei",
@@ -1123,7 +1123,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Goharshad Mosque",
+        "name": "West Door Goharshad Mosque",
         "description": "",
         "group": "masjed",
         "subGroup": "Goharshad Mosque",
@@ -1189,7 +1189,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Sheikh Bahaei",
+        "name": "East Door Sheikh Bahaei",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Bahaei",
@@ -1256,7 +1256,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Islamic Republic Courtyard",
+        "name": "South Door Islamic Republic Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Islamic Republic Courtyard",
@@ -1290,7 +1290,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Islamic Republic Courtyard",
+        "name": "West Door Islamic Republic Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Islamic Republic Courtyard",
@@ -1324,7 +1324,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Ghadir Courtyard",
+        "name": "East Door Ghadir Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
@@ -1392,7 +1392,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Ghadir Courtyard",
+        "name": "East Door Ghadir Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
@@ -1426,7 +1426,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Sheikh Tusi",
+        "name": "West Door Sheikh Tusi",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Tusi",
@@ -1459,7 +1459,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Sheikh Tusi",
+        "name": "North Door Sheikh Tusi",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Tusi",
@@ -1492,7 +1492,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Other",
+        "name": "North Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -1526,7 +1526,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Goharshad Mosque",
+        "name": "South Door Goharshad Mosque",
         "description": "",
         "group": "masjed",
         "subGroup": "Goharshad Mosque",
@@ -1559,7 +1559,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Goharshad Mosque",
+        "name": "East Door Goharshad Mosque",
         "description": "",
         "group": "masjed",
         "subGroup": "Goharshad Mosque",
@@ -1592,7 +1592,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Enqelab Courtyard",
+        "name": "East Door Enqelab Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Enqelab Courtyard",
@@ -1626,7 +1626,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Other",
+        "name": "East Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -1694,7 +1694,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Enqelab Courtyard",
+        "name": "West Door Enqelab Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Enqelab Courtyard",
@@ -1728,7 +1728,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Sheikh Tusi",
+        "name": "East Door Sheikh Tusi",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Tusi",
@@ -1761,7 +1761,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Islamic Republic Courtyard",
+        "name": "East Door Islamic Republic Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Islamic Republic Courtyard",
@@ -1795,7 +1795,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Sheikh Tusi",
+        "name": "East Door Sheikh Tusi",
         "description": "",
         "group": "ravaq",
         "subGroup": "Sheikh Tusi",
@@ -1828,7 +1828,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Islamic Republic Courtyard",
+        "name": "East Door Islamic Republic Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Islamic Republic Courtyard",
@@ -1862,7 +1862,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Goharshad Mosque",
+        "name": "East Door Goharshad Mosque",
         "description": "",
         "group": "masjed",
         "subGroup": "Goharshad Mosque",
@@ -1895,7 +1895,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Other",
+        "name": "East Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -1929,7 +1929,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Other",
+        "name": "East Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -1962,7 +1962,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Imam Hasan Mujtaba Courtyard",
+        "name": "West Door Imam Hasan Mujtaba Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Imam Hasan Mujtaba Courtyard",
@@ -1996,7 +1996,7 @@
         ]
       },
       "properties": {
-        "name": "South Entrance Imam Hasan Mujtaba Courtyard",
+        "name": "South Door Imam Hasan Mujtaba Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Imam Hasan Mujtaba Courtyard",
@@ -2030,7 +2030,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Other",
+        "name": "East Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -2064,7 +2064,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Guesthouse",
+        "name": "East Door Guesthouse",
         "description": "",
         "group": "khadamat",
         "subGroup": "Guesthouse",
@@ -2097,7 +2097,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Imam Hasan Mujtaba Courtyard",
+        "name": "East Door Imam Hasan Mujtaba Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Imam Hasan Mujtaba Courtyard",
@@ -2131,7 +2131,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Razavi University of Islamic Sciences",
+        "name": "North Door Razavi University of Islamic Sciences",
         "description": "",
         "group": "elmi",
         "subGroup": "Razavi University of Islamic Sciences",
@@ -2165,7 +2165,7 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Imam Hasan Mujtaba Courtyard",
+        "name": "North Door Imam Hasan Mujtaba Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Imam Hasan Mujtaba Courtyard",
@@ -2199,7 +2199,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Other",
+        "name": "East Door Other",
         "description": "بست شیخ طبرسی",
         "group": "other",
         "subGroup": "Other",
@@ -2233,7 +2233,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Other",
+        "name": "East Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -2267,7 +2267,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "elmi",
         "subGroup": "Other",
@@ -2335,7 +2335,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -2573,7 +2573,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Enqelab Courtyard",
+        "name": "East Door Enqelab Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Enqelab Courtyard",
@@ -2607,7 +2607,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "ravaq",
         "subGroup": "Other",
@@ -2675,7 +2675,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Enqelab Courtyard",
+        "name": "West Door Enqelab Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Enqelab Courtyard",
@@ -2709,7 +2709,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -2777,8 +2777,8 @@
         ]
       },
       "properties": {
-        "name": "North Entrance Ghadir Courtyard",
-        "description": "ورودی مهمانسرا",
+        "name": "North Door Ghadir Courtyard",
+        "description": "درب مهمانسرا",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
         "subGroupValue": "sahn-ghadir",
@@ -2811,7 +2811,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Ghadir Courtyard",
+        "name": "West Door Ghadir Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
@@ -2845,7 +2845,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Ghadir Courtyard",
+        "name": "West Door Ghadir Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
@@ -2879,7 +2879,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -3015,7 +3015,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "کتابخانه",
         "group": "ravaq",
         "subGroup": "Other",
@@ -3049,7 +3049,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Azadi Courtyard",
+        "name": "West Door Azadi Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Azadi Courtyard",
@@ -3083,7 +3083,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -3117,7 +3117,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "ravaq",
         "subGroup": "Other",
@@ -3151,7 +3151,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "masjed",
         "subGroup": "Other",
@@ -3185,7 +3185,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "masjed",
         "subGroup": "Other",
@@ -3219,7 +3219,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "ravaq",
         "subGroup": "Other",
@@ -3253,7 +3253,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -3287,7 +3287,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -3321,7 +3321,7 @@
         ]
       },
       "properties": {
-        "name": "West Entrance Azadi Courtyard",
+        "name": "West Door Azadi Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Azadi Courtyard",
@@ -3389,7 +3389,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Azadi Courtyard",
+        "name": "East Door Azadi Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Azadi Courtyard",
@@ -3423,7 +3423,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "ravaq",
         "subGroup": "Other",
@@ -3491,7 +3491,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Azadi Courtyard",
+        "name": "East Door Azadi Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Azadi Courtyard",
@@ -3525,7 +3525,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -3593,7 +3593,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "ravaq",
         "subGroup": "Other",
@@ -3627,7 +3627,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -3694,7 +3694,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -3728,7 +3728,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Imam Hasan Mujtaba Courtyard",
+        "name": "East Door Imam Hasan Mujtaba Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Imam Hasan Mujtaba Courtyard",
@@ -3796,7 +3796,7 @@
         ]
       },
       "properties": {
-        "name": "East Entrance Prophet Mohammad Courtyard",
+        "name": "East Door Prophet Mohammad Courtyard",
         "description": "",
         "group": "sahn",
         "subGroup": "Prophet Mohammad Courtyard",
@@ -3830,7 +3830,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -4136,7 +4136,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -4340,7 +4340,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "masjed",
         "subGroup": "Other",
@@ -4374,7 +4374,7 @@
         ]
       },
       "properties": {
-        "name": "Entrance Other",
+        "name": "Door Other",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -4531,7 +4531,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -4579,7 +4579,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -4630,7 +4630,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -4677,7 +4677,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -5009,7 +5009,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -5211,7 +5211,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -5258,7 +5258,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -5808,7 +5808,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -5935,7 +5935,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -6136,7 +6136,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -6520,7 +6520,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7047,7 +7047,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -7741,7 +7741,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -7974,7 +7974,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",
@@ -8258,7 +8258,7 @@
         ]
       },
       "properties": {
-        "name": "Covered Entrance",
+        "name": "Covered Door",
         "description": "",
         "group": "other",
         "subGroup": "Other",

@@ -11,7 +11,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن کوثر",
+        "name": "درب غربی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -44,7 +44,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن پیامبر اعظم",
+        "name": "درب غربی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -77,7 +77,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن پیامبر اعظم",
+        "name": "درب جنوبی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -110,7 +110,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -143,7 +143,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "درب شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -177,7 +177,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن غدیر",
+        "name": "درب جنوبی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -211,7 +211,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "درب شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -245,7 +245,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی سایر",
+        "name": "درب غربی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -279,7 +279,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "درب شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -313,7 +313,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن کوثر",
+        "name": "درب غربی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -381,7 +381,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن کوثر",
+        "name": "درب جنوبی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -415,7 +415,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن کوثر",
+        "name": "درب شمالی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -449,7 +449,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن کوثر",
+        "name": "درب شمالی صحن کوثر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن کوثر",
@@ -483,7 +483,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی امام خمینی",
+        "name": "درب غربی امام خمینی",
         "description": "",
         "group": "ravaq",
         "subGroup": "امام خمینی",
@@ -516,7 +516,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "درب شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -550,7 +550,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "درب شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -584,7 +584,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی امام خمینی",
+        "name": "درب غربی امام خمینی",
         "description": "",
         "group": "ravaq",
         "subGroup": "امام خمینی",
@@ -617,7 +617,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "درب شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -651,7 +651,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن قدس",
+        "name": "درب جنوبی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -719,7 +719,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "درب شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -753,7 +753,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن قدس",
+        "name": "درب غربی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -821,7 +821,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن پیامبر اعظم",
+        "name": "درب شمالی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -855,7 +855,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی شیخ بهایی",
+        "name": "درب غربی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -922,7 +922,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن قدس",
+        "name": "درب غربی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -956,7 +956,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن قدس",
+        "name": "درب شمالی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -990,7 +990,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن قدس",
+        "name": "درب شرقی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -1024,7 +1024,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن قدس",
+        "name": "درب جنوبی صحن قدس",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن قدس",
@@ -1058,7 +1058,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی شیخ بهایی",
+        "name": "درب شمالی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1090,7 +1090,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ بهایی",
+        "name": "درب شرقی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1123,7 +1123,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی مسجد گوهرشاد",
+        "name": "درب غربی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1189,7 +1189,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ بهایی",
+        "name": "درب شرقی شیخ بهایی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ بهایی",
@@ -1256,7 +1256,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن جمهوری اسلامی",
+        "name": "درب جنوبی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1290,7 +1290,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن جمهوری اسلامی",
+        "name": "درب غربی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1324,7 +1324,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن غدیر",
+        "name": "درب شرقی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -1392,7 +1392,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن غدیر",
+        "name": "درب شرقی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -1426,7 +1426,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی شیخ طوسی",
+        "name": "درب غربی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1459,7 +1459,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی شیخ طوسی",
+        "name": "درب شمالی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1492,7 +1492,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی سایر",
+        "name": "درب شمالی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1526,7 +1526,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی مسجد گوهرشاد",
+        "name": "درب جنوبی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1559,7 +1559,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مسجد گوهرشاد",
+        "name": "درب شرقی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1592,7 +1592,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن انقلاب",
+        "name": "درب شرقی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -1626,7 +1626,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "درب شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1694,7 +1694,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن انقلاب",
+        "name": "درب غربی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -1728,7 +1728,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ طوسی",
+        "name": "درب شرقی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1761,7 +1761,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن جمهوری اسلامی",
+        "name": "درب شرقی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1795,7 +1795,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی شیخ طوسی",
+        "name": "درب شرقی شیخ طوسی",
         "description": "",
         "group": "ravaq",
         "subGroup": "شیخ طوسی",
@@ -1828,7 +1828,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن جمهوری اسلامی",
+        "name": "درب شرقی صحن جمهوری اسلامی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن جمهوری اسلامی",
@@ -1862,7 +1862,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مسجد گوهرشاد",
+        "name": "درب شرقی مسجد گوهرشاد",
         "description": "",
         "group": "masjed",
         "subGroup": "مسجد گوهرشاد",
@@ -1895,7 +1895,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "درب شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1929,7 +1929,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "درب شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -1962,7 +1962,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن امام حسن مجتبی",
+        "name": "درب غربی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -1996,7 +1996,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی جنوبی صحن امام حسن مجتبی",
+        "name": "درب جنوبی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2030,7 +2030,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "درب شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -2064,7 +2064,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی مهمانسرا",
+        "name": "درب شرقی مهمانسرا",
         "description": "",
         "group": "khadamat",
         "subGroup": "مهمانسرا",
@@ -2097,7 +2097,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن امام حسن مجتبی",
+        "name": "درب شرقی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2131,7 +2131,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی دانشگاه علوم اسلامی رضوی",
+        "name": "درب شمالی دانشگاه علوم اسلامی رضوی",
         "description": "",
         "group": "elmi",
         "subGroup": "دانشگاه علوم اسلامی رضوی",
@@ -2165,7 +2165,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن امام حسن مجتبی",
+        "name": "درب شمالی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -2199,7 +2199,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "درب شرقی سایر",
         "description": "بست شیخ طبرسی",
         "group": "other",
         "subGroup": "سایر",
@@ -2233,7 +2233,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی سایر",
+        "name": "درب شرقی سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -2267,7 +2267,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "elmi",
         "subGroup": "سایر",
@@ -2335,7 +2335,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -2573,7 +2573,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن انقلاب",
+        "name": "درب شرقی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -2607,7 +2607,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "ravaq",
         "subGroup": "سایر",
@@ -2675,7 +2675,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن انقلاب",
+        "name": "درب غربی صحن انقلاب",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن انقلاب",
@@ -2709,7 +2709,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -2777,8 +2777,8 @@
         ]
       },
       "properties": {
-        "name": "ورودی شمالی صحن غدیر",
-        "description": "ورودی مهمانسرا",
+        "name": "درب شمالی صحن غدیر",
+        "description": "درب مهمانسرا",
         "group": "sahn",
         "subGroup": "صحن غدیر",
         "subGroupValue": "sahn-ghadir",
@@ -2811,7 +2811,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن غدیر",
+        "name": "درب غربی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -2845,7 +2845,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن غدیر",
+        "name": "درب غربی صحن غدیر",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن غدیر",
@@ -2879,7 +2879,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -3015,7 +3015,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "کتابخانه",
         "group": "ravaq",
         "subGroup": "سایر",
@@ -3049,7 +3049,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن آزادی",
+        "name": "درب غربی صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3083,7 +3083,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -3117,7 +3117,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "ravaq",
         "subGroup": "سایر",
@@ -3151,7 +3151,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "masjed",
         "subGroup": "سایر",
@@ -3185,7 +3185,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "masjed",
         "subGroup": "سایر",
@@ -3219,7 +3219,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "ravaq",
         "subGroup": "سایر",
@@ -3253,7 +3253,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -3287,7 +3287,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -3321,7 +3321,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی غربی صحن آزادی",
+        "name": "درب غربی صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3389,7 +3389,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن آزادی",
+        "name": "درب شرقی صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3423,7 +3423,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "ravaq",
         "subGroup": "سایر",
@@ -3491,7 +3491,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن آزادی",
+        "name": "درب شرقی صحن آزادی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن آزادی",
@@ -3525,7 +3525,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -3593,7 +3593,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "ravaq",
         "subGroup": "سایر",
@@ -3627,7 +3627,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -3694,7 +3694,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -3728,7 +3728,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن امام حسن مجتبی",
+        "name": "درب شرقی صحن امام حسن مجتبی",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن امام حسن مجتبی",
@@ -3796,7 +3796,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی شرقی صحن پیامبر اعظم",
+        "name": "درب شرقی صحن پیامبر اعظم",
         "description": "",
         "group": "sahn",
         "subGroup": "صحن پیامبر اعظم",
@@ -3830,7 +3830,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -4136,7 +4136,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -4340,7 +4340,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "masjed",
         "subGroup": "سایر",
@@ -4374,7 +4374,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی سایر",
+        "name": "درب سایر",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -4531,7 +4531,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -4579,7 +4579,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -4630,7 +4630,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -4677,7 +4677,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -5009,7 +5009,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -5211,7 +5211,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -5258,7 +5258,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -5808,7 +5808,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -5935,7 +5935,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -6136,7 +6136,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -6520,7 +6520,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "",
         "subGroup": "",
@@ -7047,7 +7047,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -7741,7 +7741,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -7974,7 +7974,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
@@ -8258,7 +8258,7 @@
         ]
       },
       "properties": {
-        "name": "ورودی مسقف",
+        "name": "درب مسقف",
         "description": "",
         "group": "other",
         "subGroup": "سایر",
