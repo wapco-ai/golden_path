@@ -234,15 +234,26 @@ const MapRoutingPage = () => {
   }, [searchQuery, geoData]);
 
   const handleSwapLocations = () => {
-    // Only swap when a destination is selected
+    // If only origin is set, move it to destination
     if (!selectedDestination) {
+      if (userLocation) {
+        const destData = {
+          name: userLocation.name,
+          location: userLocation.location || userLocation.name,
+          coordinates: userLocation.coordinates
+        };
+        setSelectedDestination(destData);
+        sessionStorage.setItem('currentDestination', JSON.stringify(destData));
 
-      return;
-    }
+        setUserLocation(null);
+        sessionStorage.removeItem('currentOrigin');
 
-    const temp = userLocation;
+        // Stop GPS tracking so the origin isn't restored automatically
+        setIsTracking(false);
+      }
+    } else {
+      const temp = userLocation;
 
-    if (selectedDestination) {
       const originData = {
         name: selectedDestination.name,
         location: selectedDestination.location || selectedDestination.name,
@@ -250,22 +261,19 @@ const MapRoutingPage = () => {
       };
       setUserLocation(originData);
       sessionStorage.setItem('currentOrigin', JSON.stringify(originData));
-    } else {
-      setUserLocation(null);
-      sessionStorage.removeItem('currentOrigin');
-    }
 
-    if (temp) {
-      const destData = {
-        name: temp.name,
-        location: temp.location || temp.name,
-        coordinates: temp.coordinates
-      };
-      setSelectedDestination(destData);
-      sessionStorage.setItem('currentDestination', JSON.stringify(destData));
-    } else {
-      setSelectedDestination(null);
-      sessionStorage.removeItem('currentDestination');
+      if (temp) {
+        const destData = {
+          name: temp.name,
+          location: temp.location || temp.name,
+          coordinates: temp.coordinates
+        };
+        setSelectedDestination(destData);
+        sessionStorage.setItem('currentDestination', JSON.stringify(destData));
+      } else {
+        setSelectedDestination(null);
+        sessionStorage.removeItem('currentDestination');
+      }
     }
 
 
