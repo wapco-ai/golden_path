@@ -1048,7 +1048,7 @@ const RoutingPage = () => {
           <span><FormattedMessage id="emergencyButtonLabel" /></span>
         </button>
 
-        {/* {showGpsOffline && (
+        {showGpsOffline && (
           <div className={`gps-offline-notification ${isInfoModalOpen ? 'hidden' : ''}`}>
             <div className="gps-offline-content">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-alert-circle">
@@ -1062,7 +1062,7 @@ const RoutingPage = () => {
               </div>
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Info Modal - Only visible when map modal is open */}
         <div className={`info-modal-wrapper ${isMapModalOpen ? 'visible' : 'hidden'}`}>
