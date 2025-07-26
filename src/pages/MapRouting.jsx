@@ -234,51 +234,60 @@ const MapRoutingPage = () => {
   }, [searchQuery, geoData]);
 
   const handleSwapLocations = () => {
-    // If only origin is set, move it to destination
-    if (!selectedDestination) {
-      if (userLocation) {
-        const destData = {
-          name: userLocation.name,
-          location: userLocation.location || userLocation.name,
-          coordinates: userLocation.coordinates
-        };
-        setSelectedDestination(destData);
-        sessionStorage.setItem('currentDestination', JSON.stringify(destData));
-
-        setUserLocation(null);
-        sessionStorage.removeItem('currentOrigin');
-        
-        // Stop GPS tracking so the origin isn't restored automatically
-        setIsTracking(false);
-
-      }
-    } else {
-      const temp = userLocation;
-
-      const originData = {
-        name: selectedDestination.name,
-        location: selectedDestination.location || selectedDestination.name,
-        coordinates: selectedDestination.coordinates
+    // If there's no destination but we have origin, move origin to destination
+    if (!selectedDestination && userLocation) {
+      const destData = {
+        name: userLocation.name,
+        location: userLocation.location || userLocation.name,
+        coordinates: userLocation.coordinates
       };
-      setUserLocation(originData);
-      sessionStorage.setItem('currentOrigin', JSON.stringify(originData));
 
-      if (temp) {
-        const destData = {
-          name: temp.name,
-          location: temp.location || temp.name,
-          coordinates: temp.coordinates
-        };
-        setSelectedDestination(destData);
-        sessionStorage.setItem('currentDestination', JSON.stringify(destData));
-      } else {
-        setSelectedDestination(null);
-        sessionStorage.removeItem('currentDestination');
-      }
+      setSelectedDestination(destData);
+      sessionStorage.setItem('currentDestination', JSON.stringify(destData));
+
+      // Reset origin to default
+      const defaultOrigin = {
+        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+        coordinates: [36.297, 59.6069]
+      };
+      setUserLocation(defaultOrigin);
+      sessionStorage.setItem('currentOrigin', JSON.stringify(defaultOrigin));
+
+      // Stop GPS tracking
+      setIsTracking(false);
+      return;
     }
 
+    // If we have both origin and destination, swap them
+    if (userLocation && selectedDestination) {
+      // Create new origin from current destination
+      const newOrigin = {
+        name: selectedDestination.name,
+        coordinates: selectedDestination.coordinates,
+        location: selectedDestination.location || selectedDestination.name
+      };
 
+      // Create new destination from current origin
+      const newDestination = {
+        name: userLocation.name,
+        coordinates: userLocation.coordinates,
+        location: userLocation.location || userLocation.name
+      };
 
+      // Update state
+      setUserLocation(newOrigin);
+      setSelectedDestination(newDestination);
+
+      // Update session storage
+      sessionStorage.setItem('currentOrigin', JSON.stringify(newOrigin));
+      sessionStorage.setItem('currentDestination', JSON.stringify(newDestination));
+
+      // Force map to update by resetting the tracking state
+      setIsTracking(false);
+      setTimeout(() => setIsTracking(true), 100);
+    }
+
+    // Animation for the swap button
     if (swapButtonRef.current) {
       swapButtonRef.current.classList.add('rotate');
       setTimeout(() => {
@@ -536,19 +545,11 @@ const MapRoutingPage = () => {
               <div className="map-inputs-divider"></div>
 
               {/* Origin Input */}
-              <div
-                className="map-current-location"
-                onClick={() => handleInputClick('origin')}
-              >
+              <div className="map-current-location" onClick={() => handleInputClick('origin')}>
                 <div className="map-location-text">
                   <span className="map-location-name">
-                    {userLocation?.name || ''}
+                    {userLocation?.name || intl.formatMessage({ id: 'defaultBabRezaName' })}
                   </span>
-                  {/* {userLocation.name !== intl.formatMessage({ id: 'defaultBabRezaName' }) && (
-                    <span className="map-location-label">
-                      {intl.formatMessage({ id: 'mapCurrentOriginLabel' })}
-                    </span>
-                  )} */}
                 </div>
               </div>
 
@@ -565,10 +566,7 @@ const MapRoutingPage = () => {
               </button>
 
               {/* Destination Input */}
-              <div
-                className="map-destination-input-wrapper"
-                onClick={() => handleInputClick('destination')}
-              >
+              <div className="map-destination-input-wrapper" onClick={() => handleInputClick('destination')}>
                 <input
                   type="text"
                   placeholder={intl.formatMessage({ id: 'destinationPlaceholder' })}

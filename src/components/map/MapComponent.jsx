@@ -88,10 +88,10 @@ const MapComponent = ({
     const storedLat = sessionStorage.getItem('qrLat');
     const storedLng = sessionStorage.getItem('qrLng');
     const storedId = sessionStorage.getItem('qrId');
-    
+
     // Original shrine coordinates
     const shrineCoords = { lat: 36.2880, lng: 59.6157 };
-    
+
     if (storedLat && storedLng) {
       const coords = {
         lat: parseFloat(storedLat),
@@ -166,12 +166,15 @@ const MapComponent = ({
   }, [setUserLocation, intl, isTracking]);
 
   // Update user location and optionally center map when it changes
+  // In MapComponent.js, update the useEffect that handles userLocation changes:
   useEffect(() => {
     if (userLocation?.coordinates) {
       const [lat, lng] = userLocation.coordinates;
       const coords = { lat, lng };
       setUserCoords(coords);
-      if (isTracking) {
+
+      // Only center if tracking is enabled or if we're swapping
+      if (isTracking || !destCoords) {
         setViewState(v => ({
           ...v,
           latitude: lat,
@@ -182,13 +185,34 @@ const MapComponent = ({
     }
   }, [userLocation, isTracking]);
 
+  // Update the destination useEffect to handle swapping:
+  useEffect(() => {
+    if (selectedDestination?.coordinates) {
+      const [lat, lng] = selectedDestination.coordinates;
+      const coords = { lat, lng };
+      setDestCoords(coords);
+
+      // Only center if we don't have user coords or if we're swapping
+      if (!userCoords) {
+        setViewState(v => ({
+          ...v,
+          latitude: lat,
+          longitude: lng,
+          zoom: 18
+        }));
+      }
+    } else {
+      setDestCoords(null);
+    }
+  }, [selectedDestination]);
+
   // Update destination marker and center map when selection changes
   useEffect(() => {
     if (selectedDestination?.coordinates) {
       const [lat, lng] = selectedDestination.coordinates;
       const coords = { lat, lng };
       setDestCoords(coords);
-      
+
       // Only center map if this is a new destination selection
       if (!destCoords || destCoords.lat !== lat || destCoords.lng !== lng) {
         setViewState(v => ({
@@ -246,7 +270,7 @@ const MapComponent = ({
           f.geometry.type === 'Point' &&
           ['door', 'connection'].includes(f.properties?.nodeFunction)
       );
-      
+
       const nearest = (coords) => {
         let best = null;
         let dmin = Infinity;
@@ -260,7 +284,7 @@ const MapComponent = ({
         });
         return best;
       };
-      
+
       const start = nearest(userCoords);
       const end = nearest(destCoords);
       const coords = [
@@ -280,8 +304,8 @@ const MapComponent = ({
     : [];
   const polygonFeatures = geoData
     ? geoData.features.filter(
-        f => f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon'
-      )
+      f => f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon'
+    )
     : [];
 
   return (
@@ -348,7 +372,7 @@ const MapComponent = ({
         const iconOpacity = hasFilter ? (highlight ? 1 : 0.4) : 1;
         const rawId = feature.properties?.uniqueId;
         const key = rawId ? `${rawId}-${idx}` : idx;
-        
+
         return (
           <Marker key={key} longitude={lng} latitude={lat} anchor="center">
             <div style={{ position: 'relative' }}>
