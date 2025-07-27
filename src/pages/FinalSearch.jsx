@@ -478,56 +478,51 @@ const FinalSearch = () => {
 
   return (
     <div className="final-search-page" lang={language}>
-      {/* Header Section */}
-      <div className="header">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M5 12l14 0" />
-            <path d="M15 16l4 -4" />
-            <path d="M15 8l4 4" />
-          </svg>
-        </button>
-
-        <h1>
-          <FormattedMessage id="finalSearchTitle" />
-        </h1>
-
-        <div className="menu-container">
-          <button className={`menu-btn ${menuOpen ? 'active' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-            </svg>
-          </button>
-
-          <div className={`menu-dropdown ${menuOpen ? 'open' : ''}`}>
-            <button className="menu-item" onClick={handleSaveDestination}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M17.286 21.09q -1.69 .001 -5.288 -2.615q -3.596 2.617 -5.288 2.616q -2.726 0 -.495 -6.8q -9.389 -6.775 2.135 -6.775h.076q 1.785 -5.516 3.574 -5.516q 1.785 0 3.574 5.516h.076q 11.525 0 2.133 6.774q 2.23 6.802 -.497 6.8" />
-              </svg>
-              <FormattedMessage id="saveDestination" />
-            </button>
-            <button className="menu-item" onClick={handleShareRoute}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                <path d="M8.7 10.7l6.6 -3.4" />
-                <path d="M8.7 13.3l6.6 3.4" />
-              </svg>
-              <FormattedMessage id="shareRoute" />
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* Map Section */}
       <div className="mpr">
+        <div className="header">
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M5 12l14 0" />
+              <path d="M15 16l4 -4" />
+              <path d="M15 8l4 4" />
+            </svg>
+          </button>
+
+          <div className="menu-container">
+            <button className={`menu-btn ${menuOpen ? 'active' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+              </svg>
+            </button>
+
+            <div className={`menu-dropdown ${menuOpen ? 'open' : ''}`}>
+              <button className="menu-item" onClick={handleSaveDestination}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M17.286 21.09q -1.69 .001 -5.288 -2.615q -3.596 2.617 -5.288 2.616q -2.726 0 -.495 -6.8q -9.389 -6.775 2.135 -6.775h.076q 1.785 -5.516 3.574 -5.516q 1.785 0 3.574 5.516h.076q 11.525 0 2.133 6.774q 2.23 6.802 -.497 6.8" />
+                </svg>
+                <FormattedMessage id="saveDestination" />
+              </button>
+              <button className="menu-item" onClick={handleShareRoute}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M8.7 10.7l6.6 -3.4" />
+                  <path d="M8.7 13.3l6.6 3.4" />
+                </svg>
+                <FormattedMessage id="shareRoute" />
+              </button>
+            </div>
+          </div>
+        </div>
         <Map
           ref={mapRef}
           mapLib={maplibregl}
@@ -744,6 +739,16 @@ const FinalSearch = () => {
 
         <div className="options-row">
           <button
+            className={`gender-btn ${selectedGender === 'family' ? 'active' : ''}`}
+            onClick={() => setSelectedGender('family')}
+          >
+            <div className="gender-circle">
+              {selectedGender === 'family' && <div className="gender-circle-fill"></div>}
+            </div>
+            <FormattedMessage id="routeForFamily" />
+          </button>
+
+          <button
             className={`gender-btn ${selectedGender === 'male' ? 'active' : ''}`}
             onClick={() => setSelectedGender('male')}
           >
@@ -762,6 +767,7 @@ const FinalSearch = () => {
             </div>
             <FormattedMessage id="routeForWomen" />
           </button>
+
         </div>
       </div>
 

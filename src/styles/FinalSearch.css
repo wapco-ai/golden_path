@@ -14,19 +14,60 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: white;
+  background-color: transparent;
   border: none;
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 1001;
 }
 
-.header h1 {
-  font-size: 1.2rem;
-  color: #333;
-  font-weight: bold;
-  margin: 0;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+:root:not(:lang(en)) .gender-circle {
+  order: 0;
+}
+
+
+/* Ensure text doesn't overflow */
+.gender-btn span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gender-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #f5f5f5;
+  font-size: 0.8rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  min-width: 0;
+}
+
+.gender-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  order: -1;
+}
+
+:root:lang(en) .gender-btn {
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-right: 20px;
 }
 
 .back-btn,
@@ -36,9 +77,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: white;
   border-radius: 50%;
-  border: 1px solid rgba(128, 128, 128, 0.721);
+  border: none;
   z-index: 10;
 }
 
@@ -106,19 +147,14 @@
 
 /* Map Styles */
 .mpr {
-  height: 380px;
+  height: 480px;
   width: calc(100% - 60px);
   margin: 15px auto;
   margin-top: 0px;
   background-color: #e0e0e0;
   position: relative;
-  border-radius: 12px;
   overflow: hidden;
-}
-
-.map-container {
-  height: 100%;
-  width: 100%;
+  width: 100vw;
 }
 
 /* Location Inputs Styles */
@@ -283,21 +319,6 @@
   height: 24px;
 }
 
-.gender-btn {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 20px;
-  background-color: #f5f5f5;
-  font-size: 0.8rem;
-  text-align: center;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: 'Vazir', Tahoma, sans-serif;
-}
 
 .gender-btn.active {
   background-color: #e3f2fd;
@@ -309,15 +330,6 @@
   opacity: 0.7;
 }
 
-.gender-circle {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid #666;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .gender-btn.active .gender-circle {
   border-color: #2196F3;
@@ -488,12 +500,6 @@
   direction: ltr;
 }
 
-:root:lang(en) .header h1 {
-  right: 50%;
-  left: auto;
-  transform: translateX(50%);
-}
-
 :root:lang(en) .back-btn svg {
   transform: rotate(180deg);
 }
@@ -539,6 +545,7 @@
   margin-right: 0;
 }
 
+
 /* Ensure buttons stay within bounds */
 :root:lang(en) .transport-btn,
 :root:lang(en) .gender-btn {
@@ -563,7 +570,8 @@
 
 /* Remove the bounce animation if you don't want it */
 .swap-btn:active {
-  opacity: 0.7; /* Simple press feedback */
+  opacity: 0.7;
+  /* Simple press feedback */
 }
 
 /* Other Routes Section */
