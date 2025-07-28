@@ -87,6 +87,16 @@
   background-color: #f5f5f5;
 }
 
+.map-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to top, white, transparent);
+  pointer-events: none;
+}
+
 .menu-container {
   position: relative;
 }

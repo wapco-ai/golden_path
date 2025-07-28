@@ -635,6 +635,7 @@ const FinalSearch = () => {
           )}
           {/* <GeoJsonOverlay /> */}
         </Map>
+        <div className="map-fade"></div>
       </div>
 
       {/* Location Inputs Section */}
