@@ -376,6 +376,8 @@ const FinalSearch = () => {
     storeSetDestination(newDestination);
     sessionStorage.setItem('origin', JSON.stringify(newOrigin));
     sessionStorage.setItem('destination', JSON.stringify(newDestination));
+    sessionStorage.setItem('qrLat', String(newOrigin.coordinates[0]));
+    sessionStorage.setItem('qrLng', String(newOrigin.coordinates[1]));
     // Immediately rebuild the route so session data stays in sync
     if (geoData) {
       const result = analyzeRoute(
@@ -396,7 +398,6 @@ const FinalSearch = () => {
         sessionStorage.setItem('routeSahns', JSON.stringify(sahns));
       }
     }
-
   };
 
   const handleSelectAlternativeRoute = (route) => {

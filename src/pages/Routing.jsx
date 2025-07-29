@@ -117,8 +117,10 @@ const RoutingPage = () => {
     const lng = parseFloat(storedLng);
     const sessGeo = sessionStorage.getItem('routeGeo');
     const sessSteps = sessionStorage.getItem('routeSteps');
-    if (sessGeo && sessSteps && !routeSteps.length) {
-      // wait for session data to load via the first effect
+    if (sessGeo && sessSteps) {
+      // A route already exists in session storage. Use that data
+      // instead of rebuilding with the QR coordinates to avoid
+      // overwriting routes generated after swapping origin and destination.
       return;
     }
 
@@ -126,13 +128,6 @@ const RoutingPage = () => {
       !origin ||
       origin.coordinates?.[0] !== lat ||
       origin.coordinates?.[1] !== lng;
-
-
-    if (sessGeo && sessSteps && !originChanged) {
-      // Session data already provides the route; the first effect will
-      // load it into state so skip rebuilding here
-      return;
-    }
 
     if (!routeSteps.length || originChanged) {
       const newOrigin = {
@@ -1089,7 +1084,7 @@ const RoutingPage = () => {
             isMapModalOpen={isMapModalOpen}
             is3DView={is3DView}
             routeGeo={routeGeo}
-            alternativeRoutes={isDrActive ? [] : routeData.alternativeRoutes}
+            alternativeRoutes={routeData.alternativeRoutes}
             onSelectAlternativeRoute={handleSelectAlternativeRoute}
           />
           {/* <DeadReckoningControls
@@ -1159,7 +1154,7 @@ const RoutingPage = () => {
                 </button>
               </div>
             </div>
-          ) : showAlternativeRoutes && !isDrActive ? (
+          ) : showAlternativeRoutes ? (
             <div className="alternative-routes-view">
               <button className="return-to-route-button5" onClick={handleReturnFromAlternativeRoutes}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -1311,7 +1306,7 @@ const RoutingPage = () => {
                       </div>
                       <span><FormattedMessage id="allRoutes" /></span>
                     </button>
-                    {!isDrActive && routeData.alternativeRoutes.length > 0 && (
+                    {routeData.alternativeRoutes.length > 0 && (
                       <>
                         <span className="sdivider"></span>
                         <button className="route-button" onClick={handleShowAlternativeRoutes}>
