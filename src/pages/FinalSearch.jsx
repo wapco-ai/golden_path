@@ -368,9 +368,14 @@ const FinalSearch = () => {
   const swapLocations = () => {
     setIsSwapping(true); // This will trigger the rotation
     setSwapButton(!isSwapButton);
-    const temp = origin;
-    setOrigin(destination);
-    setDestination(temp);
+    const newOrigin = destination;
+    const newDestination = origin;
+    setOrigin(newOrigin);
+    setDestination(newDestination);
+    storeSetOrigin(newOrigin);
+    storeSetDestination(newDestination);
+    sessionStorage.setItem('origin', JSON.stringify(newOrigin));
+    sessionStorage.setItem('destination', JSON.stringify(newDestination));
   };
 
   const handleSelectAlternativeRoute = (route) => {
