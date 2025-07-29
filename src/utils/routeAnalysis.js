@@ -381,30 +381,6 @@ function attachLandmarks(path, steps, pois) {
   }
 }
 
-function mergeShortSteps(steps, thresholdMeters = 20) {
-  if (!steps || steps.length === 0) return steps;
-
-  const threshold = thresholdMeters / 100000; // roughly meters to degrees
-
-  const merged = [steps[0]];
-  for (let i = 1; i < steps.length; i++) {
-    const prev = merged[merged.length - 1];
-    const curr = steps[i];
-    const dist = Math.hypot(
-      curr.coordinates[0] - prev.coordinates[0],
-      curr.coordinates[1] - prev.coordinates[1]
-    );
-
-    if (dist < threshold && curr.type !== 'stepArriveDestination') {
-      continue; // skip short step
-    }
-
-    merged.push(curr);
-  }
-
-  return merged;
-}
-
 // Enhanced connection logic with PRIORITY for connection nodes
 function findValidNeighbors(nodeIndex, nodes, navigablePolygons) {
   const currentNode = nodes[nodeIndex];
@@ -923,7 +899,6 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   }
 
   const mainRoute = buildRoute(nodePath);
-  mainRoute.steps = mergeShortSteps(mainRoute.steps);
   const mainSahnSet = new Set();
   mainRoute.path.forEach(coord => {
     const poly = getPolygonContaining(coord, navigablePolygons);
@@ -944,7 +919,6 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
         const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
         if (altNodePath.length === 0 || altNodePath.length === 1) return;
         const route = buildRoute(altNodePath);
-        route.steps = mergeShortSteps(route.steps);
 
         // Skip candidate if it doesn't pass through a different sahn when required
         if (requireDifferentSahn && navigablePolygons.length > 0) {
