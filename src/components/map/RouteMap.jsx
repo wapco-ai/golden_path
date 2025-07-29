@@ -33,9 +33,9 @@ const RouteMap = forwardRef(({
 
   const altLayerIds = !isDrActive
     ? alternativeRoutes.flatMap((_, idx) => [
-        `alt-route-line-${idx}`,
-        `alt-route-border-${idx}`
-      ])
+      `alt-route-line-${idx}`,
+      `alt-route-border-${idx}`
+    ])
     : [];
 
   useEffect(() => {
@@ -187,7 +187,10 @@ const RouteMap = forwardRef(({
     }
   };
 
-  useImperativeHandle(ref, () => ({ fitRouteBounds }));
+  useImperativeHandle(ref, () => ({
+    fitRouteBounds,
+    getMap: () => mapRef.current
+  }));
 
   return (
     <Map
@@ -211,7 +214,7 @@ const RouteMap = forwardRef(({
           }
         }
       }}
-      
+
       initialViewState={{
         longitude: center[1],
         latitude: center[0],
@@ -225,7 +228,7 @@ const RouteMap = forwardRef(({
       {!isDrActive && (
         <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
           {/* <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}> */}
-            <ArrowMarker />
+          <ArrowMarker />
           {/* </div> */}
         </Marker>
       )}
@@ -233,7 +236,7 @@ const RouteMap = forwardRef(({
       {isDrActive && drPosition && (
         <Marker longitude={drPosition.lng} latitude={drPosition.lat} anchor="center">
           {/* <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}> */}
-            <ArrowMarker />
+          <ArrowMarker />
           {/* </div> */}
         </Marker>
       )}
@@ -304,23 +307,23 @@ const RouteMap = forwardRef(({
               id={`alt-route-border-${idx}`}
               type="line"
               paint={{
-              'line-color': 'white',
-              'line-width': 8,
-              'line-dasharray': [1, 2] // Creates dotted pattern
-            }}
-            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
-          />
-          <Layer
-            id={`alt-route-line-${idx}`}
-            type="line"
-            paint={{
-              'line-color': '#A0C4FF', // Lighter blue for alternatives
-              'line-width': 6,
-              'line-dasharray': [1, 2] // Creates dotted pattern
-            }}
-            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
-          />
-        </Source>
+                'line-color': 'white',
+                'line-width': 8,
+                'line-dasharray': [1, 2] // Creates dotted pattern
+              }}
+              layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+            />
+            <Layer
+              id={`alt-route-line-${idx}`}
+              type="line"
+              paint={{
+                'line-color': '#A0C4FF', // Lighter blue for alternatives
+                'line-width': 6,
+                'line-dasharray': [1, 2] // Creates dotted pattern
+              }}
+              layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+            />
+          </Source>
         ))}
 
       <GeoJsonOverlay />
