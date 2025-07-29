@@ -381,6 +381,62 @@ function attachLandmarks(path, steps, pois) {
   }
 }
 
+function distanceInMeters(coord1, coord2) {
+  const R = 6371000; // metres
+  const toRad = d => (d * Math.PI) / 180;
+  const dLat = toRad(coord2[0] - coord1[0]);
+  const dLon = toRad(coord2[1] - coord1[1]);
+  const lat1 = toRad(coord1[0]);
+  const lat2 = toRad(coord2[0]);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function mergeShortSteps(steps, thresholdMeters = 20) {
+  if (!steps || steps.length === 0) return steps;
+
+  const merged = [{ ...steps[0] }];
+  for (let i = 1; i < steps.length; i++) {
+    const prev = merged[merged.length - 1];
+    const curr = steps[i];
+    const dist = distanceInMeters(prev.coordinates, curr.coordinates);
+
+    if (dist <= thresholdMeters && curr.type !== 'stepArriveDestination') {
+      prev.coordinates = curr.coordinates;
+      if (!prev.name && curr.name) prev.name = curr.name;
+      if (!prev.title && curr.title) prev.title = curr.title;
+      if (!prev.services && curr.services) prev.services = curr.services;
+      continue; // merge with previous step
+    }
+
+    merged.push({ ...curr });
+  }
+
+  return merged;
+}
+
+function pushMergedStep(steps, step, thresholdMeters = 20) {
+  if (steps.length === 0) {
+    steps.push({ ...step });
+    return;
+  }
+
+  const prev = steps[steps.length - 1];
+  const dist = distanceInMeters(prev.coordinates, step.coordinates);
+
+  if (dist <= thresholdMeters && step.type !== 'stepArriveDestination') {
+    prev.coordinates = step.coordinates;
+    if (!prev.name && step.name) prev.name = step.name;
+    if (!prev.title && step.title) prev.title = step.title;
+    if (!prev.services && step.services) prev.services = step.services;
+  } else {
+    steps.push({ ...step });
+  }
+}
+
 // Enhanced connection logic with PRIORITY for connection nodes
 function findValidNeighbors(nodeIndex, nodes, navigablePolygons) {
   const currentNode = nodes[nodeIndex];
@@ -857,14 +913,14 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       seg.forEach(p => rPath.push(p));
 
       if (node[2].nodeFunction === 'door') {
-        rSteps.push({
+        pushMergedStep(rSteps, {
           coordinates: coord,
           type: 'stepPassDoor',
           name: node[2].name || '',
           services: node[2].services || {}
         });
       } else if (node[2].nodeFunction === 'connection') {
-        rSteps.push({
+        pushMergedStep(rSteps, {
           coordinates: coord,
           type: 'stepPassConnection',
           title: node[2].subGroup || node[2].name || '',
@@ -876,7 +932,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     const last = rPath[rPath.length - 1];
     const destSeg = adjustSegmentInsidePolygon(last, destination.coordinates, navigablePolygons);
     destSeg.forEach(p => rPath.push(p));
-    rSteps.push({
+    pushMergedStep(rSteps, {
       coordinates: destination.coordinates,
       type: 'stepArriveDestination',
       name: destination.name || ''
