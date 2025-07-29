@@ -413,28 +413,10 @@ function mergeShortSteps(steps, thresholdMeters = 20) {
     }
 
     merged.push({ ...curr });
+
   }
 
   return merged;
-}
-
-function pushMergedStep(steps, step, thresholdMeters = 20) {
-  if (steps.length === 0) {
-    steps.push({ ...step });
-    return;
-  }
-
-  const prev = steps[steps.length - 1];
-  const dist = distanceInMeters(prev.coordinates, step.coordinates);
-
-  if (dist <= thresholdMeters && step.type !== 'stepArriveDestination') {
-    prev.coordinates = step.coordinates;
-    if (!prev.name && step.name) prev.name = step.name;
-    if (!prev.title && step.title) prev.title = step.title;
-    if (!prev.services && step.services) prev.services = step.services;
-  } else {
-    steps.push({ ...step });
-  }
 }
 
 // Enhanced connection logic with PRIORITY for connection nodes
@@ -913,14 +895,14 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       seg.forEach(p => rPath.push(p));
 
       if (node[2].nodeFunction === 'door') {
-        pushMergedStep(rSteps, {
+        rSteps.push({
           coordinates: coord,
           type: 'stepPassDoor',
           name: node[2].name || '',
           services: node[2].services || {}
         });
       } else if (node[2].nodeFunction === 'connection') {
-        pushMergedStep(rSteps, {
+        rSteps.push({
           coordinates: coord,
           type: 'stepPassConnection',
           title: node[2].subGroup || node[2].name || '',
@@ -932,7 +914,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     const last = rPath[rPath.length - 1];
     const destSeg = adjustSegmentInsidePolygon(last, destination.coordinates, navigablePolygons);
     destSeg.forEach(p => rPath.push(p));
-    pushMergedStep(rSteps, {
+    rSteps.push({
       coordinates: destination.coordinates,
       type: 'stepArriveDestination',
       name: destination.name || ''
