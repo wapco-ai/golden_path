@@ -276,6 +276,14 @@ const FinalSearch = () => {
     }
   }, [routeGeo]);
 
+  // Clear popup information when no route is available
+  useEffect(() => {
+    if (!routeGeo || !(routeGeo.geometry?.coordinates?.length > 0)) {
+      setPopupCoord(null);
+      setPopupMinutes(null);
+    }
+  }, [routeGeo]);
+
   // Determine popup location and total minutes for main route
   useEffect(() => {
     if (!routeGeo) return;
@@ -311,7 +319,7 @@ const FinalSearch = () => {
 
   // Determine popup locations and minutes for alternative routes
   useEffect(() => {
-    if (!storedAlternativeRoutes) {
+    if (!storedAlternativeRoutes || storedAlternativeRoutes.length === 0 || !routeGeo) {
       setAltPopupCoords([]);
       setAltPopupMinutes([]);
       return;

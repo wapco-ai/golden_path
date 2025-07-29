@@ -132,6 +132,13 @@ const RouteOverview = () => {
     }
   }, [currentSlide, routeData]);
 
+  // Clear popup when no route data is available
+  useEffect(() => {
+    if (!routeCoordinates || routeCoordinates.length === 0) {
+      setPopupCoord(null);
+    }
+  }, [routeCoordinates]);
+
   const allGeo = {
     type: 'Feature',
     geometry: { type: 'LineString', coordinates: routeCoordinates }
