@@ -182,6 +182,7 @@
   "stepArriveDestination": "رسیدن به مقصد {name}",
   "stepNumber": "گام {num}",
   "landmarkSuffix": "به سمت {name} بچرخید و {distance} متر به جلو بروید",
+  "doorToDoor": "از {from} عبور و به {to} برسید",
   "qrScanInstruction": "کد QR را در کادر قرار دهید",
   "qrScanError": "خواندن کد QR ناموفق بود",
   "emergencySubmissionSuccess": "درخواست کمک شما با موفقیت ارسال شد",

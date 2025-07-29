@@ -49,34 +49,92 @@ const RouteOverview = () => {
   const { routeGeo, routeSteps } = useRouteStore();
   const routeCoordinates = routeGeo?.geometry?.coordinates || [];
 
-  const routeData = useMemo(
-    () =>
-      routeCoordinates.slice(1).map((c, idx) => {
-        const step = routeSteps?.[idx];
-        const base = step && step.type
-          ? intl.formatMessage(
+  const routeData = useMemo(() => {
+    const segments = routeCoordinates.slice(1).map((c, idx) => {
+      const step = routeSteps?.[idx];
+      const base = step && step.type
+        ? intl.formatMessage(
             { id: step.type },
             { name: step.name, title: step.title, num: idx + 1 }
           )
-          : step?.instruction
-            ? step.instruction
-            : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
-        const dist = Math.hypot(
-          c[0] - routeCoordinates[idx][0],
-          c[1] - routeCoordinates[idx][1]
-        ) * 100000;
-        const instruction = step?.landmark
-          ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: step.landmark, distance: Math.round(dist) })}`
-          : base;
-        return {
-          id: idx + 1,
-          coordinates: [routeCoordinates[idx], c],
-          instruction,
-          services: step?.services || {}
-        };
-      }),
-    [routeCoordinates, routeSteps, intl]
-  );
+        : step?.instruction
+          ? step.instruction
+          : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
+      const dist = Math.hypot(
+        c[0] - routeCoordinates[idx][0],
+        c[1] - routeCoordinates[idx][1]
+      ) * 100000;
+      const instruction = step?.landmark
+        ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: step.landmark, distance: Math.round(dist) })}`
+        : base;
+      return {
+        id: idx + 1,
+        coordinates: [routeCoordinates[idx], c],
+        instruction,
+        services: step?.services || {},
+        distance: dist,
+        doorNames: step?.type === 'stepPassDoor' ? [step.name] : []
+      };
+    });
+
+    const segmentBearing = coords => bearing(coords[0], coords[coords.length - 1]);
+    const angleDiff = (a, b) => {
+      const b1 = segmentBearing(a);
+      const b2 = segmentBearing(b);
+      let diff = Math.abs(b1 - b2);
+      if (diff > 180) diff = 360 - diff;
+      return diff;
+    };
+
+    const merged = [];
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
+      if (seg.distance >= 20) {
+        merged.push({ ...seg });
+        continue;
+      }
+
+      const prev = merged[merged.length - 1];
+      const next = segments[i + 1];
+      const diffPrev = prev ? angleDiff(prev.coordinates, seg.coordinates) : Infinity;
+      const diffNext = next ? angleDiff(seg.coordinates, next.coordinates) : Infinity;
+
+      if ((diffPrev <= diffNext && prev) || !next) {
+        // merge with previous segment
+        if (prev) {
+          prev.coordinates.push(seg.coordinates[1]);
+          prev.distance += seg.distance;
+          prev.doorNames = [...(prev.doorNames || []), ...(seg.doorNames || [])];
+        } else {
+          merged.push({ ...seg });
+        }
+      } else if (next) {
+        // merge with next segment
+        next.coordinates = [seg.coordinates[0], ...next.coordinates];
+        next.distance += seg.distance;
+        next.doorNames = [...(seg.doorNames || []), ...(next.doorNames || [])];
+      } else {
+        merged.push({ ...seg });
+      }
+    }
+
+    return merged.map((m, idx) => {
+      const instr =
+        m.doorNames && m.doorNames.length > 1
+          ? intl.formatMessage(
+              { id: 'doorToDoor' },
+              { from: m.doorNames[0], to: m.doorNames[m.doorNames.length - 1] }
+            )
+          : m.instruction;
+      return {
+        id: idx + 1,
+        coordinates: m.coordinates,
+        instruction: instr,
+        services: m.services,
+        distance: m.distance
+      };
+    });
+  }, [routeCoordinates, routeSteps, intl]);
 
   const [viewState, setViewState] = useState({
     latitude: routeCoordinates[0]?.[1] || 0,
@@ -96,10 +154,11 @@ const RouteOverview = () => {
 
   useEffect(() => {
     if (routeData[currentSlide]) {
-      const segment = routeData[currentSlide].coordinates;
-      const [lng1, lat1] = segment[0];
-      const [lng2, lat2] = segment[1];
-      const d = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
+      const segObj = routeData[currentSlide];
+      const coords = segObj.coordinates;
+      const [lng1, lat1] = coords[0];
+      const [lng2, lat2] = coords[coords.length - 1];
+      const d = segObj.distance;
       setDistance(
         `${formatDigits(Math.round(d))} ${intl.formatMessage({ id: 'meters' })}`
       );
@@ -110,9 +169,9 @@ const RouteOverview = () => {
       if (currentSlide === routeData.length - 1) {
         setDirectionArrow('arrived');
       } else {
-        const nextSeg = routeData[currentSlide + 1].coordinates;
-        const b1 = bearing(segment[0], segment[1]);
-        const b2 = bearing(nextSeg[0], nextSeg[1]);
+        const nextCoords = routeData[currentSlide + 1].coordinates;
+        const b1 = bearing(coords[0], coords[coords.length - 1]);
+        const b2 = bearing(nextCoords[0], nextCoords[nextCoords.length - 1]);
         setDirectionArrow(computeTurn(b1, b2));
       }
 
@@ -266,7 +325,7 @@ const RouteOverview = () => {
               <div className="time-popup main-popup">{time}</div>
             </Popup>
           )}
-          <GeoJsonOverlay />
+          <GeoJsonOverlay routeCoords={routeCoordinates} />
         </Map>
       </div>
 

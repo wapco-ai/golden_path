@@ -181,6 +181,7 @@
   "stepArriveDestination": "الوصول إلى {name}",
   "stepNumber": "الخطوة {num}",
   "qrScanInstruction": "ضع رمز QR داخل الإطار",
+  "doorToDoor": "اعبر من {from} وتصل إلى {to}",
   "qrScanError": "فشل قراءة رمز QR",
   "emergencySubmissionSuccess": "تم إرسال طلب المساعدة بنجاح",
   "emergencySubmissionError": "خطأ في إرسال طلب المساعدة",

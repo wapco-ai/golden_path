@@ -187,6 +187,7 @@
   "emergencySelectType": "براہ کرم مدد کی قسم منتخب کریں",
   "emergencyEnterDetails": "براہ کرم مزید تفصیلات درج کریں",
   "landmarkSuffix": "{name} کی طرف مڑیں اور {distance} میٹر آگے بڑھیں",
+  "doorToDoor": "{from} سے گزریں اور {to} پر پہنچیں",
   "fa": "فارسی",
   "ur": "اردو",
   "ar": "عربی",

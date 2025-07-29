@@ -61,7 +61,7 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
           </Source>
         )}
 
-        <GeoJsonOverlay />
+        <GeoJsonOverlay routeCoords={routePath} />
       </Map>
     </div>
   );

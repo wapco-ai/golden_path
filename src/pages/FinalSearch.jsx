@@ -667,7 +667,7 @@ const FinalSearch = () => {
               </div>
             </Popup>
           )}
-          {/* <GeoJsonOverlay /> */}
+          <GeoJsonOverlay routeCoords={routeGeo?.geometry?.coordinates} />
         </Map>
         <div className="map-fade"></div>
       </div>
