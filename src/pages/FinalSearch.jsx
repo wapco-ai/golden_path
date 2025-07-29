@@ -376,6 +376,27 @@ const FinalSearch = () => {
     storeSetDestination(newDestination);
     sessionStorage.setItem('origin', JSON.stringify(newOrigin));
     sessionStorage.setItem('destination', JSON.stringify(newDestination));
+    // Immediately rebuild the route so session data stays in sync
+    if (geoData) {
+      const result = analyzeRoute(
+        newOrigin,
+        newDestination,
+        geoData,
+        transportMode,
+        selectedGender
+      );
+      if (result) {
+        const { geo, steps, alternatives, sahns } = result;
+        storeSetRouteGeo(geo);
+        storeSetRouteSteps(steps);
+        storeSetAlternativeRoutes(alternatives);
+        sessionStorage.setItem('routeGeo', JSON.stringify(geo));
+        sessionStorage.setItem('routeSteps', JSON.stringify(steps));
+        sessionStorage.setItem('alternativeRoutes', JSON.stringify(alternatives));
+        sessionStorage.setItem('routeSahns', JSON.stringify(sahns));
+      }
+    }
+
   };
 
   const handleSelectAlternativeRoute = (route) => {
