@@ -76,19 +76,10 @@ const RouteOverview = () => {
       };
     });
 
-    const bearing = (from, to) => {
-      const [lng1, lat1] = from;
-      const [lng2, lat2] = to;
-      const y = Math.sin(toRad(lng2 - lng1)) * Math.cos(toRad(lat2));
-      const x =
-        Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
-        Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(toRad(lng2 - lng1));
-      return (toDeg(Math.atan2(y, x)) + 360) % 360;
-    };
-
-    const angleDiff = (c1, c2) => {
-      const b1 = bearing(c1[0], c1[1]);
-      const b2 = bearing(c2[0], c2[1]);
+    const segmentBearing = coords => bearing(coords[0], coords[coords.length - 1]);
+    const angleDiff = (a, b) => {
+      const b1 = segmentBearing(a);
+      const b2 = segmentBearing(b);
       let diff = Math.abs(b1 - b2);
       if (diff > 180) diff = 360 - diff;
       return diff;
@@ -109,11 +100,15 @@ const RouteOverview = () => {
 
       if ((diffPrev <= diffNext && prev) || !next) {
         // merge with previous segment
-        prev.coordinates[1] = seg.coordinates[1];
-        prev.distance += seg.distance;
+        if (prev) {
+          prev.coordinates.push(seg.coordinates[1]);
+          prev.distance += seg.distance;
+        } else {
+          merged.push({ ...seg });
+        }
       } else if (next) {
         // merge with next segment
-        next.coordinates = [seg.coordinates[0], next.coordinates[1]];
+        next.coordinates = [seg.coordinates[0], ...next.coordinates];
         next.distance += seg.distance;
       } else {
         merged.push({ ...seg });
@@ -124,7 +119,9 @@ const RouteOverview = () => {
       id: idx + 1,
       coordinates: m.coordinates,
       instruction: m.instruction,
-      services: m.services
+      services: m.services,
+      distance: m.distance
+
     }));
   }, [routeCoordinates, routeSteps, intl]);
 
@@ -146,10 +143,11 @@ const RouteOverview = () => {
 
   useEffect(() => {
     if (routeData[currentSlide]) {
-      const segment = routeData[currentSlide].coordinates;
-      const [lng1, lat1] = segment[0];
-      const [lng2, lat2] = segment[1];
-      const d = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
+      const segObj = routeData[currentSlide];
+      const coords = segObj.coordinates;
+      const [lng1, lat1] = coords[0];
+      const [lng2, lat2] = coords[coords.length - 1];
+      const d = segObj.distance;
       setDistance(
         `${formatDigits(Math.round(d))} ${intl.formatMessage({ id: 'meters' })}`
       );
@@ -160,9 +158,9 @@ const RouteOverview = () => {
       if (currentSlide === routeData.length - 1) {
         setDirectionArrow('arrived');
       } else {
-        const nextSeg = routeData[currentSlide + 1].coordinates;
-        const b1 = bearing(segment[0], segment[1]);
-        const b2 = bearing(nextSeg[0], nextSeg[1]);
+        const nextCoords = routeData[currentSlide + 1].coordinates;
+        const b1 = bearing(coords[0], coords[coords.length - 1]);
+        const b2 = bearing(nextCoords[0], nextCoords[nextCoords.length - 1]);
         setDirectionArrow(computeTurn(b1, b2));
       }
 
