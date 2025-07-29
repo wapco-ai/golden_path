@@ -1250,7 +1250,7 @@ const Location = () => {
                   {/* Split subgroups into those with images and without */}
                   <div className="subgroups-with-images">
                     <div className="subgroups-grid">
-                      {subGroups[selectedCategory.value]
+                      {(filteredSubGroups.length > 0 ? filteredSubGroups : subGroups[selectedCategory.value])
                         .filter(subgroup => subgroup.img)
                         .map((subgroup, index) => (
                           <div
@@ -1275,7 +1275,7 @@ const Location = () => {
                   </div>
 
                   <div className="subgroups-without-images">
-                    {subGroups[selectedCategory.value]
+                    {(filteredSubGroups.length > 0 ? filteredSubGroups : subGroups[selectedCategory.value])
                       .filter(subgroup => !subgroup.img)
                       .map((subgroup, index) => (
                         <div
