@@ -63,6 +63,7 @@
   "defaultCommentAuthor": "مستخدم جديد",
   "searchSuggestions": "اقتراحات البحث",
   "loading": "جار التحميل...",
+  "subgroupDefaultDesc": "الوصف",
   "fetchError": "خطأ في جلب البيانات: {error}",
   "noDataFound": "لم يتم العثور على بيانات",
   "goToSlide": "الانتقال إلى الشريحة {n}",
