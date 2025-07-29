@@ -7,10 +7,11 @@ import LangPage from './pages/LangPage';
 import LoginPage from './pages/LoginPage';
 import MapRouting from './pages/MapRouting';
 import Routing from './pages/Routing';
+import MapBegin from './pages/MapBegin';
 import RouteOverview from './pages/RouteOverview';
 import Location from './pages/Location';
-import { Header } from './components/layout/Header';
-import { Footer } from './components/layout/Footer';
+// import { Header } from './components/layout/Header';
+// import { Footer } from './components/layout/Footer';
 import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -19,7 +20,7 @@ const AppContent = () => {
   const intl = useIntl();
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
-    || location.pathname === '/rop' || location.pathname === '/rng';
+    || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb';
 
   // --- PWA Install Prompt State ---
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -88,6 +89,7 @@ const AppContent = () => {
           <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/rng" element={<Routing/>} />
           <Route path="/location" element={<Location />} />
+          <Route path="/mpb" element={<MapBegin />} />
         </Routes>
       </main>
       {!hideHeaderFooter && <Footer />}
