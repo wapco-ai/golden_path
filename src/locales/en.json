@@ -181,6 +181,7 @@
   "stepArriveDestination": "Arrive at {name}",
   "stepNumber": "Step {num}",
   "landmarkSuffix": "turn toward {name} and go {distance} meters ahead",
+  "doorToDoor": "Go through {from} and reach {to}",
   "qrScanInstruction": "Align the QR code within the frame",
   "qrScanError": "Failed to read QR code",
   "emergencySubmissionSuccess": "Your emergency request has been submitted successfully",

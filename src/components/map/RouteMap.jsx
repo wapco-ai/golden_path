@@ -326,7 +326,7 @@ const RouteMap = forwardRef(({
           </Source>
         ))}
 
-      <GeoJsonOverlay />
+      <GeoJsonOverlay routeCoords={routeGeo?.geometry?.coordinates} />
     </Map>
   );
 });
