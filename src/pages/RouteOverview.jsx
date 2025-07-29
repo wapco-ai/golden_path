@@ -72,7 +72,8 @@ const RouteOverview = () => {
         coordinates: [routeCoordinates[idx], c],
         instruction,
         services: step?.services || {},
-        distance: dist
+        distance: dist,
+        doorNames: step?.type === 'stepPassDoor' ? [step.name] : []
       };
     });
 
@@ -103,6 +104,7 @@ const RouteOverview = () => {
         if (prev) {
           prev.coordinates.push(seg.coordinates[1]);
           prev.distance += seg.distance;
+          prev.doorNames = [...(prev.doorNames || []), ...(seg.doorNames || [])];
         } else {
           merged.push({ ...seg });
         }
@@ -110,19 +112,28 @@ const RouteOverview = () => {
         // merge with next segment
         next.coordinates = [seg.coordinates[0], ...next.coordinates];
         next.distance += seg.distance;
+        next.doorNames = [...(seg.doorNames || []), ...(next.doorNames || [])];
       } else {
         merged.push({ ...seg });
       }
     }
 
-    return merged.map((m, idx) => ({
-      id: idx + 1,
-      coordinates: m.coordinates,
-      instruction: m.instruction,
-      services: m.services,
-      distance: m.distance
-
-    }));
+    return merged.map((m, idx) => {
+      const instr =
+        m.doorNames && m.doorNames.length > 1
+          ? intl.formatMessage(
+              { id: 'doorToDoor' },
+              { from: m.doorNames[0], to: m.doorNames[m.doorNames.length - 1] }
+            )
+          : m.instruction;
+      return {
+        id: idx + 1,
+        coordinates: m.coordinates,
+        instruction: instr,
+        services: m.services,
+        distance: m.distance
+      };
+    });
   }, [routeCoordinates, routeSteps, intl]);
 
   const [viewState, setViewState] = useState({
@@ -314,7 +325,7 @@ const RouteOverview = () => {
               <div className="time-popup main-popup">{time}</div>
             </Popup>
           )}
-          <GeoJsonOverlay />
+          <GeoJsonOverlay routeCoords={routeCoordinates} />
         </Map>
       </div>
 

@@ -46,7 +46,7 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   );
 };
 
-const GeoJsonOverlay = ({ selectedCategory }) => {
+const GeoJsonOverlay = ({ selectedCategory, routeCoords = null }) => {
   const [features, setFeatures] = useState(null);
   const language = useLangStore((state) => state.language);
 
@@ -61,7 +61,9 @@ const GeoJsonOverlay = ({ selectedCategory }) => {
 
   if (!features) return null;
 
-  const pointFeatures = features.filter(f => f.geometry.type === 'Point');
+  const pointFeatures = features.filter(
+    f => f.geometry.type === 'Point' && f.properties?.nodeFunction !== 'connection'
+  );
   const polygonFeatures = features.filter(
     f => f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon'
   );
@@ -81,7 +83,15 @@ const GeoJsonOverlay = ({ selectedCategory }) => {
           />
         </Source>
       )}
-      {pointFeatures.map((feature, idx) => {
+      {(routeCoords && routeCoords.length > 0
+        ? pointFeatures.filter(f =>
+            routeCoords.some(c =>
+              c[0].toFixed(6) === f.geometry.coordinates[0].toFixed(6) &&
+              c[1].toFixed(6) === f.geometry.coordinates[1].toFixed(6)
+            )
+          )
+        : pointFeatures
+      ).map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;
         const { group, nodeFunction } = feature.properties || {};
         const highlight =
