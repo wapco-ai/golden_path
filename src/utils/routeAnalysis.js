@@ -381,6 +381,43 @@ function attachLandmarks(path, steps, pois) {
   }
 }
 
+function distanceInMeters(coord1, coord2) {
+  const R = 6371000; // metres
+  const toRad = d => (d * Math.PI) / 180;
+  const dLat = toRad(coord2[0] - coord1[0]);
+  const dLon = toRad(coord2[1] - coord1[1]);
+  const lat1 = toRad(coord1[0]);
+  const lat2 = toRad(coord2[0]);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function mergeShortSteps(steps, thresholdMeters = 20) {
+  if (!steps || steps.length === 0) return steps;
+
+  const merged = [{ ...steps[0] }];
+  for (let i = 1; i < steps.length; i++) {
+    const prev = merged[merged.length - 1];
+    const curr = steps[i];
+    const dist = distanceInMeters(prev.coordinates, curr.coordinates);
+
+    if (dist <= thresholdMeters && curr.type !== 'stepArriveDestination') {
+      prev.coordinates = curr.coordinates;
+      if (!prev.name && curr.name) prev.name = curr.name;
+      if (!prev.title && curr.title) prev.title = curr.title;
+      if (!prev.services && curr.services) prev.services = curr.services;
+      continue; // merge with previous step
+    }
+
+    merged.push({ ...curr });
+  }
+
+  return merged;
+}
+
 // Enhanced connection logic with PRIORITY for connection nodes
 function findValidNeighbors(nodeIndex, nodes, navigablePolygons) {
   const currentNode = nodes[nodeIndex];
@@ -899,6 +936,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   }
 
   const mainRoute = buildRoute(nodePath);
+  mainRoute.steps = mergeShortSteps(mainRoute.steps);
   const mainSahnSet = new Set();
   mainRoute.path.forEach(coord => {
     const poly = getPolygonContaining(coord, navigablePolygons);
@@ -919,6 +957,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
         const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
         if (altNodePath.length === 0 || altNodePath.length === 1) return;
         const route = buildRoute(altNodePath);
+        route.steps = mergeShortSteps(route.steps);
 
         // Skip candidate if it doesn't pass through a different sahn when required
         if (requireDifferentSahn && navigablePolygons.length > 0) {
