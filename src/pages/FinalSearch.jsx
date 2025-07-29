@@ -396,6 +396,7 @@ const FinalSearch = () => {
         sessionStorage.setItem('routeSahns', JSON.stringify(sahns));
       }
     }
+
   };
 
   const handleSelectAlternativeRoute = (route) => {

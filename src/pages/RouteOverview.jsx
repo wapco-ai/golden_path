@@ -49,34 +49,84 @@ const RouteOverview = () => {
   const { routeGeo, routeSteps } = useRouteStore();
   const routeCoordinates = routeGeo?.geometry?.coordinates || [];
 
-  const routeData = useMemo(
-    () =>
-      routeCoordinates.slice(1).map((c, idx) => {
-        const step = routeSteps?.[idx];
-        const base = step && step.type
-          ? intl.formatMessage(
+  const routeData = useMemo(() => {
+    const segments = routeCoordinates.slice(1).map((c, idx) => {
+      const step = routeSteps?.[idx];
+      const base = step && step.type
+        ? intl.formatMessage(
             { id: step.type },
             { name: step.name, title: step.title, num: idx + 1 }
           )
-          : step?.instruction
-            ? step.instruction
-            : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
-        const dist = Math.hypot(
-          c[0] - routeCoordinates[idx][0],
-          c[1] - routeCoordinates[idx][1]
-        ) * 100000;
-        const instruction = step?.landmark
-          ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: step.landmark, distance: Math.round(dist) })}`
-          : base;
-        return {
-          id: idx + 1,
-          coordinates: [routeCoordinates[idx], c],
-          instruction,
-          services: step?.services || {}
-        };
-      }),
-    [routeCoordinates, routeSteps, intl]
-  );
+        : step?.instruction
+          ? step.instruction
+          : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
+      const dist = Math.hypot(
+        c[0] - routeCoordinates[idx][0],
+        c[1] - routeCoordinates[idx][1]
+      ) * 100000;
+      const instruction = step?.landmark
+        ? `${base}، ${intl.formatMessage({ id: 'landmarkSuffix' }, { name: step.landmark, distance: Math.round(dist) })}`
+        : base;
+      return {
+        id: idx + 1,
+        coordinates: [routeCoordinates[idx], c],
+        instruction,
+        services: step?.services || {},
+        distance: dist
+      };
+    });
+
+    const bearing = (from, to) => {
+      const [lng1, lat1] = from;
+      const [lng2, lat2] = to;
+      const y = Math.sin(toRad(lng2 - lng1)) * Math.cos(toRad(lat2));
+      const x =
+        Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
+        Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(toRad(lng2 - lng1));
+      return (toDeg(Math.atan2(y, x)) + 360) % 360;
+    };
+
+    const angleDiff = (c1, c2) => {
+      const b1 = bearing(c1[0], c1[1]);
+      const b2 = bearing(c2[0], c2[1]);
+      let diff = Math.abs(b1 - b2);
+      if (diff > 180) diff = 360 - diff;
+      return diff;
+    };
+
+    const merged = [];
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
+      if (seg.distance >= 20) {
+        merged.push({ ...seg });
+        continue;
+      }
+
+      const prev = merged[merged.length - 1];
+      const next = segments[i + 1];
+      const diffPrev = prev ? angleDiff(prev.coordinates, seg.coordinates) : Infinity;
+      const diffNext = next ? angleDiff(seg.coordinates, next.coordinates) : Infinity;
+
+      if ((diffPrev <= diffNext && prev) || !next) {
+        // merge with previous segment
+        prev.coordinates[1] = seg.coordinates[1];
+        prev.distance += seg.distance;
+      } else if (next) {
+        // merge with next segment
+        next.coordinates = [seg.coordinates[0], next.coordinates[1]];
+        next.distance += seg.distance;
+      } else {
+        merged.push({ ...seg });
+      }
+    }
+
+    return merged.map((m, idx) => ({
+      id: idx + 1,
+      coordinates: m.coordinates,
+      instruction: m.instruction,
+      services: m.services
+    }));
+  }, [routeCoordinates, routeSteps, intl]);
 
   const [viewState, setViewState] = useState({
     latitude: routeCoordinates[0]?.[1] || 0,
