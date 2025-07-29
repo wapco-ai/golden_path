@@ -63,6 +63,7 @@
   "defaultCommentAuthor": "New user",
   "searchSuggestions": "Search suggestions",
   "loading": "Loading...",
+  "subgroupDefaultDesc": "Description",
   "fetchError": "Error fetching data: {error}",
   "noDataFound": "No data found",
   "goToSlide": "Go to slide {n}",

@@ -30,6 +30,17 @@ const getLocalizedSubgroupLabel = (geoData, value, fallback) => {
   return fallback;
 };
 
+// Get subgroup description based on currently loaded geoData
+const getLocalizedSubgroupDescription = (geoData, value, fallback) => {
+  if (geoData) {
+    const feature = geoData.features.find(
+      f => f.properties?.subGroupValue === value
+    );
+    if (feature?.properties?.description) return feature.properties.description;
+  }
+  return fallback;
+};
+
 const Location = () => {
   const navigate = useNavigate();
   const currentLocation = useReactLocation();
@@ -413,7 +424,11 @@ const Location = () => {
             results.push({
               type: 'subgroup',
               label,
-              description: f.properties?.description || '',
+              description: getLocalizedSubgroupDescription(
+                geoData,
+                f.properties?.subGroupValue,
+                intl.formatMessage({ id: 'subgroupDefaultDesc' })
+              ),
               groupValue: f.properties?.group,
               subGroupValue: f.properties?.subGroupValue
             });
@@ -432,7 +447,12 @@ const Location = () => {
     setSelectedCategory(category);
     const localized = (subGroups[category.value] || []).map(sg => ({
       ...sg,
-      label: getLocalizedSubgroupLabel(geoData, sg.value, sg.label)
+      label: getLocalizedSubgroupLabel(geoData, sg.value, sg.label),
+      description: getLocalizedSubgroupDescription(
+        geoData,
+        sg.value,
+        intl.formatMessage({ id: sg.description })
+      )
     }));
     setFilteredSubGroups(localized);
     setShowSearchModal(true);
@@ -1250,7 +1270,7 @@ const Location = () => {
                   {/* Split subgroups into those with images and without */}
                   <div className="subgroups-with-images">
                     <div className="subgroups-grid">
-                      {subGroups[selectedCategory.value]
+                      {(filteredSubGroups.length > 0 ? filteredSubGroups : subGroups[selectedCategory.value])
                         .filter(subgroup => subgroup.img)
                         .map((subgroup, index) => (
                           <div
@@ -1275,7 +1295,7 @@ const Location = () => {
                   </div>
 
                   <div className="subgroups-without-images">
-                    {subGroups[selectedCategory.value]
+                    {(filteredSubGroups.length > 0 ? filteredSubGroups : subGroups[selectedCategory.value])
                       .filter(subgroup => !subgroup.img)
                       .map((subgroup, index) => (
                         <div

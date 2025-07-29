@@ -63,6 +63,7 @@
   "defaultCommentAuthor": "نیا صارف",
   "searchSuggestions": "تلاش کی تجاویز",
   "loading": "لوڈ ہو رہا ہے...",
+  "subgroupDefaultDesc": "تفصیل",
   "fetchError": "ڈیٹا حاصل کرنے میں خرابی: {error}",
   "noDataFound": "کوئی ڈیٹا نہیں ملا",
   "goToSlide": "سلائیڈ {n} پر جائیں",

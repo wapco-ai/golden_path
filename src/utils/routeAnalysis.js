@@ -413,6 +413,7 @@ function mergeShortSteps(steps, thresholdMeters = 20) {
     }
 
     merged.push({ ...curr });
+
   }
 
   return merged;
