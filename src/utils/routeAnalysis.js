@@ -404,12 +404,15 @@ function mergeShortSteps(steps, thresholdMeters = 20) {
     const curr = steps[i];
     const dist = distanceInMeters(prev.coordinates, curr.coordinates);
 
-    if (dist <= thresholdMeters) {
-      merged[merged.length - 1] = { ...curr };
-    } else {
-      merged.push({ ...curr });
+    if (dist <= thresholdMeters && curr.type !== 'stepArriveDestination') {
+      prev.coordinates = curr.coordinates;
+      if (!prev.name && curr.name) prev.name = curr.name;
+      if (!prev.title && curr.title) prev.title = curr.title;
+      if (!prev.services && curr.services) prev.services = curr.services;
+      continue; // merge with previous step
     }
 
+    merged.push({ ...curr });
   }
 
   return merged;
@@ -424,22 +427,14 @@ function pushMergedStep(steps, step, thresholdMeters = 20) {
   const prev = steps[steps.length - 1];
   const dist = distanceInMeters(prev.coordinates, step.coordinates);
 
-  if (dist <= thresholdMeters) {
-    steps[steps.length - 1] = { ...step };
+  if (dist <= thresholdMeters && step.type !== 'stepArriveDestination') {
+    prev.coordinates = step.coordinates;
+    if (!prev.name && step.name) prev.name = step.name;
+    if (!prev.title && step.title) prev.title = step.title;
+    if (!prev.services && step.services) prev.services = step.services;
   } else {
     steps.push({ ...step });
   }
-}
-
-function buildPathFromSteps(originCoord, steps, polygons) {
-  const path = [originCoord];
-  let prev = originCoord;
-  steps.forEach(st => {
-    const seg = adjustSegmentInsidePolygon(prev, st.coordinates, polygons);
-    seg.forEach(p => path.push(p));
-    prev = st.coordinates;
-  });
-  return path;
 }
 
 // Enhanced connection logic with PRIORITY for connection nodes
@@ -908,22 +903,24 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   }
 
   function buildRoute(nodeList) {
-    const steps = [];
+    const rPath = [origin.coordinates];
+    const rSteps = [];
 
     nodeList.forEach(node => {
       const coord = [node[0], node[1]];
+      const prev = rPath[rPath.length - 1];
+      const seg = adjustSegmentInsidePolygon(prev, coord, navigablePolygons);
+      seg.forEach(p => rPath.push(p));
 
       if (node[2].nodeFunction === 'door') {
-        pushMergedStep(steps, {
-
+        pushMergedStep(rSteps, {
           coordinates: coord,
           type: 'stepPassDoor',
           name: node[2].name || '',
           services: node[2].services || {}
         });
       } else if (node[2].nodeFunction === 'connection') {
-        pushMergedStep(steps, {
-
+        pushMergedStep(rSteps, {
           coordinates: coord,
           type: 'stepPassConnection',
           title: node[2].subGroup || node[2].name || '',
@@ -932,30 +929,29 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       }
     });
 
-    pushMergedStep(steps, {
-
+    const last = rPath[rPath.length - 1];
+    const destSeg = adjustSegmentInsidePolygon(last, destination.coordinates, navigablePolygons);
+    destSeg.forEach(p => rPath.push(p));
+    pushMergedStep(rSteps, {
       coordinates: destination.coordinates,
       type: 'stepArriveDestination',
       name: destination.name || ''
     });
 
-    const mergedSteps = mergeShortSteps(steps);
-    const path = buildPathFromSteps(origin.coordinates, mergedSteps, navigablePolygons);
-
-    const geo = {
+    const rGeo = {
       type: 'Feature',
-      geometry: { type: 'LineString', coordinates: path.map(p => [p[1], p[0]]) }
+      geometry: { type: 'LineString', coordinates: rPath.map(p => [p[1], p[0]]) }
     };
 
-    const dist = path.reduce((acc, cur, idx) => {
+    const dist = rPath.reduce((acc, cur, idx) => {
       if (idx === 0) return acc;
-      const prev = path[idx - 1];
+      const prev = rPath[idx - 1];
       return acc + Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
     }, 0);
 
-    attachLandmarks(path, mergedSteps, pois);
+    attachLandmarks(rPath, rSteps, pois);
 
-    return { path, steps: mergedSteps, geo, distance: dist };
+    return { path: rPath, steps: rSteps, geo: rGeo, distance: dist };
   }
 
   const mainRoute = buildRoute(nodePath);
