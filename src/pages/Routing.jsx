@@ -1084,7 +1084,7 @@ const RoutingPage = () => {
             isMapModalOpen={isMapModalOpen}
             is3DView={is3DView}
             routeGeo={routeGeo}
-            alternativeRoutes={isDrActive ? [] : routeData.alternativeRoutes}
+            alternativeRoutes={routeData.alternativeRoutes}
             onSelectAlternativeRoute={handleSelectAlternativeRoute}
           />
           {/* <DeadReckoningControls
@@ -1154,7 +1154,7 @@ const RoutingPage = () => {
                 </button>
               </div>
             </div>
-          ) : showAlternativeRoutes && !isDrActive ? (
+          ) : showAlternativeRoutes ? (
             <div className="alternative-routes-view">
               <button className="return-to-route-button5" onClick={handleReturnFromAlternativeRoutes}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -1306,7 +1306,7 @@ const RoutingPage = () => {
                       </div>
                       <span><FormattedMessage id="allRoutes" /></span>
                     </button>
-                    {!isDrActive && routeData.alternativeRoutes.length > 0 && (
+                    {routeData.alternativeRoutes.length > 0 && (
                       <>
                         <span className="sdivider"></span>
                         <button className="route-button" onClick={handleShowAlternativeRoutes}>
