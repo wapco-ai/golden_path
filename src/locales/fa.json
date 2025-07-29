@@ -63,6 +63,7 @@
   "defaultCommentAuthor": "کاربر جدید",
   "searchSuggestions": "پیشنهاد‌های جستجو",
   "loading": "در حال بارگذاری...",
+  "subgroupDefaultDesc": "توضیحات",
   "fetchError": "خطا در دریافت اطلاعات: {error}",
   "noDataFound": "موردی یافت نشد",
   "goToSlide": "رفتن به اسلاید {n}",

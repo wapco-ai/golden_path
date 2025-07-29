@@ -955,6 +955,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   }
 
   const mainRoute = buildRoute(nodePath);
+  mainRoute.steps = mergeShortSteps(mainRoute.steps);
   const mainSahnSet = new Set();
   mainRoute.path.forEach(coord => {
     const poly = getPolygonContaining(coord, navigablePolygons);
@@ -975,6 +976,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
         const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
         if (altNodePath.length === 0 || altNodePath.length === 1) return;
         const route = buildRoute(altNodePath);
+        route.steps = mergeShortSteps(route.steps);
 
         // Skip candidate if it doesn't pass through a different sahn when required
         if (requireDifferentSahn && navigablePolygons.length > 0) {
