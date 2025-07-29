@@ -117,8 +117,10 @@ const RoutingPage = () => {
     const lng = parseFloat(storedLng);
     const sessGeo = sessionStorage.getItem('routeGeo');
     const sessSteps = sessionStorage.getItem('routeSteps');
-    if (sessGeo && sessSteps && !routeSteps.length) {
-      // wait for session data to load via the first effect
+    if (sessGeo && sessSteps) {
+      // A route already exists in session storage. Use that data
+      // instead of rebuilding with the QR coordinates to avoid
+      // overwriting routes generated after swapping origin and destination.
       return;
     }
 
@@ -126,13 +128,6 @@ const RoutingPage = () => {
       !origin ||
       origin.coordinates?.[0] !== lat ||
       origin.coordinates?.[1] !== lng;
-
-
-    if (sessGeo && sessSteps && !originChanged) {
-      // Session data already provides the route; the first effect will
-      // load it into state so skip rebuilding here
-      return;
-    }
 
     if (!routeSteps.length || originChanged) {
       const newOrigin = {

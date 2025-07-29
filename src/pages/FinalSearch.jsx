@@ -368,9 +368,34 @@ const FinalSearch = () => {
   const swapLocations = () => {
     setIsSwapping(true); // This will trigger the rotation
     setSwapButton(!isSwapButton);
-    const temp = origin;
-    setOrigin(destination);
-    setDestination(temp);
+    const newOrigin = destination;
+    const newDestination = origin;
+    setOrigin(newOrigin);
+    setDestination(newDestination);
+    storeSetOrigin(newOrigin);
+    storeSetDestination(newDestination);
+    sessionStorage.setItem('origin', JSON.stringify(newOrigin));
+    sessionStorage.setItem('destination', JSON.stringify(newDestination));
+    // Immediately rebuild the route so session data stays in sync
+    if (geoData) {
+      const result = analyzeRoute(
+        newOrigin,
+        newDestination,
+        geoData,
+        transportMode,
+        selectedGender
+      );
+      if (result) {
+        const { geo, steps, alternatives, sahns } = result;
+        storeSetRouteGeo(geo);
+        storeSetRouteSteps(steps);
+        storeSetAlternativeRoutes(alternatives);
+        sessionStorage.setItem('routeGeo', JSON.stringify(geo));
+        sessionStorage.setItem('routeSteps', JSON.stringify(steps));
+        sessionStorage.setItem('alternativeRoutes', JSON.stringify(alternatives));
+        sessionStorage.setItem('routeSahns', JSON.stringify(sahns));
+      }
+    }
   };
 
   const handleSelectAlternativeRoute = (route) => {
