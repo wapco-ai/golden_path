@@ -121,6 +121,7 @@ const RouteOverview = () => {
       instruction: m.instruction,
       services: m.services,
       distance: m.distance
+
     }));
   }, [routeCoordinates, routeSteps, intl]);
 
