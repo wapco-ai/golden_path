@@ -19,10 +19,10 @@ const Culture = () => {
   // Translation messages
   const messages = {
     searchPlaceholder: {
-      fa: "کجا میخوای بری؟",
-      en: "Where do you want to go?",
-      ar: "إلى أين تريد الذهاب؟",
-      ur: "آپ کہاں جانا چاہتے ہیں؟"
+      fa: " کجارو می‌خوای ببینی؟",
+      en: "Where do you want to see?",
+      ar: "  أين تريد أن ترى؟ ",
+      ur: "آپ کہاں دیکھنا چاہتے ہیں۔؟"
     },
     noResultsFound: {
       fa: "نتیجه‌ای برای \"{query}\" یافت نشد",
