@@ -196,5 +196,8 @@
   "stepPrefix": "Step {num} - ",
   "appVersionLabel": "Version: {version}",
   "newVersionAvailable": "New version {version} is available",
-  "destinationSaved":"Save"
+  "destinationSaved": "Save",
+  "viewbutton": "View ",
+  "culturalInfo": "Cultural Information",
+  "menu": "Menu"
 }

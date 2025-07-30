@@ -196,6 +196,9 @@
   "stepPrefix": "الخطوة {num} - ",
   "appVersionLabel": "إصدار التطبيق: {version}",
   "newVersionAvailable": "إصدار جديد {version} متوفر",
-  "destinationSaved":" تم حفظ الموقع ",
-  "savePlace": "يحفظ "
+  "destinationSaved": " تم حفظ الموقع ",
+  "savePlace": "يحفظ ",
+  "viewbutton": "منظر ",
+  "culturalInfo": "معلومات ثقافية",
+  "menu": "قائمة"
 }

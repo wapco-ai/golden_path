@@ -620,3 +620,86 @@
 .map-routing-container.hide-attribution .mapboxgl-control-container {
   display: none;
 }
+
+/* Menu Styles */
+.map-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+}
+
+.map-menu-content {
+  position: fixed;
+  top: 0px;
+  right: -300px;
+  width: 280px;
+  height: 100%;
+  background-color: white;
+  z-index: 2001;
+  transition: transform 0.3s ease;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.map-menu-content.open {
+  transform: translateX(-300px);
+}
+
+.map-menu-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.map-menu-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.map-menu-close {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.map-menu-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.map-menu-items li {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.map-menu-items li:hover {
+  background-color: #f5f5f5;
+}
+
+.map-menu-items li svg {
+  width: 20px;
+  height: 20px;
+}
+
+:root:lang(en) .map-menu-content {
+  right: auto;
+  left: -300px;
+}
+
+:root:lang(en) .map-menu-content.open {
+  transform: translateX(300px);
+}

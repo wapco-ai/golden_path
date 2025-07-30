@@ -37,6 +37,17 @@ const MapBeginPage = () => {
   const [isTracking, setIsTracking] = useState(true);
   const [mapSelectedLocation, setMapSelectedLocation] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // ... (other state declarations remain the same)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleCulturalInfoClick = () => {
+    navigate('/culture');
+    setIsMenuOpen(false);
+  };
 
   useEffect(() => {
     if (storedLat && storedLng && storedId) {
@@ -417,7 +428,7 @@ const MapBeginPage = () => {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
           </button>
         ) : (
-          <button className="map-menu-button" >
+          <button className="map-menu-button" onClick={toggleMenu}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -449,6 +460,29 @@ const MapBeginPage = () => {
           </svg>
         </button>
       </header>
+
+      {/* Menu Content */}
+      <div className={`map-menu-content ${isMenuOpen ? 'open' : ''}`}>
+        <div className="map-menu-header">
+          <h3>{intl.formatMessage({ id: 'menu' })}</h3>
+          <button className="map-menu-close" onClick={toggleMenu}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <ul className="map-menu-items">
+          <li onClick={handleCulturalInfoClick}>
+            <span>{intl.formatMessage({ id: 'culturalInfo' })}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M9 6l6 6l-6 6" />
+            </svg>
+          </li>
+        </ul>
+      </div>
 
       {/* Categories Scroll - Hidden when selecting from map */}
       {!isSelectingFromMap && (

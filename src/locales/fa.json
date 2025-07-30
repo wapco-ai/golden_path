@@ -197,5 +197,8 @@
   "stepPrefix": "گام {num} - ",
   "appVersionLabel": "نسخه نرم‌افزار: {version}",
   "newVersionAvailable": "نسخه جدید {version} در دسترس است",
-  "destinationSaved":"ذخیره شد"
+  "destinationSaved": "ذخیره شد",
+  "viewbutton": "مشاهده ",
+  "culturalInfo": "اطلاعات فرهنگی",
+  "menu": "منو"
 }
