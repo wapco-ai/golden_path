@@ -152,7 +152,11 @@ const Culture = () => {
                   ></div>
                   <div className="culture-result-info">
                     <h4>{item.title[intl.locale] || item.title.fa}</h4>
-                    <button type="button" className="view-button" onClick={() => navigate('/location')}>
+                    <button
+                      type="button"
+                      className="view-button"
+                      onClick={() => navigate(`/location?id=${item.id}`)}
+                    >
                       <span><FormattedMessage id="viewbutton" /></span>
                     </button>
                   </div>
