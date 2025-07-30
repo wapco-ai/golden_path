@@ -23,7 +23,15 @@ const LangPage = () => {
     if (selectedLanguage) {
       const selected = languages.find((l) => l.id === selectedLanguage);
       if (selected) setLanguage(selected.locale);
-      navigate('/location');
+
+      const qrLat = sessionStorage.getItem('qrLat');
+      const qrLng = sessionStorage.getItem('qrLng');
+
+      if (!qrLat || !qrLng) {
+        navigate('/mpb');
+      } else {
+        navigate('/location');
+      }
     }
   };
 
