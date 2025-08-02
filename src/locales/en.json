@@ -193,7 +193,7 @@
   "ar": "Arabic",
   "en": "English",
   "gpsOfflineMessage": "Your GPS is off",
-  "stepPrefix": "Step {num} - ",
+  "stepPrefix": "Stage {num} of {total}  ",
   "appVersionLabel": "Version: {version}",
   "newVersionAvailable": "New version {version} is available",
   "destinationSaved": "Save",

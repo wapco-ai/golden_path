@@ -54,9 +54,9 @@ const RouteOverview = () => {
       const step = routeSteps?.[idx];
       const base = step && step.type
         ? intl.formatMessage(
-            { id: step.type },
-            { name: step.name, title: step.title, num: idx + 1 }
-          )
+          { id: step.type },
+          { name: step.name, title: step.title, num: idx + 1 }
+        )
         : step?.instruction
           ? step.instruction
           : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
@@ -122,9 +122,9 @@ const RouteOverview = () => {
       const instr =
         m.doorNames && m.doorNames.length > 1
           ? intl.formatMessage(
-              { id: 'doorToDoor' },
-              { from: m.doorNames[0], to: m.doorNames[m.doorNames.length - 1] }
-            )
+            { id: 'doorToDoor' },
+            { from: m.doorNames[0], to: m.doorNames[m.doorNames.length - 1] }
+          )
           : m.instruction;
       return {
         id: idx + 1,
@@ -351,7 +351,6 @@ const RouteOverview = () => {
         <div className="route-instruction-container">
           <div className="route-instruction">
             <p className="instruction-text">
-              {intl.formatMessage({ id: 'stepPrefix' }, { num: currentSlide + 1 })}
               {routeData[currentSlide]?.instruction}
             </p>
             {/* {renderServiceIcons(routeData[currentSlide]?.services)} */}
@@ -369,16 +368,27 @@ const RouteOverview = () => {
               {intl.formatMessage({ id: 'previous' })}
             </button>
 
-            <div className={`carousel-dots4 ${routeData.length > 10 ? 'has-very-many-dots' :
-              routeData.length > 5 ? 'has-many-dots' : ''
-              }`}>
-              {routeData.map((_, index) => (
-                <span
-                  key={index}
-                  className={`dot4 ${index === currentSlide ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(index)}
-                ></span>
-              ))}
+            <div className="mid-controls">
+
+              <div className="step-counter">
+                {intl.formatMessage({ id: 'stepPrefix' }, {
+                  num: currentSlide + 1,
+                  total: routeData.length
+                })}
+              </div>
+              
+              <div className={`carousel-dots4 ${routeData.length > 10 ? 'has-very-many-dots' :
+                routeData.length > 5 ? 'has-many-dots' : ''
+                }`}>
+                {routeData.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`dot4 ${index === currentSlide ? 'active' : ''}`}
+                    onClick={() => setCurrentSlide(index)}
+                  ></span>
+                ))}
+              </div>
+
             </div>
 
             <button

@@ -20,13 +20,12 @@
   /* Fixed container height */
   max-height: 700px;
   /* Maximum height */
-  margin-top: 30px;
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 /* Logo Styles */
 .logo-container {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-align: center;
   font-family: 'Vazir', Tahoma, sans-serif;
 }

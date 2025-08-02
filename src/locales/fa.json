@@ -194,7 +194,7 @@
   "ar": "عربی",
   "en": "انگلیسی",
   "gpsOfflineMessage": "GPS دستگاه شما خاموش است",
-  "stepPrefix": "گام {num} - ",
+  "stepPrefix": "مرحله {num} از {total}  ",
   "appVersionLabel": "نسخه نرم‌افزار: {version}",
   "newVersionAvailable": "نسخه جدید {version} در دسترس است",
   "destinationSaved": "ذخیره شد",
