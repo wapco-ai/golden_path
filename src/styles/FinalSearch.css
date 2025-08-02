@@ -331,9 +331,9 @@
 
 
 .gender-btn.active {
-  background-color: #e3f2fd;
-  color: #2196F3;
-  border: 1px solid #2196F3;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
 }
 
 .gender-btn:not(.active) {
@@ -342,14 +342,14 @@
 
 
 .gender-btn.active .gender-circle {
-  border-color: #2196F3;
+  border-color: black;
 }
 
 .gender-circle-fill {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #2196F3;
+  background-color: black;
 }
 
 .options-divider {
