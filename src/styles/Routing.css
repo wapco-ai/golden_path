@@ -1076,13 +1076,11 @@
 .gps-offline-notification {
   position: relative;
   bottom: 190px;
-  background-color: black;
+  background-color: #EA4335;
   opacity: 0.9;
-  border-radius: 12px;
   padding: 15px;
   padding-bottom: 700px;
   z-index: 1;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1103,12 +1101,12 @@
 .gps-offline-content svg {
   width: 24px;
   height: 24px;
-  color: #e74c3c;
+  color: white;
 }
 
 .gps-offline-message {
   font-size: 1.0rem;
-  color: #e74c3c;
+  color:white;
   line-height: 1.4;
   font-weight: 600;
 }
