@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from '../assets/images/logo.png';
 import packageInfo from '../../package.json';
+import '../styles/Profile.css';
 
 function Profile() {
   const navigate = useNavigate();
