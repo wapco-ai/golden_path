@@ -47,6 +47,7 @@ const RoutingPage = () => {
   const [is3DView, setIs3DView] = useState(false);
   const [drPosition, setDrPosition] = useState(null);
   const [drGeoPath, setDrGeoPath] = useState([]);
+  const [showAlternativeRoutesOnMap, setShowAlternativeRoutesOnMap] = useState(false);
   const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
   const navigate = useNavigate();
   const {
@@ -746,6 +747,7 @@ const RoutingPage = () => {
     setWas3DViewBeforeRouteView(is3DView);
     setIs3DView(false);
     setShowAlternativeRoutes(true);
+    setShowAlternativeRoutesOnMap(true); 
     setIsInfoModalOpen(true);
 
     if (routeMapRef.current?.fitRouteBounds) {
@@ -766,6 +768,7 @@ const RoutingPage = () => {
 
     setIs3DView(was3DViewBeforeRouteView);
     setShowAlternativeRoutes(false);
+    setShowAlternativeRoutesOnMap(false);
   };
 
   const handleSelectAlternativeRoute = (route) => {
@@ -800,6 +803,7 @@ const RoutingPage = () => {
     setCurrentStep(0);
     setIsRoutingActive(false);
     setShowAlternativeRoutes(false);
+    setShowAlternativeRoutesOnMap(false); 
   };
 
   const getTransportIcon = (mode) => {
@@ -1086,6 +1090,7 @@ const RoutingPage = () => {
             routeGeo={routeGeo}
             alternativeRoutes={routeData.alternativeRoutes}
             onSelectAlternativeRoute={handleSelectAlternativeRoute}
+            showAlternativeRoutes={showAlternativeRoutesOnMap}
           />
           {/* <DeadReckoningControls
             currentLocation={{ coords: { lat: userLocation[0], lng: userLocation[1] } }}

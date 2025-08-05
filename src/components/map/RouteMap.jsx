@@ -19,7 +19,8 @@ const RouteMap = forwardRef(({
   is3DView,
   routeGeo,
   alternativeRoutes = [],
-  onSelectAlternativeRoute
+  onSelectAlternativeRoute,
+  showAlternativeRoutes = false // Add this new prop
 }, ref) => {
   const mapRef = useRef(null);
   const center = userLocation && userLocation.length === 2
@@ -300,7 +301,7 @@ const RouteMap = forwardRef(({
         </Source>
       )}
 
-      {!isDrActive &&
+      {!isDrActive && showAlternativeRoutes &&
         alternativeRoutes.map((alt, idx) => (
           <Source key={idx} id={`alt-route-${idx}`} type="geojson" data={alt.geo}>
             <Layer
@@ -309,7 +310,7 @@ const RouteMap = forwardRef(({
               paint={{
                 'line-color': 'white',
                 'line-width': 8,
-                'line-dasharray': [1, 2] // Creates dotted pattern
+                'line-dasharray': [1, 2]
               }}
               layout={{ 'line-cap': 'round', 'line-join': 'round' }}
             />
@@ -317,9 +318,9 @@ const RouteMap = forwardRef(({
               id={`alt-route-line-${idx}`}
               type="line"
               paint={{
-                'line-color': '#A0C4FF', // Lighter blue for alternatives
+                'line-color': '#A0C4FF',
                 'line-width': 6,
-                'line-dasharray': [1, 2] // Creates dotted pattern
+                'line-dasharray': [1, 2]
               }}
               layout={{ 'line-cap': 'round', 'line-join': 'round' }}
             />
