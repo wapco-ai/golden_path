@@ -269,6 +269,24 @@ const MapBeginPage = () => {
       return;
     }
 
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        const menuContent = document.querySelector('.map-menu-content');
+        const menuButton = document.querySelector('.map-menu-button');
+
+        if (isMenuOpen &&
+          !menuContent.contains(event.target) &&
+          !menuButton.contains(event.target)) {
+          setIsMenuOpen(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [isMenuOpen]);
+
     // If we have both origin and destination, swap them
     if (userLocation && selectedDestination) {
       // Create new origin from current destination
@@ -422,6 +440,12 @@ const MapBeginPage = () => {
   return (
     <div className="map-routing-page">
       {/* Header */}
+      {isMenuOpen && (
+        <div
+          className="map-menu-overlay"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
       <header className="map-routing-header">
         {isSelectingFromMap ? (
           <button className="map-back-button" onClick={handleCancelMapSelection}>
