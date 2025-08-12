@@ -60,7 +60,7 @@ const RouteMap = forwardRef(({
           mapRef.current.flyTo({
             center: [userLocation[1], userLocation[0]],
             zoom: is3DView ? 17 : 18,
-            pitch: is3DView ? 60 : 0 // Set pitch based on 3D view state
+            pitch: is3DView ? 60 : 0 
           });
         }
       }, 400);
@@ -183,7 +183,7 @@ const RouteMap = forwardRef(({
           [coords[0][0], coords[0][1]]
         );
         coords.forEach(([lng, lat]) => bounds.extend([lng, lat]));
-        mapRef.current.fitBounds(bounds, { padding: 80, duration: 700 });
+        mapRef.current.fitBounds(bounds, { padding: 80, duration: 700, maxZoom: 16 });
       }
     }
   };

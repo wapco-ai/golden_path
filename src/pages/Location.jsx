@@ -206,11 +206,9 @@ const Location = () => {
   };
 
   const [currentSearchIcon, setCurrentSearchIcon] = useState(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
-      <path d="M21 21l-6 -6" />
-    </svg>`
+    `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.4168 2.29169C14.4439 2.29169 17.7085 5.55628 17.7085 9.58335C17.7085 13.6104 14.4439 16.875 10.4168 16.875C6.38975 16.875 3.12516 13.6104 3.12516 9.58335C3.12516 5.55628 6.38975 2.29169 10.4168 2.29169ZM18.9585 9.58335C18.9585 4.86592 15.1343 1.04169 10.4168 1.04169C5.6994 1.04169 1.87516 4.86592 1.87516 9.58335C1.87516 11.7171 2.65755 13.6681 3.95111 15.1652L1.22489 17.8914C0.98081 18.1355 0.98081 18.5312 1.22489 18.7753C1.46897 19.0194 1.86469 19.0194 2.10877 18.7753L4.83499 16.0491C6.33204 17.3426 8.28307 18.125 10.4168 18.125C15.1343 18.125 18.9585 14.3008 18.9585 9.58335Z" fill="#1E2023"/>
+      </svg>`
   );
 
   // Auto-advance carousel (optional)
@@ -383,13 +381,11 @@ const Location = () => {
         setFilteredSubGroups([]);
         // Reset the search icon to default
         setCurrentSearchIcon(
-          `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
-            <path d="M21 21l-6 -6" />
+          `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.4168 2.29169C14.4439 2.29169 17.7085 5.55628 17.7085 9.58335C17.7085 13.6104 14.4439 16.875 10.4168 16.875C6.38975 16.875 3.12516 13.6104 3.12516 9.58335C3.12516 5.55628 6.38975 2.29169 10.4168 2.29169ZM18.9585 9.58335C18.9585 4.86592 15.1343 1.04169 10.4168 1.04169C5.6994 1.04169 1.87516 4.86592 1.87516 9.58335C1.87516 11.7171 2.65755 13.6681 3.95111 15.1652L1.22489 17.8914C0.98081 18.1355 0.98081 18.5312 1.22489 18.7753C1.46897 19.0194 1.86469 19.0194 2.10877 18.7753L4.83499 16.0491C6.33204 17.3426 8.28307 18.125 10.4168 18.125C15.1343 18.125 18.9585 14.3008 18.9585 9.58335Z" fill="#1E2023"/>
           </svg>`
         );
-      }, 300);
+      }, 100);
     }
   };
   const handleSearchChange = (e) => {
@@ -400,11 +396,9 @@ const Location = () => {
       setIsSearching(true);
       // Reset to search icon when typing
       setCurrentSearchIcon(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 0 0 -14 0" />
-          <path d="M21 21l-6 -6" />
-        </svg>`
+        `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.4168 2.29169C14.4439 2.29169 17.7085 5.55628 17.7085 9.58335C17.7085 13.6104 14.4439 16.875 10.4168 16.875C6.38975 16.875 3.12516 13.6104 3.12516 9.58335C3.12516 5.55628 6.38975 2.29169 10.4168 2.29169ZM18.9585 9.58335C18.9585 4.86592 15.1343 1.04169 10.4168 1.04169C5.6994 1.04169 1.87516 4.86592 1.87516 9.58335C1.87516 11.7171 2.65755 13.6681 3.95111 15.1652L1.22489 17.8914C0.98081 18.1355 0.98081 18.5312 1.22489 18.7753C1.46897 19.0194 1.86469 19.0194 2.10877 18.7753L4.83499 16.0491C6.33204 17.3426 8.28307 18.125 10.4168 18.125C15.1343 18.125 18.9585 14.3008 18.9585 9.58335Z" fill="#1E2023"/>
+         </svg>`
       );
 
       let results = [];
@@ -1242,8 +1236,8 @@ const Location = () => {
                         return (
                           <div
                             key={index}
-                          className="subgroup-item-no-image"
-                          onClick={() => handlePlaceClick(item.label, item.groupValue, item.subGroupValue)}
+                            className="subgroup-item-no-image"
+                            onClick={() => handlePlaceClick(item.label, item.groupValue, item.subGroupValue)}
                           >
                             <div className="subgroup-icon" dangerouslySetInnerHTML={{ __html: group?.svg || '' }} />
                             <div className="subgroup-text">
@@ -1275,8 +1269,8 @@ const Location = () => {
                         .map((subgroup, index) => (
                           <div
                             key={index}
-                          className="subgroup-item with-image"
-                          onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value, subgroup.value)}
+                            className="subgroup-item with-image"
+                            onClick={() => handlePlaceClick(subgroup.label, selectedCategory.value, subgroup.value)}
                             style={{
                               backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
                               backgroundSize: 'cover',

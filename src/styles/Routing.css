@@ -926,8 +926,8 @@
   position: fixed;
   left: 20px;
   padding: 12px 20px;
-  background-color: #1E90FF;
-  color: white;
+  background-color: white;
+  color: #0F71EF;
   border: none;
   border-radius: 30px;
   justify-content: space-between;
