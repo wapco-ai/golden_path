@@ -200,5 +200,9 @@
   "destinationSaved": "ذخیره شد",
   "viewbutton": "مشاهده ",
   "culturalInfo": "اطلاعات فرهنگی",
-  "menu": "منو"
+  "menu": "منو",
+  "routeOrInfoTitle": "آیا می‌خواهید اطلاعات فرهنگی را مشاهده کنید یا مسیریابی به {placeName} را انجام دهید؟",
+  "routeOption": "مسیریابی",
+  "culturalInfoOption": "اطلاعات فرهنگی",
+  "confirmContinue": "تایید و ادامه"
 }

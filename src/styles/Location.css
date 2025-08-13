@@ -2151,3 +2151,142 @@
   left: 0;
 }
 
+/* Route or Info Modal Styles */
+.route-info-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 25px;
+  z-index: 1001;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  animation: slideUp 0.3s ease-out;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;;
+  margin-top: 25px;
+}
+
+.place-name-title3 {
+  font-size: 1.2rem;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+
+.route-info-modal h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+  line-height: 1.4;
+  font-weight: normal;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.route-info-options {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.route-info-option {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 30px;
+  background-color: #f2f2f2f2;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  width: 100%;
+  text-align: right;
+  transition: all 0.3s ease;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.route-info-option.selected {
+  border-color: #0F71EF;
+  background-color: white;
+}
+
+.route-info-option span {
+  font-size: 1rem;
+  color: #333;
+  flex: 1;
+}
+
+.route-info-option.selected span {
+  color: #1E90FF;
+}
+
+
+.option-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.confirm-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #0F71EF;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.confirm-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.confirm-button:not(:disabled):hover {
+  background-color: #187bcd;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* RTL/LTR adjustments */
+:root:lang(en) .route-info-option {
+  text-align: left;
+  flex-direction: row-reverse;
+}
+
+:root:lang(en) .route-info-modal h3 {
+  text-align: center;
+}
+
+.route-info-toggle {
+  position: absolute;
+  top: 20px;
+  right: 0px;
+  left:0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}

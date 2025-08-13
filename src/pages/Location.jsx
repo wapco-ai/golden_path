@@ -99,6 +99,9 @@ const Location = () => {
   const language = useLangStore(state => state.language);
   const recentSearches = useSearchStore(state => state.recentSearches);
   const addSearch = useSearchStore(state => state.addSearch);
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [showRouteInfoModal, setShowRouteInfoModal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   // Split groups into initial (first 9) and additional (rest)
   const initialCategories = groups.slice(0, 9);
@@ -137,6 +140,12 @@ const Location = () => {
       (Math.min(...lngs) + Math.max(...lngs)) / 2,
       (Math.min(...lats) + Math.max(...lats)) / 2,
     ];
+  };
+
+  const handleSubgroupSelect = (place) => {
+    setSelectedPlace(place);
+    setShowRouteInfoModal(true);
+    setSelectedOption(null); // Reset selection when modal opens
   };
 
   const getFeatureCenter = (feature) => {
@@ -298,8 +307,8 @@ const Location = () => {
   };
 
   const handlePlaceClick = (placeTitle, groupValue, subGroupValue) => {
-    console.log('Place clicked:', placeTitle);
     if (!geoData) return;
+
     let feature = geoData.features.find(
       f =>
         f.properties?.name === placeTitle ||
@@ -307,16 +316,18 @@ const Location = () => {
         (subGroupValue && f.properties?.subGroupValue === subGroupValue) ||
         f.properties?.subGroupValue === labelToValueMap[placeTitle]
     );
+
     if (!feature && groupValue) {
       feature = geoData.features.find(f => f.properties?.group === groupValue);
     }
+
     if (feature) {
       const center = getFeatureCenter(feature);
       if (center) {
-        setDestinationStore({ name: placeTitle, coordinates: [center[1], center[0]] });
-        setShowSearchModal(false);
-        document.body.style.overflow = 'auto';
-        navigate('/fs');
+        handleSubgroupSelect({
+          name: placeTitle,
+          coordinates: [center[1], center[0]]
+        });
         return;
       }
     }
@@ -1349,6 +1360,76 @@ const Location = () => {
                       {intl.formatMessage({ id: 'mapNoRecentSearches' })}
                     </p>
                   )}
+                </>
+              )}
+
+              {/* Route or Info Modal */}
+              {showRouteInfoModal && selectedPlace && (
+                <>
+                  <div className="modal-overlay" onClick={() => setShowRouteInfoModal(false)}></div>
+                  <div className="route-info-modal">
+                    <div className="route-info-toggle" onClick={() => setShowRouteInfoModal(false)}>
+                      <div className="toggle-handle"></div>
+                    </div>
+                    <div className="modal-header">
+                      <span className="place-name-title3">{selectedPlace.name}</span>
+                      <h3>
+                        <FormattedMessage
+                          id="routeOrInfoTitle"
+                          values={{ placeName: selectedPlace.name }}
+                        />
+                      </h3>
+                    </div>
+
+                    <div className="route-info-options">
+                      <button
+                        className={`route-info-option ${selectedOption === 'route' ? 'selected' : ''}`}
+                        onClick={() => setSelectedOption('route')}
+                      >
+                        <div className="option-icon">
+                          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                              fill={selectedOption === 'route' ? "#1E90FF" : "#666"}
+                            />
+                          </svg>
+                        </div>
+                        <span><FormattedMessage id="routeOption" /></span>
+                      </button>
+
+                      <button
+                        className={`route-info-option ${selectedOption === 'info' ? 'selected' : ''}`}
+                        onClick={() => setSelectedOption('info')}
+                      >
+                        <div className="option-icon">
+                          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+                              fill={selectedOption === 'info' ? "#1E90FF" : "#666"}
+                            />
+                          </svg>
+                        </div>
+                        <span><FormattedMessage id="culturalInfoOption" /></span>
+                      </button>
+                    </div>
+
+                    <button
+                      className="confirm-button"
+                      disabled={!selectedOption}
+                      onClick={() => {
+                        if (selectedOption === 'route') {
+                          setDestinationStore({
+                            name: selectedPlace.name,
+                            coordinates: selectedPlace.coordinates
+                          });
+                          navigate('/fs');
+                        } else if (selectedOption === 'info') {
+                          navigate('/culture', { state: { place: selectedPlace } });
+                        }
+                        setShowRouteInfoModal(false);
+                      }}
+                    >
+                      <FormattedMessage id="confirmContinue" />
+                    </button>
+                  </div>
                 </>
               )}
             </div>

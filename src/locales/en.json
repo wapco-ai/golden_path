@@ -199,5 +199,9 @@
   "destinationSaved": "Save",
   "viewbutton": "View ",
   "culturalInfo": "Cultural Information",
-  "menu": "Menu"
+  "menu": "Menu",
+  "routeOrInfoTitle": "Do you want to see cultural information or get directions to {placeName}?",
+  "routeOption": "Get Directions",
+  "culturalInfoOption": "Cultural Information",
+  "confirmContinue": "Confirm and Continue"
 }

@@ -193,12 +193,16 @@
   "ar": "عربی",
   "en": "انگریزی",
   "gpsOfflineMessage": "آپ کا GPS ڈیوائس بند ہے",
-   "stepPrefix": "مرحلہ {num} از {total}  ",
+  "stepPrefix": "مرحلہ {num} از {total}  ",
   "appVersionLabel": "ایپ ورژن: {version}",
   "newVersionAvailable": "نیا ورژن {version} دستیاب ہے",
   "destinationSaved": "محفوظ کر لیا",
   "savePlace": "محفوظ کریں",
   "viewbutton": "دیکھیں ",
   "culturalInfo": "ثقافتی معلومات",
-  "menu": "مینو"
+  "menu": "مینو",
+  "routeOrInfoTitle": "کیا آپ ثقافتی معلومات دیکھنا چاہتے ہیں یا {placeName} کی ہدایات حاصل کرنا چاہتے ہیں؟",
+  "routeOption": "ہدایات",
+  "culturalInfoOption": "ثقافتی معلومات",
+  "confirmContinue": "تصدیق کریں اور جاری رکھیں"
 }

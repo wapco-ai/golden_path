@@ -200,5 +200,9 @@
   "savePlace": "يحفظ ",
   "viewbutton": "منظر ",
   "culturalInfo": "معلومات ثقافية",
-  "menu": "قائمة"
+  "menu": "قائمة",
+  "routeOrInfoTitle": "هل تريد رؤية المعلومات الثقافية أو الحصول على اتجاهات إلى {placeName}؟",
+  "routeOption": "الاتجاهات",
+  "culturalInfoOption": "معلومات ثقافية",
+  "confirmContinue": "تأكيد ومتابعة"
 }
