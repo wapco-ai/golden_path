@@ -452,7 +452,8 @@
   gap: 8px;
   margin-bottom: 8px;
   color: #333;
-  font-size: 15px;
+  font-size: 16px;
+  margin-bottom: 0px;
 }
 
 .comment-input-header svg {
@@ -461,9 +462,10 @@
 
 .comment-instruction {
   font-family: 'Vazir', Tahoma, sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   color: #888;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+  margin-top: 0px;
   line-height: 1.5;
 }
 
@@ -987,6 +989,8 @@
   justify-content: center;
   gap: 5px;
   transition: all 0.4s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .routing-show-more-btn:hover {
@@ -1145,17 +1149,16 @@
 .place-actions {
   display: flex;
   gap: 8px;
-  border-top: 1px solid #eee;
+  border-top: none;
   padding-top: 12px;
 }
 
 .place-action-btn {
   background-color: #1E90FF;
   border: 1px solid #1E90FF;
-  ;
   border-radius: 20px;
   padding: 6px 12px;
-  font-size: 0.8rem;
+  font-size: 1.0rem;
   color: #f8f5f5;
   display: flex;
   align-items: center;
@@ -1171,7 +1174,7 @@
   border: 1px solid #b9b9b9;
   border-radius: 20px;
   padding: 6px 6px;
-  font-size: 0.8rem;
+  font-size: 1.0rem;
   color: #4285F4;
   display: flex;
   align-items: center;
@@ -1183,10 +1186,6 @@
 }
 
 
-.action-icon {
-  width: 16px;
-  height: 16px;
-}
 
 /* Animation for search bar toggle */
 @keyframes fadeIn {
@@ -1201,7 +1200,19 @@
   }
 }
 
-/* Responsive adjustments */
+@media (max-width: 400px) {
+  .place-meta {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .place-address {
+    font-size: 0.8rem;
+  }
+}
+
+
 @media (max-width: 768px) {
   .routing-places-grid {
     grid-template-columns: repeat(2, 1fr);

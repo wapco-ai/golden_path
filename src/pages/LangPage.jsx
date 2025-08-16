@@ -14,7 +14,7 @@ const LangPage = () => {
 
   const languages = [
     { id: 1, name: 'فارسی', code: '(FA)', locale: 'fa', englishName: 'Persian' },
-    { id: 2, name: 'اردو', code: '(Ur)', locale: 'ur', englishName: 'Urdu' },
+    { id: 2, name: ' اُردُو', code: '(Ur)', locale: 'ur', englishName: 'Urdu' },
     { id: 3, name: 'العربیة', code: '(AR)', locale: 'ar', englishName: 'Arabic' },
     { id: 4, name: 'English', code: '(EN)', locale: 'en', englishName: 'English' }
   ];
