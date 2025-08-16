@@ -282,9 +282,8 @@ const RouteMap = forwardRef(({
             id="route-line"
             type="line"
             paint={{
-              'line-color': '#4A90E2',
-              'line-width': 6,
-              'line-dasharray': [1, 2] // Creates dotted pattern
+              'line-color': 'white',
+              'line-width': 8
             }}
             layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
@@ -292,9 +291,9 @@ const RouteMap = forwardRef(({
             id="route-border"
             type="line"
             paint={{
-              'line-color': 'white',
+              'line-color': '#0F71EF',
               'line-width': 8,
-              'line-dasharray': [1, 2] // Creates dotted pattern
+              'line-dasharray': [0, 2]
             }}
             layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           />
@@ -308,9 +307,8 @@ const RouteMap = forwardRef(({
               id={`alt-route-border-${idx}`}
               type="line"
               paint={{
-                'line-color': 'white',
-                'line-width': 8,
-                'line-dasharray': [1, 2]
+                'line-color': '#d5dada',
+                'line-width': 8
               }}
               layout={{ 'line-cap': 'round', 'line-join': 'round' }}
             />
@@ -318,9 +316,9 @@ const RouteMap = forwardRef(({
               id={`alt-route-line-${idx}`}
               type="line"
               paint={{
-                'line-color': '#A0C4FF',
-                'line-width': 6,
-                'line-dasharray': [1, 2]
+                'line-color': 'grey',
+                'line-width': 8,
+                'line-dasharray': [0, 2]
               }}
               layout={{ 'line-cap': 'round', 'line-join': 'round' }}
             />
