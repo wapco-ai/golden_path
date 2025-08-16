@@ -204,5 +204,6 @@
   "routeOrInfoTitle": "هل تريد رؤية المعلومات الثقافية أو الحصول على اتجاهات إلى {placeName}؟",
   "routeOption": "الاتجاهات",
   "culturalInfoOption": "معلومات ثقافية",
-  "confirmContinue": "تأكيد ومتابعة"
+  "confirmContinue": "تأكيد ومتابعة",
+  "invalidPhone": "رقم الهاتف المدخل غير صحيح"
 }

@@ -204,5 +204,6 @@
   "routeOrInfoTitle": "کیا آپ ثقافتی معلومات دیکھنا چاہتے ہیں یا {placeName} کی ہدایات حاصل کرنا چاہتے ہیں؟",
   "routeOption": "ہدایات",
   "culturalInfoOption": "ثقافتی معلومات",
-  "confirmContinue": "تصدیق کریں اور جاری رکھیں"
+  "confirmContinue": "تصدیق کریں اور جاری رکھیں",
+  "invalidPhone": "  درج کردہ فون نمبر غلط ہے  "
 }

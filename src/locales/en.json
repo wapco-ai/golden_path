@@ -203,5 +203,6 @@
   "routeOrInfoTitle": "Do you want to see cultural information or get directions to {placeName}?",
   "routeOption": "Get Directions",
   "culturalInfoOption": "Cultural Information",
-  "confirmContinue": "Confirm and Continue"
+  "confirmContinue": "Confirm and Continue",
+  "invalidPhone": "The entered phone number is incorrect"
 }

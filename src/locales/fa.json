@@ -204,5 +204,6 @@
   "routeOrInfoTitle": "آیا می‌خواهید اطلاعات فرهنگی را مشاهده کنید یا مسیریابی به {placeName} را انجام دهید؟",
   "routeOption": "مسیریابی",
   "culturalInfoOption": "اطلاعات فرهنگی",
-  "confirmContinue": "تایید و ادامه"
+  "confirmContinue": "تایید و ادامه",
+  "invalidPhone": "  شماره موبایل وارد شده اشتباه میباشد "
 }
