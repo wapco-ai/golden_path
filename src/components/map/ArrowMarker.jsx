@@ -8,9 +8,8 @@ const ArrowMarker = () => (
       </filter>
     </defs>
     <g filter="url(#soft-shadow)">
-      <path d="M 50 10 L 90 60 A 10 10 0 0 1 80 70 L 20 70 A 10 10 0 0 1 10 60 Z" fill="#6B7280" />
-      <path d="M 50 5 L 90 55 A 10 10 0 0 1 80 65 L 20 65 A 10 10 0 0 1 10 55 Z" fill="#4A90E2" />
-      <path d="M 53 30 A 5 5 0 1 1 43 30 A 5 5 0 0 1 53 30 Z M 60 55 L 52 45 L 48 45 L 40 55 L 45 55 L 48 50 L 52 50 L 55 55 Z" fill="white" />
+      <path d="M 50 5 L 90 55 A 10 10 0 0 1 80 70 L 20 70 A 10 10 0 0 1 10 55 Z" fill="#6B7280" />
+      <path d="M 50 0 L 90 50 A 10 10 0 0 1 80 65 L 20 65 A 10 10 0 0 1 10 50 Z" fill="#4A90E2" />
     </g>
   </svg>
 );

@@ -20,7 +20,7 @@ const RouteMap = forwardRef(({
   routeGeo,
   alternativeRoutes = [],
   onSelectAlternativeRoute,
-  showAlternativeRoutes = false // Add this new prop
+  showAlternativeRoutes = false
 }, ref) => {
   const mapRef = useRef(null);
   const center = userLocation && userLocation.length === 2
@@ -60,7 +60,7 @@ const RouteMap = forwardRef(({
           mapRef.current.flyTo({
             center: [userLocation[1], userLocation[0]],
             zoom: is3DView ? 17 : 18,
-            pitch: is3DView ? 60 : 0 
+            pitch: is3DView ? 60 : 0
           });
         }
       }, 400);
@@ -98,7 +98,6 @@ const RouteMap = forwardRef(({
       map.setPitch(savedPitchRef.current);
     };
 
-
     canvas.addEventListener('webglcontextlost', handleContextLost, false);
     canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
     return () => {
@@ -106,7 +105,6 @@ const RouteMap = forwardRef(({
       canvas.removeEventListener('webglcontextrestored', handleContextRestored, false);
     };
   }, []);
-
 
   // Rotate map based on user heading with smoothing to avoid sudden jumps
   const lastHeading = useRef(null);
@@ -193,6 +191,48 @@ const RouteMap = forwardRef(({
     getMap: () => mapRef.current
   }));
 
+  const WalkingManMarker = () => (
+    <div style={{
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+        <path d="M7 21l3 -4" />
+        <path d="M16 21l-2 -4l-3 -3l1 -6" />
+        <path d="M6 12l2 -3l4 -1l3 3l3 1" />
+      </svg>
+    </div>
+  );
+
+  const DestinationPin = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="34"
+      height="34"
+      viewBox="0 0 24 24"
+      fill="#ff0000"
+      stroke="white"
+      strokeWidth="1"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
+    </svg>
+  );
+
   return (
     <Map
       ref={mapRef}
@@ -215,7 +255,6 @@ const RouteMap = forwardRef(({
           }
         }
       }}
-
       initialViewState={{
         longitude: center[1],
         latitude: center[0],
@@ -225,20 +264,42 @@ const RouteMap = forwardRef(({
       attributionControl={false}
       terrain={is3DView ? { source: 'terrain', exaggeration: 1.5 } : undefined}
     >
-      {/* User location marker */}
+      {/* User location marker - now using ArrowMarker with walking man icon */}
       {!isDrActive && (
-        <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
-          {/* <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}> */}
-          <ArrowMarker />
-          {/* </div> */}
+        <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="center">
+          <div style={{ position: 'relative', width: '80px', height: '80px' }}>
+            <ArrowMarker />
+            <div style={{
+              position: 'absolute',
+              top: '45%',  // Adjusted from 50% to 45% to move slightly upward
+              left: '50%',
+              transform: 'translate(-50%, -50%)'
+            }}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"  // Slightly larger for better visibility
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.5"  // Slightly thicker stroke
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                <path d="M7 21l3 -4" />
+                <path d="M16 21l-2 -4l-3 -3l1 -6" />
+                <path d="M6 12l2 -3l4 -1l3 3l3 1" />
+              </svg>
+            </div>
+          </div>
         </Marker>
       )}
 
       {isDrActive && drPosition && (
         <Marker longitude={drPosition.lng} latitude={drPosition.lat} anchor="center">
-          {/* <div className="user-marker" style={{ transform: `rotate(${180 - heading}deg)` }}> */}
           <ArrowMarker />
-          {/* </div> */}
         </Marker>
       )}
 
@@ -258,21 +319,14 @@ const RouteMap = forwardRef(({
         </Source>
       )}
 
-      {/* Current step marker if available */}
+      {/* Current step marker -  using red destination pin */}
       {routeSteps && currentStep < routeSteps.length && routeSteps[currentStep].coordinates && (
         <Marker
           longitude={routeSteps[currentStep].coordinates[1]}
           latitude={routeSteps[currentStep].coordinates[0]}
           anchor="bottom"
         >
-          <div className="current-step-marker" style={{
-            width: '16px',
-            height: '16px',
-            borderRadius: '50%',
-            backgroundColor: '#4A90E2',
-            border: '2px solid white',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
-          }} />
+          <DestinationPin />
         </Marker>
       )}
 
