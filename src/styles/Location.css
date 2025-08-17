@@ -2301,3 +2301,43 @@
   align-items: center;
   transition: all 0.3s ease;
 }
+
+/* Container for the video thumbnail */
+.video-thumbnail-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* The actual thumbnail */
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-radius: 8px; /* optional */
+}
+
+/* Play icon styling */
+.video-thumbnail .play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Anchor tag styling */
+.video-thumbnail-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}

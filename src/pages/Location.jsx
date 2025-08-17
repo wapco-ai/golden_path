@@ -661,13 +661,25 @@ const Location = () => {
                     </div>
                   )}
                   {content.type === 'video' && (
-                    <div className="video-thumbnail" style={{ backgroundImage: `url(${content.thumbnail})` }}>
-                      <div className="play-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                        </svg>
-                      </div>
+                    <div className="video-thumbnail-container">
+                      <a
+                        href={content.mediaUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="video-thumbnail-link"
+                      >
+                        <div
+                          className="video-thumbnail"
+                          style={{ backgroundImage: `url(${content.thumbnail})` }}
+                        >
+                          <div className="play-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
                     </div>
                   )}
                   {content.type === 'pdf' && (
