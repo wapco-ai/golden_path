@@ -1,4 +1,4 @@
-/* ===== Login Page Styles ===== */
+/* ===== Base Styles ===== */
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -6,6 +6,7 @@
   justify-content: center;
   background: linear-gradient(to top, #ffffff 70%, #86d9f2);
   padding: 20px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .login-container {
@@ -17,29 +18,23 @@
   display: flex;
   flex-direction: column;
   height: 80vh;
-  /* Fixed container height */
   max-height: 700px;
-  /* Maximum height */
-  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
-/* Logo Styles */
+/* ===== Logo Styles ===== */
 .logo-container {
   margin-bottom: 10px;
   text-align: center;
-  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .login-logo {
   width: 200px;
-  /* Larger logo size */
   height: auto;
 }
 
-/* Text Content */
+/* ===== Text Content ===== */
 .login-text-content {
   text-align: right;
-  /* Right-aligned text */
   margin-bottom: 30px;
   font-family: 'Vazir', Tahoma, sans-serif;
 }
@@ -49,7 +44,6 @@
   font-size: 1.5rem;
   margin-bottom: 15px;
   font-weight: 700;
-  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .login-description {
@@ -57,24 +51,21 @@
   line-height: 1.8;
   font-size: 1rem;
   margin: 0;
-  /* Remove default margins */
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
-/* Form Container */
+/* ===== Form Styles ===== */
 .login-form {
   margin-top: auto;
-  /* Pushes form to bottom */
   width: 100%;
-  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
-/* Phone Input Styling */
+.form-group {
+  margin-bottom: 30px;
+}
+
 .phone-input-container {
   position: relative;
-  margin-bottom: 30px;
-  /* Space between input and button */
-  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .phone-icon {
@@ -82,7 +73,6 @@
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  color: #666;
 }
 
 .phone-input {
@@ -90,20 +80,18 @@
   padding: 15px 45px 15px 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
   text-align: right;
+  outline-color: #0F71EF;
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
-/* Submit Button */
-/* Button States */
+/* ===== Button Styles ===== */
 .login-button {
   width: 100%;
   padding: 16px;
-  background-color: #e0e0e0;
-  /* Light gray when disabled */
+  background-color: #D9D9D9;
   color: #4e4c4c;
-  /* Light text when disabled */
   border: none;
   border-radius: 10px;
   font-size: 16px;
@@ -113,8 +101,7 @@
 }
 
 .login-button.active {
-  background-color: #3498db;
-  /* Blue when active */
+  background-color: #0F71EF;
   color: white;
   box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2);
 }
@@ -125,33 +112,14 @@
   box-shadow: 0 3px 8px rgba(52, 152, 219, 0.3);
 }
 
-/* Terms Text */
-.login-terms {
-  margin-top: auto;
-  /* Pushes to bottom */
-  padding-top: 20px;
-  color: #888;
-  font-size: 0.85rem;
-  text-align: center;
-  border-top: 1px solid #eee;
-  direction: rtl;
-  text-align: right;
-}
-
-/* Verification Code Styles */
-
-.verification-ui {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.verification-text {
-  color: #666;
-  margin-bottom: 200px;
-}
-
+/* ===== Verification Styles ===== */
 .verification-container {
   width: 100%;
+}
+
+.verification-message {
+  margin-bottom: 20px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
 
 .verification-edit {
@@ -176,8 +144,8 @@
   justify-content: center;
   margin-bottom: 30px;
   gap: 10px;
+  font-family: 'Vazir', Tahoma, sans-serif;
 }
-
 
 .code-input {
   width: 50px;
@@ -191,9 +159,6 @@
 }
 
 .code-input:focus {
-  border-top: none;
-  border-left: none;
-  border-right: none;
   outline: none;
 }
 
@@ -205,13 +170,20 @@
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
-.resend-button {
-  background: none;
-  border: none;
-  color: #3498db;
+/* ===== Terms Styles ===== */
+.login-terms {
+  margin-top: auto;
+  padding-top: 20px;
+  color: #888;
+  font-size: 0.85rem;
+  text-align: center;
+  border-top: 1px solid #eee;
+  direction: rtl;
+  text-align: right;
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
+/* ===== RTL/LTR Language Support ===== */
 :root:lang(en) .login-container,
 :root:lang(en) .login-text-content,
 :root:lang(en) .login-title,
@@ -251,28 +223,14 @@
   text-align: left;
 }
 
-:root:lang(en) .verification-description {
-  text-align: left;
-}
-
-
-/* Input field - always LTR */
 :root:lang(en) .phone-input {
   width: 100%;
   padding: 15px 45px 15px 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
-  text-align: left; /* Always left-align numbers */
+  text-align: left;
   direction: ltr;
-}
-
-.phone-label {
-  display: block;
-  margin-bottom: 8px;
-  text-align: right;
-  color: #666;
-  font-size: 14px;
 }
 
 :root:lang(en) .phone-input-container {
@@ -288,10 +246,64 @@
   padding: 15px 15px 15px 45px;
 }
 
-:root:lang(en) .phone-label {
-  text-align: left;
+/* ===== Error Message Styles ===== */
+.error-message {
+  position: absolute;
+  top: 20px;
+  width: 90%;
+  max-width: 450px;
+  background-color: #FCE3E1;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #EA4335;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  font-family: 'Vazir', Tahoma, sans-serif;
+
 }
 
-:root:lang(en) .form-group {
-  text-align: left;
+:root:lang(fa) .error-message,
+:root:lang(ur) .error-message,
+:root:lang(ar) .error-message {
+  font-family: 'Vazir', Tahoma, sans-serif;
+  direction: rtl;
+}
+
+.error-icon {
+  flex-shrink: 0;
+}
+
+/* Input error state */
+.phone-input.error {
+  border : 1px solid #EA4335;
+  width: 100%;
+  padding: 15px 45px 15px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: right;
+  outline: none;
+}
+
+:root:lang(en) .phone-input.error{
+  border : 2px solid #EA4335;
+  outline: none;
+}
+
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
