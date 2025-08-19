@@ -294,10 +294,10 @@ const RouteMap = forwardRef(({
       )}
 
       {/* Current step marker -  using red destination pin */}
-      {routeSteps && currentStep < routeSteps.length && routeSteps[currentStep].coordinates && (
+      {routeSteps && routeSteps.length > 0 && (
         <Marker
-          longitude={routeSteps[currentStep].coordinates[1]}
-          latitude={routeSteps[currentStep].coordinates[0]}
+          longitude={routeSteps[routeSteps.length - 1].coordinates[1]}
+          latitude={routeSteps[routeSteps.length - 1].coordinates[0]}
           anchor="bottom"
         >
           <DestinationPin />

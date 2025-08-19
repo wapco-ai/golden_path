@@ -1086,6 +1086,7 @@ const RoutingPage = () => {
             currentStep={currentStep}
             isInfoModalOpen={isInfoModalOpen}
             isMapModalOpen={isMapModalOpen}
+            destination={destination}
             is3DView={is3DView}
             routeGeo={routeGeo}
             alternativeRoutes={routeData.alternativeRoutes}
