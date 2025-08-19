@@ -360,7 +360,8 @@ const MapComponent = ({
       )}
 
       {/* Point features (doors, services, etc.) */}
-      {pointFeatures.map((feature, idx) => {
+      // Point features (doors, services, etc.) - Only show when a category is selected
+      {selectedCategory && pointFeatures.map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;
         const { group, nodeFunction } = feature.properties || {};
         const highlight =
