@@ -1289,14 +1289,24 @@ const RoutingPage = () => {
                   <div className="route-buttons">
                     <button className="route-button" onClick={() => navigate('/rop')}>
                       <div className="button-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
+                        <svg width="22" height="22" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M15.916 11.6666C14.3052 11.6666 12.9993 12.8819 12.9993 14.3811C12.9993 15.8684 13.9302 17.6041 15.3827 18.2248C15.7212 18.3695 16.1108 18.3695 16.4494 18.2248C17.9018 17.6041 18.8327 15.8684 18.8327 14.3811C18.8327 12.8819 17.5268 11.6666 15.916 11.6666ZM15.916 15.4166C16.3763 15.4166 16.7493 15.0435 16.7493 14.5833C16.7493 14.1231 16.3763 13.75 15.916 13.75C15.4558 13.75 15.0827 14.1231 15.0827 14.5833C15.0827 15.0435 15.4558 15.4166 15.916 15.4166Z" fill="#1E2023" />
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M5.08268 1.66663C3.47185 1.66663 2.16602 2.88192 2.16602 4.38106C2.16602 5.86845 3.09692 7.6041 4.54932 8.22478C4.8879 8.36947 5.27746 8.36947 5.61604 8.22478C7.06845 7.6041 7.99935 5.86845 7.99935 4.38106C7.99935 2.88192 6.69351 1.66663 5.08268 1.66663ZM5.08268 5.41663C5.54292 5.41663 5.91602 5.04353 5.91602 4.58329C5.91602 4.12306 5.54292 3.74996 5.08268 3.74996C4.62245 3.74996 4.24935 4.12306 4.24935 4.58329C4.24935 5.04353 4.62245 5.41663 5.08268 5.41663Z" fill="#1E2023" />
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.87573 4.16663C9.87573 3.82145 10.1556 3.54163 10.5007 3.54163H13.944C16.2367 3.54163 17.1086 6.53579 15.1743 7.76668L6.49826 13.2878C5.61904 13.8473 6.01537 15.2083 7.0575 15.2083H8.99185L8.80879 15.0252C8.56471 14.7812 8.56471 14.3854 8.80879 14.1414C9.05287 13.8973 9.4486 13.8973 9.69267 14.1414L10.9427 15.3914C11.1868 15.6354 11.1868 16.0312 10.9427 16.2752L9.69267 17.5252C9.4486 17.7693 9.05287 17.7693 8.80879 17.5252C8.56471 17.2812 8.56471 16.8854 8.80879 16.6414L8.99185 16.4583H7.0575C4.7648 16.4583 3.89291 13.4641 5.82716 12.2332L14.5032 6.71211C15.3824 6.15261 14.9861 4.79163 13.944 4.79163H10.5007C10.1556 4.79163 9.87573 4.5118 9.87573 4.16663Z" fill="#1E2023" />
+                        </svg>
+
                       </div>
                       <span><FormattedMessage id="routeOverview" /></span>
                     </button>
                     <span className="sdivider"></span>
                     <button className="route-button" onClick={handleAllRoutesClick}>
                       <div className="button-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
+                        <svg width="22" height="22" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.52957 4.28868C2.16602 4.70251 2.16602 5.41203 2.16602 6.83108V14.6588C2.16602 15.6638 2.16602 16.1663 2.42818 16.5446C2.69034 16.9229 3.14869 17.0818 4.06538 17.3996L5.14387 17.7735C5.72799 17.976 6.17744 18.1318 6.55462 18.2322C6.80069 18.2976 7.02713 18.1045 7.02713 17.8499V5.22472C7.02713 5.01728 6.87405 4.84223 6.67299 4.79122C6.34863 4.70895 5.95874 4.57378 5.42436 4.38852C4.12999 3.93978 3.4828 3.71541 2.99036 3.94326C2.81553 4.02415 2.65865 4.14175 2.52957 4.28868Z" fill="#1E2023" />
+                          <path d="M11.0163 2.90043L9.73636 3.78793C9.2733 4.109 8.93395 4.3443 8.64414 4.51206C8.5068 4.59156 8.41602 4.73539 8.41602 4.89408V17.4332C8.41602 17.742 8.736 17.9348 8.99615 17.7684C9.27537 17.5898 9.5951 17.3681 9.98236 17.0996L11.2623 16.2121C11.7254 15.891 12.0648 15.6557 12.3546 15.488C12.4919 15.4085 12.5827 15.2646 12.5827 15.1059V2.56683C12.5827 2.258 12.2627 2.06518 12.0025 2.2316C11.7233 2.41022 11.4036 2.63191 11.0163 2.90043Z" fill="#1E2023" />
+                          <path d="M16.9333 2.60041L15.8548 2.22651C15.2707 2.02399 14.8213 1.8682 14.4441 1.76786C14.198 1.70241 13.9716 1.89555 13.9716 2.15017V14.7753C13.9716 14.9827 14.1246 15.1578 14.3257 15.2088C14.6501 15.2911 15.04 15.4263 15.5743 15.6115C16.8687 16.0602 17.5159 16.2846 18.0083 16.0568C18.1832 15.9759 18.3401 15.8583 18.4691 15.7113C18.8327 15.2975 18.8327 14.588 18.8327 13.1689V5.3412C18.8327 4.33622 18.8327 3.83372 18.5705 3.45542C18.3084 3.07712 17.85 2.91822 16.9333 2.60041Z" fill="#1E2023" />
+                        </svg>
+
                       </div>
                       <span><FormattedMessage id="allRoutes" /></span>
                     </button>
@@ -1305,7 +1315,10 @@ const RoutingPage = () => {
                         <span className="sdivider"></span>
                         <button className="route-button" onClick={handleShowAlternativeRoutes}>
                           <div className="button-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
+                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M3.96447 3.46447C2.5 4.92893 2.5 7.28595 2.5 12C2.5 16.714 2.5 19.0711 3.96447 20.5355C5.42893 22 7.78595 22 12.5 22C17.214 22 19.5711 22 21.0355 20.5355C22.5 19.0711 22.5 16.714 22.5 12C22.5 7.28595 22.5 4.92893 21.0355 3.46447C19.5711 2 17.214 2 12.5 2C7.78595 2 5.42893 2 3.96447 3.46447ZM8.53033 5.96967C8.82322 6.26256 8.82322 6.73744 8.53033 7.03033L8.31066 7.25H8.5C10.1795 7.25 11.6554 8.12162 12.5 9.43718C13.3446 8.12162 14.8205 7.25 16.5 7.25H16.6893L16.4697 7.03033C16.1768 6.73744 16.1768 6.26256 16.4697 5.96967C16.7626 5.67678 17.2374 5.67678 17.5303 5.96967L19.0303 7.46967C19.3232 7.76256 19.3232 8.23744 19.0303 8.53033L17.5303 10.0303C17.2374 10.3232 16.7626 10.3232 16.4697 10.0303C16.1768 9.73744 16.1768 9.26256 16.4697 8.96967L16.6893 8.75H16.5C14.7051 8.75 13.25 10.2051 13.25 12V18C13.25 18.4142 12.9142 18.75 12.5 18.75C12.0858 18.75 11.75 18.4142 11.75 18V12C11.75 10.2051 10.2949 8.75 8.5 8.75H8.31066L8.53033 8.96967C8.82322 9.26256 8.82322 9.73744 8.53033 10.0303C8.23744 10.3232 7.76256 10.3232 7.46967 10.0303L5.96967 8.53033C5.67678 8.23744 5.67678 7.76256 5.96967 7.46967L7.46967 5.96967C7.76256 5.67678 8.23744 5.67678 8.53033 5.96967Z" fill="#1E2023" />
+                            </svg>
+
                           </div>
                           <span><FormattedMessage id="otherRoutes" /></span>
                         </button>
@@ -1334,10 +1347,13 @@ const RoutingPage = () => {
 
                 <div className="pc-container">
                   <button className="expand-button" onClick={toggleInfoModal}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-compact-down"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 11l8 3l8 -3" /></svg>
+                    <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15.8346 7.49988L10.0013 12.4999L4.16797 7.49988" stroke="#1E2023" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
                   </button>
                   <button className="profile-button" onClick={() => navigate('/Profile')}>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="9.99984" cy="5" r="3.33333" fill="#1E2023" />
                       <ellipse cx="9.99984" cy="14.1667" rx="5.83333" ry="3.33333" fill="#1E2023" />
                     </svg>
