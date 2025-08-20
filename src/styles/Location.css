@@ -2284,7 +2284,7 @@
 /* RTL/LTR adjustments */
 :root:lang(en) .route-info-option {
   text-align: left;
-  flex-direction: row-reverse;
+  text-align: center;
 }
 
 :root:lang(en) .route-info-modal h3 {
