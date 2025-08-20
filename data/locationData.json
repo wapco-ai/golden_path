@@ -338,7 +338,7 @@
     "contents": [
       {
         "id": "content1",
-        "type": "audio",
+        "type": "video",
         "title": {
           "fa": "فضائل باب الجواد",
           "en": "Virtues of Bab al-Javad",
@@ -351,7 +351,7 @@
           "ar": "كلام آية الله جوادي آملي",
           "ur": "آیت اللہ جوادی آملی کا خطاب"
         },
-        "mediaUrl": "/audio/bab-al-javad.mp3",
+        "mediaUrl": "https://www.aparat.com/v/o83nmxj",
         "thumbnail": "https://commons.wikishia.net/w/images/1/18/%D8%A8%D8%A7%D8%A8_%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%AF_%D8%AD%D8%B1%D9%85_%D8%A7%D9%85%D8%A7%D9%85_%D8%B1%D8%B6%D8%A7.png"
       },
       {
