@@ -595,7 +595,8 @@
 /* Routing Overlay Styles */
 .routing-overlay {
   position: fixed;
-  top: 120px; /* Height of search bar when expanded */
+  top: 120px;
+  /* Height of search bar when expanded */
   left: 0;
   right: 0;
   bottom: 0;
@@ -2046,15 +2047,18 @@
   gap: 15px;
   overflow-x: auto;
   padding-bottom: 15px;
-  scrollbar-width: none; /* For Firefox */
+  scrollbar-width: none;
+  /* For Firefox */
 }
 
 .content-list::-webkit-scrollbar {
-  display: none; /* For Chrome/Safari */
+  display: none;
+  /* For Chrome/Safari */
 }
 
 .content-item {
-  flex: 0 0 280px; /* Fixed width for each item */
+  flex: 0 0 280px;
+  /* Fixed width for each item */
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -2183,7 +2187,8 @@
 .modal-header {
   display: flex;
   flex-direction: column;
-  text-align: center;;
+  text-align: center;
+  ;
   margin-top: 25px;
 }
 
@@ -2276,6 +2281,7 @@
   from {
     transform: translateY(100%);
   }
+
   to {
     transform: translateY(0);
   }
@@ -2295,7 +2301,7 @@
   position: absolute;
   top: 20px;
   right: 0px;
-  left:0px;
+  left: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2316,7 +2322,8 @@
   background-size: cover;
   background-position: center;
   position: relative;
-  border-radius: 8px; /* optional */
+  border-radius: 8px;
+  /* optional */
 }
 
 /* Play icon styling */
@@ -2340,4 +2347,10 @@
   height: 100%;
   text-decoration: none;
   color: inherit;
+}
+
+@media (max-width: 400px) {
+  .route-info-option {
+    padding: 20px;
+  }
 }
