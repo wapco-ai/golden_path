@@ -1,5 +1,5 @@
 // src/pages/AdminPanel.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import '../styles/AdminPanel.css';
 import logo from '../assets/images/logo2.png';
@@ -22,6 +22,9 @@ const AdminPanel = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const calendarRef = useRef(null);
+  const [breadcrumbPath, setBreadcrumbPath] = useState(['منوی اصلی', 'داشبورد', 'آمار کلی استارتاپ من']);
+
 
 
   // Sample data for demonstration
@@ -83,6 +86,14 @@ const AdminPanel = () => {
     setSelectedDate(date);
   };
 
+  const handleMenuClick = (menuName, breadcrumbLabel) => {
+    setActiveMenu(menuName);
+    // Update breadcrumb path based on the selected menu
+    const newPath = ['منوی اصلی', breadcrumbLabel, 'آمار کلی استارتاپ من'];
+    setBreadcrumbPath(newPath);
+  };
+
+
   const formatJalaliDate = (date) => {
     const jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
 
@@ -93,6 +104,24 @@ const AdminPanel = () => {
 
     return `${jalali.jd} ${jalaliMonths[jalali.jm - 1]} ${jalali.jy}`;
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isCalendarOpen &&
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target) &&
+        // Also check if the click is not on the calendar button itself
+        !event.target.closest('.calendar-btn')) {
+        setIsCalendarOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isCalendarOpen]);
 
   return (
     <div className="admin-panel">
@@ -152,7 +181,8 @@ const AdminPanel = () => {
             </span>
             <div
               id="dashboard-menu-item"
-              className="menu-item"
+              className={`menu-item ${activeMenu === 'dashboard' ? 'active' : ''}`}
+              onClick={() => handleMenuClick('dashboard', 'داشبورد')}
             >
               <span className="menu-icon">
                 <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -167,7 +197,7 @@ const AdminPanel = () => {
 
             <div
               className={`menu-item ${activeMenu === 'reports' ? 'active' : ''}`}
-              onClick={() => setActiveMenu('reports')}
+              onClick={() => handleMenuClick('reports', 'گزارشات')}
             >
               <span className="menu-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -187,7 +217,7 @@ const AdminPanel = () => {
 
             <div
               className={`menu-item ${activeMenu === 'mapmanage' ? 'active' : ''}`}
-              onClick={() => setActiveMenu('mapmanage')}
+              onClick={() => handleMenuClick('mapmanage', 'مدیریت نقشه')}
             >
               <span className="menu-icon">
                 <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -207,7 +237,7 @@ const AdminPanel = () => {
                 className={`menu-item ${activeMenu === 'usermanage' ? 'active' : ''}`}
                 onClick={() => {
                   toggleUserManagement();
-                  setActiveMenu('usermanage');
+                  handleMenuClick('usermanage', 'مدیریت کاربران');
                 }}
               >
                 <span className="menu-icon">
@@ -241,7 +271,7 @@ const AdminPanel = () => {
 
             <div
               className={`menu-item ${activeMenu === 'facmanage' ? 'active' : ''}`}
-              onClick={() => setActiveMenu('facmanage')}
+              onClick={() => handleMenuClick('facmanage', 'مدیریت امکانات')}
             >
               <span className="menu-icon">
                 <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -312,6 +342,18 @@ const AdminPanel = () => {
         <div className="admin-content">
           {/* Content Header */}
           <div className="content-header">
+            <div className="breadcrumb-nav">
+              {breadcrumbPath.map((item, index) => (
+                <span key={index} className="breadcrumb-item">
+                  {item}
+                  {index < breadcrumbPath.length - 1 && (
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 12L6 8L10 4" stroke="#858585" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </span>
+              ))}
+            </div>
             <div className="header-content-wrapper">
               <div>
                 <h1>آمار و جزئیات کلی محصول مسیربایی حرم تا امروز</h1>
@@ -340,7 +382,7 @@ const AdminPanel = () => {
                 </button>
 
                 {isCalendarOpen && (
-                  <div className="calendar-popup">
+                  <div className="calendar-popup" ref={calendarRef}>
                     <ReactDatePicker
                       selected={selectedDate}
                       onChange={(date) => {

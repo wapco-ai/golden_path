@@ -279,7 +279,7 @@
 
 .sidebar-footer {
   border-top: 1px solid white;
-  padding: 200px 0;
+  padding: 25px 0;
   padding-bottom: 15px;
 }
 
@@ -319,7 +319,10 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #858585 #f1f1f1;
 }
+
 
 .content-header {
   margin-bottom: 20px;
@@ -1015,6 +1018,47 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Scrollbar styling */
+
+.admin-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.admin-content::-webkit-scrollbar-thumb {
+  background: #858585;
+  border-radius: 4px;
+}
+
+.admin-content::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Add breadcrumb styles */
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #858585;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb-item:last-child {
+  color: #1E2023;
+  font-weight: 500;
 }
 
 /* Responsive adjustments */
