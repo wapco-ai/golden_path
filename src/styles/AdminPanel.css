@@ -297,6 +297,16 @@
   justify-content: center;
 }
 
+.menu-icon9 {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .menu-item.active,
 .menu-item.active .menu-icon svg path,
 .menu-item.active .submenu-arrow path {
