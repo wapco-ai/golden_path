@@ -12,27 +12,29 @@
 		"preview": "vite preview",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d dist",
-                "generate-pwa-assets": "pwa-assets-generator",
-                "test": "node tests/routeAnalysis.test.js && node tests/geojsonPath.test.js"
-        },
+		"generate-pwa-assets": "pwa-assets-generator",
+		"test": "node tests/routeAnalysis.test.js && node tests/geojsonPath.test.js"
+	},
 	"dependencies": {
 		"@turf/turf": "^7.2.0",
 		"@yudiel/react-qr-scanner": "^2.2.1",
 		"axios": "^1.9.0",
 		"dayjs": "^1.11.10",
+		"jalaali-js": "^1.2.8",
 		"maplibre-gl": "^2.4.0",
 		"qrcode": "^1.5.3",
 		"react": "^18.2.0",
+		"react-datepicker": "^8.7.0",
 		"react-dom": "^18.2.0",
 		"react-icons": "^5.5.0",
 		"react-intl": "^7.1.11",
 		"react-map-gl": "^7.1.9",
 		"react-router-dom": "^6.30.0",
+		"react-toastify": "^9.1.3",
 		"uuid": "^9.0.1",
-        "validator": "^13.11.0",
-        "vazir-font": "^30.1.0",
-        "zustand": "^4.4.7",
-        "react-toastify": "^9.1.3"
+		"validator": "^13.11.0",
+		"vazir-font": "^30.1.0",
+		"zustand": "^4.4.7"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.30.0",

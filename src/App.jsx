@@ -11,19 +11,34 @@ import Routing from './pages/Routing';
 import MapBegin from './pages/MapBegin';
 import RouteOverview from './pages/RouteOverview';
 import Location from './pages/Location';
-// import { Header } from './components/layout/Header';
-// import { Footer } from './components/layout/Footer';
-import './App.css';
+import AdminPanel from './pages/AdminPanel';
+import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
 import { ToastContainer, toast } from 'react-toastify';
+
+const useAppStyles = () => {
+  const location = useLocation();
+  const isAdminPanel = location.pathname === '/admp';
+  
+  useEffect(() => {
+    if (!isAdminPanel) {
+      import('./App.css');
+    }
+  }, [isAdminPanel, location.pathname]);
+};
 
 const AppContent = () => {
   const location = useLocation();
   const intl = useIntl();
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
-    || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb'|| location.pathname === '/culture';
+    || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb'|| location.pathname === '/culture'
+    || location.pathname === '/admp';
 
-  // --- PWA Install Prompt State ---
+  const isAdminPanel = location.pathname === '/admp';
+
+  useAppStyles();
+
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstall, setShowInstall] = useState(false);
 
@@ -39,7 +54,6 @@ const AppContent = () => {
     };
     window.addEventListener('beforeinstallprompt', handler);
 
-    // Cleanup on unmount
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
@@ -55,10 +69,9 @@ const AppContent = () => {
   const handleClosePrompt = () => {
     setShowInstall(false);
   };
-  // --- END PWA Install Prompt State ---
 
   return (
-    <div className="app">
+    <div className={`app ${isAdminPanel ? 'no-app-styles' : ''}`}>
       {!hideHeaderFooter && <Header />}
       <main className={`main-content ${hideHeaderFooter ? 'no-header-footer-layout' : ''}`}>
         {/* Stylish PWA Install Modal Prompt */}
@@ -90,6 +103,7 @@ const AppContent = () => {
           <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/rng" element={<Routing/>} />
           <Route path="/culture" element={<Culture/>} />
+          <Route path="/admp" element={<AdminPanel/>} />
           <Route path="/location" element={<Location />} />
           <Route path="/mpb" element={<MapBegin />} />
         </Routes>
