@@ -6,6 +6,8 @@ import logo from '../assets/images/logo2.png';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toJalaali, toGregorian } from 'jalaali-js';
 import ReactDatePicker from 'react-datepicker';
+import { Helmet } from 'react-helmet';
+
 
 const AdminPanel = () => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
@@ -127,6 +129,9 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-panel">
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
       {/* Header */}
       <div className="admin-header">
         <div className="header-right">
