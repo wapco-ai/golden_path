@@ -129,9 +129,8 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-panel">
-      <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Helmet>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <meta name="theme-color" content="#000000" />
       {/* Header */}
       <div className="admin-header">
         <div className="header-right">
