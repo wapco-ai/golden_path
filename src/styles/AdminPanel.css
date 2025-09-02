@@ -426,8 +426,6 @@
   height: 160px;
   border-radius: 50%;
   position: relative;
-  background: conic-gradient(#0F71EF 0% calc(var(--approved-percentage) * 1%),
-      #F44336 calc(var(--approved-percentage) * 1%) 100%);
 }
 
 .pie-segment {
@@ -452,13 +450,19 @@
   transform: rotate(calc(360deg * var(--rejected-percentage, 0) / 100));
 }
 
+.stat-color.unknown {
+  background: #F2F2F2;
+  border: 1px solid grey;
+}
+
+
 .pie-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
+  width: 80px; 
+  height: 80px; 
   background: #fff;
   border-radius: 50%;
   z-index: 2;

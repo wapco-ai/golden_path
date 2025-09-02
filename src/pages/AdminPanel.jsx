@@ -11,11 +11,13 @@ const AdminPanel = () => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [commentStats, setCommentStats] = useState({
     total: 152,
-    approved: 112,
+    approved: 89,
     rejected: 46
   });
+  const unknownComments = commentStats.total - commentStats.approved - commentStats.rejected;
   const approvedDegrees = (commentStats.approved / commentStats.total) * 360;
   const rejectedDegrees = (commentStats.rejected / commentStats.total) * 360;
+  const unknownDegrees = (unknownComments / commentStats.total) * 360;
   const [userManagementOpen, setUserManagementOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const intl = useIntl();
@@ -556,7 +558,7 @@ const AdminPanel = () => {
               <div className="pie-chart-wrapper">
                 <div className="pie-chart-main">
                   <div className="pie-chart-visual" style={{
-                    background: `conic-gradient(#0F71EF 0deg ${approvedDegrees}deg, #F44336 ${approvedDegrees}deg 360deg)`
+                    background: `conic-gradient(#0F71EF 0deg ${approvedDegrees}deg, white ${approvedDegrees}deg ${approvedDegrees + 2}deg, #F44336 ${approvedDegrees + 2}deg ${approvedDegrees + rejectedDegrees + 2}deg, white ${approvedDegrees + rejectedDegrees + 2}deg ${approvedDegrees + rejectedDegrees + 4}deg, #F2F2F2 ${approvedDegrees + rejectedDegrees + 4}deg 360deg)`
                   }}>
                     <div className="pie-center"></div>
                   </div>
@@ -586,6 +588,13 @@ const AdminPanel = () => {
                     <span>رد شده</span>
                   </div>
                   <div className="count-value">{commentStats.rejected}</div>
+                </div>
+                <div className="table-row">
+                  <div className="stat-info">
+                    <div className="stat-color unknown"></div>
+                    <span>در انتظار بررسی</span>
+                  </div>
+                  <div className="count-value">{unknownComments}</div>
                 </div>
               </div>
             </div>
