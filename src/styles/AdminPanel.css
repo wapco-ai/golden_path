@@ -19,9 +19,17 @@ html, body {
   text-size-adjust: 100%;
 }
 
+body {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
 .admin-panel {
   min-height: 100vh;
   width: 100%;
+  min-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Header Styles */
@@ -755,31 +763,6 @@ html, body {
   bottom: -25px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-  .stats-cards-container {
-    flex-direction: column;
-  }
-
-  .bar {
-    width: 15px;
-  }
-}
-
-@media (max-width: 768px) {
-  .chart-header {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .bars-container {
-    gap: 10px;
-  }
-
-  .bar-wrapper {
-    width: 30px;
-  }
-}
 
 /* Users Section */
 .users-section {
@@ -1082,98 +1065,6 @@ html, body {
 .breadcrumb-item:last-child {
   color: #1E2023;
   font-weight: 500;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .header-content-wrapper {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .calendar-section {
-    align-self: flex-end;
-  }
-}
-
-@media (max-width: 992px) {
-  .admin-panel {
-    flex-direction: column;
-  }
-
-  .admin-sidebar {
-    width: 100%;
-    height: auto;
-  }
-
-  .sidebar-menu {
-    display: flex;
-    overflow-x: auto;
-    padding: 10px 0;
-  }
-
-  .menu-item {
-    white-space: nowrap;
-  }
-
-  .charts-section {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .stats-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .admin-content {
-    padding: 15px;
-  }
-
-  .pie-chart-container {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 1024px) {
-  .charts-section {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .middle-chart-content {
-    width: 100%;
-    height: auto;
-  }
-  
-  .users-section {
-    width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .admin-header {
-    flex-direction: column;
-    height: auto;
-    padding: 15px;
-  }
-  
-  .header-left, .header-right {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 15px;
-  }
-  
-  .stats-cards-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .stat-card {
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 15px;
-  }
 }
 
 .search-box5 {
