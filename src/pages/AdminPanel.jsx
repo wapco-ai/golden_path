@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import '../styles/AdminPanel.css';
-// import logo from '../assets/images/logo2.png';
+import logo from '../assets/images/logo2.png';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toJalaali, toGregorian } from 'jalaali-js';
 import ReactDatePicker from 'react-datepicker';
@@ -128,9 +128,9 @@ const AdminPanel = () => {
   }, [isCalendarOpen]);
 
   return (
-    <div className="admin-panel">
+    <div className="admin-panel admin-panel-isolated">
       <Helmet>
-       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -139,7 +139,7 @@ const AdminPanel = () => {
       <div className="admin-header">
         <div className="header-right">
           <div className="sidebar-logo">
-            {/* <img src={logo} alt="Logo" /> */}
+            <img src={logo} alt="Logo" />
           </div>
           <div className="admin-profile">
             <div className="profile-image"></div>
