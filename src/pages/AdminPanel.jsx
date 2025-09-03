@@ -613,13 +613,13 @@ const AdminPanel = () => {
                   </div>
                   <div className="count-value">{commentStats.rejected}</div>
                 </div>
-                <div className="table-row">
+                {/* <div className="table-row">
                   <div className="stat-info">
                     <div className="stat-color unknown"></div>
                     <span>در انتظار بررسی</span>
                   </div>
                   <div className="count-value">{unknownComments}</div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
