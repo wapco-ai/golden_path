@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import '../styles/AdminPanel.css';
-import logo from '../assets/images/logo2.png';
+// import logo from '../assets/images/logo2.png';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toJalaali, toGregorian } from 'jalaali-js';
 import ReactDatePicker from 'react-datepicker';
@@ -139,7 +139,7 @@ const AdminPanel = () => {
       <div className="admin-header">
         <div className="header-right">
           <div className="sidebar-logo">
-            <img src={logo} alt="Logo" />
+            {/* <img src={logo} alt="Logo" /> */}
           </div>
           <div className="admin-profile">
             <div className="profile-image"></div>
