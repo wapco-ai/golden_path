@@ -515,10 +515,10 @@ body {
   transform: rotate(calc(360deg * var(--rejected-percentage, 0) / 100));
 }
 
-.stat-color.unknown {
+/* .stat-color.unknown {
   background: #F2F2F2;
   border: 1px solid grey;
-}
+} */
 
 
 .pie-center {
@@ -1187,4 +1187,11 @@ body {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
   }
+}
+
+.admin-panel-isolated {
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
