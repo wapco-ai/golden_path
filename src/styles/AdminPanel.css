@@ -9,35 +9,42 @@
 }
 
 .admin-panel-isolated {
-  all: initial;
+  all: initial !important;
   font-family: 'Vazir', Tahoma, sans-serif !important;
   direction: rtl !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  position: relative !important;
 }
 
 .admin-panel-isolated * {
   box-sizing: border-box !important;
   font-family: inherit !important;
   direction: inherit !important;
+  max-height: 1000000px !important; /* Prevent Chrome collapsing */
 }
 
 .admin-panel-isolated .admin-content-wrapper {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  width: 100vw;
-  height: 86vh;
+  display: flex !important;
+  flex: 1 !important;
+  overflow: hidden !important;
+  width: 100vw !important;
+  height: 86vh !important;
+  min-height: 600px !important;
 }
 
 .admin-panel-isolated .admin-sidebar {
   width: 280px !important;
   min-width: 280px !important;
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
 }
 
 .admin-panel-isolated .admin-content {
-  flex: 1;
-  min-width: 0;
+  flex: 1 !important;
+  min-width: 0 !important;
   width: auto !important;
+  overflow: auto !important;
 }
 
 .admin-panel-isolated {
@@ -1165,4 +1172,19 @@ body {
 .admin-panel-isolated .search-box5-input {
   font-size: 14px !important;
   width: 100%;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .admin-panel-isolated {
+    zoom: 1;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    transform-origin: top right;
+  }
+  
+  .admin-panel-isolated .admin-header {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
 }

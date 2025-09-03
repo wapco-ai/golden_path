@@ -127,9 +127,25 @@ const AdminPanel = () => {
     };
   }, [isCalendarOpen]);
 
+  useEffect(() => {
+    // Chrome rendering fix
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    
+    if (isChrome) {
+      // Force reflow to fix rendering issues
+      setTimeout(() => {
+        document.body.style.zoom = '1';
+        document.body.style.display = 'none';
+        document.body.offsetHeight; // Trigger reflow
+        document.body.style.display = 'block';
+      }, 100);
+    }
+  }, []);
+
   return (
     <div className="admin-panel admin-panel-isolated">
       <Helmet>
+        <title>Admin Panel</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
