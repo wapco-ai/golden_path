@@ -214,8 +214,8 @@ body {
 
 .sidebar-logo {
   display: flex;
+  border-left: 1px solid #F2F2F2;
   justify-content: center;
-  border: 1px solid #F2F2F2;
 }
 
 .sidebar-logo img {
@@ -224,7 +224,8 @@ body {
 
 .sidebar-menu {
   flex: 1;
-  padding: 15px 0;
+  padding: 11px 0;
+  border-top: 1px solid  #F2F2F2;
 }
 
 .menu-title3 {
@@ -1131,7 +1132,7 @@ body {
 
 .sidebar-logo {
   width: 280px; 
-  height: 100px; 
+  height: 80px; 
 }
 
 /* AdminPanel.css - Add at the end */
