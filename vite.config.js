@@ -17,6 +17,9 @@ export default defineConfig({
   server: {
     host: '0.0.0.0'
   },
+  preview: {
+    port: 80,
+  },
   //base: './', // This helps with relative paths in the production build
   plugins: [  
     react(),  
