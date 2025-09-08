@@ -46,28 +46,28 @@ const AdminPanel = () => {
         id: 2,
         fullName: 'محمدجواد سلگی',
         phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
-        registerDate: '۲۰ مرداد 1۰۴۴',
+        registerDate: '۲۰ مرداد ۱۴۰۴',
         gender: 'مرد'
       },
       {
         id: 3,
         fullName: 'محمد رضایی',
         phone: '۴۹۳۸۷۶۵۴۳۲ ۹۸+',
-        registerDate: '۲۲ مرداد 1۰۴۴',
+        registerDate: '۲۲ مرداد ۱۴۰۴',
         gender: 'مرد'
       },
       {
         id: 4,
         fullName: 'ساسان جاجرمی',
         phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
-        registerDate: '۲۵ مرداد 1۰۴۴',
+        registerDate: '۲۵ مرداد ۱۴۰۴',
         gender: 'مرد'
       },
       {
         id: 5,
         fullName: 'مرتضی یوسف نیا',
         phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
-        registerDate: '۲۷ مرداد 1۰۴۴',
+        registerDate: '۲۷ مرداد ۱۴۰۴',
         gender: 'مرد'
       }
     ];
