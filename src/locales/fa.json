@@ -205,5 +205,6 @@
   "routeOption": "مسیریابی",
   "culturalInfoOption": "اطلاعات فرهنگی",
   "confirmContinue": "تایید و ادامه",
-  "invalidPhone": "  شماره موبایل وارد شده اشتباه میباشد "
+  "invalidPhone": "  شماره موبایل وارد شده اشتباه میباشد ",
+  "pilgrimageStatus": "در حال زیارت {place} هستید"
 }

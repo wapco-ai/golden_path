@@ -41,6 +41,7 @@ const getLocalizedSubgroupDescription = (geoData, value, fallback) => {
   return fallback;
 };
 
+
 const Location = () => {
   const navigate = useNavigate();
   const currentLocation = useReactLocation();
@@ -88,6 +89,7 @@ const Location = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [entryMethod, setEntryMethod] = useState('direct');
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -171,6 +173,17 @@ const Location = () => {
       (Math.min(...lats) + Math.max(...lats)) / 2,
     ];
   };
+
+  const checkIfQrCodeEntry = () => {
+    const searchParams = getSearchParams();
+    return searchParams.get('qr') === 'true' || window.location.search.includes('qr=true');
+  };
+  
+  
+  useEffect(() => {
+    const isQrEntry = checkIfQrCodeEntry();
+    setEntryMethod(isQrEntry ? 'qr' : 'direct');
+  }, []);
 
   const handleSubgroupSelect = (place) => {
     setSelectedPlace(place);
@@ -621,7 +634,14 @@ const Location = () => {
           <div className="line left-line"></div>
           <div className="circle"></div>
           <span>
-            <FormattedMessage id="youAreHere" />
+            {entryMethod === 'qr' ? (
+              <FormattedMessage
+                id="pilgrimageStatus"
+                values={{ place: locationData.title }}
+              />
+            ) : (
+              <FormattedMessage id="youAreHere" />
+            )}
           </span>
           <div className="line right-line"></div>
         </div>

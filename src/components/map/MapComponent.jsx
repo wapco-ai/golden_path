@@ -57,7 +57,6 @@ const MapComponent = ({
   setUserLocation,
   selectedDestination,
   onMapClick,
-  isSelectingLocation,
   selectedCategory,
   userLocation,
   isTracking = true,
@@ -65,13 +64,12 @@ const MapComponent = ({
 }) => {
   const intl = useIntl();
   const [viewState, setViewState] = useState({
-    latitude: 36.2880,  // Original shrine coordinates
+    latitude: 36.2880,
     longitude: 59.6157,
     zoom: 16
   });
   const [userCoords, setUserCoords] = useState(null);
   const [destCoords, setDestCoords] = useState(null);
-  const [selectedCoords, setSelectedCoords] = useState(null);
   const [geoData, setGeoData] = useState(null);
   const [routeCoords, setRouteCoords] = useState(null);
   const language = useLangStore((state) => state.language);
@@ -166,7 +164,6 @@ const MapComponent = ({
   }, [setUserLocation, intl, isTracking]);
 
   // Update user location and optionally center map when it changes
-  // In MapComponent.js, update the useEffect that handles userLocation changes:
   useEffect(() => {
     if (userLocation?.coordinates) {
       const [lat, lng] = userLocation.coordinates;
@@ -206,53 +203,29 @@ const MapComponent = ({
     }
   }, [selectedDestination]);
 
-  // Update destination marker and center map when selection changes
-  useEffect(() => {
-    if (selectedDestination?.coordinates) {
-      const [lat, lng] = selectedDestination.coordinates;
-      const coords = { lat, lng };
-      setDestCoords(coords);
-
-      // Only center map if this is a new destination selection
-      if (!destCoords || destCoords.lat !== lat || destCoords.lng !== lng) {
-        setViewState(v => ({
-          ...v,
-          latitude: lat,
-          longitude: lng,
-          zoom: 18
-        }));
-      }
-    } else {
-      setDestCoords(null);
-    }
-  }, [selectedDestination]);
-
   const handleClick = (e) => {
-    if (isSelectingLocation) {
-      const { lng, lat } = e.lngLat;
-      const c = { lat, lng };
-      setSelectedCoords(c);
+    const { lng, lat } = e.lngLat;
+    const c = { lat, lng };
 
-      let closestFeature = null;
-      if (geoData) {
-        let minDist = Infinity;
-        geoData.features.forEach((f) => {
-          if (f.geometry.type === 'Point') {
-            const [flng, flat] = f.geometry.coordinates;
-            const d = Math.hypot(flng - lng, flat - lat);
-            if (d < minDist) {
-              minDist = d;
-              closestFeature = f;
-            }
+    let closestFeature = null;
+    if (geoData) {
+      let minDist = Infinity;
+      geoData.features.forEach((f) => {
+        if (f.geometry.type === 'Point') {
+          const [flng, flat] = f.geometry.coordinates;
+          const d = Math.hypot(flng - lng, flat - lat);
+          if (d < minDist) {
+            minDist = d;
+            closestFeature = f;
           }
-        });
-        if (minDist > 0.0005) {
-          closestFeature = null;
         }
+      });
+      if (minDist > 0.0005) {
+        closestFeature = null;
       }
-
-      if (onMapClick) onMapClick(c, closestFeature);
     }
+
+    if (onMapClick) onMapClick(c, closestFeature);
   };
 
   useEffect(() => {
@@ -336,15 +309,6 @@ const MapComponent = ({
         </Marker>
       )}
 
-      {/* Temporary selection marker when choosing location */}
-      {selectedCoords && isSelectingLocation && (
-        <Marker longitude={selectedCoords.lng} latitude={selectedCoords.lat} anchor="center">
-          <div className="map-marker-selecting">
-            <div className="map-marker-selecting-inner" />
-          </div>
-        </Marker>
-      )}
-
       {/* Route line */}
       {routeCoords && (
         <Source id="route" type="geojson" data={{ type: 'Feature', geometry: { type: 'LineString', coordinates: routeCoords } }}>
@@ -359,8 +323,7 @@ const MapComponent = ({
         </Source>
       )}
 
-      {/* Point features (doors, services, etc.) */}
-      // Point features (doors, services, etc.) - Only show when a category is selected
+      {/* Point features (doors, services, etc.) - Only show when a category is selected */}
       {selectedCategory && pointFeatures.map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;
         const { group, nodeFunction } = feature.properties || {};

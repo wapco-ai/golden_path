@@ -205,5 +205,6 @@
   "routeOption": "ہدایات",
   "culturalInfoOption": "ثقافتی معلومات",
   "confirmContinue": "تصدیق کریں اور جاری رکھیں",
-  "invalidPhone": "  درج کردہ فون نمبر غلط ہے  "
+  "invalidPhone": "  درج کردہ فون نمبر غلط ہے  ",
+  "pilgrimageStatus": "آپ {place} کی زیارت کر رہے ہیں"
 }

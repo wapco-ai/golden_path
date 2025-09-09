@@ -205,5 +205,6 @@
   "routeOption": "الاتجاهات",
   "culturalInfoOption": "معلومات ثقافية",
   "confirmContinue": "تأكيد ومتابعة",
-  "invalidPhone": "رقم الهاتف المدخل غير صحيح"
+  "invalidPhone": "رقم الهاتف المدخل غير صحيح",
+  "pilgrimageStatus": "أنت تزور {place} الآن"
 }

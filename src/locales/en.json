@@ -204,5 +204,6 @@
   "routeOption": "Get Directions",
   "culturalInfoOption": "Cultural Information",
   "confirmContinue": "Confirm and Continue",
-  "invalidPhone": "The entered phone number is incorrect"
+  "invalidPhone": "The entered phone number is incorrect",
+  "pilgrimageStatus": "You are visiting {place}"
 }
