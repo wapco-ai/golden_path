@@ -41,7 +41,6 @@ const getLocalizedSubgroupDescription = (geoData, value, fallback) => {
   return fallback;
 };
 
-
 const Location = () => {
   const navigate = useNavigate();
   const currentLocation = useReactLocation();
@@ -89,7 +88,7 @@ const Location = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const [entryMethod, setEntryMethod] = useState('direct');
+  const [isQrCodeEntry, setIsQrCodeEntry] = useState(false);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -174,17 +173,6 @@ const Location = () => {
     ];
   };
 
-  const checkIfQrCodeEntry = () => {
-    const searchParams = getSearchParams();
-    return searchParams.get('qr') === 'true' || window.location.search.includes('qr=true');
-  };
-  
-  
-  useEffect(() => {
-    const isQrEntry = checkIfQrCodeEntry();
-    setEntryMethod(isQrEntry ? 'qr' : 'direct');
-  }, []);
-
   const handleSubgroupSelect = (place) => {
     setSelectedPlace(place);
     setShowRouteInfoModal(true);
@@ -200,6 +188,12 @@ const Location = () => {
     }
     return null;
   };
+
+  useEffect(() => {
+    const qrLat = sessionStorage.getItem('qrLat');
+    const qrLng = sessionStorage.getItem('qrLng');
+    setIsQrCodeEntry(!!(qrLat && qrLng));
+  }, []);
 
   const handleSaveDestination = () => {
     setMenuOpen(false);
@@ -634,13 +628,15 @@ const Location = () => {
           <div className="line left-line"></div>
           <div className="circle"></div>
           <span>
-            {entryMethod === 'qr' ? (
+            {isQrCodeEntry ? (
               <FormattedMessage
-                id="pilgrimageStatus"
-                values={{ place: locationData.title }}
+                id="youAreHere"
               />
             ) : (
-              <FormattedMessage id="youAreHere" />
+              <FormattedMessage
+                id="youAreHereQr"
+                values={{ placeName: locationData.title }}
+              />
             )}
           </span>
           <div className="line right-line"></div>

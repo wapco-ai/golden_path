@@ -6,7 +6,6 @@ import FinalSearch from './pages/FinalSearch';
 import LangPage from './pages/LangPage';
 import LoginPage from './pages/LoginPage';
 import MapRouting from './pages/MapRouting';
-import Culture from './pages/culture';
 import Routing from './pages/Routing';
 import MapBegin from './pages/MapBegin';
 import RouteOverview from './pages/RouteOverview';
@@ -33,7 +32,7 @@ const AppContent = () => {
   const intl = useIntl();
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/Profile' || location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
-    || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb'|| location.pathname === '/culture'
+    || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb'
     || location.pathname === '/admp';
 
   const isAdminPanel = location.pathname === '/admp';
@@ -103,7 +102,6 @@ const AppContent = () => {
           <Route path="/" element={<LangPage />} />
           <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/rng" element={<Routing/>} />
-          <Route path="/culture" element={<Culture/>} />
           <Route path="/admp" element={<AdminPanel/>} />
           <Route path="/location" element={<Location />} />
           <Route path="/mpb" element={<MapBegin />} />

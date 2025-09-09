@@ -205,5 +205,5 @@
   "culturalInfoOption": "Cultural Information",
   "confirmContinue": "Confirm and Continue",
   "invalidPhone": "The entered phone number is incorrect",
-  "pilgrimageStatus": "You are visiting {place}"
+  "youAreHereQr": "You are visiting {placeName}"
 }
