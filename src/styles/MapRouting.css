@@ -98,6 +98,7 @@
   color: #555;
   margin: 0;
   display: block;
+  fill: #1E2023;
 }
 
 .map-category-name {
@@ -462,6 +463,20 @@
   padding: 16px 0;
   border-bottom: 1px solid #eee;
   font-family: 'Vazir', Arial, sans-serif;
+}
+
+.map-category-item.active {
+  background-color: #0F71EF;
+}
+
+
+.map-category-name.active {
+  color: #FFFFFF;
+}
+
+.map-category-icon.active svg {
+  color: #FFFFFF;
+  fill: #FFFFFF;
 }
 
 .map-recent-icon {

@@ -80,9 +80,19 @@
 }
 
 .map-category-item.active {
-  background-color: #ffe082;
-  font-weight: bold;
+  background-color: #0F71EF;
 }
+
+
+.map-category-name.active {
+  color: #FFFFFF;
+}
+
+.map-category-icon.active svg {
+  color: #FFFFFF;
+  fill: #FFFFFF;
+}
+
 
 .map-category-icon {
   width: 48px;
@@ -98,6 +108,7 @@
   color: #555;
   margin: 0;
   display: block;
+  fill: #1E2023;
 }
 
 .map-category-name {

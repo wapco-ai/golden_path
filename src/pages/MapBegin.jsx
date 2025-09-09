@@ -72,7 +72,7 @@ const MapBeginPage = () => {
       name: locName,
       coordinates: [latlng.lat, latlng.lng]
     };
-    
+
     setSelectedDestination(destination);
   };
 
@@ -128,16 +128,13 @@ const MapBeginPage = () => {
           {groups.map((category) => (
             <div
               key={category.value}
-              className={`map-category-item ${selectedCategory && selectedCategory.value === category.value
-                ? 'active'
-                : ''
-                }`}
+              className={`map-category-item ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}
               onClick={() => handleCategoryClick(category)}
             >
-              <div className={`map-category-icon ${category.icon}`}>
+              <div className={`map-category-icon ${category.icon} ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}>
                 <div dangerouslySetInnerHTML={{ __html: category.svg }} />
               </div>
-              <span className="map-category-name">
+              <span className={`map-category-name ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}>
                 {intl.formatMessage({ id: category.label })}
               </span>
             </div>
