@@ -206,5 +206,6 @@
   "culturalInfoOption": "معلومات ثقافية",
   "confirmContinue": "تأكيد ومتابعة",
   "invalidPhone": "رقم الهاتف المدخل غير صحيح",
-  "youAreHereQr": "أنت تزور {placeName}"
+  "youAreHereQr": "أنت تزور {placeName}",
+    "navigateToMpr": "الملاحة إلى هذا الموقع "
 }
