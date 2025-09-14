@@ -207,5 +207,10 @@
   "confirmContinue": "تأكيد ومتابعة",
   "invalidPhone": "رقم الهاتف المدخل غير صحيح",
   "youAreHereQr": "أنت تزور {placeName}",
-    "navigateToMpr": "الملاحة إلى هذا الموقع "
+    "navigateToMpr": "الملاحة إلى هذا الموقع ",
+    "landmarkPlaces": "الأماكن البارزة",
+    "walking": " دقائق سيرا على الأقدام",
+    "meter": "متر",
+    "moreCulturalInfo": "المزيد من المعلومات الثقافية"
+  
 }

@@ -206,5 +206,9 @@
   "confirmContinue": "Confirm and Continue",
   "invalidPhone": "The entered phone number is incorrect",
   "youAreHereQr": "You are visiting {placeName}",
-    "navigateToMpr": "Navigation to this location"
+    "navigateToMpr": "Navigation to this location",
+    "landmarkPlaces": "Landmark Place",
+    "walking": "minutes walk",
+    "meter": "meter",
+    "moreCulturalInfo": "More cultural info"
 }

@@ -3,22 +3,20 @@
     "mostVisited": [
       {
         "title": "روضه منوره",
-        "address": "  صحن پیامبر اعظم",
-        "distance": "780 متر",
-        "time": "16 دقیقه پیاده روی",
+        "address": "صحن پیامبر اعظم",
+        "distance": "780 ",
+        "time": "16 ",
         "rating": 4.5,
         "views": 26,
-        "description": "ضریح امام رضا(ع) سازه شنگ از چوب با فلز با ترکیبی از هر دو که بر روی قبر امام رضا(ع) قرار گرفته است...",
         "image": "https://aqrt.ir/portal/wp-content/uploads/2022/07/00000.jpg"
       },
       {
         "title": "سقاخانه صحن انقلاب",
         "address": "صحن انقلاب اسلامی",
-        "distance": "340 متر",
-        "time": "6 دقیقه پیاده روی",
-        "rating": 4.3,
-        "views": 14,
-        "description": "سقاخانه صحن انقلاب حرم امام رضا، معروف ترین سقاخانه در حرم امام رضاست و به سقاخانه اسماعیل طالیی...",
+        "distance": "340",
+        "time": "6",
+        "rating": 3.7,
+        "views": 17,
         "image": "https://newsmedia.tasnimnews.com/Tasnim/Uploaded/Image/1399/03/25/139903250954177720591044.jpg"
       }
     ],
@@ -26,10 +24,31 @@
       {
         "title": "مسیر امام خمینی",
         "address": "رواق امام خمینی",
-        "distance": "210 متر",
-        "time": "3 دقیقه پیاده روی",
-        "description": "روش اصلی، سطوح چهارم",
+        "distance": "210 ",
+        "time": "3",
+        "rating": 5.0,
+        "views": 34,
         "image": "https://media.atabenews.com/d/2023/06/28/3/5468.jpg?ts=1687948127000"
+      }
+    ],
+    "landmarkPlaces": [
+      {
+        "title": "گنبد طلا",
+        "address": "صحن انقلاب",
+        "distance": "450 ",
+        "time": "8 ",
+        "rating": 4.2,
+        "views": 30,
+        "image": "https://cdn.nody.ir/files/2021/09/30/nody-%D8%B9%DA%A9%D8%B3-%D8%AD%D8%B1%D9%85-%D9%88-%DA%AF%D9%86%D8%A8%D8%AF-%D8%A7%D9%85%D8%A7%D9%85-%D8%B1%D8%B6%D8%A7-1633024586.jpg"
+      },
+      {
+        "title": "مناره های حرم",
+        "address": "صحن آزادی",
+        "distance": "320 ",
+        "time": "5 ",
+        "rating": 3.5,
+        "views": 18,
+        "image": "https://maktabevahy.org/Attachment/GalleryImage/464487c9-5ca2-47a9-b503-a03e2fafa679_noDownload.jpg"
       }
     ],
     "shrineEvents": [

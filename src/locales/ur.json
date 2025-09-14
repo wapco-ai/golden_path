@@ -56,7 +56,7 @@
   "showMore": "مزید دیکھیں",
   "shrineEventsTitle": "حرم مطہر کے پروگرام",
   "navigate": "مسیریابی",
-  "mostVisited": "حرم کے سب سے زیادہ دیکھے گئے",
+  "mostVisited": "سب سے زیادہ دورہ کیا",
   "nearMe": "میرے قریب مقامات",
   "save": "محفوظ کریں",
   "commentsLabel": "تبصرہ",
@@ -207,5 +207,10 @@
   "confirmContinue": "تصدیق کریں اور جاری رکھیں",
   "invalidPhone": "  درج کردہ فون نمبر غلط ہے  ",
   "youAreHereQr": "آپ {placeName} کی زیارت کر رہے ہیں",
-  "navigateToMpr": "اس مقام پر نیویگیشن "
+  "navigateToMpr": "اس مقام پر نیویگیشن ",
+   "landmarkPlaces": "نمایاں مقامات",
+    "walking": " منٹ کی واک",
+    "meter": "میٹر",
+    "moreCulturalInfo": "مزید ثقافتی معلومات"
+  
 }

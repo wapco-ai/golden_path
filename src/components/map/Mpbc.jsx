@@ -6,7 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import osmStyle from '../../services/osmStyle';
 import { useLangStore } from '../../store/langStore';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
-import { groups } from '../groupData';
+import { groups, subGroups } from '../groupData';
 import { getLocationTitleById } from '../../utils/getLocationTitle';
 
 const groupColors = {
@@ -53,14 +53,15 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
   );
 };
 
-const MapComponent = ({
+const Mpbc = ({
   setUserLocation,
-  selectedDestination,
+  selectedDestination = null,
   onMapClick,
   selectedCategory,
   userLocation,
   isTracking = true,
-  onUserMove
+  onUserMove,
+  showImageMarkers = true
 }) => {
   const intl = useIntl();
   const [viewState, setViewState] = useState({
@@ -272,14 +273,74 @@ const MapComponent = ({
     }
   }, [userCoords, destCoords, geoData]);
 
+  // Filter point features - only show icon markers when a category is selected
   const pointFeatures = geoData
-    ? geoData.features.filter(f => f.geometry.type === 'Point')
+    ? geoData.features.filter(f => {
+      if (f.geometry.type !== 'Point') return false;
+
+      const { group, subGroupValue } = f.properties || {};
+      const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
+      const hasImage = subgroup && subgroup.img;
+
+      // If no category is selected, don't show any icon markers
+      if (!selectedCategory) return false;
+
+      // If a category is selected, only show features from that category
+      if (selectedCategory && group !== selectedCategory.value) return false;
+
+      // Don't show features that have images (they're handled separately)
+      if (hasImage) return false;
+
+      return true;
+    })
     : [];
+
   const polygonFeatures = geoData
     ? geoData.features.filter(
       f => f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon'
     )
     : [];
+
+  // Function to render image markers for subgroups with images
+  const renderImageMarkers = () => {
+    if (!geoData) return null;
+
+    return geoData.features
+      .filter(feature => {
+        if (feature.geometry.type !== 'Point') return false;
+
+        const { group, subGroupValue } = feature.properties || {};
+        const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
+        const hasImage = subgroup && subgroup.img;
+
+        // If no image, exclude this feature
+        if (!hasImage) return false;
+
+        // If a category is selected, only show markers from that category
+        if (selectedCategory && group !== selectedCategory.value) return false;
+
+        return true;
+      })
+      .map((feature, idx) => {
+        const [lng, lat] = feature.geometry.coordinates;
+        const { group, subGroupValue } = feature.properties || {};
+        const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
+
+        return (
+          <Marker key={`image-${idx}`} longitude={lng} latitude={lat} anchor="center">
+            <div className="image-marker-container">
+              <svg width="55" height="63" viewBox="0 0 55 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M54.6562 27.3281C54.6562 39.6299 46.5275 50.0319 35.3486 53.459C35.1079 53.8493 34.8535 54.2605 34.585 54.6924L33.1699 56.9687C30.7353 60.8845 29.5175 62.8418 27.7412 62.8418C25.9651 62.8417 24.7479 60.8842 22.3135 56.9687L20.8975 54.6924C20.6938 54.3648 20.4993 54.0485 20.3115 53.7451C8.61859 50.6476 8.59898e-05 39.9953 -1.19455e-06 27.3281C-5.34814e-07 12.2351 12.2351 -1.85429e-06 27.3281 -1.19455e-06C42.4211 0.000106671 54.6562 12.2352 54.6562 27.3281Z" fill="white" />
+              </svg>
+              <div
+                className="image-marker-content"
+                style={{ backgroundImage: `url(${subgroup.img})` }}
+              />
+            </div>
+          </Marker>
+        );
+      });
+  };
 
   return (
     <Map
@@ -323,10 +384,14 @@ const MapComponent = ({
         </Source>
       )}
 
+      {/* Image markers for subgroups with images */}
+      {renderImageMarkers()}
+
       {/* Point features (doors, services, etc.) - Only show when a category is selected */}
-      {selectedCategory && pointFeatures.map((feature, idx) => {
+      {pointFeatures.map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;
         const { group, nodeFunction } = feature.properties || {};
+
         const highlight =
           selectedCategory &&
           feature.properties &&
@@ -362,4 +427,4 @@ const MapComponent = ({
   );
 };
 
-export default MapComponent;
+export default Mpbc;

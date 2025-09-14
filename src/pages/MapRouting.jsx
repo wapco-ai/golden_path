@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
-import MapComponent from '../components/map/MapComponent';
+import Mprc from '../components/map/Mprc';
 import { groups } from '../components/groupData';
 import { useRouteStore } from '../store/routeStore';
 import { useLangStore } from '../store/langStore';
@@ -420,7 +420,7 @@ const MapRoutingPage = () => {
 
           </button>
         ) : (
-          <button className="map-back-button" onClick={() => navigate('/location')}>
+          <button className="map-back-button" onClick={() => navigate(-1)}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M11.2244 4.55806C11.4685 4.31398 11.8642 4.31398 12.1083 4.55806L17.1083 9.55806C17.3524 9.80214 17.3524 10.1979 17.1083 10.4419L12.1083 15.4419C11.8642 15.686 11.4685 15.686 11.2244 15.4419C10.9803 15.1979 10.9803 14.8021 11.2244 14.5581L15.1575 10.625H3.33301C2.98783 10.625 2.70801 10.3452 2.70801 10C2.70801 9.65482 2.98783 9.375 3.33301 9.375H15.1575L11.2244 5.44194C10.9803 5.19786 10.9803 4.80214 11.2244 4.55806Z" fill="#1E2023" />
             </svg>
@@ -464,7 +464,7 @@ const MapRoutingPage = () => {
 
       {/* Map Container */}
       <div className={`map-routing-container ${isSelectingFromMap ? 'hide-attribution' : ''}`}>
-        <MapComponent
+        <Mprc
           setUserLocation={setUserLocation}
           selectedDestination={selectedDestination}
           onMapClick={handleMapClick}

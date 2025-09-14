@@ -27,11 +27,7 @@ const LangPage = () => {
       const qrLat = sessionStorage.getItem('qrLat');
       const qrLng = sessionStorage.getItem('qrLng');
 
-      if (!qrLat || !qrLng) {
         navigate('/mpb');
-      } else {
-        navigate('/location');
-      }
     }
   };
 
