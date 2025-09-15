@@ -75,7 +75,6 @@ const Mpbc = ({
   const [routeCoords, setRouteCoords] = useState(null);
   const language = useLangStore((state) => state.language);
   const [selectedFeatureForBubble, setSelectedFeatureForBubble] = useState(null);
-  const [initialLocationBubble, setInitialLocationBubble] = useState(null);
 
   const onMove = useCallback((evt) => {
     setViewState(evt.viewState);
@@ -118,54 +117,6 @@ const Mpbc = ({
         zoom: 18
       }));
       return; // Skip GPS if QR code exists
-    }
-
-    useEffect(() => {
-      const setInitialBubble = async () => {
-        const storedId = sessionStorage.getItem('qrId');
-
-        if (storedId && geoData) {
-          // Find the feature that matches the stored ID
-          const feature = geoData.features.find(
-            f => f.properties?.uniqueId === storedId
-          );
-
-          if (feature) {
-            setInitialLocationBubble(feature);
-            // Also set it as selected for the bubble
-            setSelectedFeatureForBubble(feature);
-          }
-        }
-      };
-
-      if (geoData) {
-        setInitialBubble();
-      }
-    }, [geoData]);
-
-    // Add this code in the return section, before the closing </Map> tag
-    {
-      initialLocationBubble && initialLocationBubble.geometry.type === 'Point' && (
-        <Marker
-          longitude={initialLocationBubble.geometry.coordinates[0]}
-          latitude={initialLocationBubble.geometry.coordinates[1]}
-          anchor="bottom"
-          offset={[0, -30]}
-        >
-          <div className="location-bubble">
-            <div className="bubble-svg">
-              <svg width="120" height="80" viewBox="0 0 70 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" fill="white" />
-                <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" stroke="#0F71EF" />
-              </svg>
-            </div>
-            <div className="bubble-text">
-              {initialLocationBubble.properties?.name ||
-                initialLocationBubble.properties?.subGroup}
-            </div>
-          </div>
-        </Marker>
-      )
     }
 
     // GPS tracking
@@ -427,13 +378,13 @@ const Mpbc = ({
               <svg width="120" height="80" viewBox="0 0 70 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" fill="white" />
                 <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" stroke="#0F71EF" />
-
+               
               </svg>
 
             </div>
             <div className="bubble-text">
               {selectedFeatureForBubble.properties?.name ||
-                selectedFeatureForBubble.properties?.subGroup}
+                selectedFeatureForBubble.properties?.subGroup }
             </div>
           </div>
         </Marker>
@@ -505,4 +456,4 @@ const Mpbc = ({
   );
 };
 
-export default Mpbc;
+export default Mpbc; 
