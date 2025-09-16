@@ -40,10 +40,9 @@ const MapBeginPage = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [showLocationDetails, setShowLocationDetails] = useState(false);
   const [expandedSearch, setExpandedSearch] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const [isQrCodeEntry, setIsQrCodeEntry] = useState(false);
+  const [touchStartY, setTouchStartY] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
 
   useEffect(() => {
     if (storedLat && storedLng && storedId) {
@@ -138,6 +137,39 @@ const MapBeginPage = () => {
     } else {
       setShowLocationDetails(false);
     }
+  };
+
+  // Add these touch event handlers
+  const handleTouchStart = (e) => {
+    setTouchStartY(e.touches[0].clientY);
+    setIsSwiping(true);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isSwiping) return;
+
+    const touchY = e.touches[0].clientY;
+    const deltaY = touchY - touchStartY;
+
+    // Swipe down to close
+    if (deltaY > 50 && showRouting) {
+      if (expandedSearch) {
+        setExpandedSearch(false);
+      } else {
+        setShowRouting(false);
+      }
+      setIsSwiping(false);
+    }
+
+    // Swipe up to expand
+    if (deltaY < -50 && showRouting && !expandedSearch) {
+      setExpandedSearch(true);
+      setIsSwiping(false);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsSwiping(false);
   };
 
   useEffect(() => {
@@ -250,6 +282,7 @@ const MapBeginPage = () => {
           isTracking={isTracking}
           onUserMove={() => setIsTracking(false)}
           showImageMarkers={showImageMarkers}
+          isQrCodeEntry={isQrCodeEntry}
         />
         <button
           className={`map-gps-button ${isTracking ? 'active' : ''}`}
@@ -268,7 +301,12 @@ const MapBeginPage = () => {
       </div>
 
       {/* Search Bar with Integrated Routing */}
-      <div className={`search-bar-container ${showRouting ? 'expanded' : ''} ${expandedSearch ? 'fully-expanded' : ''}`}>
+      <div
+        className={`search-bar-container ${showRouting ? 'expanded' : ''} ${expandedSearch ? 'fully-expanded' : ''}`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="search-bar-toggle" onClick={handleSearchToggle}>
           <div className="toggle-handle"></div>
         </div>
@@ -301,11 +339,11 @@ const MapBeginPage = () => {
             </div>
 
             <div className="selected-location-info">
-              <h2 className="selected-location-title">
-                {selectedLocation.label}
-              </h2>
               <div className="location-details7">
-                <div className="location-meta">
+                <h2 className="selected-location-title">
+                  {selectedLocation.label}
+                </h2>
+                <div className="location-meta7">
                   <span className="location-address">
                     {selectedLocation.address}
                   </span>

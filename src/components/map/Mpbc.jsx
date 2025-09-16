@@ -61,7 +61,8 @@ const Mpbc = ({
   userLocation,
   isTracking = true,
   onUserMove,
-  showImageMarkers = true
+  showImageMarkers = true,
+  isQrCodeEntry = false
 }) => {
   const intl = useIntl();
   const [viewState, setViewState] = useState({
@@ -357,7 +358,7 @@ const Mpbc = ({
       interactive={true}
     >
       {/* User location marker */}
-      {userCoords && (
+      {userCoords && isQrCodeEntry && (
         <Marker longitude={userCoords.lng} latitude={userCoords.lat} anchor="center">
           <div className="map-marker-origin">
             <div className="map-marker-origin-inner" />
@@ -378,13 +379,13 @@ const Mpbc = ({
               <svg width="120" height="80" viewBox="0 0 70 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" fill="white" />
                 <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" stroke="#0F71EF" />
-               
+
               </svg>
 
             </div>
             <div className="bubble-text">
               {selectedFeatureForBubble.properties?.name ||
-                selectedFeatureForBubble.properties?.subGroup }
+                selectedFeatureForBubble.properties?.subGroup}
             </div>
           </div>
         </Marker>

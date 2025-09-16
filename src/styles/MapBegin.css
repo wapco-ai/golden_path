@@ -231,6 +231,8 @@
   /* Show only the top part */
   touch-action: none;
   /* Prevent touch scrolling by default */
+  transition: transform 0.3s ease-out, height 0.3s ease-out;
+  touch-action: pan-y;
 }
 
 /* Routing Content Styling */
@@ -251,12 +253,13 @@
 }
 
 .search-bar-toggle {
-  height: 40px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 5px;
   transition: all 0.3s ease;
+  touch-action: none;
 }
 
 .toggle-handle {
@@ -301,7 +304,7 @@
   padding: 6px 15px;
   background-color: #f5f5f5;
   border-radius: 25px;
-  margin: 10px 15px 20px;
+  margin: 10px 15px 17px;
 }
 
 .search-bar input {
@@ -966,7 +969,7 @@ body.modal-open {
 
 
 .selected-location-images {
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
 .location-image-scroll {
@@ -994,26 +997,20 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 12px;
+  gap: 3px;
 }
 
-
-.selected-location-info {
-  font-family: 'Vazir', Tahoma, sans-serif;
-}
-
-.location-meta {
+.location-meta7 {
   display: flex;
   gap: 8px;
   display: flex;
   align-items: center;
-  gap: 8px;
   font-size: 14px;
   color: #858585;
 }
 
 @media (max-width: 400px) {
-  .location-meta {
+  .location-meta7 {
     font-size: 0.7rem;
   }
 }
@@ -1059,6 +1056,7 @@ body.modal-open {
   border-radius: 0px;
   overflow-y: auto;
   touch-action: auto;
+  transition: transform 0.3s ease-out, height 0.3s ease-out;
 }
 
 .search-bar-container.expanded .toggle-handle {
@@ -1066,35 +1064,36 @@ body.modal-open {
 }
 
 .search-bar-container.expanded:not(.fully-expanded) {
-  height: 50vh;
+  height: 41vh;
   transform: translateY(0);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  transition: transform 0.3s ease-out, height 0.3s ease-out;
 }
 
 @media (max-width: 400px) {
   .search-bar-container.expanded:not(.fully-expanded) {
-    height: 55vh;
+    height: 48vh;
   }
 }
 
 @media (min-width: 400px) {
   .search-bar-container.expanded:not(.fully-expanded) {
-    height: 46vh;
+    height: 41vh;
   }
 }
 
 :root:lang(ar) .location-details7 {
-  gap: 12px;
+  gap: 1px;
 
 }
 
-:root:lang(ar) .location-meta {
-  font-size: 12px;
+:root:lang(ar) .location-meta7 {
+  font-size: 13px;
 }
 
 @media (max-width: 400px) {
-  :root:lang(ar) .location-meta {
+  :root:lang(ar) .location-meta7 {
     font-size: 11px;
   }
 }
@@ -1136,4 +1135,10 @@ body.modal-open {
   font-weight: 600;
   color: #0F71EF;
   font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+
+/*  when swiping is happening */
+.search-bar-container.swiping {
+  transition: none;
 }
