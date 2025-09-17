@@ -75,6 +75,8 @@ const Location = () => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [isQrCodeEntry, setIsQrCodeEntry] = useState(false);
+  const [initialQrLocation, setInitialQrLocation] = useState(null);
+  const [currentUserLocation, setCurrentUserLocation] = useState(null);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -83,11 +85,18 @@ const Location = () => {
   const language = useLangStore(state => state.language);
 
   useEffect(() => {
+    // Only check for QR code specific keys
     const qrLat = sessionStorage.getItem('qrLat');
     const qrLng = sessionStorage.getItem('qrLng');
-    setIsQrCodeEntry(!!(qrLat && qrLng));
-  }, []);
+    const qrId = sessionStorage.getItem('qrId');
 
+    // Make sure we have a proper QR code entry (not just map selection)
+    const hasQrCoordinates = !!(qrLat && qrLng);
+    const hasQrId = !!qrId;
+
+    // Consider it a QR code entry only if we have both coordinates and ID
+    setIsQrCodeEntry(hasQrCoordinates && hasQrId);
+  }, []);
   const handleSaveDestination = () => {
     setMenuOpen(false);
     // Implement save destination logic
@@ -202,6 +211,51 @@ const Location = () => {
       document.body.style.overflow = 'auto';
       calculateAverageRating();
     }
+  };
+
+  useEffect(() => {
+    const qrLat = sessionStorage.getItem('qrLat');
+    const qrLng = sessionStorage.getItem('qrLng');
+    const qrId = sessionStorage.getItem('qrId');
+
+    const hasQrCoordinates = !!(qrLat && qrLng);
+    const hasQrId = !!qrId;
+
+    setIsQrCodeEntry(hasQrCoordinates && hasQrId);
+
+    // Set initial QR location if available
+    if (hasQrCoordinates && hasQrId) {
+      setInitialQrLocation({
+        lat: parseFloat(qrLat),
+        lng: parseFloat(qrLng),
+        id: qrId
+      });
+    }
+
+    // Get current user location from session storage
+    const currentLat = sessionStorage.getItem('mapSelectedLat') || sessionStorage.getItem('qrLat');
+    const currentLng = sessionStorage.getItem('mapSelectedLng') || sessionStorage.getItem('qrLng');
+    const currentId = sessionStorage.getItem('mapSelectedId') || sessionStorage.getItem('qrId');
+
+    if (currentLat && currentLng) {
+      setCurrentUserLocation({
+        lat: parseFloat(currentLat),
+        lng: parseFloat(currentLng),
+        id: currentId
+      });
+    }
+  }, []);
+
+  // Function to check if current location matches initial QR location
+  const isAtInitialLocation = () => {
+    if (!initialQrLocation || !currentUserLocation) return false;
+
+    // Simple comparison - you might want to add a tolerance for floating point coordinates
+    return (
+      initialQrLocation.lat === currentUserLocation.lat &&
+      initialQrLocation.lng === currentUserLocation.lng &&
+      initialQrLocation.id === currentUserLocation.id
+    );
   };
 
   const calculateAverageRating = () => {
@@ -596,7 +650,9 @@ const Location = () => {
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
             </svg>
-            <FormattedMessage id="navigateToMpr" />
+            <FormattedMessage
+              id={isAtInitialLocation() ? "navigateFromMpr" : "navigateToMpr"}
+            />
           </button>
         </div>
       )}

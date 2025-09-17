@@ -43,6 +43,11 @@ const MapBeginPage = () => {
   const [isQrCodeEntry, setIsQrCodeEntry] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartHeight, setDragStartHeight] = useState(0);
+  const [dragStartY, setDragStartY] = useState(0);
+  const [currentHeight, setCurrentHeight] = useState(140);
+  const [isAutoExpanding, setIsAutoExpanding] = useState(false);
 
   useEffect(() => {
     if (storedLat && storedLng && storedId) {
@@ -60,21 +65,29 @@ const MapBeginPage = () => {
   const setOriginStore = useRouteStore(state => state.setOrigin);
 
   const handleSearchToggle = () => {
+    if (isDragging) return;
+
     if (showRouting) {
       if (expandedSearch) {
-        // If fully expanded, collapse completely
-        setShowRouting(false);
+        // If fully expanded, collapse to location details or minimal
         setExpandedSearch(false);
+        setCurrentHeight(showLocationDetails ? 410 : 140);
       } else {
         // If showing location details, expand fully
         setExpandedSearch(true);
+        setCurrentHeight(window.innerHeight);
       }
     } else {
       // If not showing, open to show location details if available
       setShowRouting(true);
-      setExpandedSearch(showLocationDetails ? false : true);
+      if (showLocationDetails) {
+        setCurrentHeight(410);
+        setExpandedSearch(false);
+      } else {
+        setCurrentHeight(window.innerHeight);
+        setExpandedSearch(true);
+      }
     }
-    setSearchClose(!searchClose);
   };
 
   useEffect(() => {
@@ -82,6 +95,13 @@ const MapBeginPage = () => {
     if (showLocationDetails && !showRouting) {
       setShowRouting(true);
       setExpandedSearch(false);
+      setIsAutoExpanding(true);
+      // Set height based on device screen height for location details
+      const newHeight = window.innerHeight * 0.41; // 41vh equivalent
+      setCurrentHeight(newHeight);
+
+      // Reset auto expanding after a delay
+      setTimeout(() => setIsAutoExpanding(false), 300);
     }
   }, [showLocationDetails, showRouting]);
 
@@ -100,16 +120,25 @@ const MapBeginPage = () => {
     setSelectedOrigin(origin);
 
     // Update session storage with the selected origin
-    sessionStorage.setItem('qrLat', latlng.lat.toString());
-    sessionStorage.setItem('qrLng', latlng.lng.toString());
-
-    // If the feature has an ID, store it as well
+    sessionStorage.setItem('mapSelectedLat', latlng.lat.toString());
+    sessionStorage.setItem('mapSelectedLng', latlng.lng.toString());
     if (feature?.properties?.uniqueId) {
-      sessionStorage.setItem('qrId', feature.properties.uniqueId);
-    } else {
-      sessionStorage.removeItem('qrId');
+      sessionStorage.setItem('mapSelectedId', feature.properties.uniqueId);
     }
 
+    // Also update the user location setting if needed
+    if (storedLat && storedLng && storedId) {
+      // This should use the QR code keys, not the map selection keys
+      getLocationTitleById(storedId).then((title) => {
+        if (title) {
+          setUserLocation({
+            name: title,
+            coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
+          });
+        }
+      });
+    }
+    
     // Update the store
     setOriginStore({
       name: origin.name,
@@ -141,35 +170,70 @@ const MapBeginPage = () => {
 
   // Add these touch event handlers
   const handleTouchStart = (e) => {
-    setTouchStartY(e.touches[0].clientY);
+    setIsDragging(true);
+    setDragStartY(e.touches[0].clientY);
+    setDragStartHeight(currentHeight);
     setIsSwiping(true);
   };
 
   const handleTouchMove = (e) => {
-    if (!isSwiping) return;
+    if (!isDragging) return;
 
     const touchY = e.touches[0].clientY;
-    const deltaY = touchY - touchStartY;
+    const deltaY = dragStartY - touchY; // Positive when moving up
+    const newHeight = dragStartHeight + deltaY;
 
-    // Swipe down to close
-    if (deltaY > 50 && showRouting) {
-      if (expandedSearch) {
-        setExpandedSearch(false);
-      } else {
-        setShowRouting(false);
-      }
-      setIsSwiping(false);
-    }
-
-    // Swipe up to expand
-    if (deltaY < -50 && showRouting && !expandedSearch) {
-      setExpandedSearch(true);
-      setIsSwiping(false);
-    }
+    // Limit height between minimum (140px) and maximum (100vh)
+    const clampedHeight = Math.max(140, Math.min(newHeight, window.innerHeight));
+    setCurrentHeight(clampedHeight);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (expandedSearch) {
+        setCurrentHeight(window.innerHeight);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [expandedSearch]);
+
   const handleTouchEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
     setIsSwiping(false);
+
+    if (isAutoExpanding) return; // Don't snap if we're auto-expanding
+
+    // Determine if we should snap to a position
+    const screenHeight = window.innerHeight;
+    const threshold = screenHeight * 0.3; // 30% of screen height
+
+    if (currentHeight > screenHeight - threshold) {
+      // Snap to fully expanded
+      setCurrentHeight(screenHeight);
+      setExpandedSearch(true);
+      setShowRouting(true);
+    } else if (currentHeight < 140 + threshold) {
+      // Snap to closed (but keep showing if we have location details)
+      if (showLocationDetails) {
+        setCurrentHeight(window.innerHeight * 0.41); // 41vh for location details
+        setExpandedSearch(false);
+      } else {
+        setCurrentHeight(140);
+        setShowRouting(false);
+        setExpandedSearch(false);
+      }
+    } else if (currentHeight < screenHeight * 0.5) {
+      // Snap to partially expanded (show location details)
+      setCurrentHeight(showLocationDetails ? window.innerHeight * 0.41 : 140);
+      setExpandedSearch(false);
+    } else {
+      // Snap to fully expanded
+      setCurrentHeight(screenHeight);
+      setExpandedSearch(true);
+    }
   };
 
   useEffect(() => {
@@ -302,12 +366,16 @@ const MapBeginPage = () => {
 
       {/* Search Bar with Integrated Routing */}
       <div
-        className={`search-bar-container ${showRouting ? 'expanded' : ''} ${expandedSearch ? 'fully-expanded' : ''}`}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        className={`search-bar-container ${showRouting ? 'expanded' : ''} ${expandedSearch ? 'fully-expanded' : ''} ${isDragging ? 'dragging' : ''}`}
+        style={isDragging || isAutoExpanding ? { height: `${currentHeight}px`, transform: 'translateY(0)' } : {}}
       >
-        <div className="search-bar-toggle" onClick={handleSearchToggle}>
+        <div
+          className="search-bar-toggle"
+          onClick={handleSearchToggle}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="toggle-handle"></div>
         </div>
 
@@ -373,7 +441,7 @@ const MapBeginPage = () => {
         )}
 
         {/* Shrine Events */}
-        {showRouting && routingData && (
+        {routingData && (
           <div className="shrine-events-section">
             <div className="shrine-events-header">
               <h2 className="shrine-events-title">
@@ -432,7 +500,7 @@ const MapBeginPage = () => {
           </div>
         )}
         {/* Landmarks */}
-        {showRouting && routingData && (
+        {routingData && (
           <div className="routing-places-section">
             <div className="section-header">
               <h2 className="section-title6">
@@ -494,7 +562,7 @@ const MapBeginPage = () => {
           </div>
         )}
         {/* Most visited places*/}
-        {showRouting && routingData && (
+        {routingData && (
           <div className="routing-places-section">
             <div className="section-header">
               <h2 className="section-title6">
@@ -556,7 +624,7 @@ const MapBeginPage = () => {
           </div>
         )}
         {/* Nearest Places*/}
-        {showRouting && routingData && (
+        {routingData && (
           <div className="routing-places-section">
             <div className="section-header">
               <h2 className="section-title6">
@@ -622,4 +690,4 @@ const MapBeginPage = () => {
   );
 };
 
-export default MapBeginPage;
+export default MapBeginPage; 

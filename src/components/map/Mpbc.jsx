@@ -371,22 +371,27 @@ const Mpbc = ({
         <Marker
           longitude={selectedFeatureForBubble.geometry.coordinates[0]}
           latitude={selectedFeatureForBubble.geometry.coordinates[1]}
-          anchor="bottom"
-          offset={[0, -30]} // Adjust offset to position the bubble above the marker
+          anchor="bottom"  
+          offset={[0, 75]}  
         >
           <div className="location-bubble">
-            <div className="bubble-svg">
-              <svg width="120" height="80" viewBox="0 0 70 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" fill="white" />
-                <rect x="0.5" y="0.5" width="69" height="23" rx="11.5" stroke="#0F71EF" />
-
-              </svg>
-
-            </div>
-            <div className="bubble-text">
-              {selectedFeatureForBubble.properties?.name ||
-                selectedFeatureForBubble.properties?.subGroup}
-            </div>
+            <svg width="140" height="40" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0.5" y="0.5" width="139" height="39" rx="19.5" fill="white" />
+              <rect x="0.5" y="0.5" width="139" height="39" rx="19.5" stroke="#0F71EF" />
+              <text
+                x="70"
+                y="22"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#0F71EF"
+                fontFamily="Vazir, Tahoma, sans-serif"
+                fontSize="12"
+                fontWeight="600"
+              >
+                {selectedFeatureForBubble.properties?.name ||
+                  selectedFeatureForBubble.properties?.subGroup}
+              </text>
+            </svg>
           </div>
         </Marker>
       )}

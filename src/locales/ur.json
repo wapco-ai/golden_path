@@ -208,9 +208,9 @@
   "invalidPhone": "  درج کردہ فون نمبر غلط ہے  ",
   "youAreHereQr": "آپ {placeName} کی زیارت کر رہے ہیں",
   "navigateToMpr": "اس مقام پر نیویگیشن ",
-   "landmarkPlaces": "نمایاں مقامات",
-    "walking": " منٹ کی واک",
-    "meter": "میٹر",
-    "moreCulturalInfo": "مزید ثقافتی معلومات"
-  
+  "landmarkPlaces": "نمایاں مقامات",
+  "walking": " منٹ کی واک",
+  "meter": "میٹر",
+  "moreCulturalInfo": "مزید ثقافتی معلومات",
+  "navigateFromMpr": "اس مقام سے راستہ تلاش کریں"
 }
