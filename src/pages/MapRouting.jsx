@@ -615,6 +615,7 @@ const MapRoutingPage = () => {
                 </button>
               )}
             </form>
+
             <div className="map-categories-scroll2">
               <div className="map-categories-list2">
                 {groups.map((category) => (
