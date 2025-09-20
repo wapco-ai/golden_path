@@ -379,7 +379,7 @@ const MapBeginPage = () => {
           <div className="toggle-handle"></div>
         </div>
 
-        <form className="search-bar">
+        <form className={`search-bar ${showRouting ? 'expanded' : ''}`}>
           <input
             type="text"
             placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}

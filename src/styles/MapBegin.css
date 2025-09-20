@@ -305,6 +305,11 @@
   background-color: #f5f5f5;
   border-radius: 25px;
   margin: 10px 15px 17px;
+  margin-bottom: 45px;
+}
+
+.search-bar.expanded:not(.fully-expanded) {
+  margin-bottom: 15px;
 }
 
 .search-bar input {

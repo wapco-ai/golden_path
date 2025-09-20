@@ -615,6 +615,24 @@ const MapRoutingPage = () => {
                 </button>
               )}
             </form>
+            <div className="map-categories-scroll2">
+              <div className="map-categories-list2">
+                {groups.map((category) => (
+                  <div
+                    key={category.value}
+                    className={`map-category-item2 ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}
+                    onClick={() => handleCategoryClick(category)}
+                  >
+                    <div className={`map-category-icon ${category.icon} ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}>
+                      <div dangerouslySetInnerHTML={{ __html: category.svg }} />
+                    </div>
+                    <span className={`map-category-name ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}>
+                      {intl.formatMessage({ id: category.label })}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {!searchQuery && (
