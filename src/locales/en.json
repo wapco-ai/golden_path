@@ -30,6 +30,7 @@
   "accountInfo": "Account Information",
   "myRoutes": "My Routes",
   "savedPlaces": "Saved Locations",
+  "savePlace": "Save",
   "settingsSection": "Settings",
   "notifications": "Notifications",
   "supportSection": "Astan Quds",
@@ -211,5 +212,6 @@
   "walking": "minutes walk",
   "meter": "meter",
   "moreCulturalInfo": "More cultural info",
-  "navigateFromMpr": "Navigate from this location"
+  "navigateFromMpr": "Navigate from this location",
+  "detailsButton": "Details"
 }
