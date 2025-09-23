@@ -71,7 +71,7 @@ const FinalSearch = () => {
     storeSetDestination(destination);
   }, [destination, storeSetDestination]);
   const { transportMode } = useRouteStore();
-  const [selectedGender, setSelectedGender] = useState(storedGender || 'male');
+  const [selectedGender, setSelectedGender] = useState(storedGender || 'family');
   const [routeInfo, setRouteInfo] = useState({
     time: '9',
     distance: '75',

@@ -1,7 +1,7 @@
 {
 	"name": "golden_path",
 	"private": true,
-	"version": "1.0.5.3",
+	"version": "1.0.5.4",
 	"type": "module",
 	"description": "GPS Validity PWA Application for location tracking",
 	"homepage": "https://wapco-ai.github.io/golden_path/",

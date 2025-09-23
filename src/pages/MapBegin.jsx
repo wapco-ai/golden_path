@@ -69,19 +69,26 @@ const MapBeginPage = () => {
 
     if (showRouting) {
       if (expandedSearch) {
-        // If fully expanded, collapse to location details or minimal
+        // If fully expanded, collapse to location details
         setExpandedSearch(false);
-        setCurrentHeight(showLocationDetails ? 410 : 140);
+        setCurrentHeight(window.innerHeight * 0.41);
       } else {
-        // If showing location details, expand fully
-        setExpandedSearch(true);
-        setCurrentHeight(window.innerHeight);
+        // If at location details height, close completely
+        if (showLocationDetails && currentHeight <= window.innerHeight * 0.41) {
+          setCurrentHeight(140);
+          setShowRouting(false);
+          setShowLocationDetails(false);
+        } else {
+          // Otherwise expand fully
+          setExpandedSearch(true);
+          setCurrentHeight(window.innerHeight);
+        }
       }
     } else {
-      // If not showing, open to show location details if available
+      // Open to show location details if available
       setShowRouting(true);
       if (showLocationDetails) {
-        setCurrentHeight(410);
+        setCurrentHeight(window.innerHeight * 0.41);
         setExpandedSearch(false);
       } else {
         setCurrentHeight(window.innerHeight);
@@ -138,7 +145,7 @@ const MapBeginPage = () => {
         }
       });
     }
-    
+
     // Update the store
     setOriginStore({
       name: origin.name,
@@ -204,35 +211,29 @@ const MapBeginPage = () => {
     setIsDragging(false);
     setIsSwiping(false);
 
-    if (isAutoExpanding) return; // Don't snap if we're auto-expanding
-
-    // Determine if we should snap to a position
     const screenHeight = window.innerHeight;
-    const threshold = screenHeight * 0.3; // 30% of screen height
+    const threshold = screenHeight * 0.15; // Reduced threshold for more sensitive closing
 
-    if (currentHeight > screenHeight - threshold) {
-      // Snap to fully expanded
+    // If user drags down significantly from the location details height, close completely
+    if (currentHeight < 200) { // Very close to bottom
+      setCurrentHeight(140);
+      setShowRouting(false);
+      setExpandedSearch(false);
+      if (showLocationDetails) {
+        setShowLocationDetails(false); // Also reset location details when closed
+      }
+    }
+    // If dragging up from location details height, expand fully
+    else if (currentHeight > screenHeight * 0.6) {
       setCurrentHeight(screenHeight);
       setExpandedSearch(true);
       setShowRouting(true);
-    } else if (currentHeight < 140 + threshold) {
-      // Snap to closed (but keep showing if we have location details)
-      if (showLocationDetails) {
-        setCurrentHeight(window.innerHeight * 0.41); // 41vh for location details
-        setExpandedSearch(false);
-      } else {
-        setCurrentHeight(140);
-        setShowRouting(false);
-        setExpandedSearch(false);
-      }
-    } else if (currentHeight < screenHeight * 0.5) {
-      // Snap to partially expanded (show location details)
-      setCurrentHeight(showLocationDetails ? window.innerHeight * 0.41 : 140);
+    }
+    // Otherwise, snap back to location details height
+    else {
+      setCurrentHeight(window.innerHeight * 0.41);
       setExpandedSearch(false);
-    } else {
-      // Snap to fully expanded
-      setCurrentHeight(screenHeight);
-      setExpandedSearch(true);
+      setShowRouting(true);
     }
   };
 

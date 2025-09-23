@@ -5,6 +5,7 @@ import Map, { Marker, Source, Layer, Popup } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { groups, subGroups } from '../components/groupData';
 import '../styles/RouteOverview.css';
 import osmStyle from '../services/osmStyle';
 import { useRouteStore } from '../store/routeStore';
@@ -48,6 +49,46 @@ const RouteOverview = () => {
 
   const { routeGeo, routeSteps } = useRouteStore();
   const routeCoordinates = routeGeo?.geometry?.coordinates || [];
+
+  // Function to render image markers for subgroups with images along the route
+  const renderImageMarkers = () => {
+    if (!routeCoordinates || routeCoordinates.length === 0) return null;
+
+    // This would need to be integrated with your actual geo data
+    // For now, I'll create a placeholder implementation
+    // You'll need to replace this with your actual data fetching logic
+    
+    // Get all subgroups that have images
+    const imageSubgroups = Object.values(subGroups)
+      .flat()
+      .filter(subgroup => subgroup.img);
+    
+    // This is a simplified implementation - you'll need to map these to actual coordinates
+    // along your route based on your geo data
+    return imageSubgroups.map((subgroup, idx) => {
+      // For demo purposes, I'll place markers at random points along the route
+      // You should replace this with actual coordinate mapping from your geo data
+      if (routeCoordinates.length < 2) return null;
+      
+      // Place marker at a point along the route (for demo - use actual coordinates from your data)
+      const routeIndex = Math.min(idx % routeCoordinates.length, routeCoordinates.length - 1);
+      const [lng, lat] = routeCoordinates[routeIndex];
+      
+      return (
+        <Marker key={`image-${idx}`} longitude={lng} latitude={lat} anchor="center">
+          <div className="image-marker-container2">
+            <svg width="55" height="63" viewBox="0 0 55 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M54.6562 27.3281C54.6562 39.6299 46.5275 50.0319 35.3486 53.459C35.1079 53.8493 34.8535 54.2605 34.585 54.6924L33.1699 56.9687C30.7353 60.8845 29.5175 62.8418 27.7412 62.8418C25.9651 62.8417 24.7479 60.8842 22.3135 56.9687L20.8975 54.6924C20.6938 54.3648 20.4993 54.0485 20.3115 53.7451C8.61859 50.6476 8.59898e-05 39.9953 -1.19455e-06 27.3281C-5.34814e-07 12.2351 12.2351 -1.85429e-06 27.3281 -1.19455e-06C42.4211 0.000106671 54.6562 12.2352 54.6562 27.3281Z" fill="white"/>
+            </svg>
+            <div
+              className="image-marker-content2"
+              style={{ backgroundImage: `url(${subgroup.img})` }}
+            />
+          </div>
+        </Marker>
+      );
+    }).filter(Boolean); // Remove null entries
+  };
 
   const routeData = useMemo(() => {
     const segments = routeCoordinates.slice(1).map((c, idx) => {
@@ -305,6 +346,10 @@ const RouteOverview = () => {
               <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#e74c3c" className="icon icon-tabler icons-tabler-filled icon-tabler-map-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" /></svg>
             </div>
           </Marker>
+          
+          {/* Image markers for subgroups with images */}
+          {renderImageMarkers()}
+          
           <Source id="route" type="geojson" data={allGeo}>
             <Layer id="route-line" type="line" paint={{ 'line-color': '#0f71ef', 'line-width': 10 }} />
           </Source>
