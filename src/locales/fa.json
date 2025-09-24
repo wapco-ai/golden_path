@@ -33,7 +33,7 @@
   "settingsSection": "تنظیمات",
   "notifications": "اطلاع رسانی",
   "supportSection": "آستان قدس",
-  "support": "پشتیبان",
+  "support": "پشتیبانی",
   "faq": "سوالات متداول",
   "termsRegulation": "قوانین و مقررات",
   "logoutTitle": "خروج",
@@ -213,5 +213,7 @@
   "meter": "متر",
   "moreCulturalInfo": "اطلاعات فرهنگی بیشتر",
   "navigateFromMpr": "مسیریابی از این مکان",
-  "detailsButton": "جزئیات"
+  "detailsButton": "جزئیات",
+  "Username":"نام کاربری",
+  "Savedlocations":"مکان های ذخیره شده"
 }

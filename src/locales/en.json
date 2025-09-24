@@ -213,5 +213,7 @@
   "meter": "meter",
   "moreCulturalInfo": "More cultural info",
   "navigateFromMpr": "Navigate from this location",
-  "detailsButton": "Details"
+  "detailsButton": "Details",
+  "Username":"Username",
+  "Savedlocations":"Saved locations"
 }
