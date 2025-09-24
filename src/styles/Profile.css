@@ -9,6 +9,8 @@
   padding: 15px;
   direction: rtl;
   font-family: 'Vazir', Tahoma, sans-serif;
+  max-width: 100vw;
+  min-width: 100vw;
 }
 
 /* Profile Header */
@@ -123,7 +125,7 @@
   color: white;
   border-radius: 20px;
   padding: 10px 20px;
-  font-size: 0.85rem;
+  font-size: 1.0rem;
   width: auto;
   font-family: 'Vazir', Tahoma, sans-serif;
   font-weight: 500;
@@ -287,12 +289,6 @@
 
 /* Responsive Adjustments */
 @media (min-width: 768px) {
-  .profile-container {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
   .profile-avatar-container {
     width: 100px;
     height: 100px;
