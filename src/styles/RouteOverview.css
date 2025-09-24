@@ -155,7 +155,7 @@
 }
 
 .instruction-text {
-  font-size: 20px;
+  font-size: 18px;
   color: black;
   line-height: 1.6;
   font-weight: 500;
@@ -398,6 +398,14 @@
   background-position: center;
   background-repeat: no-repeat;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 400px) {
+  .instruction-text {
+    font-size: 16px;
+  }
 }
 
 
