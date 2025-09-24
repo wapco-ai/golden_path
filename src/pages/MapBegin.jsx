@@ -424,8 +424,8 @@ const MapBeginPage = () => {
 
                 <div className="location-description">
                   <p>
-                    {selectedLocation.description && selectedLocation.description.split(' ').length > 7
-                      ? `${selectedLocation.description.split(' ').slice(0, 7).join(' ')}...`
+                    {selectedLocation.description && selectedLocation.description.split(' ').length > 4
+                      ? `${selectedLocation.description.split(' ').slice(0, 4).join(' ')} ...`
                       : selectedLocation.description
                     }
                   </p>
