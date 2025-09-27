@@ -351,7 +351,7 @@
           "ar": "كلام آية الله جوادي آملي",
           "ur": "آیت اللہ جوادی آملی کا خطاب"
         },
-        "mediaUrl": "/vids/vid1.mp4",
+        "fileKey": "v1",
         "thumbnail": "https://commons.wikishia.net/w/images/1/18/%D8%A8%D8%A7%D8%A8_%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%AF_%D8%AD%D8%B1%D9%85_%D8%A7%D9%85%D8%A7%D9%85_%D8%B1%D8%B6%D8%A7.png"
       },
       {
@@ -369,7 +369,7 @@
           "ar": "فيلم وثائقي قصير عن هذا المدخل المقدس",
           "ur": "اس مقدس دروازے کے بارے میں مختصر دستاویزی فلم"
         },
-        "mediaUrl": "/vids/vid2.mp4",
+        "fileKey": "v2",
         "thumbnail": "https://iqna.ir/files/fa/news/1402/11/1/3308359_485.jpg"
       },
       {
@@ -387,8 +387,8 @@
           "ar": "دليل كامل لطرق الوصول",
           "ur": "رسائی کے مکمل راستوں کی رہنمائی"
         },
-        "mediaUrl": "/pdf/pdf1.pdf",
-        "thumbnail": "/images/pdf-thumbnail.jpg"
+        "fileKey": "pdf1",
+        "thumbnailKey": "pdfThumbnail"
       }
     ],
     "comments": [

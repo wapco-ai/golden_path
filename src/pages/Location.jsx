@@ -13,6 +13,33 @@ import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Import video files
+import v1 from '../assets/videos/vid1.mp4';
+import v2 from '../assets/videos/vid2.mp4';
+
+// Import PDF file
+import pdf1 from '../assets/pdfs/pdf1.pdf';
+
+// File mapping for offline access
+const fileMap = {
+  // Videos
+  'v1': v1,
+  'v2': v2,
+
+  // PDFs
+  'pdf1': pdf1,
+};
+
+// Helper function to get file URL
+const getFileUrl = (fileKey) => {
+  return fileMap[fileKey] || '';
+};
+
+// Helper function to get thumbnail URL
+const getThumbnailUrl = (thumbnailKey) => {
+  return fileMap[thumbnailKey] || '/images/default-thumbnail.jpg';
+};
+
 // Map subgroup labels to their values for easier lookup
 const labelToValueMap = Object.values(subGroups).flat().reduce((acc, sg) => {
   acc[sg.label] = sg.value;
@@ -99,8 +126,8 @@ const Location = () => {
     // Consider it a QR code entry only if we have both coordinates and ID
     setIsQrCodeEntry(hasQrCoordinates && hasQrId);
   }, []);
+
   const handleSaveDestination = () => {
-    setMenuOpen(false);
     // Implement save destination logic
     toast.success(intl.formatMessage({ id: 'destinationSaved' }));
   };
@@ -111,48 +138,6 @@ const Location = () => {
 
   const handleTouchMove = (e) => {
     setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleVideoClick = (videoContent) => {
-    setSelectedVideo(videoContent);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const handleVideoClose = () => {
-    setSelectedVideo(null);
-    setIsVideoFullscreen(false);
-    document.body.style.overflow = 'auto';
-  };
-
-  const handleFullscreenToggle = () => {
-    setIsVideoFullscreen(!isVideoFullscreen);
-  };
-
-  const handlePdfClick = async (pdfContent) => {
-    try {
-      // First, try to open the PDF in a new tab
-      const newWindow = window.open(pdfContent.mediaUrl, '_blank');
-
-      // If popup is blocked, try to download it
-      if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-        // Fallback to download method
-        const link = document.createElement('a');
-        link.href = pdfContent.mediaUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.download = pdfContent.title[language] || 'document.pdf';
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Show success message
-        toast.success(intl.formatMessage({ id: 'pdfOpened' }));
-      }
-    } catch (error) {
-      console.error('Error opening PDF:', error);
-      toast.error(intl.formatMessage({ id: 'pdfError' }));
-    }
   };
 
   const handleTouchEnd = () => {
@@ -311,6 +296,57 @@ const Location = () => {
     setOverallRating(average);
   };
 
+  // Video and PDF handlers
+  const handleVideoClick = (videoContent) => {
+    const videoUrl = getFileUrl(videoContent.fileKey);
+    if (!videoUrl) {
+      toast.error(intl.formatMessage({ id: 'videoLoadError' }));
+      return;
+    }
+
+    // Create a temporary video element to check if it's playable
+    const tempVideo = document.createElement('video');
+    tempVideo.src = videoUrl;
+
+    tempVideo.oncanplay = () => {
+      setSelectedVideo({
+        ...videoContent,
+        mediaUrl: videoUrl
+      });
+      document.body.style.overflow = 'hidden';
+    };
+
+    tempVideo.onerror = () => {
+      toast.error(intl.formatMessage({ id: 'videoLoadError' }));
+    };
+
+    tempVideo.load();
+  };
+
+  const handleVideoClose = () => {
+    setSelectedVideo(null);
+    setIsVideoFullscreen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const handleFullscreenToggle = () => {
+    setIsVideoFullscreen(!isVideoFullscreen);
+  };
+
+  const handlePdfClick = async (pdfContent) => {
+    const pdfUrl = getFileUrl(pdfContent.fileKey);
+    if (!pdfUrl) {
+      return;
+    }
+
+    try {
+      // For PDFs, we'll open them in the same tab since they're bundled
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      console.error('Error opening PDF:', error);
+    }
+  };
+
   // Load geojson data
   useEffect(() => {
     const file = buildGeoJsonPath(language);
@@ -367,14 +403,12 @@ const Location = () => {
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M11.2244 4.55806C11.4685 4.31398 11.8642 4.31398 12.1083 4.55806L17.1083 9.55806C17.3524 9.80214 17.3524 10.1979 17.1083 10.4419L12.1083 15.4419C11.8642 15.686 11.4685 15.686 11.2244 15.4419C10.9803 15.1979 10.9803 14.8021 11.2244 14.5581L15.1575 10.625H3.33301C2.98783 10.625 2.70801 10.3452 2.70801 10C2.70801 9.65482 2.98783 9.375 3.33301 9.375H15.1575L11.2244 5.44194C10.9803 5.19786 10.9803 4.80214 11.2244 4.55806Z" fill="black" />
             </svg>
-
           </button>
           <button className="profile-icon" onClick={() => navigate('/Profile')}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="9.99984" cy="5" r="3.33333" fill="#1E2023" />
               <ellipse cx="9.99984" cy="14.1667" rx="5.83333" ry="3.33333" fill="#1E2023" />
             </svg>
-
           </button>
         </div>
         <div className="carousel-container">
@@ -477,7 +511,6 @@ const Location = () => {
         </div>
       </section>
 
-
       {/* Audio/Video/Text Content Section */}
       {locationData.contents && locationData.contents.length > 0 && (
         <section className="content-section">
@@ -520,13 +553,17 @@ const Location = () => {
                   )}
                   {content.type === 'pdf' && (
                     <div className="pdf-thumbnail" onClick={() => handlePdfClick(content)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <path d="M10 11H8v2h2v-2z"></path>
-                        <path d="M16 11h-2v2h2v-2z"></path>
-                        <path d="M14 11h-2v2h2v-2z"></path>
-                      </svg>
+                      {content.thumbnail ? (
+                        <img src={content.thumbnail} alt="PDF thumbnail" />
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                          <polyline points="14 2 14 8 20 8"></polyline>
+                          <path d="M10 11H8v2h2v-2z"></path>
+                          <path d="M16 11h-2v2h2v-2z"></path>
+                          <path d="M14 11h-2v2h2v-2z"></path>
+                        </svg>
+                      )}
                     </div>
                   )}
                 </div>
@@ -578,7 +615,6 @@ const Location = () => {
               <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.39464 15.0728L5.34893 13.05C1.81466 11.2829 0.0475295 10.3993 0.0475289 9.00008C0.047529 7.60087 1.81466 6.7173 5.34892 4.95017L9.39463 2.92732C12.2471 1.50107 13.6734 0.787951 14.5002 1.00685C15.2868 1.21509 15.9011 1.82943 16.1094 2.61602C16.3283 3.44287 15.6152 4.86911 14.1889 7.72161C14.0122 8.07512 13.6508 8.31029 13.2555 8.31213L6.79714 8.34219C6.4338 8.34388 6.14063 8.6398 6.14232 9.00314C6.14401 9.36648 6.43993 9.65966 6.80327 9.65797L13.1574 9.62839C13.593 9.62637 13.9941 9.88892 14.1889 10.2786C15.6152 13.131 16.3283 14.5573 16.1094 15.3841C15.9011 16.1707 15.2868 16.7851 14.5002 16.9933C13.6734 17.2122 12.2471 16.4991 9.39464 15.0728Z" fill="#1E2023" />
               </svg>
-
             </button>
           </div>
         </div>
@@ -742,6 +778,23 @@ const Location = () => {
             </div>
           </div>
         </>
+      )}
+
+      {isQrCodeEntry && (
+        <div className="fixed-bottom-button-container">
+          <button
+            className="fixed-bottom-button"
+            onClick={() => navigate('/mpr')}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M11.092 2.581a1 1 0 0 1 1.754 -.116l.062 .116l8.005 17.365c.198 .566 .05 1.196 -.378 1.615a1.53 1.53 0 0 1 -1.459 .393l-7.077 -2.398l-6.899 2.338a1.535 1.535 0 0 1 -1.52 -.231l-.112 -.1c-.398 -.386 -.556 -.954 -.393 -1.556l.047 -.15l7.97 -17.276z" />
+            </svg>
+            <FormattedMessage
+              id={isAtInitialLocation() ? "navigateFromMpr" : "navigateToMpr"}
+            />
+          </button>
+        </div>
       )}
     </div>
   );
