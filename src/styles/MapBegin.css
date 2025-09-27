@@ -983,11 +983,14 @@ body.modal-open {
   scrollbar-width: none;
   gap: 10px;
   padding-bottom: 5px;
+  scroll-snap-type: x mandatory;
 }
+
 
 .location-image-scroll::-webkit-scrollbar {
   display: none;
 }
+
 
 .location-main-image {
   width: 43vw;
@@ -996,6 +999,7 @@ body.modal-open {
   background-position: center;
   border-radius: 8px;
   flex-shrink: 0;
+  scroll-snap-align: start;
 }
 
 .location-details7 {

@@ -215,5 +215,6 @@
   "navigateFromMpr": "Navigate from this location",
   "detailsButton": "Details",
   "Username":"Username",
-  "Savedlocations":"Saved locations"
+  "Savedlocations":"Saved locations",
+  "closeAndContinue": " Close and Continue Route"
 }

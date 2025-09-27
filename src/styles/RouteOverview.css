@@ -408,5 +408,156 @@
   }
 }
 
+/* Subgroup Modal Styles */
+.subgroup-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.subgroup-modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 100vw;
+  height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-image-section {
+  position: relative;
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-image2 {
+  width: 100%;
+  height: 90%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+}
+
+.image-thumbnails2 {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0px 15px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: row;
+}
+  
+
+.thumbnail2 {
+  height: 12vh;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  flex: 1;
+}
+
+.image-fade3 {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to top, white, transparent);
+  pointer-events: none;
+}
+
+.thumbnail2.active {
+  transform: scale(1.1);
+}
+
+.thumbnail2:hover {
+  transform: scale(1.1);
+}
+
+.modal-description {
+  padding: 20px;
+  border: none;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.modal-description p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #666;
+  text-align: center;
+}
+
+.btn-box3 {
+  width: 90vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-bottom: 20px;
+  border: none;
+}
+
+
+.continue-route-btn {
+  width: 80vw;
+  padding: 8px;
+  background-color: #0F71EF;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .subgroup-modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .main-image {
+    height: 200px;
+  }
+  
+  .thumbnail {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 
 

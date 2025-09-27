@@ -173,8 +173,11 @@ const Mpbc = ({
       const coords = { lat, lng };
       setUserCoords(coords);
 
-      // Only center if tracking is enabled or if we're swapping
-      if (isTracking || !destCoords) {
+      // CRITICAL FIX: Only center if tracking is enabled AND we're not handling a map selection
+      const isMapSelection = sessionStorage.getItem('mapSelectedLat') &&
+        sessionStorage.getItem('mapSelectedLng');
+
+      if (isTracking && !isMapSelection) {
         setViewState(v => ({
           ...v,
           latitude: lat,
@@ -307,6 +310,7 @@ const Mpbc = ({
     : [];
 
   // Function to render image markers for subgroups with images
+  // Function to render image markers for subgroups with images
   const renderImageMarkers = () => {
     if (!geoData) return null;
 
@@ -316,7 +320,10 @@ const Mpbc = ({
 
         const { group, subGroupValue } = feature.properties || {};
         const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
-        const hasImage = subgroup && subgroup.img;
+
+        // Check if img exists and get the first image if it's an array
+        const hasImage = subgroup && subgroup.img &&
+          (Array.isArray(subgroup.img) ? subgroup.img.length > 0 : true);
 
         // If no image, exclude this feature
         if (!hasImage) return false;
@@ -331,6 +338,9 @@ const Mpbc = ({
         const { group, subGroupValue } = feature.properties || {};
         const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
 
+        // Get the first image if it's an array, otherwise use the string
+        const imageUrl = Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img;
+
         return (
           <Marker key={`image-${idx}`} longitude={lng} latitude={lat} anchor="center">
             <div className="image-marker-container">
@@ -339,7 +349,7 @@ const Mpbc = ({
               </svg>
               <div
                 className="image-marker-content"
-                style={{ backgroundImage: `url(${subgroup.img})` }}
+                style={{ backgroundImage: `url(${imageUrl})` }}
               />
             </div>
           </Marker>
@@ -371,8 +381,8 @@ const Mpbc = ({
         <Marker
           longitude={selectedFeatureForBubble.geometry.coordinates[0]}
           latitude={selectedFeatureForBubble.geometry.coordinates[1]}
-          anchor="bottom"  
-          offset={[0, 75]}  
+          anchor="bottom"
+          offset={[0, 75]}
         >
           <div className="location-bubble">
             <svg width="140" height="40" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -48,6 +48,12 @@ const MapBeginPage = () => {
   const [dragStartY, setDragStartY] = useState(0);
   const [currentHeight, setCurrentHeight] = useState(140);
   const [isAutoExpanding, setIsAutoExpanding] = useState(false);
+  const [preventMapCentering, setPreventMapCentering] = useState(false);
+  const clearMapSelection = () => {
+    sessionStorage.removeItem('mapSelectedLat');
+    sessionStorage.removeItem('mapSelectedLng');
+    sessionStorage.removeItem('mapSelectedId');
+  };
 
   useEffect(() => {
     if (storedLat && storedLng && storedId) {
@@ -117,63 +123,69 @@ const MapBeginPage = () => {
   };
 
 
-  const handleMapClick = (latlng, feature) => {
-    const locName = feature?.properties?.name || intl.formatMessage({ id: 'mapSelectedLocation' });
-    const origin = {
+const handleMapClick = (latlng, feature) => {
+  const locName = feature?.properties?.name || intl.formatMessage({ id: 'mapSelectedLocation' });
+  const origin = {
+    name: locName,
+    coordinates: [latlng.lat, latlng.lng]
+  };
+
+  setSelectedOrigin(origin);
+
+  // Update session storage with the selected origin
+  sessionStorage.setItem('mapSelectedLat', latlng.lat.toString());
+  sessionStorage.setItem('mapSelectedLng', latlng.lng.toString());
+  if (feature?.properties?.uniqueId) {
+    sessionStorage.setItem('mapSelectedId', feature.properties.uniqueId);
+  }
+
+  // CRITICAL FIX: Set flag to prevent map centering
+  setPreventMapCentering(true);
+
+  // CRITICAL FIX: Only update user location if NOT entered via QR code
+  const isQrEntry = sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng');
+  
+  if (!isQrEntry) {
+    // Only update user location if this is NOT a QR code entry
+    setUserLocation({
       name: locName,
       coordinates: [latlng.lat, latlng.lng]
-    };
+    });
 
-    setSelectedOrigin(origin);
-
-    // Update session storage with the selected origin
-    sessionStorage.setItem('mapSelectedLat', latlng.lat.toString());
-    sessionStorage.setItem('mapSelectedLng', latlng.lng.toString());
-    if (feature?.properties?.uniqueId) {
-      sessionStorage.setItem('mapSelectedId', feature.properties.uniqueId);
-    }
-
-    // Also update the user location setting if needed
-    if (storedLat && storedLng && storedId) {
-      // This should use the QR code keys, not the map selection keys
-      getLocationTitleById(storedId).then((title) => {
-        if (title) {
-          setUserLocation({
-            name: title,
-            coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
-          });
-        }
-      });
-    }
-
-    // Update the store
+    // Update the store only for non-QR entries
     setOriginStore({
       name: origin.name,
       coordinates: origin.coordinates
     });
+  } else {
+    // For QR code entries, set the selected origin but don't change user location
+    setOriginStore({
+      name: userLocation.name, // Keep QR location name
+      coordinates: userLocation.coordinates // Keep QR coordinates
+    });
+  }
 
-    // Check if this feature has an image and show location details
-    if (feature?.properties?.subGroupValue) {
-      const subgroup = Object.values(subGroups)
-        .flat()
-        .find(sg => sg.value === feature.properties.subGroupValue);
+  // Check if this feature has an image and show location details
+  if (feature?.properties?.subGroupValue) {
+    const subgroup = Object.values(subGroups)
+      .flat()
+      .find(sg => sg.value === feature.properties.subGroupValue);
 
-      if (subgroup && subgroup.img) {
-        setSelectedLocation({
-          ...subgroup,
-          coordinates: [latlng.lat, latlng.lng]
-        });
-        setShowLocationDetails(true);
-        // Expand search to show location details but not fully
-        setShowRouting(true);
-        setExpandedSearch(false);
-      } else {
-        setShowLocationDetails(false);
-      }
+    if (subgroup && subgroup.img) {
+      setSelectedLocation({
+        ...subgroup,
+        coordinates: [latlng.lat, latlng.lng]
+      });
+      setShowLocationDetails(true);
+      setShowRouting(true);
+      setExpandedSearch(false);
     } else {
       setShowLocationDetails(false);
     }
-  };
+  } else {
+    setShowLocationDetails(false);
+  }
+};
 
   // Add these touch event handlers
   const handleTouchStart = (e) => {
@@ -236,6 +248,7 @@ const MapBeginPage = () => {
       setShowRouting(true);
     }
   };
+
 
   useEffect(() => {
     setShowImageMarkers(!selectedCategory);
@@ -396,14 +409,25 @@ const MapBeginPage = () => {
 
         {showRouting && showLocationDetails && selectedLocation && (
           <div className="selected-location-section">
-
             <div className="selected-location-images">
               <div className="location-image-scroll">
-                <div
-                  className="location-main-image"
-                  style={{ backgroundImage: `url(${selectedLocation.img})` }}
-                ></div>
-                {/* Additional images can be added here in the future */}
+                {/* Handle both single image and multiple images */}
+                {Array.isArray(selectedLocation.img) ? (
+                  // Multiple images - create scrollable list
+                  selectedLocation.img.map((image, index) => (
+                    <div
+                      key={index}
+                      className="location-main-image"
+                      style={{ backgroundImage: `url(${image})` }}
+                    ></div>
+                  ))
+                ) : (
+                  // Single image
+                  <div
+                    className="location-main-image"
+                    style={{ backgroundImage: `url(${selectedLocation.img})` }}
+                  ></div>
+                )}
               </div>
             </div>
 
