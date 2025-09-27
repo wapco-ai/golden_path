@@ -76,7 +76,7 @@ body {
   background-color: var(--info-color);  
 }  
 
-/* .home-page {  
+.home-page {  
   max-width: 1000px;  
   margin: 0 auto;  
 }  
@@ -245,4 +245,4 @@ body {
   justify-content: space-between;  
   padding-top: 20px;  
 }  
- */
+
