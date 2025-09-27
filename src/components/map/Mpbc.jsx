@@ -220,6 +220,22 @@ const Mpbc = ({
         if (f.geometry.type === 'Point') {
           const [flng, flat] = f.geometry.coordinates;
           const d = Math.hypot(flng - lng, flat - lat);
+
+          // CRITICAL FIX: Only consider features that should be selectable
+          const { group, subGroupValue } = f.properties || {};
+          const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
+          const hasImage = subgroup && subgroup.img;
+
+          // When no category is selected, only allow selection of features with images
+          if (!selectedCategory && !hasImage) {
+            return; // Skip this feature - not selectable
+          }
+
+          // When category is selected, only allow selection of features from that category
+          if (selectedCategory && group !== selectedCategory.value) {
+            return; // Skip this feature - not in selected category
+          }
+
           if (d < minDist) {
             minDist = d;
             closestFeature = f;
@@ -290,7 +306,7 @@ const Mpbc = ({
       const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
       const hasImage = subgroup && subgroup.img;
 
-      // If no category is selected, don't show any icon markers
+      // If no category is selected, don't show any icon markers (only image markers)
       if (!selectedCategory) return false;
 
       // If a category is selected, only show features from that category
@@ -310,9 +326,10 @@ const Mpbc = ({
     : [];
 
   // Function to render image markers for subgroups with images
-  // Function to render image markers for subgroups with images
   const renderImageMarkers = () => {
     if (!geoData) return null;
+
+    const seenSubgroups = new Set();
 
     return geoData.features
       .filter(feature => {
@@ -321,17 +338,21 @@ const Mpbc = ({
         const { group, subGroupValue } = feature.properties || {};
         const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
 
-        // Check if img exists and get the first image if it's an array
         const hasImage = subgroup && subgroup.img &&
           (Array.isArray(subgroup.img) ? subgroup.img.length > 0 : true);
 
-        // If no image, exclude this feature
         if (!hasImage) return false;
 
-        // If a category is selected, only show markers from that category
-        if (selectedCategory && group !== selectedCategory.value) return false;
+        // Skip if we've already seen this subgroup
+        if (seenSubgroups.has(subGroupValue)) return false;
 
-        return true;
+        seenSubgroups.add(subGroupValue);
+
+        if (!selectedCategory || group === selectedCategory.value) {
+          return true;
+        }
+
+        return false;
       })
       .map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;

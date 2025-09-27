@@ -77,6 +77,8 @@ const Location = () => {
   const [isQrCodeEntry, setIsQrCodeEntry] = useState(false);
   const [initialQrLocation, setInitialQrLocation] = useState(null);
   const [currentUserLocation, setCurrentUserLocation] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [isVideoFullscreen, setIsVideoFullscreen] = useState(false);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -109,6 +111,48 @@ const Location = () => {
 
   const handleTouchMove = (e) => {
     setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleVideoClick = (videoContent) => {
+    setSelectedVideo(videoContent);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleVideoClose = () => {
+    setSelectedVideo(null);
+    setIsVideoFullscreen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const handleFullscreenToggle = () => {
+    setIsVideoFullscreen(!isVideoFullscreen);
+  };
+
+  const handlePdfClick = async (pdfContent) => {
+    try {
+      // First, try to open the PDF in a new tab
+      const newWindow = window.open(pdfContent.mediaUrl, '_blank');
+
+      // If popup is blocked, try to download it
+      if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+        // Fallback to download method
+        const link = document.createElement('a');
+        link.href = pdfContent.mediaUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.download = pdfContent.title[language] || 'document.pdf';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Show success message
+        toast.success(intl.formatMessage({ id: 'pdfOpened' }));
+      }
+    } catch (error) {
+      console.error('Error opening PDF:', error);
+      toast.error(intl.formatMessage({ id: 'pdfError' }));
+    }
   };
 
   const handleTouchEnd = () => {
@@ -456,11 +500,9 @@ const Location = () => {
                   )}
                   {content.type === 'video' && (
                     <div className="video-thumbnail-container">
-                      <a
-                        href={content.mediaUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
                         className="video-thumbnail-link"
+                        onClick={() => handleVideoClick(content)}
                       >
                         <div
                           className="video-thumbnail"
@@ -473,11 +515,11 @@ const Location = () => {
                             </svg>
                           </div>
                         </div>
-                      </a>
+                      </button>
                     </div>
                   )}
                   {content.type === 'pdf' && (
-                    <div className="pdf-thumbnail">
+                    <div className="pdf-thumbnail" onClick={() => handlePdfClick(content)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
@@ -655,6 +697,51 @@ const Location = () => {
             />
           </button>
         </div>
+      )}
+
+      {/* Video Modal */}
+      {selectedVideo && (
+        <>
+          <div className="video-modal-overlay" onClick={handleVideoClose}></div>
+          <div className={`video-modal ${isVideoFullscreen ? 'fullscreen' : ''}`}>
+            {/* <div className="video-modal-header">
+              <h4>{selectedVideo.title[language]}</h4>
+              <div className="video-controls">
+                <button className="fullscreen-btn" onClick={handleFullscreenToggle}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {isVideoFullscreen ? (
+                      <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+                    ) : (
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                    )}
+                  </svg>
+                </button>
+                <button className="close-video-modal" onClick={handleVideoClose}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div> */}
+            <div className="video-container">
+              <video
+                controls
+                autoPlay
+                className="video-player"
+                controlsList="nodownload"
+                onEnded={() => {
+                  // Optional: Auto-close when video ends
+                  // handleVideoClose();
+                }}
+              >
+                <source src={selectedVideo.mediaUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

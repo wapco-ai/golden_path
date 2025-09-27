@@ -1065,3 +1065,248 @@
     font-family: Arial, sans-serif;
   }
 }
+
+/* Video Modal Fixes */
+.video-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #000;
+  border-radius: 12px;
+  z-index: 2001;
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.video-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #000;
+}
+
+.video-player {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  outline: none;
+  background: #000;
+}
+
+/* Fix for mobile video fullscreen */
+.video-modal.fullscreen .video-player {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+/* Ensure video controls are visible */
+.video-player::-webkit-media-controls {
+  display: flex !important;
+}
+
+.video-player::-webkit-media-controls-panel {
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+}
+
+/* Prevent video download in context menu */
+.video-player {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* PDF loading state */
+.pdf-thumbnail.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.pdf-thumbnail.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #1E90FF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Video Modal Styles */
+.video-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #000;
+  border-radius: 12px;
+  z-index: 2001;
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.video-modal.fullscreen {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  top: 0;
+  left: 0;
+  transform: none;
+}
+
+/* .video-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.video-modal.fullscreen .video-modal-header {
+  border-radius: 0;
+}
+
+.video-modal-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.video-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+} */
+
+.fullscreen-btn,
+.close-video-modal {
+  background: none;
+  border: none;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  max-height: calc(80vh - 60px);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  outline: none;
+}
+
+.video-modal.fullscreen .video-player {
+  max-height: 100vh;
+  border-radius: 0;
+}
+
+/* PDF Thumbnail clickable */
+.pdf-thumbnail {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.pdf-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+/* Video thumbnail clickable */
+.video-thumbnail-link {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .video-modal {
+    width: 95%;
+    max-height: 70vh;
+  }
+  
+  .video-player {
+    max-height: calc(70vh - 60px);
+  }
+  
+  .video-modal.fullscreen {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* For RTL languages */
+:root:lang(fa),
+:root:lang(ar),
+:root:lang(ur) {
+  .video-modal-header {
+    direction: rtl;
+  }
+}
+
+/* For English */
+:root:lang(en) {
+  .video-modal-header {
+    direction: ltr;
+  }
+}
