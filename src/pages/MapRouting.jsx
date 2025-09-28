@@ -270,7 +270,9 @@ const MapRoutingPage = () => {
       // Show modal with whatever coordinates we have (even if null)
       setSelectedPlace({
         name: subgroup.label,
-        coordinates: coordinates // can be null
+        coordinates: coordinates, // can be null
+        // Add the first image to selectedPlace for the modal if needed
+        image: Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img
       });
       setSelectedSubgroup(subgroup);
       setShowRouteInfoModal(true);
@@ -584,7 +586,7 @@ const MapRoutingPage = () => {
                 onClick={() => handleCategoryClick(category)}
               >
                 <div className={`map-category-icon ${category.icon} ${mapSelectedCategory && mapSelectedCategory.value === category.value ? 'active' : ''}`}>
-                  <div dangerouslySetInnerHTML={{ __html: category.svg }} />
+                  <img src={category.png} alt={category.label} width="22" height="22" />
                 </div>
                 <span className={`map-category-name ${mapSelectedCategory && mapSelectedCategory.value === category.value ? 'active' : ''}`}>
                   {intl.formatMessage({ id: category.label })}
@@ -636,7 +638,9 @@ const MapRoutingPage = () => {
                   <div className="map-subgroup-main">
                     <div className="map-subgroup-content">
                       <div className="map-subgroup-top">
-                        <div className="subgroup-search-icon" dangerouslySetInnerHTML={{ __html: mapSelectedCategory.svg }} />
+                        <div className="subgroup-search-icon">
+                          <img src={mapSelectedCategory.png} alt={mapSelectedCategory.label || 'category icon'} width="22" height="22" />
+                        </div>
                         <h3 className="map-subgroup-title">{subGroup.label}</h3>
                       </div>
                       <p className="map-subgroup-address">{subGroup.address}</p>
@@ -661,7 +665,10 @@ const MapRoutingPage = () => {
                       </div>
                     </div>
                     <div className="map-subgroup-image">
-                      <img src={subGroup.img} alt={subGroup.label} />
+                      <img
+                        src={Array.isArray(subGroup.img) ? subGroup.img[0] : subGroup.img}
+                        alt={subGroup.label}
+                      />
                     </div>
                   </div>
                   <div className="map-subgroup-actions">
@@ -803,7 +810,9 @@ const MapRoutingPage = () => {
 
               {modalSelectedCategory ? (
                 <div className="selected-category-header">
-                  <div className="selected-category-icon" dangerouslySetInnerHTML={{ __html: modalSelectedCategory.svg }} />
+                  <div className="selected-category-icon">
+                    <img src={modalSelectedCategory.png} alt={modalSelectedCategory.label || 'category icon'} width="22" height="22" />
+                  </div>
                   <span>{intl.formatMessage({ id: modalSelectedCategory.label })}</span>
                 </div>
               ) : (
@@ -848,7 +857,7 @@ const MapRoutingPage = () => {
                       onClick={() => handleCategoryClickInModal(category)}
                     >
                       <div className={`map-category-icon ${category.icon} ${modalSelectedCategory && modalSelectedCategory.value === category.value ? 'active' : ''}`}>
-                        <div dangerouslySetInnerHTML={{ __html: category.svg }} />
+                        <img src={category.png} width="22" height="22" />
                       </div>
                       <span className={`map-category-name ${modalSelectedCategory && modalSelectedCategory.value === category.value ? 'active' : ''}`}>
                         {intl.formatMessage({ id: category.label })}
@@ -875,7 +884,7 @@ const MapRoutingPage = () => {
                           className="subgroup-item with-image"
                           onClick={() => handleSubgroupSelectWithModal(subgroup)}
                           style={{
-                            backgroundImage: subgroup.img ? `url(${subgroup.img})` : 'none',
+                            backgroundImage: subgroup.img ? `url(${Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img})` : 'none',
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                             backgroundColor: 'rgba(255,255,255,0.7)',
@@ -903,7 +912,9 @@ const MapRoutingPage = () => {
                       >
                         <div className="subgroup-search-box">
                           <div className="subgroup-search-info">
-                            <div className="subgroup-search-icon" dangerouslySetInnerHTML={{ __html: modalSelectedCategory.svg }} />
+                            <div className="subgroup-search-icon">
+                              <img src={modalSelectedCategory.png} alt={modalSelectedCategory.label || 'category icon'} width="22" height="22" />
+                            </div>
                             <span className="subgroup-search-name">{subgroup.label}</span>
                           </div>
 

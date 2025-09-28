@@ -123,69 +123,69 @@ const MapBeginPage = () => {
   };
 
 
-const handleMapClick = (latlng, feature) => {
-  const locName = feature?.properties?.name || intl.formatMessage({ id: 'mapSelectedLocation' });
-  const origin = {
-    name: locName,
-    coordinates: [latlng.lat, latlng.lng]
-  };
-
-  setSelectedOrigin(origin);
-
-  // Update session storage with the selected origin
-  sessionStorage.setItem('mapSelectedLat', latlng.lat.toString());
-  sessionStorage.setItem('mapSelectedLng', latlng.lng.toString());
-  if (feature?.properties?.uniqueId) {
-    sessionStorage.setItem('mapSelectedId', feature.properties.uniqueId);
-  }
-
-  // CRITICAL FIX: Set flag to prevent map centering
-  setPreventMapCentering(true);
-
-  // CRITICAL FIX: Only update user location if NOT entered via QR code
-  const isQrEntry = sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng');
-  
-  if (!isQrEntry) {
-    // Only update user location if this is NOT a QR code entry
-    setUserLocation({
+  const handleMapClick = (latlng, feature) => {
+    const locName = feature?.properties?.name || intl.formatMessage({ id: 'mapSelectedLocation' });
+    const origin = {
       name: locName,
       coordinates: [latlng.lat, latlng.lng]
-    });
+    };
 
-    // Update the store only for non-QR entries
-    setOriginStore({
-      name: origin.name,
-      coordinates: origin.coordinates
-    });
-  } else {
-    // For QR code entries, set the selected origin but don't change user location
-    setOriginStore({
-      name: userLocation.name, // Keep QR location name
-      coordinates: userLocation.coordinates // Keep QR coordinates
-    });
-  }
+    setSelectedOrigin(origin);
 
-  // Check if this feature has an image and show location details
-  if (feature?.properties?.subGroupValue) {
-    const subgroup = Object.values(subGroups)
-      .flat()
-      .find(sg => sg.value === feature.properties.subGroupValue);
+    // Update session storage with the selected origin
+    sessionStorage.setItem('mapSelectedLat', latlng.lat.toString());
+    sessionStorage.setItem('mapSelectedLng', latlng.lng.toString());
+    if (feature?.properties?.uniqueId) {
+      sessionStorage.setItem('mapSelectedId', feature.properties.uniqueId);
+    }
 
-    if (subgroup && subgroup.img) {
-      setSelectedLocation({
-        ...subgroup,
+    // CRITICAL FIX: Set flag to prevent map centering
+    setPreventMapCentering(true);
+
+    // CRITICAL FIX: Only update user location if NOT entered via QR code
+    const isQrEntry = sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng');
+
+    if (!isQrEntry) {
+      // Only update user location if this is NOT a QR code entry
+      setUserLocation({
+        name: locName,
         coordinates: [latlng.lat, latlng.lng]
       });
-      setShowLocationDetails(true);
-      setShowRouting(true);
-      setExpandedSearch(false);
+
+      // Update the store only for non-QR entries
+      setOriginStore({
+        name: origin.name,
+        coordinates: origin.coordinates
+      });
+    } else {
+      // For QR code entries, set the selected origin but don't change user location
+      setOriginStore({
+        name: userLocation.name, // Keep QR location name
+        coordinates: userLocation.coordinates // Keep QR coordinates
+      });
+    }
+
+    // Check if this feature has an image and show location details
+    if (feature?.properties?.subGroupValue) {
+      const subgroup = Object.values(subGroups)
+        .flat()
+        .find(sg => sg.value === feature.properties.subGroupValue);
+
+      if (subgroup && subgroup.img) {
+        setSelectedLocation({
+          ...subgroup,
+          coordinates: [latlng.lat, latlng.lng]
+        });
+        setShowLocationDetails(true);
+        setShowRouting(true);
+        setExpandedSearch(false);
+      } else {
+        setShowLocationDetails(false);
+      }
     } else {
       setShowLocationDetails(false);
     }
-  } else {
-    setShowLocationDetails(false);
-  }
-};
+  };
 
   // Add these touch event handlers
   const handleTouchStart = (e) => {
@@ -338,7 +338,7 @@ const handleMapClick = (latlng, feature) => {
               onClick={() => handleCategoryClick(category)}
             >
               <div className={`map-category-icon ${category.icon} ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}>
-                <div dangerouslySetInnerHTML={{ __html: category.svg }} />
+                <img src={category.png} alt={category.label} width="22" height="22" />
               </div>
               <span className={`map-category-name ${selectedCategory && selectedCategory.value === category.value ? 'active' : ''}`}>
                 {intl.formatMessage({ id: category.label })}

@@ -47,8 +47,9 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
       <div
         className={`map-category-icon ${iconData.icon}`}
         style={{ width: '22px', height: '22px', marginTop: 0 }}
-        dangerouslySetInnerHTML={{ __html: iconData.svg }}
-      />
+      >
+        <img src={iconData.png} alt={iconData.label || 'icon'} width="22" height="22" />
+      </div>
     </div>
   );
 };

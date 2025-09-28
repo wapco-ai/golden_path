@@ -110,13 +110,10 @@
   justify-content: center;
 }
 
-.map-category-icon svg {
+.map-category-icon img {
   width: 22px;
   height: 22px;
-  color: #555;
-  margin: 0;
-  display: block;
-  fill: #1E2023;
+  object-fit: contain;
 }
 
 .map-category-name {
