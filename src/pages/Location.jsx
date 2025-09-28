@@ -12,6 +12,7 @@ import useLocaleDigits from '../utils/useLocaleDigits';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ttsService from '../services/ttsService';
 
 // Import video files
 import v1 from '../assets/videos/vid1.mp4';
@@ -111,6 +112,8 @@ const Location = () => {
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
+  const aboutAudioRef = useRef(null);
+  const aboutAudioUrlRef = useRef(null);
   const [geoData, setGeoData] = useState(null);
   const setDestinationStore = useRouteStore(state => state.setDestination);
   const language = useLangStore(state => state.language);
@@ -163,6 +166,82 @@ const Location = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const audio = new Audio();
+    aboutAudioRef.current = audio;
+
+    return () => {
+      audio.pause();
+      audio.src = '';
+      if (aboutAudioUrlRef.current) {
+        URL.revokeObjectURL(aboutAudioUrlRef.current);
+        aboutAudioUrlRef.current = null;
+      }
+    };
+  }, []);
+
+  const stopAboutSpeech = () => {
+    if (aboutAudioRef.current) {
+      aboutAudioRef.current.pause();
+      aboutAudioRef.current.currentTime = 0;
+      aboutAudioRef.current.src = '';
+    }
+    if (aboutAudioUrlRef.current) {
+      URL.revokeObjectURL(aboutAudioUrlRef.current);
+      aboutAudioUrlRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    if (!locationData?.about) {
+      return;
+    }
+
+    const textToSpeak = (showFullAbout ? locationData.about.full : locationData.about.short)
+      || locationData.about.full
+      || locationData.about.short
+      || '';
+
+    if (!textToSpeak?.trim()) {
+      return;
+    }
+
+    let isCancelled = false;
+
+    const playAboutSpeech = async () => {
+      try {
+        stopAboutSpeech();
+
+        const audioBlob = await ttsService.fetchSpeech(textToSpeak, language ? { language } : {});
+        if (isCancelled) {
+          return;
+        }
+
+        const objectUrl = URL.createObjectURL(audioBlob);
+        aboutAudioUrlRef.current = objectUrl;
+
+        if (!aboutAudioRef.current) {
+          return;
+        }
+
+        aboutAudioRef.current.src = objectUrl;
+        await aboutAudioRef.current.play();
+      } catch (error) {
+        if (!isCancelled) {
+          console.error('Failed to play location about audio', error);
+          toast.error(intl.formatMessage({ id: 'ttsPlaybackError' }));
+        }
+      }
+    };
+
+    playAboutSpeech();
+
+    return () => {
+      isCancelled = true;
+      stopAboutSpeech();
+    };
+  }, [intl, language, locationData, showFullAbout]);
 
   // Initialize carousel position
   useEffect(() => {
