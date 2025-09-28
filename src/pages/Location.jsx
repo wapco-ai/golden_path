@@ -209,8 +209,28 @@ const Location = () => {
     if (showFullAbout) {
       let continuation = '';
 
-      if (trimmedFullAbout && trimmedShortAbout && trimmedFullAbout.startsWith(trimmedShortAbout)) {
-        continuation = trimmedFullAbout.slice(trimmedShortAbout.length).trim();
+      if (trimmedFullAbout && trimmedShortAbout) {
+        if (trimmedFullAbout.startsWith(trimmedShortAbout)) {
+          continuation = trimmedFullAbout.slice(trimmedShortAbout.length).trim();
+        }
+
+        if (!continuation) {
+          const shortWords = trimmedShortAbout.split(/\s+/);
+          const fullWords = trimmedFullAbout.split(/\s+/);
+          let commonWordCount = 0;
+
+          while (
+            commonWordCount < shortWords.length &&
+            commonWordCount < fullWords.length &&
+            shortWords[commonWordCount] === fullWords[commonWordCount]
+          ) {
+            commonWordCount += 1;
+          }
+
+          if (commonWordCount > 0) {
+            continuation = fullWords.slice(commonWordCount).join(' ').trim();
+          }
+        }
       }
 
       textToSpeak = continuation || trimmedFullAbout || trimmedShortAbout || '';
