@@ -129,6 +129,8 @@
   "soundOptionOn": "روشن",
   "soundOptionAlertOnly": "فقط هشدار",
   "soundOptionOff": "خاموش",
+  "nextStepAnnouncement": "گام بعدی: {instruction}",
+  "ttsPlaybackError": "پخش راهنمای صوتی انجام نشد. لطفاً مسیر را با راهنمای روی صفحه ادامه دهید.",
   "emergencyButtonLabel": "فوریت‌های حرم",
   "arrivalTime": "زمان رسیدن",
   "routeOverview": " گام های مسیر  ",

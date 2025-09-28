@@ -11,11 +11,14 @@ import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { analyzeRoute } from '../utils/routeAnalysis';
 import useLocaleDigits from '../utils/useLocaleDigits';
 import { toast } from 'react-toastify';
+import ttsService from '../services/ttsService';
 
 const RoutingPage = () => {
   const intl = useIntl();
   const formatDigits = useLocaleDigits();
   const routeMapRef = useRef(null);
+  const audioRef = useRef(typeof Audio !== 'undefined' ? new Audio() : null);
+  const audioUrlRef = useRef(null);
   const [isMapModalOpen, setIsMapModalOpen] = useState(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
   const [routeData, setRouteData] = useState(null);
@@ -74,6 +77,20 @@ const RoutingPage = () => {
   });
 
   useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current.src = '';
+      }
+      if (audioUrlRef.current) {
+        URL.revokeObjectURL(audioUrlRef.current);
+        audioUrlRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const remove = advancedDeadReckoningService.addListener(data => {
       setIsDrActive(data.isActive);
       if (data.geoPosition) setDrPosition(data.geoPosition);
@@ -81,6 +98,84 @@ const RoutingPage = () => {
     });
     return remove;
   }, []);
+
+  useEffect(() => {
+    const audioEl = audioRef.current;
+    if (!audioEl) {
+      return;
+    }
+
+    const stopPlayback = () => {
+      audioEl.pause();
+      audioEl.currentTime = 0;
+      if (audioUrlRef.current) {
+        URL.revokeObjectURL(audioUrlRef.current);
+        audioUrlRef.current = null;
+      }
+      audioEl.src = '';
+    };
+
+    const steps = routeData?.steps || [];
+    if (!isRoutingActive || selectedSoundOption === 'off' || !Array.isArray(steps) || steps.length === 0) {
+      stopPlayback();
+      return;
+    }
+
+    const current = steps[currentStep];
+    if (!current) {
+      stopPlayback();
+      return;
+    }
+
+    const alertDirections = new Set(['left', 'right', 'bend-left', 'bend-right', 'down', 'arrived']);
+    if (selectedSoundOption === 'alertOnly' && !alertDirections.has(current.direction)) {
+      stopPlayback();
+      return;
+    }
+
+    const segments = [];
+    if (current.instruction) {
+      segments.push(current.instruction);
+    }
+    const nextStep = steps[currentStep + 1];
+    if (nextStep?.instruction) {
+      segments.push(intl.formatMessage({ id: 'nextStepAnnouncement' }, { instruction: nextStep.instruction }));
+    }
+    const textToSpeak = segments.join('. ').trim();
+
+    if (!textToSpeak) {
+      stopPlayback();
+      return;
+    }
+
+    let isCancelled = false;
+
+    const speak = async () => {
+      try {
+        stopPlayback();
+        const audioBlob = await ttsService.fetchSpeech(textToSpeak, language ? { language } : {});
+        if (isCancelled) {
+          return;
+        }
+        const objectUrl = URL.createObjectURL(audioBlob);
+        audioUrlRef.current = objectUrl;
+        audioEl.src = objectUrl;
+        await audioEl.play();
+      } catch (error) {
+        if (!isCancelled) {
+          console.error('Failed to play navigation audio', error);
+          toast.error(intl.formatMessage({ id: 'ttsPlaybackError' }));
+        }
+      }
+    };
+
+    speak();
+
+    return () => {
+      isCancelled = true;
+      audioEl.pause();
+    };
+  }, [currentStep, intl, isRoutingActive, language, routeData, selectedSoundOption]);
 
   useEffect(() => {
     if (isDrActive) {

@@ -130,6 +130,8 @@
   "soundOptionOn": "On",
   "soundOptionAlertOnly": "Alerts only",
   "soundOptionOff": "Off",
+  "nextStepAnnouncement": "Next: {instruction}",
+  "ttsPlaybackError": "Couldn't play navigation audio. Please continue following the on-screen instructions.",
   "emergencyButtonLabel": "Shrine emergencies",
   "arrivalTime": "Arrival time",
   "routeOverview": "Route Steps",
