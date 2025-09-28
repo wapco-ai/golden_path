@@ -198,10 +198,25 @@ const Location = () => {
       return;
     }
 
-    const textToSpeak = (showFullAbout ? locationData.about.full : locationData.about.short)
-      || locationData.about.full
-      || locationData.about.short
-      || '';
+    const shortAbout = locationData.about?.short ?? '';
+    const fullAbout = locationData.about?.full ?? '';
+
+    const trimmedShortAbout = shortAbout.trim();
+    const trimmedFullAbout = fullAbout.trim();
+
+    let textToSpeak;
+
+    if (showFullAbout) {
+      let continuation = '';
+
+      if (trimmedFullAbout && trimmedShortAbout && trimmedFullAbout.startsWith(trimmedShortAbout)) {
+        continuation = trimmedFullAbout.slice(trimmedShortAbout.length).trim();
+      }
+
+      textToSpeak = continuation || trimmedFullAbout || trimmedShortAbout || '';
+    } else {
+      textToSpeak = trimmedShortAbout || trimmedFullAbout || '';
+    }
 
     if (!textToSpeak?.trim()) {
       return;
