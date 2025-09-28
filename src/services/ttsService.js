@@ -25,7 +25,8 @@ const requestToken = async () => {
     body: JSON.stringify({
       username,
       password,
-      client_id: clientId
+      client_id: clientId,
+      grant_type: 'password'
     })
   });
 
