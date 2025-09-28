@@ -129,6 +129,8 @@
   "soundOptionOn": "تشغيل",
   "soundOptionAlertOnly": "تنبيهات فقط",
   "soundOptionOff": "إيقاف",
+  "nextStepAnnouncement": "الخطوة التالية: {instruction}",
+  "ttsPlaybackError": "تعذّر تشغيل الإرشاد الصوتي. يُرجى متابعة التعليمات الظاهرة على الشاشة.",
   "emergencyButtonLabel": "طوارئ الحرم",
   "arrivalTime": "وقت الوصول",
   "routeOverview": "خطوات المسار",

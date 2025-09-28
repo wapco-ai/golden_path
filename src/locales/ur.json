@@ -129,6 +129,8 @@
   "soundOptionOn": "آن",
   "soundOptionAlertOnly": "صرف انتباہ",
   "soundOptionOff": "بند",
+  "nextStepAnnouncement": "اگلا مرحلہ: {instruction}",
+  "ttsPlaybackError": "نیویگیشن کی آواز چل نہیں سکی۔ براہ کرم اسکرین پر موجود ہدایات پر عمل جاری رکھیں۔",
   "emergencyButtonLabel": "حرم ہنگامی حالات",
   "arrivalTime": "پہنچنے کا وقت",
   "routeOverview": "راستے کے مراحل",
