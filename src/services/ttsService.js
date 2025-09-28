@@ -1,5 +1,5 @@
 const AUTH_URL = 'https://api.aipaa.ir/auth/token/';
-const TTS_URL = 'https://api.aipaa.ir/api/v1/voice/tts-file-response/';
+const TTS_URL = 'https://api.aipaa.ir/api/v1/voice/tts-file-response/?expire-file=yes';
 
 let cachedToken = null;
 let tokenExpiry = 0;
@@ -60,21 +60,24 @@ const fetchSpeech = async (text, payload = {}) => {
     throw new Error('No text provided for TTS');
   }
 
-  const body = {
-    text,
-    ...payload
-  };
-
   let token = await getToken();
 
   for (let attempt = 0; attempt < 2; attempt += 1) {
+    const formData = new FormData();
+    formData.append('input_text', text);
+    Object.entries(payload).forEach(([key, value]) => {
+      if (value === undefined || value === null) {
+        return;
+      }
+      formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
+    });
+
     const response = await fetch(TTS_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(body)
+      body: formData
     });
 
     if (response.status === 401 && attempt === 0) {
@@ -85,7 +88,50 @@ const fetchSpeech = async (text, payload = {}) => {
     }
 
     if (!response.ok) {
-      throw new Error(`TTS request failed with status ${response.status}`);
+      let errorMessage = `TTS request failed with status ${response.status}`;
+      try {
+        const errorContentType = response.headers.get('content-type') || '';
+        if (errorContentType.includes('application/json')) {
+          const errorBody = await response.json();
+          if (errorBody?.detail) {
+            errorMessage = Array.isArray(errorBody.detail)
+              ? errorBody.detail.map(item => item.msg || item).join(', ')
+              : errorBody.detail;
+          } else if (errorBody?.message) {
+            errorMessage = errorBody.message;
+          }
+        }
+      } catch (parseError) {
+        // Ignore JSON parse errors and fall back to default message
+      }
+      throw new Error(errorMessage);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await response.json();
+      if (data?.file) {
+        const base64Content = data.file.startsWith('data:')
+          ? data.file.split(',')[1]
+          : data.file;
+        const byteCharacters = atob(base64Content);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i += 1) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        return new Blob([byteArray], { type: data.mime_type || 'audio/wav' });
+      }
+
+      if (data?.file_url) {
+        const fileResponse = await fetch(data.file_url);
+        if (!fileResponse.ok) {
+          throw new Error('Failed to download TTS audio file');
+        }
+        return fileResponse.blob();
+      }
+
+      throw new Error('Unexpected TTS response format');
     }
 
     return response.blob();
