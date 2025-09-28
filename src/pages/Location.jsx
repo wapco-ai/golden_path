@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // Import video files
 import v1 from '../assets/videos/vid1.mp4';
 import v2 from '../assets/videos/vid2.mp4';
+import v3 from '../assets/videos/vid3.mp4';
 
 // Import PDF file
 import pdf1 from '../assets/pdfs/pdf1.pdf';
@@ -25,6 +26,7 @@ const fileMap = {
   // Videos
   'v1': v1,
   'v2': v2,
+  'v3': v3,
 
   // PDFs
   'pdf1': pdf1,
