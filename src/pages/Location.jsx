@@ -198,10 +198,89 @@ const Location = () => {
       return;
     }
 
-    const textToSpeak = (showFullAbout ? locationData.about.full : locationData.about.short)
-      || locationData.about.full
-      || locationData.about.short
-      || '';
+    const shortAbout = locationData.about?.short ?? '';
+    const fullAbout = locationData.about?.full ?? '';
+
+    const trimmedShortAbout = shortAbout.trim();
+    const trimmedFullAbout = fullAbout.trim();
+
+    const extractContinuation = (shortText, fullText) => {
+      if (!fullText) {
+        return '';
+      }
+
+      const normalizedFull = fullText.trim();
+
+      if (!shortText) {
+        return normalizedFull;
+      }
+
+      const normalizedShort = shortText.trim();
+
+      if (!normalizedShort) {
+        return normalizedFull;
+      }
+
+      if (normalizedFull.startsWith(normalizedShort)) {
+        return normalizedFull.slice(normalizedShort.length).trim();
+      }
+
+      const directIndex = normalizedFull.indexOf(normalizedShort);
+      if (directIndex !== -1) {
+        const remainder = normalizedFull.slice(directIndex + normalizedShort.length).trim();
+        if (remainder) {
+          return remainder;
+        }
+      }
+
+      const isWhitespace = (char) => /\s/.test(char);
+      let fullIndex = 0;
+      let shortIndex = 0;
+
+      while (fullIndex < normalizedFull.length && shortIndex < normalizedShort.length) {
+        const fullChar = normalizedFull[fullIndex];
+        const shortChar = normalizedShort[shortIndex];
+
+        if (isWhitespace(fullChar) && isWhitespace(shortChar)) {
+          while (fullIndex < normalizedFull.length && isWhitespace(normalizedFull[fullIndex])) {
+            fullIndex += 1;
+          }
+          while (shortIndex < normalizedShort.length && isWhitespace(normalizedShort[shortIndex])) {
+            shortIndex += 1;
+          }
+          continue;
+        }
+
+        if (fullChar === shortChar) {
+          fullIndex += 1;
+          shortIndex += 1;
+          continue;
+        }
+
+        break;
+      }
+
+      if (shortIndex === normalizedShort.length) {
+        while (fullIndex < normalizedFull.length && isWhitespace(normalizedFull[fullIndex])) {
+          fullIndex += 1;
+        }
+        const remainder = normalizedFull.slice(fullIndex).trim();
+        if (remainder) {
+          return remainder;
+        }
+      }
+
+      return normalizedFull;
+    };
+
+    let textToSpeak;
+
+    if (showFullAbout) {
+      const continuation = extractContinuation(trimmedShortAbout, trimmedFullAbout);
+      textToSpeak = continuation || trimmedFullAbout || trimmedShortAbout || '';
+    } else {
+      textToSpeak = trimmedShortAbout || trimmedFullAbout || '';
+    }
 
     if (!textToSpeak?.trim()) {
       return;
