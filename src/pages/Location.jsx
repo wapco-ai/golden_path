@@ -277,6 +277,7 @@ const Location = () => {
 
     if (showFullAbout) {
       const continuation = extractContinuation(trimmedShortAbout, trimmedFullAbout);
+
       textToSpeak = continuation || trimmedFullAbout || trimmedShortAbout || '';
     } else {
       textToSpeak = trimmedShortAbout || trimmedFullAbout || '';
