@@ -38,10 +38,11 @@ const getCompositeIcon = (group, nodeFunction, size = 35, opacity = 1) => {
       }}
     >
       <div
-        className={`map-category-icon ${iconData.icon}`}
-        style={{ width: '18px', height: '18px', marginTop: 0 }}
-        dangerouslySetInnerHTML={{ __html: iconData.svg }}
-      />
+        className={`map-category-icon3 ${iconData.icon}`}
+        style={{ width: '22px', height: '22px', marginTop: 0 }}
+      >
+        <img src={iconData.png} alt={iconData.label || 'icon'} width="18" height="18" />
+      </div>
     </div>
   );
 };
@@ -85,11 +86,11 @@ const GeoJsonOverlay = ({ selectedCategory, routeCoords = null }) => {
       )}
       {(routeCoords && routeCoords.length > 0
         ? pointFeatures.filter(f =>
-            routeCoords.some(c =>
-              c[0].toFixed(6) === f.geometry.coordinates[0].toFixed(6) &&
-              c[1].toFixed(6) === f.geometry.coordinates[1].toFixed(6)
-            )
+          routeCoords.some(c =>
+            c[0].toFixed(6) === f.geometry.coordinates[0].toFixed(6) &&
+            c[1].toFixed(6) === f.geometry.coordinates[1].toFixed(6)
           )
+        )
         : pointFeatures
       ).map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;

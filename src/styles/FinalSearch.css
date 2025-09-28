@@ -503,6 +503,13 @@
   display: none;
 }
 
+.map-category-icon3 img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+
 /* Add these to your FinalSearch.css */
 
 /* English language specific overrides */
