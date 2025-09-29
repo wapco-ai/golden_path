@@ -119,17 +119,37 @@ const Location = () => {
   const language = useLangStore(state => state.language);
 
   useEffect(() => {
-    // Only check for QR code specific keys
+    // More flexible QR code detection - only need coordinates
     const qrLat = sessionStorage.getItem('qrLat');
     const qrLng = sessionStorage.getItem('qrLng');
     const qrId = sessionStorage.getItem('qrId');
 
-    // Make sure we have a proper QR code entry (not just map selection)
+    // Consider it QR code entry if we have coordinates
     const hasQrCoordinates = !!(qrLat && qrLng);
-    const hasQrId = !!qrId;
 
-    // Consider it a QR code entry only if we have both coordinates and ID
-    setIsQrCodeEntry(hasQrCoordinates && hasQrId);
+    setIsQrCodeEntry(hasQrCoordinates);
+
+    // Set initial QR location if available
+    if (hasQrCoordinates) {
+      setInitialQrLocation({
+        lat: parseFloat(qrLat),
+        lng: parseFloat(qrLng),
+        id: qrId || null // Make ID optional
+      });
+    }
+
+    // Get current user location from session storage
+    const currentLat = sessionStorage.getItem('mapSelectedLat') || qrLat;
+    const currentLng = sessionStorage.getItem('mapSelectedLng') || qrLng;
+    const currentId = sessionStorage.getItem('mapSelectedId') || qrId;
+
+    if (currentLat && currentLng) {
+      setCurrentUserLocation({
+        lat: parseFloat(currentLat),
+        lng: parseFloat(currentLng),
+        id: currentId
+      });
+    }
   }, []);
 
   const handleSaveDestination = () => {
@@ -440,12 +460,19 @@ const Location = () => {
   const isAtInitialLocation = () => {
     if (!initialQrLocation || !currentUserLocation) return false;
 
-    // Simple comparison - you might want to add a tolerance for floating point coordinates
-    return (
-      initialQrLocation.lat === currentUserLocation.lat &&
-      initialQrLocation.lng === currentUserLocation.lng &&
-      initialQrLocation.id === currentUserLocation.id
-    );
+    // Add tolerance for floating point coordinate comparison
+    const latDiff = Math.abs(initialQrLocation.lat - currentUserLocation.lat);
+    const lngDiff = Math.abs(initialQrLocation.lng - currentUserLocation.lng);
+    const coordinateTolerance = 0.0001; // About 10 meters tolerance
+
+    // Check if coordinates are approximately the same
+    const coordinatesMatch = latDiff < coordinateTolerance && lngDiff < coordinateTolerance;
+
+    // If we have IDs, also check them, but don't require ID match
+    const idsMatch = !initialQrLocation.id || !currentUserLocation.id ||
+      initialQrLocation.id === currentUserLocation.id;
+
+    return coordinatesMatch && idsMatch;
   };
 
   const calculateAverageRating = () => {
