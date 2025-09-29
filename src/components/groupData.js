@@ -231,7 +231,7 @@ export const subGroups = {
     },
     {
       value: 'sahn-emam-hasan',
-      label: 'صحن امام حسن مجتبی',
+      label: 'صحن امام حسن ',
       icon: '',
       svg: ``,
       description: "توضیحات",

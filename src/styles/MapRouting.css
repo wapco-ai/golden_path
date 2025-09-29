@@ -756,15 +756,19 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex: 1;
+  min-height: 0;
 }
 
 
 .map-subgroup-image {
-  width: 30%;
-  height: 70%;
   overflow: hidden;
   margin-top: 12px;
   border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .map-subgroup-svg {
@@ -817,6 +821,7 @@
   display: flex;
   gap: 2px;
   direction: ltr;
+  flex-shrink: 0; 
 }
 
 .subgroup-rating-stars svg {
@@ -840,6 +845,8 @@
 .map-subgroup-actions {
   display: flex;
   gap: 5px;
+  padding-bottom: 10px;
+  max-height: 60px;
 }
 
 .map-subgroup-btn {
@@ -858,6 +865,7 @@
   flex-direction: row;
   gap: 8px;
   justify-content: center;
+  max-height: 45px;
 }
 
 
