@@ -558,10 +558,29 @@
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 20px;
+  padding-top: 5px;
   z-index: 1001;
   max-height: 80vh;
   overflow-y: auto;
   font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.search-bar-toggle6 {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  touch-action: none;
+}
+
+.toggle-handle6 {
+  width: 90px;
+  height: 5px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  position: relative;
 }
 
 .modal-header {
@@ -570,6 +589,7 @@
   align-items: center;
   margin-bottom: 15px;
   font-family: 'Vazir', Tahoma, sans-serif;
+  margin-top: 5px;
 }
 
 .modal-header h3 {
@@ -579,24 +599,19 @@
   font-family: 'Vazir', Tahoma, sans-serif;
 }
 
-.close-modal {
-  background: none;
-  border: none;
-  padding: 5px;
-  font-family: 'Vazir', Tahoma, sans-serif;
-}
-
 .modal-content {
   padding: 10px 0;
   font-family: 'Vazir', Tahoma, sans-serif;
+  padding-top: 0px;
 }
 
 .modal-instruction {
-  color: #666;
+  color: #858585;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 28px;
   margin-bottom: 20px;
   font-family: 'Vazir', Tahoma, sans-serif;
+  margin-top: 0px;
 }
 
 .modal-comment-input textarea {
@@ -608,6 +623,8 @@
   resize: none;
   font-family: 'Vazir', Tahoma, sans-serif;
   margin-bottom: 20px;
+  background-color: #F2F2F2;
+  font-size: 14px;
 }
 
 .submit-comment {
