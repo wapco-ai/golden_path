@@ -12,6 +12,7 @@ import useLocaleDigits from '../utils/useLocaleDigits';
 import { buildGeoJsonPath } from '../utils/geojsonPath.js';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ttsService from '../services/ttsService';
 
 // Import video files
 import v1 from '../assets/videos/vid1.mp4';
@@ -111,6 +112,8 @@ const Location = () => {
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
+  const aboutAudioRef = useRef(null);
+  const aboutAudioUrlRef = useRef(null);
   const [geoData, setGeoData] = useState(null);
   const setDestinationStore = useRouteStore(state => state.setDestination);
   const language = useLangStore(state => state.language);
@@ -163,6 +166,162 @@ const Location = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const audio = new Audio();
+    aboutAudioRef.current = audio;
+
+    return () => {
+      audio.pause();
+      audio.src = '';
+      if (aboutAudioUrlRef.current) {
+        URL.revokeObjectURL(aboutAudioUrlRef.current);
+        aboutAudioUrlRef.current = null;
+      }
+    };
+  }, []);
+
+  const stopAboutSpeech = () => {
+    if (aboutAudioRef.current) {
+      aboutAudioRef.current.pause();
+      aboutAudioRef.current.currentTime = 0;
+      aboutAudioRef.current.src = '';
+    }
+    if (aboutAudioUrlRef.current) {
+      URL.revokeObjectURL(aboutAudioUrlRef.current);
+      aboutAudioUrlRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    if (!locationData?.about) {
+      return;
+    }
+
+    const shortAbout = locationData.about?.short ?? '';
+    const fullAbout = locationData.about?.full ?? '';
+
+    const trimmedShortAbout = shortAbout.trim();
+    const trimmedFullAbout = fullAbout.trim();
+
+    const extractContinuation = (shortText, fullText) => {
+      if (!fullText) {
+        return '';
+      }
+
+      const normalizedFull = fullText.trim();
+
+      if (!shortText) {
+        return normalizedFull;
+      }
+
+      const normalizedShort = shortText.trim();
+
+      if (!normalizedShort) {
+        return normalizedFull;
+      }
+
+      if (normalizedFull.startsWith(normalizedShort)) {
+        return normalizedFull.slice(normalizedShort.length).trim();
+      }
+
+      const directIndex = normalizedFull.indexOf(normalizedShort);
+      if (directIndex !== -1) {
+        const remainder = normalizedFull.slice(directIndex + normalizedShort.length).trim();
+        if (remainder) {
+          return remainder;
+        }
+      }
+
+      const isWhitespace = (char) => /\s/.test(char);
+      let fullIndex = 0;
+      let shortIndex = 0;
+
+      while (fullIndex < normalizedFull.length && shortIndex < normalizedShort.length) {
+        const fullChar = normalizedFull[fullIndex];
+        const shortChar = normalizedShort[shortIndex];
+
+        if (isWhitespace(fullChar) && isWhitespace(shortChar)) {
+          while (fullIndex < normalizedFull.length && isWhitespace(normalizedFull[fullIndex])) {
+            fullIndex += 1;
+          }
+          while (shortIndex < normalizedShort.length && isWhitespace(normalizedShort[shortIndex])) {
+            shortIndex += 1;
+          }
+          continue;
+        }
+
+        if (fullChar === shortChar) {
+          fullIndex += 1;
+          shortIndex += 1;
+          continue;
+        }
+
+        break;
+      }
+
+      if (shortIndex === normalizedShort.length) {
+        while (fullIndex < normalizedFull.length && isWhitespace(normalizedFull[fullIndex])) {
+          fullIndex += 1;
+        }
+        const remainder = normalizedFull.slice(fullIndex).trim();
+        if (remainder) {
+          return remainder;
+        }
+      }
+
+      return normalizedFull;
+    };
+
+    let textToSpeak;
+
+    if (showFullAbout) {
+      const continuation = extractContinuation(trimmedShortAbout, trimmedFullAbout);
+
+      textToSpeak = continuation || trimmedFullAbout || trimmedShortAbout || '';
+    } else {
+      textToSpeak = trimmedShortAbout || trimmedFullAbout || '';
+    }
+
+    if (!textToSpeak?.trim()) {
+      return;
+    }
+
+    let isCancelled = false;
+
+    const playAboutSpeech = async () => {
+      try {
+        stopAboutSpeech();
+
+        const audioBlob = await ttsService.fetchSpeech(textToSpeak, language ? { language } : {});
+        if (isCancelled) {
+          return;
+        }
+
+        const objectUrl = URL.createObjectURL(audioBlob);
+        aboutAudioUrlRef.current = objectUrl;
+
+        if (!aboutAudioRef.current) {
+          return;
+        }
+
+        aboutAudioRef.current.src = objectUrl;
+        await aboutAudioRef.current.play();
+      } catch (error) {
+        if (!isCancelled) {
+          console.error('Failed to play location about audio', error);
+          toast.error(intl.formatMessage({ id: 'ttsPlaybackError' }));
+        }
+      }
+    };
+
+    playAboutSpeech();
+
+    return () => {
+      isCancelled = true;
+      stopAboutSpeech();
+    };
+  }, [intl, language, locationData, showFullAbout]);
 
   // Initialize carousel position
   useEffect(() => {
