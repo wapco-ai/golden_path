@@ -15,12 +15,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import ttsService from '../services/ttsService';
 
 // Import video files
-import v1 from '../assets/videos/vid1.mp4';
-import v2 from '../assets/videos/vid2.mp4';
-import v3 from '../assets/videos/vid3.mp4';
+import v1 from '/assets/videos/vid1.mp4';
+import v2 from '/assets/videos/vid2.mp4';
+import v3 from '/assets/videos/vid3.mp4';
 
 // Import PDF file
-import pdf1 from '../assets/pdfs/pdf1.pdf';
+import pdf1 from '/assets/pdfs/pdf1.pdf';
 
 // File mapping for offline access
 const fileMap = {
@@ -524,34 +524,56 @@ const Location = () => {
   const handlePdfClick = async (pdfContent) => {
     const pdfUrl = getFileUrl(pdfContent.fileKey);
     if (!pdfUrl) {
+      toast.error(intl.formatMessage({ id: 'pdfLoadError' }));
       return;
     }
 
     try {
-      // For PDFs, we'll open them in the same tab since they're bundled
-      window.open(pdfUrl, '_blank');
+      // First, check if the PDF exists and is accessible
+      const response = await fetch(pdfUrl, { method: 'HEAD' });
+
+      if (response.ok) {
+        // Open PDF in new tab with proper handling
+        const pdfWindow = window.open('', '_blank');
+
+        // Create a proper PDF viewer page
+        const pdfHtml = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>${pdfContent.title?.[language] || 'PDF Document'}</title>
+            <style>
+              body { margin: 0; padding: 20px; background: #f5f5f5; }
+              .container { max-width: 100%; height: 100vh; }
+              embed { width: 100%; height: 100%; border: none; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <embed src="${pdfUrl}" type="application/pdf">
+            </div>
+          </body>
+          </html>
+        `;
+
+        pdfWindow.document.write(pdfHtml);
+        pdfWindow.document.close();
+      } else {
+        throw new Error('PDF not found');
+      }
     } catch (error) {
       console.error('Error opening PDF:', error);
+
+      // Fallback: direct link opening
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
-  };
-
-  // Add a function to validate and clean URLs
-  const getValidFileUrl = (fileKey) => {
-    const url = fileMap[fileKey];
-    if (!url) return '';
-
-    // If it's a webpack-generated URL, return it as-is
-    if (typeof url === 'string' && url.startsWith('blob:') || url.includes('/assets/')) {
-      return url;
-    }
-
-    // For module objects, get the default export
-    return url?.default || url;
-  };
-
-  // Update your getFileUrl function
-  const getFileUrl = (fileKey) => {
-    return getValidFileUrl(fileKey) || '';
   };
 
   // Load geojson data
