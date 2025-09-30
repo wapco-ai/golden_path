@@ -38,7 +38,6 @@ const getFileUrl = (fileKey) => {
   return fileMap[fileKey] || '';
 };
 
-
 // Helper function to get thumbnail URL
 const getThumbnailUrl = (thumbnailKey) => {
   return fileMap[thumbnailKey] || '/images/default-thumbnail.jpg';
@@ -525,17 +524,34 @@ const Location = () => {
   const handlePdfClick = async (pdfContent) => {
     const pdfUrl = getFileUrl(pdfContent.fileKey);
     if (!pdfUrl) {
-      toast.error(intl.formatMessage({ id: 'pdfLoadError' }));
       return;
     }
 
     try {
-      // Simple direct approach - let the browser handle PDF viewing
-      window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+      // For PDFs, we'll open them in the same tab since they're bundled
+      window.open(pdfUrl, '_blank');
     } catch (error) {
       console.error('Error opening PDF:', error);
-      toast.error(intl.formatMessage({ id: 'pdfOpenError' }));
     }
+  };
+
+  // Add a function to validate and clean URLs
+  const getValidFileUrl = (fileKey) => {
+    const url = fileMap[fileKey];
+    if (!url) return '';
+
+    // If it's a webpack-generated URL, return it as-is
+    if (typeof url === 'string' && url.startsWith('blob:') || url.includes('/assets/')) {
+      return url;
+    }
+
+    // For module objects, get the default export
+    return url?.default || url;
+  };
+
+  // Update your getFileUrl function
+  const getFileUrl = (fileKey) => {
+    return getValidFileUrl(fileKey) || '';
   };
 
   // Load geojson data
