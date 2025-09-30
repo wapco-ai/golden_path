@@ -35,8 +35,17 @@ const fileMap = {
 
 // Helper function to get file URL
 const getFileUrl = (fileKey) => {
-  return fileMap[fileKey] || '';
+  const fileUrl = fileMap[fileKey];
+  if (!fileUrl) return '';
+
+  // Add cache busting parameter for PDFs
+  if (fileKey.startsWith('pdf')) {
+    return `${fileUrl}?v=${Date.now()}`;
+  }
+
+  return fileUrl;
 };
+
 
 // Helper function to get thumbnail URL
 const getThumbnailUrl = (thumbnailKey) => {
@@ -109,6 +118,7 @@ const Location = () => {
   const [currentUserLocation, setCurrentUserLocation] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isVideoFullscreen, setIsVideoFullscreen] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -522,63 +532,66 @@ const Location = () => {
   };
 
   const handlePdfClick = async (pdfContent) => {
+    if (pdfLoading) return; // Prevent multiple clicks
+
+    setPdfLoading(true);
     const pdfUrl = getFileUrl(pdfContent.fileKey);
+
     if (!pdfUrl) {
       toast.error(intl.formatMessage({ id: 'pdfLoadError' }));
+      setPdfLoading(false);
       return;
     }
-  
+
     try {
-      // Method 1: Open in new tab with PDF viewer
-      const pdfWindow = window.open(pdfUrl, '_blank');
-      
-      // If popup is blocked, use method 2
-      if (!pdfWindow || pdfWindow.closed || typeof pdfWindow.closed === 'undefined') {
-        // Method 2: Create iframe for PDF viewing
-        const iframe = document.createElement('iframe');
-        iframe.src = pdfUrl;
-        iframe.style.width = '100%';
-        iframe.style.height = '100vh';
-        iframe.style.border = 'none';
-        
-        // Create a modal for the iframe
-        const modal = document.createElement('div');
-        modal.style.position = 'fixed';
-        modal.style.top = '0';
-        modal.style.left = '0';
-        modal.style.width = '100%';
-        modal.style.height = '100%';
-        modal.style.backgroundColor = 'white';
-        modal.style.zIndex = '9999';
-        modal.style.display = 'flex';
-        modal.style.flexDirection = 'column';
-        
-        // Add close button
-        const closeButton = document.createElement('button');
-        closeButton.innerHTML = '×';
-        closeButton.style.position = 'absolute';
-        closeButton.style.top = '10px';
-        closeButton.style.right = '10px';
-        closeButton.style.zIndex = '10000';
-        closeButton.style.background = '#000';
-        closeButton.style.color = '#fff';
-        closeButton.style.border = 'none';
-        closeButton.style.borderRadius = '50%';
-        closeButton.style.width = '40px';
-        closeButton.style.height = '40px';
-        closeButton.style.fontSize = '20px';
-        closeButton.style.cursor = 'pointer';
-        closeButton.onclick = () => document.body.removeChild(modal);
-        
-        modal.appendChild(closeButton);
-        modal.appendChild(iframe);
-        document.body.appendChild(modal);
+      // Test if the PDF is accessible
+      const response = await fetch(pdfUrl, { method: 'HEAD' });
+      if (!response.ok) {
+        throw new Error('PDF not accessible');
       }
-      
+
+      // Use window.open with specific features
+      const pdfWindow = window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+
+      if (!pdfWindow) {
+        toast.error(intl.formatMessage({ id: 'popupBlocked' }));
+      }
+
     } catch (error) {
       console.error('Error opening PDF:', error);
       toast.error(intl.formatMessage({ id: 'pdfOpenError' }));
+    } finally {
+      setTimeout(() => {
+        setPdfLoading(false);
+      }, 1000);
     }
+  };
+
+  const PdfLink = ({ pdfContent, onError, children }) => {
+    const handleClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      try {
+        const pdfUrl = getFileUrl(pdfContent.fileKey);
+        if (pdfUrl) {
+          const newWindow = window.open(pdfUrl, '_blank');
+          if (!newWindow) {
+            onError('popupBlocked');
+          }
+        } else {
+          onError('pdfLoadError');
+        }
+      } catch (error) {
+        onError('pdfOpenError');
+      }
+    };
+  
+    return (
+      <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+        {children}
+      </div>
+    );
   };
 
   // Load geojson data
