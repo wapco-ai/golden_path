@@ -35,15 +35,7 @@ const fileMap = {
 
 // Helper function to get file URL
 const getFileUrl = (fileKey) => {
-  const fileUrl = fileMap[fileKey];
-  if (!fileUrl) return '';
-
-  // Add cache busting parameter for PDFs
-  if (fileKey.startsWith('pdf')) {
-    return `${fileUrl}?v=${Date.now()}`;
-  }
-
-  return fileUrl;
+  return fileMap[fileKey] || '';
 };
 
 
@@ -118,7 +110,6 @@ const Location = () => {
   const [currentUserLocation, setCurrentUserLocation] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isVideoFullscreen, setIsVideoFullscreen] = useState(false);
-  const [pdfLoading, setPdfLoading] = useState(false);
 
   const carouselRef = useRef(null);
   const aboutContentRef = useRef(null);
@@ -532,66 +523,19 @@ const Location = () => {
   };
 
   const handlePdfClick = async (pdfContent) => {
-    if (pdfLoading) return; // Prevent multiple clicks
-
-    setPdfLoading(true);
     const pdfUrl = getFileUrl(pdfContent.fileKey);
-
     if (!pdfUrl) {
       toast.error(intl.formatMessage({ id: 'pdfLoadError' }));
-      setPdfLoading(false);
       return;
     }
 
     try {
-      // Test if the PDF is accessible
-      const response = await fetch(pdfUrl, { method: 'HEAD' });
-      if (!response.ok) {
-        throw new Error('PDF not accessible');
-      }
-
-      // Use window.open with specific features
-      const pdfWindow = window.open(pdfUrl, '_blank', 'noopener,noreferrer');
-
-      if (!pdfWindow) {
-        toast.error(intl.formatMessage({ id: 'popupBlocked' }));
-      }
-
+      // Simple direct approach - let the browser handle PDF viewing
+      window.open(pdfUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
       console.error('Error opening PDF:', error);
       toast.error(intl.formatMessage({ id: 'pdfOpenError' }));
-    } finally {
-      setTimeout(() => {
-        setPdfLoading(false);
-      }, 1000);
     }
-  };
-
-  const PdfLink = ({ pdfContent, onError, children }) => {
-    const handleClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      try {
-        const pdfUrl = getFileUrl(pdfContent.fileKey);
-        if (pdfUrl) {
-          const newWindow = window.open(pdfUrl, '_blank');
-          if (!newWindow) {
-            onError('popupBlocked');
-          }
-        } else {
-          onError('pdfLoadError');
-        }
-      } catch (error) {
-        onError('pdfOpenError');
-      }
-    };
-  
-    return (
-      <div onClick={handleClick} style={{ cursor: 'pointer' }}>
-        {children}
-      </div>
-    );
   };
 
   // Load geojson data
