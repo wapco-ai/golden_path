@@ -524,7 +524,6 @@ const Location = () => {
   const handlePdfClick = async (pdfContent) => {
     const pdfUrl = getFileUrl(pdfContent.fileKey);
     if (!pdfUrl) {
-      toast.error(intl.formatMessage({ id: 'pdfLoadError' }));
       return;
     }
 
