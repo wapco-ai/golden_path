@@ -524,14 +524,60 @@ const Location = () => {
   const handlePdfClick = async (pdfContent) => {
     const pdfUrl = getFileUrl(pdfContent.fileKey);
     if (!pdfUrl) {
+      toast.error(intl.formatMessage({ id: 'pdfLoadError' }));
       return;
     }
-
+  
     try {
-      // For PDFs, we'll open them in the same tab since they're bundled
-      window.open(pdfUrl, '_blank');
+      // Method 1: Open in new tab with PDF viewer
+      const pdfWindow = window.open(pdfUrl, '_blank');
+      
+      // If popup is blocked, use method 2
+      if (!pdfWindow || pdfWindow.closed || typeof pdfWindow.closed === 'undefined') {
+        // Method 2: Create iframe for PDF viewing
+        const iframe = document.createElement('iframe');
+        iframe.src = pdfUrl;
+        iframe.style.width = '100%';
+        iframe.style.height = '100vh';
+        iframe.style.border = 'none';
+        
+        // Create a modal for the iframe
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'white';
+        modal.style.zIndex = '9999';
+        modal.style.display = 'flex';
+        modal.style.flexDirection = 'column';
+        
+        // Add close button
+        const closeButton = document.createElement('button');
+        closeButton.innerHTML = '×';
+        closeButton.style.position = 'absolute';
+        closeButton.style.top = '10px';
+        closeButton.style.right = '10px';
+        closeButton.style.zIndex = '10000';
+        closeButton.style.background = '#000';
+        closeButton.style.color = '#fff';
+        closeButton.style.border = 'none';
+        closeButton.style.borderRadius = '50%';
+        closeButton.style.width = '40px';
+        closeButton.style.height = '40px';
+        closeButton.style.fontSize = '20px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.onclick = () => document.body.removeChild(modal);
+        
+        modal.appendChild(closeButton);
+        modal.appendChild(iframe);
+        document.body.appendChild(modal);
+      }
+      
     } catch (error) {
       console.error('Error opening PDF:', error);
+      toast.error(intl.formatMessage({ id: 'pdfOpenError' }));
     }
   };
 

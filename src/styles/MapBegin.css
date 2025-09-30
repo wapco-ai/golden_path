@@ -1022,13 +1022,16 @@ body.modal-open {
 }
 
 .location-description {
-  margin-bottom: 15px;
   display: flex;
   flex-direction: row;
   gap: 10px;
+  max-height: 30px;
+  margin-bottom: 30px;
 }
 
 .location-description p {
+  display: flex;
+  align-items: center;
   font-size: 0.9rem;
   color: #858585;
   line-height: 1.5;
@@ -1042,7 +1045,6 @@ body.modal-open {
   border: none;
   color: #0F71EF;
   font-size: 0.9rem;
-  cursor: pointer;
   padding: 0;
   font-family: 'Vazir', Tahoma, sans-serif;
 }
