@@ -27,6 +27,8 @@ import s24 from '/img/s24.jpg';
 import s25 from '/img/s25.jpg';
 import s26 from '/img/s26.jpg';
 import s27 from '/img/s27.jpg';
+import s28 from '/img/s28.jpg';
+import s29 from '/img/s29.jpg';
 import ic1 from '/img/ic1.png';
 import ic2 from '/img/ic2.png';
 import ic3 from '/img/ic3.png';
@@ -447,7 +449,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s24, s2, s3],
+      img: [s24, s28, s29],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '83',
       time: '1.2',
