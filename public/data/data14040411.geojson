@@ -3995,8 +3995,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          59.613146781921394,
-          36.28519150988027
+          59.6132264183836,
+          36.285146386878694
         ]
       },
       "properties": {
@@ -4016,8 +4016,8 @@
         "gender": "family",
         "nodeFunction": "qrcode",
         "restrictedTimes": [],
-        "latitude": 36.28519150988027,
-        "longitude": 59.613146781921394,
+        "latitude": 36.285146386878694,
+        "longitude": 59.6132264183836,
         "gpsMeta": {},
         "timestamp": "2025-07-02T08:55:45.898Z",
         "uniqueId": "sahn-payambar-azam_2658",
