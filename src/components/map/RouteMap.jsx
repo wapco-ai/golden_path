@@ -10,7 +10,9 @@ import ArrowMarker from './ArrowMarker';
 
 import { forwardRef, useImperativeHandle } from 'react';
 
-const RouteMap = forwardRef(({
+const TERRAIN_PROBE_URL = 'https://demotiles.maplibre.org/terrain-tiles/tiles/0/0/0.png';
+
+const RouteMap = forwardRef(({ 
   userLocation,
   routeSteps,
   currentStep,
@@ -31,6 +33,44 @@ const RouteMap = forwardRef(({
   const [drGeoPath, setDrGeoPath] = useState([]);
   const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
   const [heading, setHeading] = useState(0);
+  const [terrainAvailable, setTerrainAvailable] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const controller = new AbortController();
+
+    const verifyTerrainAvailability = async () => {
+      try {
+        const response = await fetch(TERRAIN_PROBE_URL, { signal: controller.signal });
+        if (cancelled) return;
+
+        if (response.ok) {
+          const contentType = response.headers.get('content-type') || '';
+          if (contentType.includes('image/png') || contentType.includes('image/jpeg')) {
+            setTerrainAvailable(true);
+          } else {
+            console.warn('Unexpected terrain tile content type. Disabling terrain.', contentType);
+            setTerrainAvailable(false);
+          }
+        } else {
+          console.warn('Terrain tile request failed with status', response.status);
+          setTerrainAvailable(false);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.warn('Failed to verify terrain tiles. Disabling terrain.', error);
+          setTerrainAvailable(false);
+        }
+      }
+    };
+
+    verifyTerrainAvailability();
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, []);
 
   const altLayerIds = !isDrActive
     ? alternativeRoutes.flatMap((_, idx) => [
@@ -262,7 +302,7 @@ const RouteMap = forwardRef(({
         pitch: 0
       }}
       attributionControl={false}
-      terrain={is3DView ? { source: 'terrain', exaggeration: 1.5 } : undefined}
+      terrain={is3DView && terrainAvailable ? { source: 'terrain', exaggeration: 1.5 } : undefined}
     >
       {/* User location marker - now using ArrowMarker with walking man icon */}
       {!isDrActive && (
