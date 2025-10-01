@@ -976,7 +976,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
 
   altCandidates.sort((a, b) => a.distance - b.distance);
 
-  const alternatives = altCandidates.slice(0, 3).map(route => {
+  const alternatives = altCandidates.slice(0, 1).map(route => {
     const via = route.steps
       .filter(st => st.type !== 'stepArriveDestination')
       .map(st => st.name || st.title)
