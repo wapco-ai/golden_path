@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import osmStyle from '../../services/osmStyle';
+import esriImageryStyle from '../../services/esriImageryStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 import ArrowMarker from './ArrowMarker';
@@ -237,7 +237,7 @@ const RouteMap = forwardRef(({
     <Map
       ref={mapRef}
       mapLib={maplibregl}
-      mapStyle={osmStyle}
+      mapStyle={esriImageryStyle}
       interactiveLayerIds={altLayerIds}
       onClick={(e) => {
         const feature = e.features && e.features[0];

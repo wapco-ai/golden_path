@@ -3,7 +3,7 @@ import Map, { Marker, Source, Layer } from 'react-map-gl';
 import { useIntl } from 'react-intl';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import osmStyle from '../../services/osmStyle';
+import esriImageryStyle from '../../services/esriImageryStyle';
 import { useLangStore } from '../../store/langStore';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
 import { groups } from '../groupData';
@@ -312,7 +312,7 @@ const Mprc = ({
   return (
     <Map
       mapLib={maplibregl}
-      mapStyle={osmStyle}
+      mapStyle={esriImageryStyle}
       style={{ width: '100%', height: '100%' }}
       {...viewState}
       onMove={onMove}
