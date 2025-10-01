@@ -6,7 +6,7 @@ import Map, { Marker, Source, Layer, Popup } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import osmStyle from '../services/osmStyle';
+import esriImageryStyle from '../services/esriImageryStyle';
 import '../styles/FinalSearch.css';
 import ModeSelector from '../components/common/ModeSelector';
 import { useRouteStore } from '../store/routeStore';
@@ -559,7 +559,7 @@ const FinalSearch = () => {
         <Map
           ref={mapRef}
           mapLib={maplibregl}
-          mapStyle={osmStyle}
+          mapStyle={esriImageryStyle}
           style={{ width: '100%', height: '100%' }}
           initialViewState={{
             longitude:
