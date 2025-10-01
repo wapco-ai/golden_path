@@ -908,6 +908,9 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   });
   const mainSahns = extractSahnSequence(mainRoute.path, navigablePolygons);
 
+  const coordinateKey = coord => `${coord[0].toFixed(6)}:${coord[1].toFixed(6)}`;
+  const mainNodeKeys = new Set(mainRoute.path.map(coordinateKey));
+
   const altStartEntries = startEntries.slice(0);
   const altEndEntries = endEntries.slice(0);
 
@@ -949,6 +952,15 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
         if (isSame(route.geo.geometry.coordinates, mainRoute.geo.geometry.coordinates)) return;
         if (altCandidates.some(r => isSame(r.geo.geometry.coordinates, route.geo.geometry.coordinates))) return;
 
+        const uniqueAltNodes = new Set();
+        route.path.forEach(c => {
+          const key = coordinateKey(c);
+          if (!mainNodeKeys.has(key)) {
+            uniqueAltNodes.add(key);
+          }
+        });
+        if (uniqueAltNodes.size < 3) return;
+
         altCandidates.push(route);
       });
     });
@@ -964,7 +976,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
 
   altCandidates.sort((a, b) => a.distance - b.distance);
 
-  const alternatives = altCandidates.slice(0, 1).map(route => {
+  const alternatives = altCandidates.slice(0, 3).map(route => {
     const via = route.steps
       .filter(st => st.type !== 'stepArriveDestination')
       .map(st => st.name || st.title)
