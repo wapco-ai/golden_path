@@ -39,39 +39,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          59.611743334766025,
-          36.286600534038826
-        ]
-      },
-      "properties": {
-        "name": "درب غربی صحن پیامبر اعظم",
-        "description": "",
-        "group": "sahn",
-        "subGroup": "صحن پیامبر اعظم",
-        "types": [
-          "ziyarati"
-        ],
-        "services": {
-          "wheelchair": true,
-          "electricVan": false,
-          "walking": true
-        },
-        "gender": "family",
-        "nodeFunction": "door",
-        "restrictedTimes": [],
-        "latitude": 36.286600534038826,
-        "longitude": 59.611743334766025,
-        "gpsMeta": null,
-        "timestamp": "2025-06-12T07:48:24.553Z",
-        "transportModes": [],
-        "subGroupValue": "sahn-payambar-azam"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           59.6132264183836,
           36.285146386878694
         ]
@@ -96,6 +63,39 @@
         "longitude": 59.6132264183836,
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:49:10.477Z",
+        "transportModes": [],
+        "subGroupValue": "sahn-payambar-azam"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          59.611743334766025,
+          36.286600534038826
+        ]
+      },
+      "properties": {
+        "name": "درب غربی صحن پیامبر اعظم",
+        "description": "",
+        "group": "sahn",
+        "subGroup": "صحن پیامبر اعظم",
+        "types": [
+          "ziyarati"
+        ],
+        "services": {
+          "wheelchair": true,
+          "electricVan": false,
+          "walking": true
+        },
+        "gender": "family",
+        "nodeFunction": "door",
+        "restrictedTimes": [],
+        "latitude": 36.286600534038826,
+        "longitude": 59.611743334766025,
+        "gpsMeta": null,
+        "timestamp": "2025-06-12T07:48:24.553Z",
         "transportModes": [],
         "subGroupValue": "sahn-payambar-azam"
       }
