@@ -73,7 +73,24 @@ const MapBeginPage = () => {
   const handleSearchToggle = () => {
     if (isDragging) return;
 
-    if (showRouting) {
+    // Special case: if this is a QR code entry and we're showing cultural info
+    if (isQrCodeEntry && showLocationDetails && showRouting) {
+      if (expandedSearch) {
+        // If fully expanded, collapse to 30vh height
+        setExpandedSearch(false);
+        setCurrentHeight(window.innerHeight * 0.3);
+      } else if (currentHeight <= window.innerHeight * 0.3) {
+        // If at 30vh height, close completely
+        setCurrentHeight(140);
+        setShowRouting(false);
+        setShowLocationDetails(false);
+        setIsQrCodeEntry(false); // Reset QR code flag when closed
+      } else {
+        // Otherwise expand fully
+        setExpandedSearch(true);
+        setCurrentHeight(window.innerHeight);
+      }
+    } else if (showRouting) {
       if (expandedSearch) {
         // If fully expanded, collapse to location details
         setExpandedSearch(false);
@@ -109,14 +126,21 @@ const MapBeginPage = () => {
       setShowRouting(true);
       setExpandedSearch(false);
       setIsAutoExpanding(true);
-      // Set height based on device screen height for location details
-      const newHeight = window.innerHeight * 0.41; // 41vh equivalent
+
+      // Set height based on whether this is a QR code entry or normal selection
+      let newHeight;
+      if (isQrCodeEntry) {
+        newHeight = window.innerHeight * 0.3; // 30vh for QR code entries
+      } else {
+        newHeight = window.innerHeight * 0.41; // 41vh for normal selections
+      }
+
       setCurrentHeight(newHeight);
 
       // Reset auto expanding after a delay
       setTimeout(() => setIsAutoExpanding(false), 300);
     }
-  }, [showLocationDetails, showRouting]);
+  }, [showLocationDetails, showRouting, isQrCodeEntry]);
 
   const handleCulturalInfo = () => {
     navigate('/location', { state: { location: selectedLocation } });
@@ -186,6 +210,37 @@ const MapBeginPage = () => {
       setShowLocationDetails(false);
     }
   };
+
+  // Add this useEffect after your existing QR code useEffect
+  useEffect(() => {
+    // Check if this is a QR code entry for Bab ol Reza (sahn-payambar-azam)
+    if (storedId === 'sahn-payambar-azam_2658' && storedLat && storedLng) {
+      // Find the Sahne Enghelab cultural info from subGroups
+      const sahneEnghelabInfo = subGroups.sahn.find(
+        item => item.value === 'sahn-payambar-azam'
+      );
+
+      if (sahneEnghelabInfo) {
+        // Set the selected location with coordinates from QR code
+        setSelectedLocation({
+          ...sahneEnghelabInfo,
+          coordinates: [parseFloat(storedLat), parseFloat(storedLng)]
+        });
+
+        // Show location details and routing panel
+        setShowLocationDetails(true);
+        setShowRouting(true);
+        setExpandedSearch(false);
+
+        // Set height to 30vh equivalent for the modal
+        const thirtyVhHeight = window.innerHeight * 0.3;
+        setCurrentHeight(thirtyVhHeight);
+
+        // Set flag to indicate this is a QR code entry
+        setIsQrCodeEntry(true);
+      }
+    }
+  }, [storedId, storedLat, storedLng, language]);
 
   // Add these touch event handlers
   const handleTouchStart = (e) => {
@@ -380,7 +435,7 @@ const MapBeginPage = () => {
 
       {/* Search Bar with Integrated Routing */}
       <div
-        className={`search-bar-container ${showRouting ? 'expanded' : ''} ${expandedSearch ? 'fully-expanded' : ''} ${isDragging ? 'dragging' : ''}`}
+        className={`search-bar-container ${showRouting ? 'expanded' : ''} ${expandedSearch ? 'fully-expanded' : ''} ${isDragging ? 'dragging' : ''} ${isQrCodeEntry ? 'qr-code-entry' : ''}`}
         style={isDragging || isAutoExpanding ? { height: `${currentHeight}px`, transform: 'translateY(0)' } : {}}
       >
         <div
