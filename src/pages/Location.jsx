@@ -19,6 +19,7 @@ import v1 from '/assets/videos/vid1.mp4';
 import v2 from '/assets/videos/vid2.mp4';
 import v3 from '/assets/videos/vid3.mp4';
 import v4 from '/assets/videos/vid4.mp4';
+import p1 from '/img/s45.jpg';
 
 // Import PDF file
 import pdf1 from '/assets/pdfs/pdf1.pdf';
@@ -30,6 +31,7 @@ const fileMap = {
   'v2': v2,
   'v3': v3,
   'v4': v4,
+  'p1': p1,
 
   // PDFs
   'pdf1': pdf1,
@@ -331,8 +333,8 @@ const Location = () => {
         await aboutAudioRef.current.play();
       } catch (error) {
         if (!isCancelled) {
-          console.error('Failed to play location about audio', error);
-          toast.error(intl.formatMessage({ id: 'ttsPlaybackError' }));
+          // console.error('Failed to play location about audio', error);
+          // toast.error(intl.formatMessage({ id: 'ttsPlaybackError' }));
         }
       }
     };
