@@ -75,6 +75,30 @@ function findNearestByArea(coord, features, area) {
   return findNearest(coord, filtered);
 }
 
+const normalizeGender = value => {
+  if (!value && value !== 0) return [];
+  if (Array.isArray(value)) return value;
+  if (typeof value === 'string') {
+    if (!value.trim()) return [];
+    return value.split(',');
+  }
+  return [value];
+};
+
+export function genderAllowed(nodeGender, selected) {
+  const normalizedSelected = typeof selected === 'string' ? selected.toLowerCase() : '';
+  const genders = normalizeGender(nodeGender)
+    .map(g => (typeof g === 'string' ? g.toLowerCase().trim() : ''))
+    .filter(Boolean);
+
+  if (!genders.length) return true;
+  if (normalizedSelected === 'family') {
+    return genders.includes('family');
+  }
+  if (genders.includes('family')) return true;
+  return genders.includes(normalizedSelected);
+}
+
 function haversineDistanceMeters(coordA, coordB) {
   if (!coordA || !coordB) return Infinity;
   const toRad = deg => (deg * Math.PI) / 180;
@@ -799,30 +823,6 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       }
     }
     return true;
-  };
-
-  const normalizeGender = value => {
-    if (!value && value !== 0) return [];
-    if (Array.isArray(value)) return value;
-    if (typeof value === 'string') {
-      if (!value.trim()) return [];
-      return value.split(',');
-    }
-    return [value];
-  };
-
-  const genderAllowed = (nodeGender, selected) => {
-    const normalizedSelected = typeof selected === 'string' ? selected.toLowerCase() : '';
-    const genders = normalizeGender(nodeGender)
-      .map(g => (typeof g === 'string' ? g.toLowerCase().trim() : ''))
-      .filter(Boolean);
-
-    if (!genders.length) return true;
-    if (genders.includes('family')) return true;
-    if (normalizedSelected === 'family') {
-      return genders.some(g => g === 'male' || g === 'female');
-    }
-    return genders.includes(normalizedSelected);
   };
 
   if (!geoData) {
