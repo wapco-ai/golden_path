@@ -653,7 +653,7 @@ export const subGroups = {
     },
     {
       value: 'rozemonavare',
-      label: "روضه منوره ",
+      label: "ضریح ",
       icon: '',
       svg: ``,
       description: "توضیحات",
