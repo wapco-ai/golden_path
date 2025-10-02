@@ -65,35 +65,58 @@ const RouteOverview = () => {
 
 
   // Function to render image markers for subgroups with images along the route
+  // Function to render limited subgroup markers along the route
   const renderImageMarkers = () => {
     if (!routeCoordinates || routeCoordinates.length === 0) return null;
 
-    // Get all subgroups that have images (handle both arrays and single images)
-    const imageSubgroups = Object.values(subGroups)
-      .flat()
-      .filter(subgroup => {
-        if (!subgroup.img) return false;
-        // Check if it's an array with at least one image, or a single image string
-        return Array.isArray(subgroup.img) ? subgroup.img.length > 0 : true;
+    // Get a limited selection of subgroups (max 2 per group)
+    const getLimitedSubgroups = () => {
+      const limitedSubgroups = [];
+
+      // Take max 2 subgroups from each group
+      Object.values(subGroups).forEach(subgroups => {
+        if (subgroups && subgroups.length > 0) {
+          // Take first 2 subgroups from each group
+          const selected = subgroups.slice(0, 2);
+          limitedSubgroups.push(...selected);
+        }
       });
 
-    // This is a simplified implementation - you'll need to map these to actual coordinates
-    // along your route based on your geo data
-    return imageSubgroups.map((subgroup, idx) => {
-      // For demo purposes, I'll place markers at random points along the route
-      // You should replace this with actual coordinate mapping from your geo data
-      if (routeCoordinates.length < 2) return null;
+      return limitedSubgroups;
+    };
 
-      // Place marker at a point along the route (for demo - use actual coordinates from your data)
-      const routeIndex = Math.min(idx % routeCoordinates.length, routeCoordinates.length - 1);
-      const [lng, lat] = routeCoordinates[routeIndex];
+    const limitedSubgroups = getLimitedSubgroups();
 
-      // Get the first image if it's an array, otherwise use the single image
-      const imageUrl = Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img;
+    // Only show markers at specific points along the route (not everywhere)
+    const markerPositions = [];
+
+    // Place markers at strategic points: start, 1/3, 2/3, and end of route
+    if (routeCoordinates.length >= 4) {
+      const positions = [
+        0, // start
+        Math.floor(routeCoordinates.length / 3),
+        Math.floor(routeCoordinates.length * 2 / 3),
+        routeCoordinates.length - 1 // end
+      ];
+
+      positions.forEach((position, index) => {
+        if (limitedSubgroups[index] && routeCoordinates[position]) {
+          markerPositions.push({
+            subgroup: limitedSubgroups[index],
+            coord: routeCoordinates[position]
+          });
+        }
+      });
+    }
+
+    return markerPositions.map((item, idx) => {
+      const { subgroup, coord } = item;
+      const [lng, lat] = coord;
+      const hasImages = subgroup.img && (Array.isArray(subgroup.img) ? subgroup.img.length > 0 : true);
 
       return (
         <Marker
-          key={`image-${idx}`}
+          key={`marker-${idx}-${subgroup.value}`}
           longitude={lng}
           latitude={lat}
           anchor="center"
@@ -102,20 +125,41 @@ const RouteOverview = () => {
             handleSubgroupClick(subgroup);
           }}
         >
-          <div className="image-marker-container2">
-            <svg width="55" height="63" viewBox="0 0 55 63" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M54.6562 27.3281C54.6562 39.6299 46.5275 50.0319 35.3486 53.459C35.1079 53.8493 34.8535 54.2605 34.585 54.6924L33.1699 56.9687C30.7353 60.8845 29.5175 62.8418 27.7412 62.8418C25.9651 62.8417 24.7479 60.8842 22.3135 56.9687L20.8975 54.6924C20.6938 54.3648 20.4993 54.0485 20.3115 53.7451C8.61859 50.6476 8.59898e-05 39.9953 -1.19455e-06 27.3281C-5.34814e-07 12.2351 12.2351 -1.85429e-06 27.3281 -1.19455e-06C42.4211 0.000106671 54.6562 12.2352 54.6562 27.3281Z" fill="white" />
-            </svg>
-            <div
-              className="image-marker-content2"
-              style={{ backgroundImage: `url(${imageUrl})` }}
-            />
-          </div>
+          {hasImages ? (
+            <div className="image-marker-container2">
+              <svg width="55" height="63" viewBox="0 0 55 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M54.6562 27.3281C54.6562 39.6299 46.5275 50.0319 35.3486 53.459C35.1079 53.8493 34.8535 54.2605 34.585 54.6924L33.1699 56.9687C30.7353 60.8845 29.5175 62.8418 27.7412 62.8418C25.9651 62.8417 24.7479 60.8842 22.3135 56.9687L20.8975 54.6924C20.6938 54.3648 20.4993 54.0485 20.3115 53.7451C8.61859 50.6476 8.59898e-05 39.9953 -1.19455e-06 27.3281C-5.34814e-07 12.2351 12.2351 -1.85429e-06 27.3281 -1.19455e-06C42.4211 0.000106671 54.6562 12.2352 54.6562 27.3281Z" fill="white" />
+              </svg>
+              <div
+                className="image-marker-content2"
+                style={{
+                  backgroundImage: `url(${Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img})`
+                }}
+              />
+            </div>
+          ) : (
+            <div className="icon-marker-container">
+              <div className="icon-marker-background">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="19" fill="white" stroke="#0f71ef" strokeWidth="2" />
+                </svg>
+              </div>
+              <div className="icon-marker-content">
+                <div className="subgroup-default-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#0f71ef">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="#0f71ef" strokeWidth="2" />
+                    <circle cx="12" cy="9" r="1" fill="#0f71ef" />
+                    <path d="M12 15l0 3" stroke="#0f71ef" strokeWidth="2" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          )}
         </Marker>
       );
-    }).filter(Boolean);
+    });
   };
-
   const routeData = useMemo(() => {
     const segments = routeCoordinates.slice(1).map((c, idx) => {
       const step = routeSteps?.[idx];
