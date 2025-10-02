@@ -69,6 +69,35 @@ assert.strictEqual(
   'female routes should not include male-only connection'
 );
 
+const geoFamilyCase = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [0, 0] },
+      properties: { nodeFunction: 'door', name: 'Family Start', services: { walking: true }, gender: 'Family' }
+    },
+    {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [0, 0.0001] },
+      properties: { nodeFunction: 'connection', name: 'Family Connection', services: { walking: true }, gender: 'Family' }
+    },
+    {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [0, 0.0002] },
+      properties: { nodeFunction: 'door', name: 'Family End', services: { walking: true }, gender: 'Family' }
+    }
+  ]
+};
+
+const maleFamilyRoute = analyzeRoute(origin2, destination2, geoFamilyCase, 'walking', 'male');
+
+assert.ok(maleFamilyRoute, 'male route should exist through mixed-case family path');
+assert.ok(
+  maleFamilyRoute.steps.some(step => step.type === 'stepPassConnection'),
+  'male routes should traverse connections marked as Family'
+);
+
 console.log('analyzeRoute service filtering tests passed');
 
 // Complex routing test using multiple intermediate nodes
