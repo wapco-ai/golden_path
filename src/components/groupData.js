@@ -174,7 +174,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s39, s40, s41],
+      img: [s41, s40, s39],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '200',
       time: '3',

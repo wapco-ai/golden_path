@@ -200,7 +200,7 @@ const RouteOverview = () => {
     const merged = [];
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      if (seg.distance >= 20) {
+      if (seg.distance >= 40) {
         merged.push({ ...seg });
         continue;
       }
@@ -549,9 +549,9 @@ const RouteOverview = () => {
               <div className="image-fade3"></div>
             </div>
 
-            <div className="modal-description">
+            {/* <div className="modal-description">
               <p>{selectedSubgroup.description}</p>
-            </div>
+            </div> */}
 
             <div className="btn-box3">
 
