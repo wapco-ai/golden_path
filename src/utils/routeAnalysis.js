@@ -99,6 +99,77 @@ function extractRouteCoordinates(geometry) {
   return [];
 }
 
+function parseMinutesValue(value) {
+  if (value == null) return null;
+  if (typeof value === 'number' && !Number.isNaN(value)) {
+    return value;
+  }
+  if (typeof value === 'string') {
+    const iso = value.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/i);
+    if (iso) {
+      const hours = parseInt(iso[1] || '0', 10);
+      const minutes = parseInt(iso[2] || '0', 10);
+      const seconds = parseInt(iso[3] || '0', 10);
+      const totalMinutes = hours * 60 + minutes + Math.round(seconds / 60);
+      return Number.isNaN(totalMinutes) ? null : totalMinutes;
+    }
+
+    if (value.includes(':')) {
+      const parts = value.split(':').map(part => parseInt(part, 10));
+      if (parts.every(num => !Number.isNaN(num))) {
+        const [hours, minutes, seconds] = [
+          parts.length === 3 ? parts[0] : 0,
+          parts.length === 3 ? parts[1] : parts[0],
+          parts.length === 3 ? parts[2] : parts.length === 2 ? parts[1] : 0
+        ];
+        return hours * 60 + minutes + Math.round(seconds / 60);
+      }
+    }
+
+    const match = value.match(/(\d+(?:\.\d+)?)/);
+    if (match) {
+      const parsed = parseFloat(match[1]);
+      if (!Number.isNaN(parsed)) {
+        return Math.round(parsed);
+      }
+    }
+  }
+  return null;
+}
+
+function computeRouteMetrics(pathCoords, properties) {
+  let distanceMeters = 0;
+  if (Array.isArray(pathCoords) && pathCoords.length > 1) {
+    for (let i = 1; i < pathCoords.length; i += 1) {
+      distanceMeters += haversineDistanceMeters(pathCoords[i - 1], pathCoords[i]);
+    }
+  }
+
+  if (properties) {
+    const candidates = [
+      properties.estimatedTimeMinutes,
+      properties.timeMinutes,
+      properties.durationMinutes,
+      properties.duration,
+      properties.estimatedTime,
+      properties.time
+    ];
+    for (const value of candidates) {
+      const minutes = parseMinutesValue(value);
+      if (minutes != null) {
+        return { distanceMeters, estimatedMinutes: minutes };
+      }
+    }
+  }
+
+  if (distanceMeters === 0) {
+    return { distanceMeters, estimatedMinutes: null };
+  }
+
+  const estimatedMinutes = Math.max(1, Math.round(distanceMeters / 60));
+  return { distanceMeters, estimatedMinutes };
+}
+
 function isTransportModeAllowed(properties, mode) {
   if (!properties) return true;
   const modes = properties.transportModes;
@@ -817,6 +888,8 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       return type === 'LineString' || type === 'MultiLineString';
     });
 
+    const candidates = [];
+
     for (const feature of routeFeatures) {
       if (!serviceAllowed(feature.properties?.services, transportMode)) continue;
       if (!genderAllowed(feature.properties?.gender, gender)) continue;
@@ -887,20 +960,38 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
         }
       };
 
-      const dist = pathCoords.reduce((acc, cur, idx) => {
-        if (idx === 0) return acc;
-        const prev = pathCoords[idx - 1];
-        return acc + Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
-      }, 0);
-
+      const { distanceMeters, estimatedMinutes } = computeRouteMetrics(pathCoords, feature.properties || {});
       const sahns = extractSahnSequence(pathCoords, navigablePolygons);
 
-      console.log('Using predefined geojson route with distance', dist);
-
-      return { path: pathCoords, geo, steps, sahns, alternatives: [] };
+      candidates.push({
+        route: {
+          path: pathCoords,
+          geo,
+          steps,
+          sahns,
+          estimatedMinutes,
+          distanceMeters,
+          source: 'predefined'
+        },
+        estimatedMinutes: estimatedMinutes ?? Infinity,
+        distanceMeters
+      });
     }
 
-    return null;
+    if (candidates.length === 0) {
+      return null;
+    }
+
+    candidates.sort((a, b) => {
+      if (a.estimatedMinutes !== b.estimatedMinutes) {
+        return a.estimatedMinutes - b.estimatedMinutes;
+      }
+      return (a.distanceMeters || Infinity) - (b.distanceMeters || Infinity);
+    });
+
+    const best = candidates[0].route;
+    console.log('Using predefined geojson route with distance', best.distanceMeters || 0);
+    return best;
   }
 
   console.log(`Found ${doors.length} doors, ${connections.length} connections, ${navigablePolygons.length} navigable polygons`);
@@ -981,12 +1072,12 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   console.log('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
 
   const predefinedRoute = tryFindPredefinedRoute();
-  if (predefinedRoute) {
-    return predefinedRoute;
-  }
 
   if (!startEntry || !endEntry) {
     console.log('Could not find valid entry/exit points');
+    if (predefinedRoute) {
+      return { ...predefinedRoute, alternatives: [] };
+    }
     return null;
   }
 
@@ -995,6 +1086,9 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   
   if (nodePath.length === 0 || nodePath.length === 1) {
     console.log('No valid path found between entry points');
+    if (predefinedRoute) {
+      return { ...predefinedRoute, alternatives: [] };
+    }
     return null;
   }
 
@@ -1039,18 +1133,27 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       geometry: { type: 'LineString', coordinates: rPath.map(p => [p[1], p[0]]) }
     };
 
-    const dist = rPath.reduce((acc, cur, idx) => {
-      if (idx === 0) return acc;
-      const prev = rPath[idx - 1];
-      return acc + Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
-    }, 0);
-
     attachLandmarks(rPath, rSteps, pois);
 
-    return { path: rPath, steps: rSteps, geo: rGeo, distance: dist };
+    const metrics = computeRouteMetrics(rPath, null);
+
+    return {
+      path: rPath,
+      steps: rSteps,
+      geo: rGeo,
+      distanceMeters: metrics.distanceMeters,
+      estimatedMinutes: metrics.estimatedMinutes,
+      source: 'computed'
+    };
   }
 
-  const mainRoute = buildRoute(nodePath);
+  const computedRoute = buildRoute(nodePath);
+
+  let mainRoute = predefinedRoute || computedRoute;
+  if (!mainRoute) {
+    return null;
+  }
+
   const mainSahnSet = new Set();
   mainRoute.path.forEach(coord => {
     const poly = getPolygonContaining(coord, navigablePolygons);
@@ -1059,6 +1162,16 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     }
   });
   const mainSahns = extractSahnSequence(mainRoute.path, navigablePolygons);
+
+  if (mainRoute.estimatedMinutes == null || mainRoute.distanceMeters == null) {
+    const mainMetrics = computeRouteMetrics(mainRoute.path, null);
+    if (mainRoute.distanceMeters == null) {
+      mainRoute.distanceMeters = mainMetrics.distanceMeters;
+    }
+    if (mainRoute.estimatedMinutes == null) {
+      mainRoute.estimatedMinutes = mainMetrics.estimatedMinutes;
+    }
+  }
 
   const coordinateKey = coord => `${coord[0].toFixed(6)}:${coord[1].toFixed(6)}`;
   const mainNodeKeys = new Set(mainRoute.path.map(coordinateKey));
@@ -1070,7 +1183,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   function collectCandidates(requireDifferentSahn = true) {
     altStartEntries.forEach(s => {
       altEndEntries.forEach(e => {
-        if (s.index === startEntry.index && e.index === endEntry.index) return;
+        if (!predefinedRoute && s.index === startEntry.index && e.index === endEntry.index) return;
         const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
         if (altNodePath.length === 0 || altNodePath.length === 1) return;
         const route = buildRoute(altNodePath);
@@ -1126,7 +1239,16 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     collectCandidates(false);
   }
 
-  altCandidates.sort((a, b) => a.distance - b.distance);
+  altCandidates.sort((a, b) => {
+    const aMinutes = a.estimatedMinutes ?? Infinity;
+    const bMinutes = b.estimatedMinutes ?? Infinity;
+    if (aMinutes !== bMinutes) {
+      return aMinutes - bMinutes;
+    }
+    const aDistance = a.distanceMeters ?? Infinity;
+    const bDistance = b.distanceMeters ?? Infinity;
+    return aDistance - bDistance;
+  });
 
   const alternatives = altCandidates.slice(0, 1).map(route => {
     const via = route.steps
@@ -1140,13 +1262,25 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       from: origin.name || '',
       to: destination.name || '',
       via,
-      sahns
+      sahns,
+      estimatedMinutes: route.estimatedMinutes,
+      distanceMeters: route.distanceMeters,
+      source: route.source || 'computed'
     };
   });
 
   console.log(`Final path has ${mainRoute.path.length} points`);
 
-  return { path: mainRoute.path, geo: mainRoute.geo, steps: mainRoute.steps, sahns: mainSahns, alternatives };
+  return {
+    path: mainRoute.path,
+    geo: mainRoute.geo,
+    steps: mainRoute.steps,
+    sahns: mainSahns,
+    alternatives,
+    estimatedMinutes: mainRoute.estimatedMinutes,
+    distanceMeters: mainRoute.distanceMeters,
+    source: mainRoute.source || 'computed'
+  };
 }
 
 export function computeShortestPath(origin, destination, features) {
