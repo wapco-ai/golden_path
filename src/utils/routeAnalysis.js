@@ -1292,7 +1292,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
             uniqueAltNodes.add(key);
           }
         });
-        if (uniqueAltNodes.size < 3) return;
+        if (uniqueAltNodes.size < 4) return;
 
         altCandidates.push(route);
       });
