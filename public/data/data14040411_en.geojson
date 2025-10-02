@@ -2200,7 +2200,7 @@
       },
       "properties": {
         "name": "East Door Other",
-        "description": "بست شیخ طبرسی",
+        "description": "Sheikh Tabarsi Bast",
         "group": "other",
         "subGroup": "Other",
         "types": [
@@ -2778,7 +2778,7 @@
       },
       "properties": {
         "name": "North Door Ghadir Courtyard",
-        "description": "درب مهمانسرا",
+        "description": "Guesthouse Door",
         "group": "sahn",
         "subGroup": "Ghadir Courtyard",
         "subGroupValue": "sahn-ghadir",
@@ -3016,7 +3016,7 @@
       },
       "properties": {
         "name": "Door Other",
-        "description": "کتابخانه",
+        "description": "Library",
         "group": "ravaq",
         "subGroup": "Other",
         "subGroupValue": "other",
