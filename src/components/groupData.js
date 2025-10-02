@@ -29,6 +29,21 @@ import s26 from '/img/s26.jpg';
 import s27 from '/img/s27.jpg';
 import s28 from '/img/s28.jpg';
 import s29 from '/img/s29.jpg';
+import s30 from '/img/s30.jpeg';
+import s31 from '/img/s31.jpg';
+import s32 from '/img/s32.jpg';
+import s33 from '/img/s33.jpg';
+import s34 from '/img/s34.jpg';
+import s35 from '/img/s35.png';
+import s36 from '/img/s36.jpg';
+import s37 from '/img/s37.jpg';
+import s38 from '/img/s38.jpg';
+import s39 from '/img/s39.jpg';
+import s40 from '/img/s40.jpg';
+import s41 from '/img/s41.jpg';
+import s42 from '/img/s42.jpg';
+import s43 from '/img/s43.jpg';
+import s44 from '/img/s44.jpg';
 import ic1 from '/img/ic1.png';
 import ic2 from '/img/ic2.png';
 import ic3 from '/img/ic3.png';
@@ -146,7 +161,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s1, s2, s3],
+      img: [s37, s38, s1],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '150',
       time: '2',
@@ -159,7 +174,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s2, s1, s3],
+      img: [s39, s40, s41],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '200',
       time: '3',
@@ -265,7 +280,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s10, s2, s3],
+      img: [s42, s43, s44],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '120',
       time: '1.8',
@@ -278,7 +293,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s11, s2, s3],
+      img: [s33, s34, s35],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '140',
       time: '2.1',
@@ -635,6 +650,32 @@ export const subGroups = {
       icon: 'other',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l3 3l-3 3"/><path d="M13 15l3 0"/><path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"/></svg>`,
       description: "subgroupDefaultDesc",
+    },
+    {
+      value: 'rozemonavare',
+      label: "روضه منوره ",
+      icon: '',
+      svg: ``,
+      description: "توضیحات",
+      img: [s33, s34, s35, s36],
+      address: ' حرم مطهر ',
+      distance: '190',
+      time: '2.8',
+      rating: 3.9,
+      views: 53
+    },
+    {
+      value: 'saghakhaneh',
+      label: "سقاخانه رضوی",
+      icon: '',
+      svg: ``,
+      description: "توضیحات",
+      img: [s30, s31, s32],
+      address: ' صحن انقلاب  ',
+      distance: '190',
+      time: '2.8',
+      rating: 3.9,
+      views: 53
     }
   ]
 };

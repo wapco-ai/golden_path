@@ -143,7 +143,32 @@ const MapBeginPage = () => {
   }, [showLocationDetails, showRouting, isQrCodeEntry]);
 
   const handleCulturalInfo = () => {
-    navigate('/location', { state: { location: selectedLocation } });
+    // Check if the selected location is one of our two special places
+    const isRozemonavare = selectedLocation?.value === 'rozemonavare';
+    const isSaghakhaneh = selectedLocation?.value === 'saghakhaneh';
+    
+    if (isRozemonavare || isSaghakhaneh) {
+      // For these two specific places, use their fixed coordinates and IDs
+      let lat, lng, id;
+      
+      if (isRozemonavare) {
+        lat = 36.288005181401;
+        lng = 59.61569271248;
+        id = 'rozemonavare_12';
+      } else if (isSaghakhaneh) {
+        lat = 36.288464700649;
+        lng = 59.616118862511;
+        id = 'saghakhaneh_15';
+      }
+      
+      // Navigate with both state and URL parameters
+      navigate(`/location?id=${id}&lat=${lat}&lng=${lng}`, { 
+        state: { location: selectedLocation } 
+      });
+    } else {
+      // For all other places, use the normal navigation
+      navigate('/location', { state: { location: selectedLocation } });
+    }
   };
 
 

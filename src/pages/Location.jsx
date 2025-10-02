@@ -18,6 +18,7 @@ import ttsService from '../services/ttsService';
 import v1 from '/assets/videos/vid1.mp4';
 import v2 from '/assets/videos/vid2.mp4';
 import v3 from '/assets/videos/vid3.mp4';
+import v4 from '/assets/videos/vid4.mp4';
 
 // Import PDF file
 import pdf1 from '/assets/pdfs/pdf1.pdf';
@@ -28,6 +29,7 @@ const fileMap = {
   'v1': v1,
   'v2': v2,
   'v3': v3,
+  'v4': v4,
 
   // PDFs
   'pdf1': pdf1,
@@ -584,14 +586,25 @@ const Location = () => {
       .catch(err => console.error('failed to load geojson', err));
   }, [language]);
 
+  // In the Location component, modify the location data fetching to handle both cases
   useEffect(() => {
     const fetchLocationData = async () => {
       try {
         const response = await axios.get(`./data/locationData.json`);
         let data = response.data;
-        if (Array.isArray(data)) {
-          data = data.find(loc => loc.id === locationId) || data[0];
+
+        // First try to get location from URL parameters (for our special places)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlId = urlParams.get('id');
+
+        if (urlId && (urlId === 'rozemonavare_12' || urlId === 'saghakhaneh_15')) {
+          // Use the URL ID for our special places
+          data = Array.isArray(data) ? data.find(loc => loc.id === urlId) || data[0] : data;
+        } else {
+          // Use the normal location ID from state or props
+          data = Array.isArray(data) ? data.find(loc => loc.id === locationId) || data[0] : data;
         }
+
         data = localizeLocationData(data, language);
         setLocationData(data);
         setComments(data.comments || []);
