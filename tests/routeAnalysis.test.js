@@ -88,3 +88,31 @@ const totalDistance = complexRoute.path.reduce((acc, cur, idx) => {
 assert.ok(totalDistance < 0.00075, 'A* should find optimal diagonal path');
 
 console.log('complex route test passed');
+
+// Predefined drawn route should be selected when start/end match
+const geoPredefined = {
+  type: 'FeatureCollection',
+  features: [
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [0, 0] }, properties: { nodeFunction: 'door', name: 'Start Door', services: { walking: true }, gender: 'family' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [0.0002, 0.0002] }, properties: { nodeFunction: 'door', name: 'End Door', services: { walking: true }, gender: 'family' } },
+    { type: 'Feature', geometry: { type: 'LineString', coordinates: [[0, 0], [0.0001, 0.0001], [0.0002, 0.0002]] }, properties: { services: { walking: true }, gender: 'family' } }
+  ]
+};
+
+const origin4 = { coordinates: [0, 0], name: 'Start Door' };
+const destination4 = { coordinates: [0.0002, 0.0002], name: 'End Door' };
+const predefinedRoute = analyzeRoute(origin4, destination4, geoPredefined, 'walking', 'family');
+
+assert.deepStrictEqual(
+  predefinedRoute.geo.geometry.coordinates,
+  [[0, 0], [0.0001, 0.0001], [0.0002, 0.0002]]
+);
+
+assert.strictEqual(
+  predefinedRoute.steps[predefinedRoute.steps.length - 1].type,
+  'stepArriveDestination'
+);
+
+assert.strictEqual(predefinedRoute.alternatives.length, 0);
+
+console.log('predefined geojson route test passed');

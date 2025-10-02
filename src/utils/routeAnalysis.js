@@ -2,6 +2,10 @@
 
 import { useLangStore } from '../store/langStore.js';
 
+const EARTH_RADIUS_METERS = 6371000;
+const GEOJSON_ROUTE_MATCH_TOLERANCE_METERS = 30;
+const GEOJSON_ROUTE_NODE_SNAP_METERS = 20;
+
 const COVERED_ENTRY_NAMES = {
   fa: 'ورودی مسقف',
   en: 'Covered Entrance',
@@ -69,6 +73,39 @@ function findNearestList(coord, features, count = 2) {
 function findNearestByArea(coord, features, area) {
   const filtered = features.filter(f => f.properties?.subGroupValue === area);
   return findNearest(coord, filtered);
+}
+
+function haversineDistanceMeters(coordA, coordB) {
+  if (!coordA || !coordB) return Infinity;
+  const toRad = deg => (deg * Math.PI) / 180;
+  const [lat1, lng1] = coordA;
+  const [lat2, lng2] = coordB;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return EARTH_RADIUS_METERS * c;
+}
+
+function extractRouteCoordinates(geometry) {
+  if (!geometry) return [];
+  if (geometry.type === 'LineString') {
+    return geometry.coordinates.map(coord => [coord[1], coord[0]]);
+  }
+  if (geometry.type === 'MultiLineString') {
+    return geometry.coordinates.flat().map(coord => [coord[1], coord[0]]);
+  }
+  return [];
+}
+
+function isTransportModeAllowed(properties, mode) {
+  if (!properties) return true;
+  const modes = properties.transportModes;
+  if (Array.isArray(modes) && modes.length > 0) {
+    return modes.includes(mode);
+  }
+  return true;
 }
 
 // استفاده از turf.js برای تشخیص دقیق نقطه در polygon
@@ -755,9 +792,119 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       n[2]?.nodeFunction === 'door' || n[2]?.nodeFunction === 'connection'
     );
   });
-  
+
+  function findNearestNodeForCoordinate(coord, toleranceMeters = GEOJSON_ROUTE_NODE_SNAP_METERS) {
+    let match = null;
+    let minDistance = Infinity;
+    for (let i = 0; i < allNodes.length; i++) {
+      const node = allNodes[i];
+      const nodeCoord = [node[0], node[1]];
+      const dist = haversineDistanceMeters(coord, nodeCoord);
+      if (dist < minDistance) {
+        minDistance = dist;
+        match = { node, index: i, distance: dist };
+      }
+    }
+    if (!match || match.distance > toleranceMeters) {
+      return null;
+    }
+    return match;
+  }
+
+  function tryFindPredefinedRoute() {
+    const routeFeatures = geoData.features.filter(f => {
+      const type = f.geometry?.type;
+      return type === 'LineString' || type === 'MultiLineString';
+    });
+
+    for (const feature of routeFeatures) {
+      if (!serviceAllowed(feature.properties?.services, transportMode)) continue;
+      if (!genderAllowed(feature.properties?.gender, gender)) continue;
+      if (!isTransportModeAllowed(feature.properties, transportMode)) continue;
+
+      const coords = extractRouteCoordinates(feature.geometry);
+      if (coords.length < 2) continue;
+
+      const forwardStart = haversineDistanceMeters(origin.coordinates, coords[0]);
+      const forwardEnd = haversineDistanceMeters(destination.coordinates, coords[coords.length - 1]);
+      const reverseStart = haversineDistanceMeters(origin.coordinates, coords[coords.length - 1]);
+      const reverseEnd = haversineDistanceMeters(destination.coordinates, coords[0]);
+
+      let orderedCoords = null;
+      if (forwardStart <= GEOJSON_ROUTE_MATCH_TOLERANCE_METERS && forwardEnd <= GEOJSON_ROUTE_MATCH_TOLERANCE_METERS) {
+        orderedCoords = coords.slice();
+      } else if (reverseStart <= GEOJSON_ROUTE_MATCH_TOLERANCE_METERS && reverseEnd <= GEOJSON_ROUTE_MATCH_TOLERANCE_METERS) {
+        orderedCoords = coords.slice().reverse();
+      }
+
+      if (!orderedCoords) continue;
+
+      const pathCoords = orderedCoords.map(coord => coord.slice());
+      pathCoords[0] = [...origin.coordinates];
+      pathCoords[pathCoords.length - 1] = [...destination.coordinates];
+
+      const steps = [];
+      const usedNodes = new Set();
+
+      for (let i = 0; i < pathCoords.length - 1; i++) {
+        const match = findNearestNodeForCoordinate(pathCoords[i]);
+        if (!match) continue;
+        if (usedNodes.has(match.index)) continue;
+        usedNodes.add(match.index);
+
+        const node = match.node;
+        const props = node[2] || {};
+        if (props.nodeFunction === 'door') {
+          steps.push({
+            coordinates: [node[0], node[1]],
+            type: 'stepPassDoor',
+            name: props.name || '',
+            services: props.services || {}
+          });
+        } else if (props.nodeFunction === 'connection') {
+          steps.push({
+            coordinates: [node[0], node[1]],
+            type: 'stepPassConnection',
+            title: props.subGroup || props.name || '',
+            services: props.services || {}
+          });
+        }
+      }
+
+      steps.push({
+        coordinates: destination.coordinates,
+        type: 'stepArriveDestination',
+        name: destination.name || ''
+      });
+
+      attachLandmarks(pathCoords, steps, pois);
+
+      const geo = {
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: pathCoords.map(p => [p[1], p[0]])
+        }
+      };
+
+      const dist = pathCoords.reduce((acc, cur, idx) => {
+        if (idx === 0) return acc;
+        const prev = pathCoords[idx - 1];
+        return acc + Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
+      }, 0);
+
+      const sahns = extractSahnSequence(pathCoords, navigablePolygons);
+
+      console.log('Using predefined geojson route with distance', dist);
+
+      return { path: pathCoords, geo, steps, sahns, alternatives: [] };
+    }
+
+    return null;
+  }
+
   console.log(`Found ${doors.length} doors, ${connections.length} connections, ${navigablePolygons.length} navigable polygons`);
-  
+
   console.log(`Total nodes available: ${allNodes.length}`);
 
   // Analyze polygons and their nodes using turf.js
@@ -832,6 +979,11 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
 
   console.log('Start entry:', startEntry ? `Node ${startEntry.index}` : 'None');
   console.log('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
+
+  const predefinedRoute = tryFindPredefinedRoute();
+  if (predefinedRoute) {
+    return predefinedRoute;
+  }
 
   if (!startEntry || !endEntry) {
     console.log('Could not find valid entry/exit points');
