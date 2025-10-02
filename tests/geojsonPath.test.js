@@ -1,9 +1,6 @@
 import assert from 'assert';
 import { buildGeoJsonPath } from '../src/utils/geojsonPath.js';
 
-// Mock BASE_URL for tests
-import.meta.env = { BASE_URL: '/' };
-
 assert.strictEqual(
   buildGeoJsonPath('fa'),
   '/data/data14040411.geojson',
