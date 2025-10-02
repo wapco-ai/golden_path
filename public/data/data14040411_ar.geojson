@@ -2200,7 +2200,7 @@
       },
       "properties": {
         "name": "الشرقي باب أخرى",
-        "description": "بست شیخ طبرسی",
+        "description": "بست الشيخ الطبرسي",
         "group": "other",
         "subGroup": "أخرى",
         "types": [
@@ -2778,7 +2778,7 @@
       },
       "properties": {
         "name": "الشمالي باب صحن الغدير",
-        "description": "درب مهمانسرا",
+        "description": "باب دار الضيافة",
         "group": "sahn",
         "subGroup": "صحن الغدير",
         "subGroupValue": "sahn-ghadir",
@@ -3016,7 +3016,7 @@
       },
       "properties": {
         "name": "باب أخرى",
-        "description": "کتابخانه",
+        "description": "مكتبة",
         "group": "ravaq",
         "subGroup": "أخرى",
         "subGroupValue": "other",
