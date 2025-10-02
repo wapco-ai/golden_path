@@ -801,10 +801,28 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     return true;
   };
 
+  const normalizeGender = value => {
+    if (!value && value !== 0) return [];
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') {
+      if (!value.trim()) return [];
+      return value.split(',');
+    }
+    return [value];
+  };
+
   const genderAllowed = (nodeGender, selected) => {
-    if (!nodeGender || nodeGender === 'family') return true;
-    if (selected === 'family') return true;
-    return nodeGender === selected;
+    const normalizedSelected = typeof selected === 'string' ? selected.toLowerCase() : '';
+    const genders = normalizeGender(nodeGender)
+      .map(g => (typeof g === 'string' ? g.toLowerCase().trim() : ''))
+      .filter(Boolean);
+
+    if (!genders.length) return true;
+    if (genders.includes('family')) return true;
+    if (normalizedSelected === 'family') {
+      return genders.some(g => g === 'male' || g === 'female');
+    }
+    return genders.includes(normalizedSelected);
   };
 
   if (!geoData) {
