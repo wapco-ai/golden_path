@@ -900,7 +900,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     return match;
   }
 
-  function tryFindPredefinedRoute() {
+  function tryFindPredefinedRoutes() {
     const routeFeatures = geoData.features.filter(f => {
       const type = f.geometry?.type;
       return type === 'LineString' || type === 'MultiLineString';
@@ -997,7 +997,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     }
 
     if (candidates.length === 0) {
-      return null;
+      return [];
     }
 
     candidates.sort((a, b) => {
@@ -1007,9 +1007,12 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       return (a.distanceMeters || Infinity) - (b.distanceMeters || Infinity);
     });
 
-    const best = candidates[0].route;
-    console.log('Using predefined geojson route with distance', best.distanceMeters || 0);
-    return best;
+    const routes = candidates.map(c => c.route);
+    console.log(
+      'Using predefined geojson routes with distances',
+      routes.map(r => r.distanceMeters || 0)
+    );
+    return routes;
   }
 
   console.log(`Found ${doors.length} doors, ${connections.length} connections, ${navigablePolygons.length} navigable polygons`);
@@ -1089,12 +1092,44 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   console.log('Start entry:', startEntry ? `Node ${startEntry.index}` : 'None');
   console.log('End entry:', endEntry ? `Node ${endEntry.index}` : 'None');
 
-  const predefinedRoute = tryFindPredefinedRoute();
+  const predefinedRoutes = tryFindPredefinedRoutes();
+
+  function formatAlternatives(routeList) {
+    return routeList.map(route => {
+      const via = route.steps
+        .filter(st => st.type !== 'stepArriveDestination')
+        .map(st => st.name || st.title)
+        .filter(Boolean);
+      const sahns = route.sahns || extractSahnSequence(route.path, navigablePolygons);
+      return {
+        steps: route.steps,
+        geo: route.geo,
+        from: origin.name || '',
+        to: destination.name || '',
+        via,
+        sahns,
+        estimatedMinutes: route.estimatedMinutes,
+        distanceMeters: route.distanceMeters,
+        source: route.source || 'predefined'
+      };
+    });
+  }
 
   if (!startEntry || !endEntry) {
     console.log('Could not find valid entry/exit points');
-    if (predefinedRoute) {
-      return { ...predefinedRoute, alternatives: [] };
+    if (predefinedRoutes.length > 0) {
+      const [primary, ...rest] = predefinedRoutes;
+      const alternatives = formatAlternatives(rest);
+      return {
+        path: primary.path,
+        geo: primary.geo,
+        steps: primary.steps,
+        sahns: primary.sahns || extractSahnSequence(primary.path, navigablePolygons),
+        alternatives,
+        estimatedMinutes: primary.estimatedMinutes,
+        distanceMeters: primary.distanceMeters,
+        source: primary.source || 'predefined'
+      };
     }
     return null;
   }
@@ -1104,8 +1139,19 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   
   if (nodePath.length === 0 || nodePath.length === 1) {
     console.log('No valid path found between entry points');
-    if (predefinedRoute) {
-      return { ...predefinedRoute, alternatives: [] };
+    if (predefinedRoutes.length > 0) {
+      const [primary, ...rest] = predefinedRoutes;
+      const alternatives = formatAlternatives(rest);
+      return {
+        path: primary.path,
+        geo: primary.geo,
+        steps: primary.steps,
+        sahns: primary.sahns || extractSahnSequence(primary.path, navigablePolygons),
+        alternatives,
+        estimatedMinutes: primary.estimatedMinutes,
+        distanceMeters: primary.distanceMeters,
+        source: primary.source || 'predefined'
+      };
     }
     return null;
   }
@@ -1167,7 +1213,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
 
   const computedRoute = buildRoute(nodePath);
 
-  let mainRoute = predefinedRoute || computedRoute;
+  let mainRoute = predefinedRoutes[0] || computedRoute;
   if (!mainRoute) {
     return null;
   }
@@ -1198,10 +1244,14 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
   const altEndEntries = endEntries.slice(0);
 
   const altCandidates = [];
+  if (predefinedRoutes.length > 1) {
+    altCandidates.push(...predefinedRoutes.slice(1));
+  }
+
   function collectCandidates(requireDifferentSahn = true) {
     altStartEntries.forEach(s => {
       altEndEntries.forEach(e => {
-        if (!predefinedRoute && s.index === startEntry.index && e.index === endEntry.index) return;
+        if (predefinedRoutes.length === 0 && s.index === startEntry.index && e.index === endEntry.index) return;
         const altNodePath = aStarShortestPath(allNodes, s.index, e.index, navigablePolygons);
         if (altNodePath.length === 0 || altNodePath.length === 1) return;
         const route = buildRoute(altNodePath);
@@ -1249,12 +1299,14 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     });
   }
 
-  // First attempt: enforce different sahn to encourage diverse routes
-  collectCandidates(true);
-
-  // Fallback: if no alternatives found, relax the sahn restriction
   if (altCandidates.length === 0) {
-    collectCandidates(false);
+    // First attempt: enforce different sahn to encourage diverse routes
+    collectCandidates(true);
+
+    // Fallback: if no alternatives found, relax the sahn restriction
+    if (altCandidates.length === 0) {
+      collectCandidates(false);
+    }
   }
 
   altCandidates.sort((a, b) => {
@@ -1268,24 +1320,7 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
     return aDistance - bDistance;
   });
 
-  const alternatives = altCandidates.slice(0, 1).map(route => {
-    const via = route.steps
-      .filter(st => st.type !== 'stepArriveDestination')
-      .map(st => st.name || st.title)
-      .filter(Boolean);
-    const sahns = extractSahnSequence(route.path, navigablePolygons);
-    return {
-      steps: route.steps,
-      geo: route.geo,
-      from: origin.name || '',
-      to: destination.name || '',
-      via,
-      sahns,
-      estimatedMinutes: route.estimatedMinutes,
-      distanceMeters: route.distanceMeters,
-      source: route.source || 'computed'
-    };
-  });
+  const alternatives = formatAlternatives(altCandidates);
 
   console.log(`Final path has ${mainRoute.path.length} points`);
 
