@@ -1159,7 +1159,7 @@
 }
 
 /* Route or Info Modal Styles */
-.route-info-modal {
+/* .route-info-modal {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -1299,7 +1299,7 @@
   to {
     transform: translateY(0);
   }
-}
+} */
 
 /* RTL/LTR adjustments */
 :root:lang(en) .route-info-option {

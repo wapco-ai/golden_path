@@ -244,41 +244,41 @@ const MapRoutingPage = () => {
   const handleSubgroupSelectWithModal = (subgroup) => {
     console.log('Selected subgroup:', subgroup.value, 'Has image:', !!subgroup.img);
 
-    // If subgroup has image, show modal regardless of geoData coordinates
-    if (subgroup.img) {
-      let coordinates = null;
+    // // If subgroup has image, show modal regardless of geoData coordinates
+    // if (subgroup.img) {
+    //   let coordinates = null;
 
-      // First try to get coordinates from geoData
-      if (geoData) {
-        const feature = geoData.features.find(
-          f => f.properties?.subGroupValue === subgroup.value
-        );
+    //   // First try to get coordinates from geoData
+    //   if (geoData) {
+    //     const feature = geoData.features.find(
+    //       f => f.properties?.subGroupValue === subgroup.value
+    //     );
 
-        if (feature) {
-          const center = getFeatureCenter(feature);
-          if (center) {
-            coordinates = [center[1], center[0]];
-          }
-        }
-      }
+    //     if (feature) {
+    //       const center = getFeatureCenter(feature);
+    //       if (center) {
+    //         coordinates = [center[1], center[0]];
+    //       }
+    //     }
+    //   }
 
-      // If no coordinates from geoData, check if subgroup has its own coordinates
-      if (!coordinates && subgroup.coordinates) {
-        coordinates = subgroup.coordinates;
-      }
+    //   // If no coordinates from geoData, check if subgroup has its own coordinates
+    //   if (!coordinates && subgroup.coordinates) {
+    //     coordinates = subgroup.coordinates;
+    //   }
 
-      // Show modal with whatever coordinates we have (even if null)
-      setSelectedPlace({
-        name: subgroup.label,
-        coordinates: coordinates, // can be null
-        // Add the first image to selectedPlace for the modal if needed
-        image: Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img
-      });
-      setSelectedSubgroup(subgroup);
-      setShowRouteInfoModal(true);
-      setSelectedOption(null);
-      return;
-    }
+    //   // Show modal with whatever coordinates we have (even if null)
+    //   setSelectedPlace({
+    //     name: subgroup.label,
+    //     coordinates: coordinates, // can be null
+    //     // Add the first image to selectedPlace for the modal if needed
+    //     image: Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img
+    //   });
+    //   setSelectedSubgroup(subgroup);
+    //   setShowRouteInfoModal(true);
+    //   setSelectedOption(null);
+    //   return;
+    // }
 
     // Fallback only for subgroups without images
     handleSubgroupSelect(subgroup);
@@ -882,7 +882,21 @@ const MapRoutingPage = () => {
                         <div
                           key={index}
                           className="subgroup-item with-image"
-                          onClick={() => handleSubgroupSelectWithModal(subgroup)}
+                          onClick={() => {
+                            handleSubgroupSelectWithModal(subgroup);
+
+                            if (selectedOption === 'route') {
+                              const destination = {
+                                id: selectedSubgroup.value,
+                                name: selectedSubgroup.label,
+                                coordinates: selectedPlace.coordinates,
+                                location: intl.formatMessage({ id: modalSelectedCategory.label })
+                              };
+
+                              handleDestinationSelect(destination);
+                              setShowRouteInfoModal(false);
+                            }
+                          }}
                           style={{
                             backgroundImage: subgroup.img ? `url(${Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img})` : 'none',
                             backgroundSize: 'cover',
@@ -1018,7 +1032,7 @@ const MapRoutingPage = () => {
           )}
 
           {/* Route or Info Modal */}
-          {showRouteInfoModal && selectedPlace && (
+          {/* {showRouteInfoModal && selectedPlace && (
             <>
               <div className="modal-overlay" onClick={() => setShowRouteInfoModal(false)}></div>
               <div className="route-info-modal">
@@ -1076,8 +1090,6 @@ const MapRoutingPage = () => {
 
                       handleDestinationSelect(destination);
                       setShowRouteInfoModal(false);
-                    } else if (selectedOption === 'info') {
-                      navigate('/location');
                     }
                   }}
                 >
@@ -1085,7 +1097,7 @@ const MapRoutingPage = () => {
                 </button>
               </div>
             </>
-          )}
+          )} */}
         </div>
       )}
     </div>
