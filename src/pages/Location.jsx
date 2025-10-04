@@ -42,10 +42,10 @@ const getFileUrl = (fileKey) => {
   return fileMap[fileKey] || '';
 };
 
-// Helper function to get thumbnail URL
-const getThumbnailUrl = (thumbnailKey) => {
-  return fileMap[thumbnailKey] || '/images/default-thumbnail.jpg';
-};
+// // Helper function to get thumbnail URL
+// const getThumbnailUrl = (thumbnailKey) => {
+//   return fileMap[thumbnailKey] || '/images/default-thumbnail.jpg';
+// };
 
 // Map subgroup labels to their values for easier lookup
 const labelToValueMap = Object.values(subGroups).flat().reduce((acc, sg) => {
@@ -496,23 +496,12 @@ const Location = () => {
       return;
     }
 
-    // Create a temporary video element to check if it's playable
-    const tempVideo = document.createElement('video');
-    tempVideo.src = videoUrl;
-
-    tempVideo.oncanplay = () => {
-      setSelectedVideo({
-        ...videoContent,
-        mediaUrl: videoUrl
-      });
-      document.body.style.overflow = 'hidden';
-    };
-
-    tempVideo.onerror = () => {
-      toast.error(intl.formatMessage({ id: 'videoLoadError' }));
-    };
-
-    tempVideo.load();
+    // Show modal immediately with loading state
+    setSelectedVideo({
+      ...videoContent,
+      mediaUrl: videoUrl
+    });
+    document.body.style.overflow = 'hidden';
   };
 
   const handleVideoClose = () => {
@@ -797,16 +786,25 @@ const Location = () => {
                   {content.type === 'pdf' && (
                     <div className="pdf-thumbnail" onClick={() => handlePdfClick(content)}>
                       {content.thumbnail ? (
-                        <img src={content.thumbnail} alt="PDF thumbnail" />
-                      ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                          <polyline points="14 2 14 8 20 8"></polyline>
-                          <path d="M10 11H8v2h2v-2z"></path>
-                          <path d="M16 11h-2v2h2v-2z"></path>
-                          <path d="M14 11h-2v2h2v-2z"></path>
-                        </svg>
-                      )}
+                        <img
+                          src={content.thumbnail}
+                          alt={content.title[language] || 'PDF document'}
+                          onError={(e) => {
+                            // Fallback if thumbnail fails to load
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      ) : null}
+
+                      {/* PDF icon overlay with play icon */}
+                      <div className="pdf-icon-overlay">
+                        <div className="pdf-icon">
+                          <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.5" d="M19.9997 36.6668C29.2044 36.6668 36.6663 29.2049 36.6663 20.0002C36.6663 10.7954 29.2044 3.3335 19.9997 3.3335C10.7949 3.3335 3.33301 10.7954 3.33301 20.0002C3.33301 29.2049 10.7949 36.6668 19.9997 36.6668Z" fill="white" />
+                            <path d="M11.6316 21.108V24H9.57964V15.468H12.9756C13.6396 15.468 14.2196 15.596 14.7156 15.852C15.2196 16.1 15.6076 16.444 15.8796 16.884C16.1516 17.316 16.2876 17.808 16.2876 18.36C16.2876 18.912 16.1516 19.396 15.8796 19.812C15.6156 20.228 15.2316 20.548 14.7276 20.772C14.2236 20.996 13.6276 21.108 12.9396 21.108H11.6316ZM12.9756 19.512C13.3756 19.512 13.6796 19.416 13.8876 19.224C14.0956 19.024 14.1996 18.74 14.1996 18.372C14.1996 17.964 14.0916 17.644 13.8756 17.412C13.6676 17.172 13.3756 17.052 12.9996 17.052H11.6316V19.512H12.9756ZM17.396 24V15.468H20.144C20.904 15.468 21.584 15.644 22.184 15.996C22.784 16.34 23.252 16.82 23.588 17.436C23.924 18.052 24.092 18.748 24.092 19.524V19.92C24.092 20.688 23.928 21.384 23.6 22.008C23.272 22.624 22.812 23.112 22.22 23.472C21.636 23.824 20.964 24 20.204 24H17.396ZM20.168 22.416C20.752 22.416 21.204 22.204 21.524 21.78C21.844 21.356 22.004 20.736 22.004 19.92V19.548C22.004 18.732 21.844 18.112 21.524 17.688C21.204 17.264 20.744 17.052 20.144 17.052H19.448V22.416H20.168ZM25.1539 15.468H30.8539V17.052H27.2059V19.02H30.5179V20.604H27.2059V24H25.1539V15.468Z" fill="white" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -982,39 +980,33 @@ const Location = () => {
         <>
           <div className="video-modal-overlay" onClick={handleVideoClose}></div>
           <div className={`video-modal ${isVideoFullscreen ? 'fullscreen' : ''}`}>
-            {/* <div className="video-modal-header">
-              <h4>{selectedVideo.title[language]}</h4>
-              <div className="video-controls">
-                <button className="fullscreen-btn" onClick={handleFullscreenToggle}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    {isVideoFullscreen ? (
-                      <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
-                    ) : (
-                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
-                    )}
-                  </svg>
-                </button>
-                <button className="close-video-modal" onClick={handleVideoClose}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div> */}
             <div className="video-container">
               <video
                 controls
                 autoPlay
                 className="video-player"
                 controlsList="nodownload"
+                onLoadStart={() => {
+                  // Show loading state immediately
+                  const videoElement = document.querySelector('.video-player');
+                  if (videoElement) {
+                    videoElement.classList.add('loading');
+                  }
+                }}
+                onCanPlay={() => {
+                  // Remove loading state when video can play
+                  const videoElement = document.querySelector('.video-player');
+                  if (videoElement) {
+                    videoElement.classList.remove('loading');
+                  }
+                }}
                 onEnded={() => {
                   // Optional: Auto-close when video ends
                   // handleVideoClose();
                 }}
               >
                 <source src={selectedVideo.mediaUrl} type="video/mp4" />
+                <div className="video-loading-spinner"></div>
                 Your browser does not support the video tag.
               </video>
             </div>

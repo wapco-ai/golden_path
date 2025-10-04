@@ -887,13 +887,14 @@
 }
 
 .pdf-thumbnail {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
+  background-size: cover;
+  background-position: center;
   align-items: center;
   justify-content: center;
-  background-color: #fff5f5;
-  color: #e74c3c;
 }
 
 .play-icon {
@@ -904,6 +905,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1001;
 }
 
 .play-icon svg {
@@ -1326,4 +1328,82 @@
   .video-modal-header {
     direction: ltr;
   }
+}
+
+.pdf-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
+/* Video loading states */
+.video-player.loading {
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1E90FF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* PDF Thumbnail with Play Icon */
+.pdf-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.pdf-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.pdf-icon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.pdf-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-thumbnail {
+  transition: transform 0.2s ease;
+}
+
+.pdf-thumbnail:hover {
+  transform: scale(1.05);
 }
