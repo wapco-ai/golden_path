@@ -218,5 +218,8 @@
   "detailsButton": "Details",
   "Username":"Username",
   "Savedlocations":"Saved locations",
-  "closeAndContinue": " Close and Continue Route"
+  "closeAndContinue": " Close and Continue Route",
+  "plang.title": "Select Language",
+  "plang.subtitle": "Choose the app language",
+  "plang.description": "Select your desired language and by clicking the confirm and continue button, the app language will be changed."
 }

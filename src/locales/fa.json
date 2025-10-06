@@ -218,5 +218,8 @@
   "detailsButton": "جزئیات",
   "Username":"نام کاربری",
   "Savedlocations":"مکان های ذخیره شده",
-  "closeAndContinue": "بستن و ادامه مسیر "
+  "closeAndContinue": "بستن و ادامه مسیر ",
+  "plang.title": "انتخاب زبان",
+  "plang.subtitle": "زبان برنامه را انتخاب کنید",
+  "plang.description": "زبان مورد نظر خودتان را انتخاب کنید و با زدن روی دکمه تایید و ادامه، زبان برنامه تغییر خواهد کرد."
 }

@@ -166,7 +166,7 @@ function Profile() {
 
 
             </span>
-            <span className="item-text">
+            <span className="item-text" onClick={() => navigate('/plang')}>
               <FormattedMessage id="language" />
             </span>
             <span className="item-arrow">

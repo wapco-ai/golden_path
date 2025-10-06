@@ -218,5 +218,8 @@
   "detailsButton": "تفاصيل",
   "Username":" اسم المستخدم ",
   "Savedlocations":" المواقع المحفوظة ",
-  "closeAndContinue": "إغلاق ومتابعة المسار"
+  "closeAndContinue": "إغلاق ومتابعة المسار",
+  "plang.title": "اختيار اللغة",
+  "plang.subtitle": "اختر لغة التطبيق",
+  "plang.description": "اختر اللغة المطلوبة وبالضغط على زر التأكيد والمتابعة، سيتم تغيير لغة التطبيق."
 }
