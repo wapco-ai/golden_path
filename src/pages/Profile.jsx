@@ -143,7 +143,7 @@ function Profile() {
               </svg>
 
             </span>
-            <span className="item-text">
+            <span className="item-text" onClick={() => navigate('/pinfo')}>
               <FormattedMessage id="accountInfo" />
             </span>
             <span className="item-arrow">
