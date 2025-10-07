@@ -1,0 +1,354 @@
+/* ====================== */
+/* PROFILE INFO PAGE STYLES */
+/* ====================== */
+
+.profile-info-container {
+  background-color: white;
+  min-height: 100vh;
+  padding: 15px;
+  direction: rtl;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  max-width: 100vw;
+  min-width: 100vw;
+}
+
+/* Header */
+.profile-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.back-arrow3 {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid #D9D9D9;
+}
+
+:root:lang(en) .back-arrow3 {
+  transform: rotate(180deg);
+}
+
+.profile-info-title {
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  margin: 0;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Profile Avatar Section */
+.profile-avatar-section {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #F2F2F2;
+  padding-bottom: 20px;
+}
+
+.avatar-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 2px;
+}
+
+.profile-avatar-default, .profile-avatar-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E7F1FE 0%, #f5f9ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0F71EF;
+  box-shadow: 0 4px 12px rgba(15, 113, 239, 0.2);
+}
+
+.profile-avatar-image {
+  object-fit: cover;
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: #1E2023;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+.user-info {
+  text-align: center;
+}
+
+.user-name {
+  color: #1E2023;
+  font-size: 1.1rem;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.user-phone {
+  color: #858585;
+  font-size: 1.0rem;
+  display: block;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* Profile Form */
+.profile-form {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  padding-bottom: 0px;
+}
+
+.form-field {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.field-label-container {
+  position: absolute;
+  top: -12px;
+  right: 12px;
+  z-index: 10;
+  background-color: white;
+  padding: 0 8px;
+}
+
+.field-label {
+  color: #1E2023;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.required-star {
+  color: #EA4335;
+  margin-right: 3px;
+}
+
+[dir="ltr"] .field-label-container {
+  right: auto;
+  left: 12px;
+}
+
+
+[dir="ltr"] .required-star {
+  margin-left: 3px;
+}
+
+.input-container {
+  position: relative;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.input-container.filled {
+  border-color: #0F71EF;
+}
+
+.input-container.valid {
+  border-color: #0F71EF;
+  background-color: #F2F2F2;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  color: #1E2023;
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: #858585;
+  opacity: 0.7;
+}
+
+:root:lang(en) .form-input::placeholder {
+  left: 12px;
+  right: auto;
+}
+
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Dropdown Styles */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-arrow {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+:root:lang(en) .dropdown-arrow {
+  left: auto;
+  right: 12px;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #F2F2F2;
+  font-size: 0.95rem;
+  color: #1E2023;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #F8F9FA;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+/* Validation Icon */
+.validation-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+:root:lang(en) .validation-icon {
+  left: auto;
+  right: 12px;
+}
+
+/* Submit Button */
+.submit-section {
+  padding: 20px;
+  margin-top: 0px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #D9D9D9;
+  color: #858585;
+}
+
+.submit-button.active {
+  background-color: #0F71EF;
+  color: white;
+  box-shadow: 0 4px 12px rgba(15, 113, 239, 0.3);
+}
+
+.submit-button.active:hover {
+  background-color: #0d62d1;
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .profile-info-container {
+    max-width: 400px;
+    margin: 0 auto;
+    min-width: auto;
+  }
+  
+  .avatar-container {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profile-avatar-default, .profile-avatar-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+
+/* Add to ProfileInfo.css */
+.phone-input {
+  text-align: start; /* This will handle RTL/LTR automatically */
+}
+
+/* Ensure proper text direction for all inputs */
+.form-input {
+  text-align: start;
+  unicode-bidi: plaintext;
+}
+
+/* For RTL languages */
+[dir="rtl"] .form-input {
+  text-align: right;
+}
+
+/* For LTR languages */
+[dir="ltr"] .form-input {
+  text-align: left;
+}
+

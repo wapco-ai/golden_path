@@ -1,5 +1,4 @@
-// src/pages/Profile.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
@@ -13,13 +12,44 @@ function Profile() {
   const intl = useIntl();
   const appVersion = packageInfo.version;
 
+  // State for user data
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    province: '',
+    city: '',
+    avatar: null
+  });
+
+  // Load user data from localStorage on component mount
   useEffect(() => {
     const savedVersion = localStorage.getItem('appVersion');
     if (savedVersion && savedVersion !== appVersion) {
       toast.info(intl.formatMessage({ id: 'newVersionAvailable' }, { version: appVersion }));
     }
     localStorage.setItem('appVersion', appVersion);
+
+    // Load user profile data
+    const savedProfile = localStorage.getItem('userProfile');
+    if (savedProfile) {
+      const profileData = JSON.parse(savedProfile);
+      setUserData(profileData);
+    }
   }, [appVersion, intl]);
+
+  // Format phone number for display
+  const formatPhoneNumber = (phone) => {
+    return phone.startsWith('+98') ? phone : `${phone}`;
+  };
+
+  // Get user display name
+  const getDisplayName = () => {
+    if (userData.firstName && userData.lastName) {
+      return `${userData.firstName} ${userData.lastName}`;
+    }
+    return intl.formatMessage({ id: 'Username' });
+  };
 
   return (
     <div className="profile-container">
@@ -39,55 +69,60 @@ function Profile() {
         <div className="profile-info">
           <div className="profile-avatar-container">
             <div className="profile-avatar">
-              <svg width="55" height="56" viewBox="0 0 55 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_224_9691)">
-                  <mask id="mask0_224_9691" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="0" y="0" width="55" height="56">
-                    <path d="M27.4999 55.4287C12.3749 55.4287 0.0712891 43.125 0.0712891 28.0001C0.0712891 12.8752 12.3749 0.571533 27.4999 0.571533C42.6248 0.571533 54.9284 12.8752 54.9284 28.0001C54.9284 43.125 42.6248 55.4287 27.4999 55.4287Z" fill="white" />
-                  </mask>
-                  <g mask="url(#mask0_224_9691)">
-                    <path d="M27.4999 55.4287C12.3749 55.4287 0.0712891 43.125 0.0712891 28.0001C0.0712891 12.8752 12.3749 0.571533 27.4999 0.571533C42.6248 0.571533 54.9284 12.8752 54.9284 28.0001C54.9284 43.125 42.6248 55.4287 27.4999 55.4287Z" fill="#E7F1FE" />
-                    <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M32.7994 31.9187H18.2784C12.5738 31.9187 7.90625 36.7063 7.90625 42.6051V49.2522C9.21312 50.3016 10.603 51.2185 12.0551 52.0092C16.0774 54.1914 20.6848 55.4289 25.5389 55.4289C30.3931 55.4289 34.9983 54.1914 39.0227 52.0092C40.4727 51.2185 41.8646 50.3016 43.1715 49.2522V42.6051C43.1715 36.7063 38.5248 31.9187 32.7994 31.9187Z" fill="url(#paint0_linear_224_9691)" />
-                    <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M25.5378 9.71313C19.7909 9.71313 15.0889 14.3942 15.0889 20.1621C15.0889 25.93 19.7909 30.6111 25.5378 30.6111C31.3056 30.6111 35.9868 25.93 35.9868 20.1621C35.9868 14.3942 31.3056 9.71313 25.5378 9.71313Z" fill="url(#paint1_linear_224_9691)" />
-                    <path fillRule="evenodd" clipRule="evenodd" d="M26.8496 11.0208C21.4618 11.0208 17.0537 15.4093 17.0537 20.8167C17.0537 26.224 21.4618 30.6125 26.8496 30.6125C32.257 30.6125 36.6456 26.224 36.6456 20.8167C36.6456 15.4093 32.257 11.0208 26.8496 11.0208Z" fill="url(#paint2_linear_224_9691)" />
-                    <path fillRule="evenodd" clipRule="evenodd" d="M34.3491 33.8762H20.6348C15.247 33.8762 10.8389 38.2648 10.8389 43.6722V49.7652C12.0732 50.7271 13.3858 51.5677 14.7572 52.2926C18.5561 54.2929 22.9074 55.4272 27.4919 55.4272C32.0764 55.4272 36.4258 54.2929 40.2266 52.2926C41.5961 51.5677 42.9106 50.7271 44.1449 49.7652V43.6722C44.1449 38.2648 39.7564 33.8762 34.3491 33.8762Z" fill="url(#paint3_linear_224_9691)" />
+              {userData.avatar ? (
+                <img src={userData.avatar} alt="Profile" className="profile-avatar-image" />
+              ) : (
+                <svg width="55" height="56" viewBox="0 0 55 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clipPath="url(#clip0_224_9691)">
+                    <mask id="mask0_224_9691" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="0" y="0" width="55" height="56">
+                      <path d="M27.4999 55.4287C12.3749 55.4287 0.0712891 43.125 0.0712891 28.0001C0.0712891 12.8752 12.3749 0.571533 27.4999 0.571533C42.6248 0.571533 54.9284 12.8752 54.9284 28.0001C54.9284 43.125 42.6248 55.4287 27.4999 55.4287Z" fill="white" />
+                    </mask>
+                    <g mask="url(#mask0_224_9691)">
+                      <path d="M27.4999 55.4287C12.3749 55.4287 0.0712891 43.125 0.0712891 28.0001C0.0712891 12.8752 12.3749 0.571533 27.4999 0.571533C42.6248 0.571533 54.9284 12.8752 54.9284 28.0001C54.9284 43.125 42.6248 55.4287 27.4999 55.4287Z" fill="#E7F1FE" />
+                      <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M32.7994 31.9187H18.2784C12.5738 31.9187 7.90625 36.7063 7.90625 42.6051V49.2522C9.21312 50.3016 10.603 51.2185 12.0551 52.0092C16.0774 54.1914 20.6848 55.4289 25.5389 55.4289C30.3931 55.4289 34.9983 54.1914 39.0227 52.0092C40.4727 51.2185 41.8646 50.3016 43.1715 49.2522V42.6051C43.1715 36.7063 38.5248 31.9187 32.7994 31.9187Z" fill="url(#paint0_linear_224_9691)" />
+                      <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M25.5378 9.71313C19.7909 9.71313 15.0889 14.3942 15.0889 20.1621C15.0889 25.93 19.7909 30.6111 25.5378 30.6111C31.3056 30.6111 35.9868 25.93 35.9868 20.1621C35.9868 14.3942 31.3056 9.71313 25.5378 9.71313Z" fill="url(#paint1_linear_224_9691)" />
+                      <path fillRule="evenodd" clipRule="evenodd" d="M26.8496 11.0208C21.4618 11.0208 17.0537 15.4093 17.0537 20.8167C17.0537 26.224 21.4618 30.6125 26.8496 30.6125C32.257 30.6125 36.6456 26.224 36.6456 20.8167C36.6456 15.4093 32.257 11.0208 26.8496 11.0208Z" fill="url(#paint2_linear_224_9691)" />
+                      <path fillRule="evenodd" clipRule="evenodd" d="M34.3491 33.8762H20.6348C15.247 33.8762 10.8389 38.2648 10.8389 43.6722V49.7652C12.0732 50.7271 13.3858 51.5677 14.7572 52.2926C18.5561 54.2929 22.9074 55.4272 27.4919 55.4272C32.0764 55.4272 36.4258 54.2929 40.2266 52.2926C41.5961 51.5677 42.9106 50.7271 44.1449 49.7652V43.6722C44.1449 38.2648 39.7564 33.8762 34.3491 33.8762Z" fill="url(#paint3_linear_224_9691)" />
+                    </g>
                   </g>
-                </g>
-                <defs>
-                  <linearGradient id="paint0_linear_224_9691" x1="71.0299" y1="37.1067" x2="13.64" y2="56.0111" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#0F71EF" />
-                    <stop offset="1" stopColor="white" />
-                  </linearGradient>
-                  <linearGradient id="paint1_linear_224_9691" x1="49.2108" y1="25.9274" x2="19.6461" y2="18.01" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#858585" />
-                    <stop offset="1" stopColor="white" />
-                  </linearGradient>
-                  <linearGradient id="paint2_linear_224_9691" x1="33.9429" y1="22.7948" x2="-0.159482" y2="11.0208" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#0F71EF" />
-                    <stop offset="1" stopColor="white" />
-                  </linearGradient>
-                  <linearGradient id="paint3_linear_224_9691" x1="14.1789" y1="48.5383" x2="38.6573" y2="29.0982" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#0F71EF" />
-                    <stop offset="1" stopColor="white" />
-                  </linearGradient>
-                  <clipPath id="clip0_224_9691">
-                    <rect width="54.8571" height="54.8571" fill="white" transform="translate(0.0712891 0.571533)" />
-                  </clipPath>
-                </defs>
-              </svg>
+                  <defs>
+                    <linearGradient id="paint0_linear_224_9691" x1="71.0299" y1="37.1067" x2="13.64" y2="56.0111" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#0F71EF" />
+                      <stop offset="1" stopColor="white" />
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_224_9691" x1="49.2108" y1="25.9274" x2="19.6461" y2="18.01" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#858585" />
+                      <stop offset="1" stopColor="white" />
+                    </linearGradient>
+                    <linearGradient id="paint2_linear_224_9691" x1="33.9429" y1="22.7948" x2="-0.159482" y2="11.0208" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#0F71EF" />
+                      <stop offset="1" stopColor="white" />
+                    </linearGradient>
+                    <linearGradient id="paint3_linear_224_9691" x1="14.1789" y1="48.5383" x2="38.6573" y2="29.0982" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#0F71EF" />
+                      <stop offset="1" stopColor="white" />
+                    </linearGradient>
+                    <clipPath id="clip0_224_9691">
+                      <rect width="54.8571" height="54.8571" fill="white" transform="translate(0.0712891 0.571533)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
             </div>
           </div>
           <div className="user-info">
             <p className="user-name">
-              <FormattedMessage id="Username" />
+              {getDisplayName()}
             </p>
-            <p className="user-phone">98-999997789+</p>
+            <p className="user-phone">
+              {userData.phoneNumber ? formatPhoneNumber(userData.phoneNumber) : <FormattedMessage id="phoneNumber" />}
+            </p>
           </div>
-          <button className="complete-profile-btn">
+          <button className="complete-profile-btn" onClick={() => navigate('/pinfo')}>
             <FormattedMessage id="completeProfile" />
             <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M12.1161 3.32293C12.3519 3.5251 12.3793 3.88021 12.1771 4.11608L7.99086 9.00001L12.1771 13.8839C12.3793 14.1198 12.3519 14.4749 12.1161 14.6771C11.8802 14.8793 11.5251 14.852 11.3229 14.6161L6.82292 9.36608C6.64236 9.15543 6.64236 8.84459 6.82292 8.63394L11.3229 3.38394C11.5251 3.14807 11.8802 3.12075 12.1161 3.32293Z" fill="white" />
             </svg>
-
           </button>
         </div>
       </div>

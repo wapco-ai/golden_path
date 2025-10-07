@@ -37,9 +37,10 @@
 /* Back Arrow */
 .back-arrow {
   position: absolute;
-  right: 20px;
-  width: 45px;
-  height: 45px;
+  right: 0px;
+  top: 2px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -316,4 +317,33 @@
 
 .custom-toast .Toastify__progress-bar {
   background-color: #E7F1FE;
+}
+
+/* Add to Profile.css */
+.profile-avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E7F1FE 0%, #f5f9ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0F71EF;
+  box-shadow: 0 4px 12px rgba(15, 113, 239, 0.2);
+  overflow: hidden; /* Add this to contain the image */
+}
+
+/* Update for larger screens */
+@media (min-width: 768px) {
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+  }
 }

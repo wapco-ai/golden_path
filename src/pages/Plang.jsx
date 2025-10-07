@@ -34,7 +34,7 @@ const Plang = () => {
       {/* Back Button */}
       <div className="plang-back-button" onClick={() => navigate(-1)}>
         <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.33301 10H16.6663M16.6663 10L11.6663 5M16.6663 10L11.6663 15" stroke="#1E2023" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M3.33301 10H16.6663M16.6663 10L11.6663 5M16.6663 10L11.6663 15" stroke="#1E2023" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
 
@@ -42,10 +42,10 @@ const Plang = () => {
       <div className="plang-header">
         <h1 className="plang-heading"> <FormattedMessage id="plang.title" /> </h1>
         <div className="plang-description">
-          <p>
+          <div>
             <h2> <FormattedMessage id="plang.subtitle" /> </h2>
-            <FormattedMessage id="plang.description" />
-          </p>
+            <p><FormattedMessage id="plang.description" /></p>
+          </div>
         </div>
       </div>
 

@@ -221,5 +221,17 @@
   "closeAndContinue": "إغلاق ومتابعة المسار",
   "plang.title": "اختيار اللغة",
   "plang.subtitle": "اختر لغة التطبيق",
-  "plang.description": "اختر اللغة المطلوبة وبالضغط على زر التأكيد والمتابعة، سيتم تغيير لغة التطبيق."
+  "plang.description": "اختر اللغة المطلوبة وبالضغط على زر التأكيد والمتابعة، سيتم تغيير لغة التطبيق.",
+  "completeProfileTitle": "إكمال الملف الشخصي",
+  "firstName": "الاسم",
+  "lastName": "اسم العائلة",
+  "phoneNumber": "رقم الجوال",
+  "province": "المحافظة",
+  "city": "المدينة",
+  "enterFirstName": "اكتب اسمك",
+  "enterLastName": "اكتب اسم عائلتك",
+  "enterPhoneNumber": "أدخل رقم هاتفك المحمول",
+  "selectProvince": "اختر محافظة إقامتك",
+  "selectCity": "اختر مدينة إقامتك",
+  "confirmAndSave": "تأكيد وحفظ"
 }
