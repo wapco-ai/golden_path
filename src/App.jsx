@@ -12,6 +12,7 @@ import RouteOverview from './pages/RouteOverview';
 import Location from './pages/Location';
 import Plang from './pages/Plang';
 import ProfileInfo from './pages/ProfileInfo';
+import Proutes from './pages/Proutes';
 import AdminPanel from './pages/AdminPanel';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -35,7 +36,7 @@ const AppContent = () => {
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/profile'|| location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
     || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb'
-    || location.pathname === '/admp' || location.pathname === '/plang' || location.pathname === '/pinfo';
+    || location.pathname === '/admp' || location.pathname === '/plang' || location.pathname === '/pinfo' || location.pathname === '/proutes' ;
 
   const isAdminPanel = location.pathname === '/admp';
 
@@ -107,6 +108,7 @@ const AppContent = () => {
           <Route path="/admp" element={<AdminPanel/>} />
           <Route path="/location" element={<Location />} />
           <Route path="/plang" element={<Plang />} />
+          <Route path="/proutes" element={<Proutes />} />
           <Route path="/mpb" element={<MapBegin />} />
           <Route path="/pinfo" element={<ProfileInfo />} />
         </Routes>
