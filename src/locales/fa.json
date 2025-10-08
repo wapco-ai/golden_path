@@ -233,5 +233,12 @@
   "enterPhoneNumber": "شماره موبایل خود را وارد کنید",
   "selectProvince": "استان محل سکونت خود را انتخاب کنید",
   "selectCity": "شهر محل سکونت خود را انتخاب کنید",
-  "confirmAndSave": "تایید و ذخیره"
+  "confirmAndSave": "تایید و ذخیره",
+  "myRoutesTitle": "مسیرهای پیموده شده",
+  "routemode": "نوع مسیریابی :",
+  "noRoutesMessage": "هنوز مسیری ثبت نشده است",
+  "distance": "  مسافت:",
+  "origin": " مبدا",
+  "destination": " مقصد",
+  "repeatRoute": "تکرار مسیر"
 }

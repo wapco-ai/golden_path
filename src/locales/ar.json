@@ -233,5 +233,12 @@
   "enterPhoneNumber": "أدخل رقم هاتفك المحمول",
   "selectProvince": "اختر محافظة إقامتك",
   "selectCity": "اختر مدينة إقامتك",
-  "confirmAndSave": "تأكيد وحفظ"
+  "confirmAndSave": "تأكيد وحفظ",
+  "myRoutesTitle": "المسارات المقطوعة",
+  "noRoutesMessage": "لم يتم تعيين أي مسارات بعد",
+  "repeatRoute": "تكرار المسار",
+  "distance": "مسافة:",
+  "origin": " أصل",
+  "destination": " وجهة",
+  "routemode": "وضع التوجيه:"
 }
