@@ -107,6 +107,13 @@ function Pfp() {
                 </div>
               ))}
             </div>
+                  <div className="add-location-section">
+                    <button
+                      className="add-location-button"
+                    >
+                      <FormattedMessage id="addLocationButton2" />
+                    </button>
+                  </div>
           </div>
         )}
       </div>

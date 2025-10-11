@@ -216,8 +216,8 @@
   "moreCulturalInfo": "More cultural info",
   "navigateFromMpr": "Navigate from this location",
   "detailsButton": "Details",
-  "Username":"Username",
-  "Savedlocations":"Saved locations",
+  "Username": "Username",
+  "Savedlocations": "Saved locations",
   "closeAndContinue": " Close and Continue Route",
   "plang.title": "Select Language",
   "plang.subtitle": "Choose the app language",
@@ -245,5 +245,6 @@
   "addLocationButton": "Add Location",
   "noSavedLocationsTitle": "No Saved Locations",
   "noSavedLocationsDescription": "To save your favorite locations on the map, tap the button below and save your desired location.",
-  "addLocationMessage": "Add location functionality will be implemented here"
+  "addLocationMessage": "Add location functionality will be implemented here",
+  "addLocationButton2": "Add a favorite location"
 }

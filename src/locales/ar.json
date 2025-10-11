@@ -216,8 +216,8 @@
   "moreCulturalInfo": "المزيد من المعلومات الثقافية",
   "navigateFromMpr": "التوجيه من هذا الموقع",
   "detailsButton": "تفاصيل",
-  "Username":" اسم المستخدم ",
-  "Savedlocations":" المواقع المحفوظة ",
+  "Username": " اسم المستخدم ",
+  "Savedlocations": " المواقع المحفوظة ",
   "closeAndContinue": "إغلاق ومتابعة المسار",
   "plang.title": "اختيار اللغة",
   "plang.subtitle": "اختر لغة التطبيق",
@@ -241,10 +241,10 @@
   "origin": " أصل",
   "destination": " وجهة",
   "routemode": "وضع التوجيه:",
-    "savedLocationsTitle": "المواقع المحفوظة",
-    "addLocationButton": "إضافة موقع",
-    "noSavedLocationsTitle": "لم تقم بحفظ أي مواقع",
-    "noSavedLocationsDescription": "لحفظ مواقعك المفضلة على الخريطة، انقر على الزر أدناه واحفظ الموقع المطلوب.",
-    "addLocationMessage": "سيتم تنفيذ وظيفة إضافة الموقع هنا"
-
+  "savedLocationsTitle": "المواقع المحفوظة",
+  "addLocationButton": "إضافة موقع",
+  "noSavedLocationsTitle": "لم تقم بحفظ أي مواقع",
+  "noSavedLocationsDescription": "لحفظ مواقعك المفضلة على الخريطة، انقر على الزر أدناه واحفظ الموقع المطلوب.",
+  "addLocationMessage": "سيتم تنفيذ وظيفة إضافة الموقع هنا",
+  "addLocationButton2": "أضف موقعك المفضل"
 }

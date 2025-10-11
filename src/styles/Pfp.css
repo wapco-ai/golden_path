@@ -183,8 +183,29 @@
   margin-top: 5px;
 }
 
-.location-options-btn:hover {
-  background-color: #f5f5f5;
+.add-location-section {
+  position: fixed;
+  bottom: 15px;
+  right: 0px;
+  left: 0px;
+  padding: 10px;
+  margin-top: 0px;
+  z-index: 1001;
+  background-color: transparent;
+}
+
+.add-location-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #0F71EF;
+  color: white;
 }
 
 /* RTL Support */
