@@ -240,5 +240,10 @@
   "distance": "فاصلہ:",
   "origin": " اصل",
   "destination": " منزل",
-  "routemode": "روٹنگ موڈ:"
+  "routemode": "روٹنگ موڈ:",
+    "savedLocationsTitle": "محفوظ شدہ مقامات",
+    "addLocationButton": "مقام شامل کریں",
+    "noSavedLocationsTitle": "آپ نے کوئی مقام محفوظ نہیں کیا",
+    "noSavedLocationsDescription": "نقشے پر اپنے پسندیدہ مقامات کو محفوظ کرنے کے لیے، نیچے دیے گئے بٹن پر ٹیپ کریں اور اپنا مطلوبہ مقام محفوظ کریں۔",
+    "addLocationMessage": "مقام شامل کرنے کی فعالیت یہاں نافذ کی جائے گی"
 }

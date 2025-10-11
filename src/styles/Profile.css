@@ -35,7 +35,7 @@
 }
 
 /* Back Arrow */
-.back-arrow {
+.back-arrow10 {
   position: absolute;
   right: 0px;
   top: 2px;
@@ -49,12 +49,12 @@
   border: 1px solid #D9D9D9;
 }
 
-:root:lang(en) .back-arrow {
+:root:lang(en) .back-arrow10 {
   left: 20px;
 }
 
 
-:root:lang(en) .back-arrow svg {
+:root:lang(en) .back-arrow10 svg {
   transform: rotate(180deg);
 }
 

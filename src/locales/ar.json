@@ -240,5 +240,11 @@
   "distance": "مسافة:",
   "origin": " أصل",
   "destination": " وجهة",
-  "routemode": "وضع التوجيه:"
+  "routemode": "وضع التوجيه:",
+    "savedLocationsTitle": "المواقع المحفوظة",
+    "addLocationButton": "إضافة موقع",
+    "noSavedLocationsTitle": "لم تقم بحفظ أي مواقع",
+    "noSavedLocationsDescription": "لحفظ مواقعك المفضلة على الخريطة، انقر على الزر أدناه واحفظ الموقع المطلوب.",
+    "addLocationMessage": "سيتم تنفيذ وظيفة إضافة الموقع هنا"
+
 }

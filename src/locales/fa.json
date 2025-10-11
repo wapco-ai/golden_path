@@ -240,5 +240,10 @@
   "distance": "  مسافت:",
   "origin": " مبدا",
   "destination": " مقصد",
-  "repeatRoute": "تکرار مسیر"
+  "repeatRoute": "تکرار مسیر",
+    "savedLocationsTitle": "مکان‌های ذخیره شده",
+    "addLocationButton": "ثبت مکان دلخواه",
+    "noSavedLocationsTitle": "مکان ذخیره نکرده اید",
+    "noSavedLocationsDescription": "برای ذخیره کردن مکان دلخواه خود روی نقشه، اطفال روی دکمه زیر ضربه بزنید و مکان دلخواه خود را ذخیره کنید.",
+    "addLocationMessage": "قابلیت افزودن مکان در اینجا پیاده‌سازی خواهد شد"
 }

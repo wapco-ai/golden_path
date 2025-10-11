@@ -1,0 +1,199 @@
+.pfp-container {
+  background-color: #FFFFFF;
+  min-height: 100vh;
+  padding: 15px;
+  direction: rtl;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  max-width: 100vw;
+  min-width: 100vw;
+}
+
+/* Header Styles */
+.pfp-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  width: 100vw;
+  position: relative;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+}
+
+/* Back Arrow */
+.back-arrow5 {
+  position: absolute;
+  right: 0px;
+  top: 2px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid #D9D9D9;
+}
+
+:root:lang(en) .back-arrow5 {
+  left: 0px;
+}
+
+:root:lang(en) .back-arrow5 svg {
+  transform: rotate(180deg);
+}
+
+.pfp-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1E2023;
+  margin: 0;
+  text-align: center;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+/* Empty State Styles (First Screenshot) */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+  min-height: 80vh;
+ margin-top: 0px;
+}
+
+.empty-icon3 {
+  margin-bottom: 2px;
+  color: black;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1E2023;
+  margin-bottom: 16px;
+  line-height: 1.4;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.empty-description {
+  font-size: 14px;
+  color: #858585;
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 0 32px 0;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.add-location-btn {
+  background: #0F71EF;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  width: 50vw;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.add-location-btn:hover {
+  background: #0D63D4;
+}
+
+/* Locations Section Styles (Second Screenshot) */
+.locations-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.locations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.location-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  padding-top: 16px;
+  padding-right: 16px;
+  background: #ffffff;
+  border: 1px solid #D9D9D9;
+  border-radius: 12px;
+}
+
+:root:lang(en) .location-card {
+  padding-left: 16px;
+}
+
+.location-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+}
+
+.location-favorite-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.location-details {
+  flex: 1;
+}
+
+.location-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1E2023;
+  margin: 0 0 6px 0;
+  text-align: start;
+  line-height: 1.4;
+}
+
+.location-address {
+  font-size: 14px;
+  color: #858585;
+  margin: 0;
+  line-height: 1.5;
+  text-align: start;
+}
+
+.location-options-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.location-options-btn:hover {
+  background-color: #f5f5f5;
+}
+
+/* RTL Support */
+[dir="rtl"] .pfp-header {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .empty-state,
+[dir="rtl"] .empty-title,
+[dir="rtl"] .empty-description {
+  text-align: center;
+}
