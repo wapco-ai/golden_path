@@ -16,21 +16,6 @@ function Pfp() {
     }
     // Return sample data if nothing in localStorage
     return [
-      // {
-      //   id: 1,
-      //   name: 'سقاخانه رضوی',
-      //   address: 'صحن انقلاب اسلامی | حرم مطهر رضوی'
-      // },
-      // {
-      //   id: 2,
-      //   name: 'باب الجواد علیه السلام', 
-      //   address: 'صحن پیامبر اعظم | حرم مطهر رضوی'
-      // },
-      // {
-      //   id: 3,
-      //   name: 'صحن آزادی',
-      //   address: 'صحن آزادی | حرم مطهر رضوی'
-      // }
     ];
   });
 
