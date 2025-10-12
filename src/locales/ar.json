@@ -246,5 +246,11 @@
   "noSavedLocationsTitle": "لم تقم بحفظ أي مواقع",
   "noSavedLocationsDescription": "لحفظ مواقعك المفضلة على الخريطة، انقر على الزر أدناه واحفظ الموقع المطلوب.",
   "addLocationMessage": "سيتم تنفيذ وظيفة إضافة الموقع هنا",
-  "addLocationButton2": "أضف موقعك المفضل"
+  "addLocationButton2": "أضف موقعك المفضل",
+  "pmapSearchPlaceholder": " ... ابحث",
+  "confirmLocation": "تأكيد الموقع المطلوب",
+  "pmapSelectLocation": "اختر موقعًا من الخريطة",
+  "recentSearches": "عمليات البحث الأخيرة",
+  "noRecentSearches": "لا توجد عمليات بحث حديثة",
+  "cancel": "إلغاء"
 }

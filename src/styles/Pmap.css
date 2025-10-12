@@ -1,0 +1,425 @@
+/* Pmap Page Styles */
+.pmap-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: #f5f5f5;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+
+/* Pmap Container */
+
+.pmap-back-button {
+  position: absolute;
+  top: 17px;
+  right: 15px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+  z-index: 1001;
+}
+
+:root:lang(en) .pmap-back-button {
+  right: 0px;
+  left: 15px;
+}
+
+
+:root:lang(en) .pmap-back-button svg {
+  transform: rotate(180deg);
+}
+
+.pmap-container {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  touch-action: none;
+  height: 100vh;
+}
+
+.pmap-container.hide-attribution .mapboxgl-control-container {
+  display: none;
+}
+
+
+/* Search Container */
+.pmap-search-container {
+  padding: 20px;
+  background: transparent;
+  z-index: 1000;
+  width: 100vw;
+}
+
+.pmap-search-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.pmap-search-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.pmap-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #333;
+  padding: 0;
+  font-family: 'Vazir', Arial, sans-serif;
+  cursor: pointer;
+}
+
+.pmap-search-input::placeholder {
+  color: #999;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.pmap-search-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 8px;
+}
+
+.pmap-search-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pmap-star-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+:root:lang(en) .pmap-star-icon {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+
+
+.pmap-confirm-button {
+  background: #0F71EF;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Vazir', Arial, sans-serif;
+  transition: background-color 0.2s;
+}
+
+.pmap-confirm-button:hover {
+  background: #0d60d0;
+}
+
+/* Pmap Search Modal */
+.pmap-search-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: white;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.pmap-search-modal.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pmap-search-header {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pmap-search-form {
+  display: flex;
+  background-color: #f5f5f5;
+  border-radius: 25px;
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.pmap-search-form input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 4px 12px;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  font-size: 16px;
+  direction: rtl;
+  outline: none;
+}
+
+.pmap-modal-back-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 2px;
+  margin-top: 5px;
+}
+
+:root:lang(en) .pmap-modal-back-button {
+  margin-left: 0px;
+  margin-right: 2px;
+}
+
+
+.pmap-clear-search {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-right: 8px;
+}
+
+/* Pmap Options Section */
+.pmap-options-section {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pmap-option-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+.pmap-option-icon {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pmap-option-text {
+  font-size: 16px;
+  color: #333;
+  font-family: 'Vazir', Arial, sans-serif;
+  font-weight: 500;
+}
+
+/* Pmap Recent Searches */
+.pmap-recent-title {
+  font-size: 18px;
+  color: #333;
+  margin: 24px 16px 16px;
+  font-weight: 600;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.pmap-no-recent {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  font-family: 'Vazir', Arial, sans-serif;
+  margin-top: 220px;
+  padding: 0 16px;
+}
+
+.pmap-destination-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pmap-destination-list li {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  font-family: 'Vazir', Arial, sans-serif;
+  transition: background-color 0.2s;
+}
+
+.pmap-destination-list li:hover {
+  background-color: #f8f8f8;
+}
+
+.pmap-recent-icon {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pmap-destination-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pmap-destination-name {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.pmap-destination-location {
+  font-size: 14px;
+  color: #666;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+/* RTL Support for Pmap */
+:root:lang(fa) .pmap-header-title,
+:root:lang(fa) .pmap-search-input,
+:root:lang(fa) .pmap-confirm-button,
+:root:lang(fa) .pmap-option-text,
+:root:lang(fa) .pmap-recent-title,
+:root:lang(fa) .pmap-no-recent,
+:root:lang(fa) .pmap-destination-name,
+:root:lang(fa) .pmap-destination-location,
+:root:lang(fa) .pmap-selection-message,
+:root:lang(fa) .pmap-cancel-selection {
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+:root:lang(ar) .pmap-header-title,
+:root:lang(ar) .pmap-search-input,
+:root:lang(ar) .pmap-confirm-button,
+:root:lang(ar) .pmap-option-text,
+:root:lang(ar) .pmap-recent-title,
+:root:lang(ar) .pmap-no-recent,
+:root:lang(ar) .pmap-destination-name,
+:root:lang(ar) .pmap-destination-location,
+:root:lang(ar) .pmap-selection-message,
+:root:lang(ar) .pmap-cancel-selection {
+  font-family: system-ui, -apple-system, sans-serif;
+  direction: rtl;
+}
+
+:root:lang(ur) .pmap-header-title,
+:root:lang(ur) .pmap-search-input,
+:root:lang(ur) .pmap-confirm-button,
+:root:lang(ur) .pmap-option-text,
+:root:lang(ur) .pmap-recent-title,
+:root:lang(ur) .pmap-no-recent,
+:root:lang(ur) .pmap-destination-name,
+:root:lang(ur) .pmap-destination-location,
+:root:lang(ur) .pmap-selection-message,
+:root:lang(ur) .pmap-cancel-selection {
+  font-family: system-ui, -apple-system, sans-serif;
+  direction: rtl;
+}
+
+:root:lang(en) .pmap-header-title,
+:root:lang(en) .pmap-search-input,
+:root:lang(en) .pmap-confirm-button,
+:root:lang(en) .pmap-option-text,
+:root:lang(en) .pmap-recent-title,
+:root:lang(en) .pmap-no-recent,
+:root:lang(en) .pmap-destination-name,
+:root:lang(en) .pmap-destination-location,
+:root:lang(en) .pmap-selection-message,
+:root:lang(en) .pmap-cancel-selection {
+  font-family: system-ui, -apple-system, sans-serif;
+  direction: ltr;
+}
+
+/* Input text alignment for English */
+:root:lang(en) .pmap-search-form input,
+:root:lang(en) .pmap-search-input {
+  text-align: left;
+  direction: ltr;
+}
+
+:root:lang(en) .pmap-search-input::placeholder {
+  text-align: left;
+  direction: ltr;
+}
+
+/* Adjust icon positioning for RTL languages */
+:root:lang(fa) .pmap-option-icon,
+:root:lang(ar) .pmap-option-icon,
+:root:lang(ur) .pmap-option-icon {
+  margin-left: 12px;
+  margin-right: 0;
+}
+
+:root:lang(fa) .pmap-recent-icon,
+:root:lang(ar) .pmap-recent-icon,
+:root:lang(ur) .pmap-recent-icon {
+  margin-left: 12px;
+  margin-right: 0;
+}
+
+:root:lang(en) .pmap-option-icon {
+  margin-left: 0;
+  margin-right: 12px;
+}
+
+:root:lang(en) .pmap-recent-icon {
+  margin-left: 0;
+  margin-right: 12px;
+}
+
+:root:lang(en) .pmap-modal-back-button svg {
+  transform: rotate(180deg);
+}
+
+.pmap-combined-marker {
+  position: relative;
+  width: 53px;
+  height: 62px;
+  margin-bottom: 10px;
+}
+
+.pmap-marker-star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 21px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -5px;
+  background-color: #0F71EF;
+  width: 46px;
+  height: 46px;
+  border-radius: 50px;
+}

@@ -246,5 +246,11 @@
   "noSavedLocationsTitle": "No Saved Locations",
   "noSavedLocationsDescription": "To save your favorite locations on the map, tap the button below and save your desired location.",
   "addLocationMessage": "Add location functionality will be implemented here",
-  "addLocationButton2": "Add a favorite location"
+  "addLocationButton2": "Add a favorite location",
+  "pmapSearchPlaceholder": "Search ...",
+  "confirmLocation": "Confirm Selected Location",
+  "pmapSelectLocation": "Select a location from the map",
+  "recentSearches": "Recent Searches",
+  "noRecentSearches": "No recent searches",
+  "cancel": "Cancel"
 }

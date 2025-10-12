@@ -246,5 +246,11 @@
   "noSavedLocationsTitle": "آپ نے کوئی مقام محفوظ نہیں کیا",
   "noSavedLocationsDescription": "نقشے پر اپنے پسندیدہ مقامات کو محفوظ کرنے کے لیے، نیچے دیے گئے بٹن پر ٹیپ کریں اور اپنا مطلوبہ مقام محفوظ کریں۔",
   "addLocationMessage": "مقام شامل کرنے کی فعالیت یہاں نافذ کی جائے گی",
-  "addLocationButton2": "ایک پسندیدہ مقام شامل کریں"
+  "addLocationButton2": "ایک پسندیدہ مقام شامل کریں",
+  "pmapSearchPlaceholder": "... تلاش کریں",
+  "confirmLocation": "منتخب مقام کی تصدیق کریں",
+  "pmapSelectLocation": "نقشے سے ایک مقام منتخب کریں",
+  "recentSearches": "حالیہ تلاش",
+  "noRecentSearches": "کوئی حالیہ تلاش نہیں ہے",
+  "cancel": "منسوخ کریں"
 }

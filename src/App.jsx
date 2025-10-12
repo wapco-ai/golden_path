@@ -14,6 +14,7 @@ import Plang from './pages/Plang';
 import ProfileInfo from './pages/ProfileInfo';
 import Proutes from './pages/Proutes';
 import Pfp from './pages/Pfp';
+import Pmap from './pages/Pmap';
 import AdminPanel from './pages/AdminPanel';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -38,7 +39,7 @@ const AppContent = () => {
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
     || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb'
     || location.pathname === '/admp' || location.pathname === '/plang' || location.pathname === '/pinfo' || location.pathname === '/proutes'
-    || location.pathname === '/Pfp' ;
+    || location.pathname === '/Pfp' || location.pathname === '/Pmap' ;
 
   const isAdminPanel = location.pathname === '/admp';
 
@@ -113,6 +114,7 @@ const AppContent = () => {
           <Route path="/proutes" element={<Proutes />} />
           <Route path="/mpb" element={<MapBegin />} />
           <Route path="/pinfo" element={<ProfileInfo />} />
+          <Route path="/pmap" element={<Pmap />} />
           <Route path="/Pfp" element={<Pfp />} />
         </Routes>
       </main>

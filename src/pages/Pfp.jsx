@@ -7,36 +7,34 @@ function Pfp() {
   const navigate = useNavigate();
   const intl = useIntl();
 
-  // Temporary data - set to empty array to show empty state, or use sample data
-  const [savedLocations, setSavedLocations] = useState([]);
-
-  // Sample data for demonstration - exactly from your screenshot
-  const sampleLocations = [
-    {
-      id: 1,
-      name: 'سقاخانه رضوی',
-      address: 'صحن انقلاب اسلامی | حرم مطهر رضوی'
-    },
-    {
-      id: 2,
-      name: 'باب الجواد علیه السلام',
-      address: 'صحن پیامبر اسلامی | حرم مطهر رضوی'
-    },
-    {
-      id: 3,
-      name: 'صحن آزادی',
-      address: 'صحن آزادی | حرم مطهر رضوی'
+  // Load saved locations from localStorage or use sample data
+  const [savedLocations, setSavedLocations] = useState(() => {
+    // Load from localStorage on component mount
+    const storedLocations = localStorage.getItem('savedLocations');
+    if (storedLocations) {
+      return JSON.parse(storedLocations);
     }
+    // Return sample data if nothing in localStorage
+    return [
+      // {
+      //   id: 1,
+      //   name: 'سقاخانه رضوی',
+      //   address: 'صحن انقلاب اسلامی | حرم مطهر رضوی'
+      // },
+      // {
+      //   id: 2,
+      //   name: 'باب الجواد علیه السلام', 
+      //   address: 'صحن پیامبر اعظم | حرم مطهر رضوی'
+      // },
+      // {
+      //   id: 3,
+      //   name: 'صحن آزادی',
+      //   address: 'صحن آزادی | حرم مطهر رضوی'
+      // }
+    ];
+  });
 
-  ];
-
-  // Use sample data for demonstration - change to [] to show empty state
-  const displayLocations = sampleLocations; // Change to [] to show empty state
-
-  const handleAddLocation = () => {
-    // This function will be implemented later for actual location saving
-    console.log('Add location functionality to be implemented');
-  };
+  const displayLocations = savedLocations;
 
   return (
     <div className="pfp-container">
@@ -73,7 +71,7 @@ function Pfp() {
               <FormattedMessage id="noSavedLocationsDescription" />
             </p>
 
-            <button className="add-location-btn" onClick={handleAddLocation}>
+            <button className="add-location-btn" onClick={() => navigate('/pmap')}>
               <FormattedMessage id="addLocationButton" />
             </button>
           </div>
@@ -110,6 +108,7 @@ function Pfp() {
                   <div className="add-location-section">
                     <button
                       className="add-location-button"
+                      onClick={() => navigate('/pmap')}
                     >
                       <FormattedMessage id="addLocationButton2" />
                     </button>
