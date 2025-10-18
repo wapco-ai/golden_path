@@ -17,33 +17,33 @@
   }
 }
 
-.plang-back-button {
+.back-arrow11 {
   position: absolute;
-  top: 40px;
-  right: 25px;
-  width: 55px;
-  height: 55px;
+  right: -5px;
+  top: -3px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  background: transparent;
+  background-color: white;
+  border-radius: 50%;
   border: 1px solid #D9D9D9;
-  border-radius: 50px;
 }
 
-:root:lang(en) .plang-back-button svg{
+:root:lang(en) .back-arrow11 svg{
   transform: rotate(180deg);
 }
 
-:root:lang(en) .plang-back-button{
-  left: 25px;
+:root:lang(en) .back-arrow11 {
+  left: -5px;
 }
 
 .plang-header {
+  display: flex;
+  position: relative;
   text-align: center;
   margin-bottom: 10px;
-  margin-top: 16px;
   width: 100%;
   display: flex;
   flex-direction: column;
