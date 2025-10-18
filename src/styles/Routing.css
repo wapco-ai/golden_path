@@ -1126,4 +1126,23 @@
   opacity: 0;
   transform: translateY(-20px);
   pointer-events: none;
+} 
+
+/* Image markers styles */
+.image-marker-container {
+  position: relative;
+  width: 55px;
+  height: 63px;
+}
+
+.image-marker-content {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }

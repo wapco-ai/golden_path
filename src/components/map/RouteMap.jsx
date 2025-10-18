@@ -7,12 +7,15 @@ import esriImageryStyle from '../../services/esriImageryStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 import ArrowMarker from './ArrowMarker';
+import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
+import { useLangStore } from '../../store/langStore';
+import { subGroups } from '../groupData';
 
 import { forwardRef, useImperativeHandle } from 'react';
 
 const TERRAIN_PROBE_URL = 'https://demotiles.maplibre.org/terrain-tiles/tiles/0/0/0.png';
 
-const RouteMap = forwardRef(({ 
+const RouteMap = forwardRef(({
   userLocation,
   routeSteps,
   currentStep,
@@ -34,6 +37,8 @@ const RouteMap = forwardRef(({
   const [isDrActive, setIsDrActive] = useState(advancedDeadReckoningService.isActive);
   const [heading, setHeading] = useState(0);
   const [terrainAvailable, setTerrainAvailable] = useState(false);
+  const [geoData, setGeoData] = useState(null);
+  const language = useLangStore(state => state.language);
 
   useEffect(() => {
     let cancelled = false;
@@ -90,6 +95,64 @@ const RouteMap = forwardRef(({
     });
     return remove;
   }, []);
+
+  // Load GeoJSON data
+  useEffect(() => {
+    const file = buildGeoJsonPath(language);
+    fetch(file)
+      .then((res) => res.json())
+      .then(setGeoData)
+      .catch((err) => console.error('failed to load geojson', err));
+  }, [language]);
+
+  // Function to render image markers for all subgroups with images
+  const renderImageMarkers = () => {
+    if (!geoData) return null;
+
+    const seenSubgroups = new Set();
+
+    return geoData.features
+      .filter(feature => {
+        if (feature.geometry.type !== 'Point') return false;
+
+        const { group, subGroupValue } = feature.properties || {};
+        const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
+
+        const hasImage = subgroup && subgroup.img &&
+          (Array.isArray(subgroup.img) ? subgroup.img.length > 0 : true);
+
+        if (!hasImage) return false;
+
+        // Skip if we've already seen this subgroup
+        if (seenSubgroups.has(subGroupValue)) return false;
+
+        seenSubgroups.add(subGroupValue);
+
+        return true;
+      })
+      .map((feature, idx) => {
+        const [lng, lat] = feature.geometry.coordinates;
+        const { group, subGroupValue } = feature.properties || {};
+        const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
+
+        // Get the first image if it's an array, otherwise use the string
+        const imageUrl = Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img;
+
+        return (
+          <Marker key={`image-${idx}`} longitude={lng} latitude={lat} anchor="center">
+            <div className="image-marker-container">
+              <svg width="55" height="63" viewBox="0 0 55 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M54.6562 27.3281C54.6562 39.6299 46.5275 50.0319 35.3486 53.459C35.1079 53.8493 34.8535 54.2605 34.585 54.6924L33.1699 56.9687C30.7353 60.8845 29.5175 62.8418 27.7412 62.8418C25.9651 62.8417 24.7479 60.8842 22.3135 56.9687L20.8975 54.6924C20.6938 54.3648 20.4993 54.0485 20.3115 53.7451C8.61859 50.6476 8.59898e-05 39.9953 -1.19455e-06 27.3281C-5.34814e-07 12.2351 12.2351 -1.85429e-06 27.3281 -1.19455e-06C42.4211 0.000106671 54.6562 12.2352 54.6562 27.3281Z" fill="white" />
+              </svg>
+              <div
+                className="image-marker-content"
+                style={{ backgroundImage: `url(${imageUrl})` }}
+              />
+            </div>
+          </Marker>
+        );
+      });
+  };
 
   // Handle map resize when modal opens/closes
   useEffect(() => {
@@ -394,6 +457,7 @@ const RouteMap = forwardRef(({
         ))}
 
       <GeoJsonOverlay routeCoords={routeGeo?.geometry?.coordinates} />
+      {renderImageMarkers()}
     </Map>
   );
 });
