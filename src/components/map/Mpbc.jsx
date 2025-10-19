@@ -100,11 +100,11 @@ const Mpbc = ({
         lng: parseFloat(storedLng)
       };
       setUserCoords(coords);
+
       (async () => {
         let name = intl.formatMessage({ id: 'mapCurrentLocationName' });
         if (storedId) {
           const title = await getLocationTitleById(storedId);
-
           if (title) name = title;
         }
         setUserLocation({
@@ -112,13 +112,15 @@ const Mpbc = ({
           coordinates: [coords.lat, coords.lng]
         });
       })();
+
+      // FIXED: Use coords.lat instead of undefined 'lat'
       setViewState(v => ({
         ...v,
-        latitude: coords.lat,
+        latitude: coords.lat - 0.0004, // Small offset to center higher
         longitude: coords.lng,
         zoom: 18
       }));
-      return; // Skip GPS if QR code exists
+      return;
     }
 
     // GPS tracking

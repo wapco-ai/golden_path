@@ -110,11 +110,11 @@ const AppContent = () => {
           <Route path="/rng" element={<Routing/>} />
           <Route path="/admp" element={<AdminPanel/>} />
           <Route path="/location" element={<Location />} />
-          <Route path="/plang" element={<Plang />} />
-          <Route path="/proutes" element={<Proutes />} />
           <Route path="/mpb" element={<MapBegin />} />
           <Route path="/pinfo" element={<ProfileInfo />} />
           <Route path="/pmap" element={<Pmap />} />
+          <Route path="/plang" element={<Plang />} />
+          <Route path="/proutes" element={<Proutes />} />
           <Route path="/Pfp" element={<Pfp />} />
         </Routes>
       </main>

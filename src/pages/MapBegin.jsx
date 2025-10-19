@@ -76,36 +76,26 @@ const MapBeginPage = () => {
     // Special case: if this is a QR code entry and we're showing cultural info
     if (isQrCodeEntry && showLocationDetails && showRouting) {
       if (expandedSearch) {
-        // If fully expanded, collapse to 30vh height
         setExpandedSearch(false);
         setCurrentHeight(window.innerHeight * 0.3);
       } else if (currentHeight <= window.innerHeight * 0.3) {
-        // If at 30vh height, close completely
         setCurrentHeight(140);
         setShowRouting(false);
-        setShowLocationDetails(false);
-        setIsQrCodeEntry(false); // Reset QR code flag when closed
+        setExpandedSearch(false);
+        setIsQrCodeEntry(false);
       } else {
-        // Otherwise expand fully
         setExpandedSearch(true);
         setCurrentHeight(window.innerHeight);
       }
     } else if (showRouting) {
       if (expandedSearch) {
-        // If fully expanded, collapse to location details
         setExpandedSearch(false);
         setCurrentHeight(window.innerHeight * 0.41);
       } else {
-        // If at location details height, close completely
-        if (showLocationDetails && currentHeight <= window.innerHeight * 0.41) {
-          setCurrentHeight(140);
-          setShowRouting(false);
-          setShowLocationDetails(false);
-        } else {
-          // Otherwise expand fully
-          setExpandedSearch(true);
-          setCurrentHeight(window.innerHeight);
-        }
+        // Always allow closing completely regardless of cultural info
+        setCurrentHeight(140);
+        setShowRouting(false);
+        setExpandedSearch(false);
       }
     } else {
       // Open to show location details if available
@@ -120,37 +110,37 @@ const MapBeginPage = () => {
     }
   };
 
-  useEffect(() => {
-    // If a location with image is selected, show the routing panel
-    if (showLocationDetails && !showRouting) {
-      setShowRouting(true);
-      setExpandedSearch(false);
-      setIsAutoExpanding(true);
+  // useEffect(() => {
+  //   // If a location with image is selected, show the routing panel
+  //   if (showLocationDetails && !showRouting) {
+  //     setShowRouting(true);
+  //     setExpandedSearch(false);
+  //     setIsAutoExpanding(true);
 
-      // Set height based on whether this is a QR code entry or normal selection
-      let newHeight;
-      if (isQrCodeEntry) {
-        newHeight = window.innerHeight * 0.3; // 30vh for QR code entries
-      } else {
-        newHeight = window.innerHeight * 0.41; // 41vh for normal selections
-      }
+  //     // Set height based on whether this is a QR code entry or normal selection
+  //     let newHeight;
+  //     if (isQrCodeEntry) {
+  //       newHeight = window.innerHeight * 0.3; // 30vh for QR code entries
+  //     } else {
+  //       newHeight = window.innerHeight * 0.41; // 41vh for normal selections
+  //     }
 
-      setCurrentHeight(newHeight);
+  //     setCurrentHeight(newHeight);
 
-      // Reset auto expanding after a delay
-      setTimeout(() => setIsAutoExpanding(false), 300);
-    }
-  }, [showLocationDetails, showRouting, isQrCodeEntry]);
+  //     // Reset auto expanding after a delay
+  //     setTimeout(() => setIsAutoExpanding(false), 300);
+  //   }
+  // }, [showLocationDetails, showRouting, isQrCodeEntry]);
 
   const handleCulturalInfo = () => {
     // Check if the selected location is one of our two special places
     const isRozemonavare = selectedLocation?.value === 'rozemonavare';
     const isSaghakhaneh = selectedLocation?.value === 'saghakhaneh';
-    
+
     if (isRozemonavare || isSaghakhaneh) {
       // For these two specific places, use their fixed coordinates and IDs
       let lat, lng, id;
-      
+
       if (isRozemonavare) {
         lat = 36.288005181401;
         lng = 59.61569271248;
@@ -160,10 +150,10 @@ const MapBeginPage = () => {
         lng = 59.616118862511;
         id = 'saghakhaneh_15';
       }
-      
+
       // Navigate with both state and URL parameters
-      navigate(`/location?id=${id}&lat=${lat}&lng=${lng}`, { 
-        state: { location: selectedLocation } 
+      navigate(`/location?id=${id}&lat=${lat}&lng=${lng}`, {
+        state: { location: selectedLocation }
       });
     } else {
       // For all other places, use the normal navigation
@@ -304,31 +294,27 @@ const MapBeginPage = () => {
     setIsSwiping(false);
 
     const screenHeight = window.innerHeight;
-    const threshold = screenHeight * 0.15; // Reduced threshold for more sensitive closing
 
-    // If user drags down significantly from the location details height, close completely
-    if (currentHeight < 200) { // Very close to bottom
+    // If dragged very close to bottom (less than 150px), close completely
+    if (currentHeight < 150) {
       setCurrentHeight(140);
       setShowRouting(false);
       setExpandedSearch(false);
-      if (showLocationDetails) {
-        setShowLocationDetails(false); // Also reset location details when closed
-      }
+      // DON'T reset showLocationDetails - keep the cultural info
     }
-    // If dragging up from location details height, expand fully
-    else if (currentHeight > screenHeight * 0.6) {
-      setCurrentHeight(screenHeight);
-      setExpandedSearch(true);
-      setShowRouting(true);
-    }
-    // Otherwise, snap back to location details height
-    else {
+    // If dragged to middle area, snap to location details height (41vh)
+    else if (currentHeight < screenHeight * 0.7) {
       setCurrentHeight(window.innerHeight * 0.41);
       setExpandedSearch(false);
       setShowRouting(true);
     }
+    // Otherwise, expand fully
+    else {
+      setCurrentHeight(screenHeight);
+      setExpandedSearch(true);
+      setShowRouting(true);
+    }
   };
-
 
   useEffect(() => {
     setShowImageMarkers(!selectedCategory);
