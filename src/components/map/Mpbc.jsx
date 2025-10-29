@@ -91,9 +91,10 @@ const Mpbc = ({
     const storedLng = sessionStorage.getItem('qrLng');
     const storedId = sessionStorage.getItem('qrId');
 
-    // Original shrine coordinates
+    // Holy shrine coordinates as default
     const shrineCoords = { lat: 36.2880, lng: 59.6157 };
 
+    // Priority 1: QR code location
     if (storedLat && storedLng) {
       const coords = {
         lat: parseFloat(storedLat),
@@ -113,63 +114,52 @@ const Mpbc = ({
         });
       })();
 
-      // FIXED: Use coords.lat instead of undefined 'lat'
       setViewState(v => ({
         ...v,
-        latitude: coords.lat - 0.0004, // Small offset to center higher
+        latitude: coords.lat - 0.0004,
         longitude: coords.lng,
         zoom: 18
       }));
       return;
     }
 
-    // GPS tracking
-    const success = (pos) => {
-      if (sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng')) {
-        return; // Don't override QR code location
-      }
-      const c = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
-      };
-      setUserCoords(c);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-        coordinates: [c.lat, c.lng]
-      });
-    };
+    // Priority 2: Always use shrine location as default, even if GPS is available
+    setUserCoords(shrineCoords);
+    setUserLocation({
+      name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+      coordinates: [shrineCoords.lat, shrineCoords.lng]
+    });
 
-    const err = (e) => {
-      console.error('Error getting location', e);
-      // Fallback to shrine location
-      setUserCoords(shrineCoords);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-        coordinates: [shrineCoords.lat, shrineCoords.lng]
-      });
-    };
-
-    let watchId;
+    // Optional: Still get GPS for tracking but don't use it as primary location
     if (isTracking) {
+      const success = (pos) => {
+        // We get GPS but don't update the main user location
+        // This can be used for other purposes like tracking movement
+        console.log('GPS location available but not used as primary:', pos.coords);
+      };
+
+      const err = (e) => {
+        console.error('Error getting GPS location', e);
+      };
+
       navigator.geolocation.getCurrentPosition(success, err, {
         enableHighAccuracy: false,
         timeout: 10000,
         maximumAge: 60000
       });
 
-      watchId = navigator.geolocation.watchPosition(success, err, {
+      const watchId = navigator.geolocation.watchPosition(success, err, {
         enableHighAccuracy: false,
         maximumAge: 0,
         timeout: 10000
       });
-    }
 
-    return () => {
-      if (watchId) navigator.geolocation.clearWatch(watchId);
-    };
+      return () => {
+        if (watchId) navigator.geolocation.clearWatch(watchId);
+      };
+    }
   }, [setUserLocation, intl, isTracking]);
 
-  // Update user location and optionally center map when it changes
   useEffect(() => {
     if (userLocation?.coordinates) {
       const [lat, lng] = userLocation.coordinates;
@@ -183,8 +173,8 @@ const Mpbc = ({
       if (isTracking && !isMapSelection) {
         setViewState(v => ({
           ...v,
-          latitude: lat,
-          longitude: lng,
+          latitude: coords.lat - 0.0004,
+          longitude: coords.lng - 0.000,
           zoom: 18
         }));
       }

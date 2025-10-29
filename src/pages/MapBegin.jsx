@@ -25,7 +25,7 @@ const MapBeginPage = () => {
     }
     : {
       name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-      coordinates: [36.297, 59.6069]
+      coordinates: [36.2880, 59.6157] 
     };
   const [userLocation, setUserLocation] = useState(initialUserLocation);
   const [isTracking, setIsTracking] = useState(true);
@@ -326,6 +326,7 @@ const MapBeginPage = () => {
     // Show image markers only when no category is selected
     setShowImageMarkers(isSameCategory ? true : false);
   }
+
 
   const handleSearchBlur = () => {
     setIsSearchFocused(false);

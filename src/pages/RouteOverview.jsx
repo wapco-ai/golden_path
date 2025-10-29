@@ -170,7 +170,8 @@ const RouteOverview = () => {
         )
         : step?.instruction
           ? step.instruction
-          : intl.formatMessage({ id: 'stepNumber' }, { num: idx + 1 });
+          : intl.formatMessage({ id: 'stepArriveDestination' }, { name: step?.name || intl.formatMessage({ id: 'destination' }) });
+
       const dist = Math.hypot(
         c[0] - routeCoordinates[idx][0],
         c[1] - routeCoordinates[idx][1]
@@ -200,7 +201,7 @@ const RouteOverview = () => {
     const merged = [];
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      if (seg.distance >= 40) {
+      if (seg.distance >= 30) {
         merged.push({ ...seg });
         continue;
       }
