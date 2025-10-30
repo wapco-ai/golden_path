@@ -240,6 +240,72 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          59.616118862511,
+          36.288464700649
+        ]
+      },
+      "properties": {
+        "name": "Razavi sahakhaneh",
+        "description": "",
+        "group": "other",
+        "subGroup": "Razavi sahakhaneh",
+        "types": [
+          "ziyarati"
+        ],
+        "services": {
+          "wheelchair": true,
+          "walking": true
+        },
+        "gender": "family",
+        "nodeFunction": "door",
+        "restrictedTimes": [],
+        "latitude": 36.288464700649,
+        "longitude": 59.616118862511,
+        "gpsMeta": null,
+        "timestamp": "2025-06-12T06:59:49.465Z",
+        "uniqueId": "saghakhaneh_15",
+        "transportModes": [],
+        "subGroupValue": "saghakhaneh"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          59.61569271248,
+          36.288005181401
+        ]
+      },
+      "properties": {
+        "name": "Rozeh Monavareh",
+        "description": "",
+        "group": "other",
+        "subGroup": "Zarih",
+        "types": [
+          "ziyarati"
+        ],
+        "services": {
+          "wheelchair": true,
+          "walking": true
+        },
+        "gender": "family",
+        "nodeFunction": "door",
+        "restrictedTimes": [],
+        "latitude": 36.288005181401,
+        "longitude": 59.61569271248,
+        "gpsMeta": null,
+        "timestamp": "2025-06-12T06:59:49.465Z",
+        "uniqueId": "rozemonavare_12",
+        "transportModes": [],
+        "subGroupValue": "rozemonavare"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           59.61169034242631,
           36.28809512720125
         ]
