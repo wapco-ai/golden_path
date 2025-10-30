@@ -84,7 +84,7 @@ const Mprc = ({
     }
   }, [onUserMove]);
 
-  // Initialize with shrine location or QR code location if available
+
   useEffect(() => {
     const storedLat = sessionStorage.getItem('qrLat');
     const storedLng = sessionStorage.getItem('qrLng');
@@ -93,6 +93,7 @@ const Mprc = ({
     // Original shrine coordinates
     const shrineCoords = { lat: 36.2880, lng: 59.6157 };
 
+    // If we have QR code location, use it and skip GPS
     if (storedLat && storedLng) {
       const coords = {
         lat: parseFloat(storedLat),
@@ -103,7 +104,6 @@ const Mprc = ({
         let name = intl.formatMessage({ id: 'mapCurrentLocationName' });
         if (storedId) {
           const title = await getLocationTitleById(storedId);
-
           if (title) name = title;
         }
         setUserLocation({
@@ -120,51 +120,63 @@ const Mprc = ({
       return; // Skip GPS if QR code exists
     }
 
-    // GPS tracking
-    const success = (pos) => {
-      if (sessionStorage.getItem('qrLat') && sessionStorage.getItem('qrLng')) {
-        return; // Don't override QR code location
-      }
-      const c = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
-      };
-      setUserCoords(c);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
-        coordinates: [c.lat, c.lng]
-      });
-    };
-
-    const err = (e) => {
-      console.error('Error getting location', e);
-      // Fallback to shrine location
-      setUserCoords(shrineCoords);
-      setUserLocation({
-        name: intl.formatMessage({ id: 'defaultBabRezaName' }),
-        coordinates: [shrineCoords.lat, shrineCoords.lng]
-      });
-    };
-
-    let watchId;
+    // Only use GPS if tracking is enabled AND we don't have a manually set location
     if (isTracking) {
-      navigator.geolocation.getCurrentPosition(success, err, {
-        enableHighAccuracy: false,
-        timeout: 10000,
-        maximumAge: 60000
-      });
+      const success = (pos) => {
+        // Don't override if user has manually selected a location
+        const currentUserLocation = userLocation;
+        if (currentUserLocation &&
+          currentUserLocation.name !== intl.formatMessage({ id: 'mapCurrentLocationName' }) &&
+          currentUserLocation.name !== intl.formatMessage({ id: 'defaultBabRezaName' })) {
+          return; // Respect user's manual selection
+        }
 
-      watchId = navigator.geolocation.watchPosition(success, err, {
-        enableHighAccuracy: false,
-        maximumAge: 0,
-        timeout: 10000
-      });
+        const c = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude
+        };
+        setUserCoords(c);
+        setUserLocation({
+          name: intl.formatMessage({ id: 'mapCurrentLocationName' }),
+          coordinates: [c.lat, c.lng]
+        });
+      };
+
+      const err = (e) => {
+        console.error('Error getting location', e);
+        // Only fallback to shrine if we don't have a manually set location
+        const currentUserLocation = userLocation;
+        if (!currentUserLocation ||
+          currentUserLocation.name === intl.formatMessage({ id: 'mapCurrentLocationName' }) ||
+          currentUserLocation.name === intl.formatMessage({ id: 'defaultBabRezaName' })) {
+          setUserCoords(shrineCoords);
+          setUserLocation({
+            name: intl.formatMessage({ id: 'defaultBabRezaName' }),
+            coordinates: [shrineCoords.lat, shrineCoords.lng]
+          });
+        }
+      };
+
+      let watchId;
+      if (isTracking) {
+        navigator.geolocation.getCurrentPosition(success, err, {
+          enableHighAccuracy: false,
+          timeout: 10000,
+          maximumAge: 60000
+        });
+
+        watchId = navigator.geolocation.watchPosition(success, err, {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: 10000
+        });
+      }
+
+      return () => {
+        if (watchId) navigator.geolocation.clearWatch(watchId);
+      };
     }
-
-    return () => {
-      if (watchId) navigator.geolocation.clearWatch(watchId);
-    };
-  }, [setUserLocation, intl, isTracking]);
+  }, [setUserLocation, intl, isTracking, userLocation]); // Added userLocation to dependencies
 
   // Update user location and optionally center map when it changes
   // In MapComponent.js, update the useEffect that handles userLocation changes:

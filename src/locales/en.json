@@ -252,5 +252,6 @@
   "pmapSelectLocation": "Select a location from the map",
   "recentSearches": "Recent Searches",
   "noRecentSearches": "No recent searches",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "profileUpdatedSuccess": "Profile updated successfully!"
 }

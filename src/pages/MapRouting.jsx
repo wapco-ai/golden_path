@@ -229,6 +229,14 @@ const MapRoutingPage = () => {
     isSelectingFromMap
   ]);
 
+  useEffect(() => {
+
+    if (userLocation && userLocation.name !== intl.formatMessage({ id: 'mapCurrentLocationName' }) &&
+      userLocation.name !== intl.formatMessage({ id: 'defaultBabRezaName' })) {
+      setIsTracking(false);
+    }
+  }, [userLocation]);
+
 
   const handleSubgroupSelect = (subgroup) => {
     const destination = {
@@ -300,6 +308,8 @@ const MapRoutingPage = () => {
         navigate('/fs');
       }
     } else {
+      // When setting origin manually, disable GPS tracking
+      setIsTracking(false);
       setUserLocation({ name: destination.name, coordinates: destination.coordinates });
       setShowOriginModal(false);
 
@@ -313,6 +323,7 @@ const MapRoutingPage = () => {
     }
     setSearchQuery('');
   };
+
 
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
@@ -458,6 +469,7 @@ const MapRoutingPage = () => {
   };
 
   const handleCurrentLocationSelect = () => {
+    setIsTracking(true);
     if (storedLat && storedLng && storedId) {
       getLocationTitleById(storedId).then((title) => {
         setUserLocation({

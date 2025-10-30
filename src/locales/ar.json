@@ -252,5 +252,6 @@
   "pmapSelectLocation": "اختر موقعًا من الخريطة",
   "recentSearches": "عمليات البحث الأخيرة",
   "noRecentSearches": "لا توجد عمليات بحث حديثة",
-  "cancel": "إلغاء"
+  "cancel": "إلغاء",
+  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح!"
 }

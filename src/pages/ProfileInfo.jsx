@@ -19,6 +19,8 @@ function ProfileInfo() {
   });
 
   const [avatar, setAvatar] = useState(null);
+  // Add message state
+  const [message, setMessage] = useState({ type: '', text: '' });
 
   // Load user data from localStorage when component mounts
   useEffect(() => {
@@ -42,6 +44,16 @@ function ProfileInfo() {
       setAvatar(savedAvatar);
     }
   }, []);
+
+  // Clear message after 3 seconds
+  useEffect(() => {
+    if (message.text) {
+      const timer = setTimeout(() => {
+        setMessage({ type: '', text: '' });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   // Iranian provinces and cities data
   const provinces = [
@@ -142,8 +154,16 @@ function ProfileInfo() {
 
     localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-    // Navigate back to profile
-    navigate('/profile');
+    // Show success message
+    setMessage({
+      type: 'success',
+      text: intl.formatMessage({ id: 'profileUpdatedSuccess' })
+    });
+    
+    // Navigate back to profile after a short delay
+    setTimeout(() => {
+      navigate('/profile');
+    }, 1500);
   };
 
   // Get user display name
@@ -159,6 +179,13 @@ function ProfileInfo() {
 
   return (
     <div className="profile-info-container">
+      {/* Message Notification */}
+      {message.text && (
+        <div className={`message-notification ${message.type}`}>
+          {message.text}
+        </div>
+      )}
+
       {/* Header with Back Arrow and Menu */}
       <div className="profile-info-header">
         <button className="back-arrow3" onClick={() => navigate(-1)}>

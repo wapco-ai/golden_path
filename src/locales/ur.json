@@ -252,5 +252,6 @@
   "pmapSelectLocation": "نقشے سے ایک مقام منتخب کریں",
   "recentSearches": "حالیہ تلاش",
   "noRecentSearches": "کوئی حالیہ تلاش نہیں ہے",
-  "cancel": "منسوخ کریں"
+  "cancel": "منسوخ کریں",
+  "profileUpdatedSuccess": "پروفائل کامیابی سے اپ ڈیٹ ہو گئی!"
 }
