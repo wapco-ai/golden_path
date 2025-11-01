@@ -238,13 +238,51 @@ const MapRoutingPage = () => {
   }, [userLocation]);
 
 
-  const handleSubgroupSelect = (subgroup) => {
+  const handleSubgroupSelect = async (subgroup) => {
+    let coordinates = null;
+
+    // Try to get coordinates from geoData first
+    if (geoData) {
+      const feature = geoData.features.find(
+        f => f.properties?.subGroupValue === subgroup.value
+      );
+
+      if (feature) {
+        const center = getFeatureCenter(feature);
+        if (center) {
+          coordinates = [center[1], center[0]];
+        }
+      }
+    }
+
+    // If no coordinates from geoData, check if subgroup has its own coordinates
+    if (!coordinates && subgroup.coordinates) {
+      coordinates = subgroup.coordinates;
+    }
+
+    // If still no coordinates, try to find any feature with this subgroup value for coordinates
+    if (!coordinates && geoData) {
+      const anyFeature = geoData.features.find(
+        f => f.properties?.subGroupValue === subgroup.value
+      );
+      if (anyFeature) {
+        const center = getFeatureCenter(anyFeature);
+        if (center) {
+          coordinates = [center[1], center[0]];
+        }
+      }
+    }
+
     const destination = {
       id: subgroup.value,
       name: subgroup.label,
-      location: intl.formatMessage({ id: modalSelectedCategory.label }),
-      coordinates: null
+      location: modalSelectedCategory ?
+        intl.formatMessage({ id: modalSelectedCategory.label }) :
+        (subgroup.location || subgroup.label),
+      coordinates: coordinates
     };
+
+    console.log('Subgroup selected:', subgroup.label, 'Coordinates:', coordinates);
 
     handleDestinationSelect(destination);
   };
@@ -252,43 +290,6 @@ const MapRoutingPage = () => {
   const handleSubgroupSelectWithModal = (subgroup) => {
     console.log('Selected subgroup:', subgroup.value, 'Has image:', !!subgroup.img);
 
-    // // If subgroup has image, show modal regardless of geoData coordinates
-    // if (subgroup.img) {
-    //   let coordinates = null;
-
-    //   // First try to get coordinates from geoData
-    //   if (geoData) {
-    //     const feature = geoData.features.find(
-    //       f => f.properties?.subGroupValue === subgroup.value
-    //     );
-
-    //     if (feature) {
-    //       const center = getFeatureCenter(feature);
-    //       if (center) {
-    //         coordinates = [center[1], center[0]];
-    //       }
-    //     }
-    //   }
-
-    //   // If no coordinates from geoData, check if subgroup has its own coordinates
-    //   if (!coordinates && subgroup.coordinates) {
-    //     coordinates = subgroup.coordinates;
-    //   }
-
-    //   // Show modal with whatever coordinates we have (even if null)
-    //   setSelectedPlace({
-    //     name: subgroup.label,
-    //     coordinates: coordinates, // can be null
-    //     // Add the first image to selectedPlace for the modal if needed
-    //     image: Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img
-    //   });
-    //   setSelectedSubgroup(subgroup);
-    //   setShowRouteInfoModal(true);
-    //   setSelectedOption(null);
-    //   return;
-    // }
-
-    // Fallback only for subgroups without images
     handleSubgroupSelect(subgroup);
   };
 
@@ -361,6 +362,80 @@ const MapRoutingPage = () => {
       if (feature?.properties?.subGroup) return feature.properties.subGroup;
     }
     return fallback;
+  };
+
+  // Add this function to handle routing from main page subgroups
+  const handleRouteFromSubgroup = (subgroup) => {
+    console.log('Routing from main page subgroup:', subgroup);
+
+    let coordinates = null;
+
+    // Try to get coordinates from geoData first
+    if (geoData) {
+      const feature = geoData.features.find(
+        f => f.properties?.subGroupValue === subgroup.value
+      );
+
+      if (feature) {
+        const center = getFeatureCenter(feature);
+        if (center) {
+          coordinates = [center[1], center[0]];
+        }
+      }
+    }
+
+    // If no coordinates from geoData, check if subgroup has its own coordinates
+    if (!coordinates && subgroup.coordinates) {
+      coordinates = subgroup.coordinates;
+    }
+
+    // If still no coordinates, try to find any feature with this subgroup value
+    if (!coordinates && geoData) {
+      const anyFeature = geoData.features.find(
+        f => f.properties?.subGroupValue === subgroup.value
+      );
+      if (anyFeature) {
+        const center = getFeatureCenter(anyFeature);
+        if (center) {
+          coordinates = [center[1], center[0]];
+        }
+      }
+    }
+
+    // Create destination object
+    const destination = {
+      id: subgroup.value,
+      name: subgroup.label,
+      location: mapSelectedCategory ?
+        intl.formatMessage({ id: mapSelectedCategory.label }) :
+        (subgroup.location || subgroup.label),
+      coordinates: coordinates
+    };
+
+    console.log('Setting destination from main page:', destination);
+
+    // Set as destination only
+    setSelectedDestination(destination);
+    addSearch(destination);
+
+    // Store in sessionStorage for persistence
+    sessionStorage.setItem('currentDestination', JSON.stringify(destination));
+
+    // If we have both origin and destination, navigate to next page
+    if (userLocation && destination.coordinates) {
+      setTimeout(() => {
+        setOriginStore({
+          name: userLocation.name,
+          coordinates: userLocation.coordinates
+        });
+        setDestinationStore({
+          name: destination.name,
+          coordinates: destination.coordinates
+        });
+        navigate('/fs');
+      }, 100);
+    } else {
+    }
   };
 
   // Get subgroup description based on currently loaded geoData
@@ -684,7 +759,10 @@ const MapRoutingPage = () => {
                     </div>
                   </div>
                   <div className="map-subgroup-actions">
-                    <button className="map-subgroup-btn route-btn" onClick={() => navigate('/fs')}>
+                    <button
+                      className="map-subgroup-btn route-btn"
+                      onClick={() => handleRouteFromSubgroup(subGroup)}
+                    >
                       <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M16.2851 14.6752C16.7753 14.2188 16.9902 13.4967 16.6398 12.7983L11.1179 1.7918C10.4769 0.514157 8.52263 0.514157 7.88165 1.7918L2.35977 12.7983C2.00936 13.4967 2.2243 14.2188 2.71445 14.6752C3.20874 15.1354 4.01591 15.348 4.78988 14.9806L4.52496 14.5396L4.78988 14.9806L9.21767 12.8793L8.95274 12.4382L9.21767 12.8793C9.39648 12.7944 9.60309 12.7944 9.7819 12.8793L14.2097 14.9806L14.4746 14.5396L14.2097 14.9806C14.9837 15.348 15.7908 15.1354 16.2851 14.6752ZM14.7395 14.0985L14.4766 14.5364L14.7395 14.0985L10.3118 11.9971C9.80183 11.7551 9.19774 11.7551 8.68781 11.9971L4.26003 14.0985C3.99319 14.2251 3.72448 14.1675 3.52817 13.9847C3.32773 13.798 3.23735 13.5043 3.38724 13.2056L8.90911 2.19909C9.15361 1.71173 9.84595 1.71173 10.0905 2.19909L15.6123 13.2056C15.7622 13.5043 15.6718 13.7981 15.4714 13.9847C15.2751 14.1675 15.0064 14.2251 14.7395 14.0985Z" fill="#0F71EF" />
                       </svg>
