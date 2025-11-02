@@ -94,7 +94,7 @@ const Alogin = () => {
                     className="form-input"
                   />
                 </label>
-                {usernameError && <div className="error-message">{usernameError}</div>}
+                {usernameError && <div className="error-message4">{usernameError}</div>}
               </div>
 
               <div className="form-group">
@@ -137,11 +137,12 @@ const Alogin = () => {
                     )}
                   </button>
                 </label>
-                {passwordError && <div className="error-message">{passwordError}</div>}
+                {passwordError && <div className="error-message4">{passwordError}</div>}
               </div>
 
               <div className="forgot-password">
-                <a href="#" className="forgot-link">رمز عبورتان را فراموش کرده‌اید؟ بازیابی رمز عبور</a>
+                <p>رمز عبورتان را فراموش کرده‌اید؟</p>
+                <a href="#" className="forgot-link"> بازیابی رمز عبور</a>
               </div>
 
               <button type="submit" className="login-button">

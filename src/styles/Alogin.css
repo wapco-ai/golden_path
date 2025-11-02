@@ -421,6 +421,7 @@
 
 .input-wrapper5.error {
   border-color: #F44336;
+  padding: 0px;
 }
 
 .input-icon {
@@ -468,21 +469,38 @@
   justify-content: center;
 }
 
-.error-message {
+.error-message4 {
   color: #F44336;
   font-size: 13px;
   margin-top: 8px;
+  margin-bottom: 0px;
   text-align: right;
   font-weight: 500;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin-right: 10px;
 }
 
 .forgot-password {
   margin-bottom: 50px;
   margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 9px;
+  align-items: center;
+  padding: 0px;
 }
 
+.forgot-password p {
+  color: #666;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+
 .forgot-link {
-  color: #858585;
+  color: #0F71EF;
   text-decoration: none;
   font-size: 14px;
   transition: color 0.3s ease;
@@ -490,7 +508,7 @@
 }
 
 .forgot-link:hover {
-  color: #0D5ECD;
+  color: #0F71EF;
   text-decoration: underline;
 }
 
@@ -534,6 +552,7 @@
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -550,11 +569,11 @@
     max-width: 1400px;
     margin: 0 auto;
   }
-  
+
   .login-left {
     padding: 80px 60px;
   }
-  
+
   .login-right {
     padding: 80px;
   }
@@ -596,7 +615,7 @@
   .login-container {
     background: white;
   }
-  
+
   .slide-controls,
   .password-toggle {
     display: none;
