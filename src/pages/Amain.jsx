@@ -1,7 +1,7 @@
-// src/pages/AdminPanel.jsx
+// src/pages/Amain.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
-import '../styles/AdminPanel.css';
+import '../styles/Amain.css';
 import logo from '../assets/images/logo2.png';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toJalaali, toGregorian } from 'jalaali-js';
@@ -9,7 +9,7 @@ import ReactDatePicker from 'react-datepicker';
 import { Helmet } from 'react-helmet';
 
 
-const AdminPanel = () => {
+const Amain = () => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [commentStats, setCommentStats] = useState({
     total: 152,
@@ -130,7 +130,7 @@ const AdminPanel = () => {
   useEffect(() => {
     // Chrome rendering fix
     const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-    
+
     if (isChrome) {
       // Force reflow to fix rendering issues
       setTimeout(() => {
@@ -629,12 +629,15 @@ const AdminPanel = () => {
             <div className="section-header">
               <div className="section-header-top">
                 <div className="title-container">
-                  <h3>آخرین کاربران ثبت نام شده در اپلیکیشن</h3>
-                  <button className="refresh-btn">
-                    <svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11.047 5.99994C11.047 8.73518 8.8271 10.9551 6.09186 10.9551C3.35662 10.9551 1.68674 8.20002 1.68674 8.20002M1.68674 8.20002H3.92646M1.68674 8.20002V10.6776M1.13672 5.99994C1.13672 3.2647 3.3368 1.0448 6.09186 1.0448C9.39694 1.0448 11.047 3.79986 11.047 3.79986M11.047 3.79986V1.32229M11.047 3.79986H8.84692" stroke="#1E2023" strokeWidth="1.08112" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
+                  <div className="title-cell">
+                    <h3>آخرین کاربران ثبت نام شده در اپلیکیشن</h3>
+                    <button className="refresh-btn">
+                      <svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.047 5.99994C11.047 8.73518 8.8271 10.9551 6.09186 10.9551C3.35662 10.9551 1.68674 8.20002 1.68674 8.20002M1.68674 8.20002H3.92646M1.68674 8.20002V10.6776M1.13672 5.99994C1.13672 3.2647 3.3368 1.0448 6.09186 1.0448C9.39694 1.0448 11.047 3.79986 11.047 3.79986M11.047 3.79986V1.32229M11.047 3.79986H8.84692" stroke="#1E2023" strokeWidth="1.08112" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
+                  <p>لورم اپیسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
                 </div>
                 <div className="search-box-with-icon">
                   <svg className="search-icon7" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -649,7 +652,6 @@ const AdminPanel = () => {
                   />
                 </div>
               </div>
-              <p>لورم اپیسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
             </div>
 
 
@@ -700,4 +702,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel;
+export default Amain;

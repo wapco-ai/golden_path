@@ -15,20 +15,22 @@ import ProfileInfo from './pages/ProfileInfo';
 import Proutes from './pages/Proutes';
 import Pfp from './pages/Pfp';
 import Pmap from './pages/Pmap';
-import AdminPanel from './pages/AdminPanel';
+import Amain from './pages/Amain';
+import Alogin from './pages/Alogin';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { ToastContainer, toast } from 'react-toastify';
 
 const useAppStyles = () => {
   const location = useLocation();
-  const isAdminPanel = location.pathname === '/admp';
+  const isAmain = location.pathname === '/amain';
+  const isAlogin = location.pathname === '/alogin';
   
   useEffect(() => {
-    if (!isAdminPanel) {
+    if (!isAmain) {
       import('./App.css');
     }
-  }, [isAdminPanel, location.pathname]);
+  }, [isAmain, location.pathname]);
 };
 
 
@@ -38,10 +40,11 @@ const AppContent = () => {
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/profile'|| location.pathname === '/lang'
     || location.pathname === '/location' || location.pathname === '/' || location.pathname === '/mpr'|| location.pathname === '/fs'
     || location.pathname === '/rop' || location.pathname === '/rng'|| location.pathname === '/mpb'
-    || location.pathname === '/admp' || location.pathname === '/plang' || location.pathname === '/pinfo' || location.pathname === '/proutes'
+    || location.pathname === '/amain' || location.pathname === '/plang' || location.pathname === '/pinfo' || location.pathname === '/proutes'
     || location.pathname === '/Pfp' || location.pathname === '/Pmap' ;
 
-  const isAdminPanel = location.pathname === '/admp';
+  const isAmain = location.pathname === '/amain';
+  const isAlogin = location.pathname === '/alogin';
 
   useAppStyles();
 
@@ -77,7 +80,7 @@ const AppContent = () => {
   };
 
   return (
-    <div className={`app ${isAdminPanel ? 'no-app-styles' : ''}`}>
+    <div className={`app ${isAmain ? 'no-app-styles' : ''}`}>
       {!hideHeaderFooter && <Header />}
       <main className={`main-content ${hideHeaderFooter ? 'no-header-footer-layout' : ''}`}>
         {/* Stylish PWA Install Modal Prompt */}
@@ -108,7 +111,8 @@ const AppContent = () => {
           <Route path="/" element={<LangPage />} />
           <Route path="/mpr" element={<MapRouting/>} />
           <Route path="/rng" element={<Routing/>} />
-          <Route path="/admp" element={<AdminPanel/>} />
+          <Route path="/amain" element={<Amain/>} />
+          <Route path="/alogin" element={<Alogin/>} />
           <Route path="/location" element={<Location />} />
           <Route path="/mpb" element={<MapBegin />} />
           <Route path="/pinfo" element={<ProfileInfo />} />
