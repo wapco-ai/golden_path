@@ -1,8 +1,9 @@
 // src/pages/Alogin.jsx
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Alogin.css';
 import logo from '../assets/images/logo3.png';
+import statsImage from '../assets/images/img1.png'; // Add this import
+import React, { useState, useEffect } from 'react';
 
 const Alogin = () => {
   const [username, setUsername] = useState('');
@@ -10,20 +11,8 @@ const Alogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(1);
   const navigate = useNavigate();
-
-  // Sample data for the pie chart
-  const [commentStats] = useState({
-    total: 152,
-    approved: 89,
-    rejected: 46
-  });
-
-  const unknownComments = commentStats.total - commentStats.approved - commentStats.rejected;
-  const approvedDegrees = (commentStats.approved / commentStats.total) * 360;
-  const rejectedDegrees = (commentStats.rejected / commentStats.total) * 360;
-  const unknownDegrees = (unknownComments / commentStats.total) * 360;
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -61,6 +50,14 @@ const Alogin = () => {
   const prevSlide = () => {
     setActiveSlide((prev) => (prev - 1 + 3) % 3);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % 3);
+    }, 7000); 
+
+    return () => clearInterval(interval); 
+  }, []);
 
   return (
     <div className="login-container4">
@@ -159,87 +156,23 @@ const Alogin = () => {
         {/* Left Section - Stats & Info */}
         <div className="login-left">
           <div className="slides-container4">
-            <div className="slides-wrapper" style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
-              {/* Slide 1 - Chart */}
+            <div className="slides-wrapper" style={{ transform: `translateX(${activeSlide * 100}%)` }}>
+              {/* Slide 1 - Chart Image */}
               <div className="slide">
-                <div className="chart-section">
-                  <div className="chart-header-with-filter">
-                    <h3>نظرات ثبت شده</h3>
-                    <div className="time-filter">
-                      <span>ماه اخیر</span>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M3.64645 5.64645C3.84171 5.45118 4.15829 5.45118 4.35355 5.64645L8 9.29289L11.6464 5.64645C11.8417 5.45118 12.1583 5.45118 12.3536 5.64645C12.5488 5.84171 12.5488 6.15829 12.3536 6.35355L8.35355 10.3536C8.15829 10.5488 7.84171 10.5488 7.64645 10.3536L3.64645 6.35355C3.45118 6.15829 3.45118 5.84171 3.64645 5.64645Z" fill="#1E2023" />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <div className="pie-chart-wrapper2">
-                    <div className="pie-chart-main2">
-                      <div className="pie-chart-visual2" style={{
-                        background: `conic-gradient(#0F71EF 0deg ${approvedDegrees}deg, white ${approvedDegrees}deg ${approvedDegrees + 2}deg, #F44336 ${approvedDegrees + 2}deg ${approvedDegrees + rejectedDegrees + 2}deg, white ${approvedDegrees + rejectedDegrees + 2}deg ${approvedDegrees + rejectedDegrees + 4}deg, #F2F2F2 ${approvedDegrees + rejectedDegrees + 4}deg 360deg)`
-                      }}>
-                        <div className="pie-center2"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="table-header">
-                    <span>نظرات و حالت ها</span>
-                    <span>تعداد</span>
-                  </div>
-                  <div className="comments-table">
-                    <div className="table-row2">
-                      <span>کل نظرات ثبت شده (مرداد)</span>
-                      <span className="count-value">{commentStats.total}</span>
-                    </div>
-
-                    <div className="table-row">
-                      <div className="stat-info">
-                        <div className="stat-color approved"></div>
-                        <span>تایید و انتشار</span>
-                      </div>
-                      <div className="count-value">{commentStats.approved}</div>
-                    </div>
-                    <div className="table-row">
-                      <div className="stat-info">
-                        <div className="stat-color rejected"></div>
-                        <span>رد شده</span>
-                      </div>
-                      <div className="count-value">{commentStats.rejected}</div>
-                    </div>
-                  </div>
+                <div className="info-section">
+                  <h3>مدیریت آمار نظرات و کاربران</h3>
+                  <p>
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز
+                    لورم ایپسوم متن ساختگی با تولید.
+                  </p>
                 </div>
-
-                {/* User Stats Card Overlay */}
-                <div className="user-stats-overlay">
-                  <div className="user-stat-card">
-                    <div className="stat-card-icon">
-                      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="4" y="4" width="48" height="48" rx="24" fill="#0F71EF" />
-                        <rect x="4" y="4" width="48" height="48" rx="24" stroke="#F5F6FF" strokeWidth="8" />
-                        <path d="M28.1705 36.6377C27.2957 36.6377 26.4289 36.3809 25.7468 35.8753L22.2957 33.299C21.3808 32.6169 20.6665 31.1963 20.6665 30.0567V24.0936C20.6665 22.8576 21.5734 21.5414 22.7371 21.108L26.7419 19.6072C27.5365 19.3103 28.7885 19.3103 29.583 19.6072L33.5959 21.108C34.7596 21.5414 35.6665 22.8576 35.6665 24.0936V30.0567C35.6665 31.1963 34.9522 32.6169 34.0373 33.299L30.5862 35.8753C29.9121 36.3809 29.0453 36.6377 28.1705 36.6377ZM27.1673 20.7308L23.1625 22.2316C22.4723 22.4885 21.8704 23.3552 21.8704 24.0936V30.0567C21.8704 30.8191 22.4081 31.8865 23.01 32.336L26.461 34.9122C27.384 35.6024 28.949 35.6024 29.872 34.9122L33.323 32.336C33.933 31.8785 34.4627 30.8111 34.4627 30.0567V24.0936C34.4627 23.3633 33.8607 22.4965 33.1705 22.2316L29.1657 20.7308C28.636 20.5302 27.705 20.5302 27.1673 20.7308Z" fill="white" />
-                        <path d="M27.1673 20.7308L23.1625 22.2316C22.4723 22.4885 21.8704 23.3552 21.8704 24.0936V30.0567C21.8704 30.8191 22.4081 31.8865 23.01 32.336L26.461 34.9122C27.384 35.6024 28.949 35.6024 29.872 34.9122L33.323 32.336C33.933 31.8785 34.4627 30.8111 34.4627 30.0567V24.0936C34.4627 23.3633 33.8607 22.4965 33.1705 22.2316L29.1657 20.7308C28.636 20.5302 27.705 20.5302 27.1673 20.7308Z" fill="white" />
-                        <path d="M28.1707 27.7373H28.1145C26.9508 27.7052 26.1001 26.8143 26.1001 25.7309C26.1001 24.6233 27.007 23.7164 28.1145 23.7164C29.2221 23.7164 30.129 24.6233 30.129 25.7309C30.1285 26.2526 29.926 26.7539 29.5638 27.1295C29.2017 27.5051 28.7081 27.7258 28.1868 27.7453C28.1787 27.7373 28.1787 27.7373 28.1707 27.7373ZM28.1145 24.9203C27.6651 24.9203 27.3039 25.2814 27.3039 25.7309C27.3039 26.1723 27.649 26.5254 28.0824 26.5415H28.1707C28.3765 26.5291 28.5697 26.438 28.7101 26.2871C28.8506 26.1362 28.9276 25.937 28.9251 25.7309C28.9262 25.6241 28.906 25.5182 28.8656 25.4194C28.8253 25.3206 28.7656 25.2308 28.6901 25.1553C28.6146 25.0798 28.5248 25.0202 28.426 24.9798C28.3272 24.9394 28.2213 24.9192 28.1145 24.9203ZM28.1707 32.2959C27.4805 32.2959 26.7823 32.1113 26.2446 31.7501C25.7068 31.397 25.4019 30.8761 25.4019 30.3224C25.4019 29.7686 25.7068 29.2469 26.2446 28.8858C27.328 28.1635 29.0214 28.1715 30.0969 28.8858C30.6346 29.2389 30.9396 29.7606 30.9396 30.3143C30.9396 30.8681 30.6346 31.3898 30.0969 31.7509C29.5592 32.1121 28.8609 32.2959 28.1707 32.2959ZM26.9107 29.8802C26.71 30.0086 26.5977 30.1691 26.6057 30.3135C26.6057 30.458 26.7181 30.6185 26.9107 30.7469C27.5848 31.1964 28.7566 31.1964 29.4307 30.7469C29.6314 30.6185 29.7437 30.458 29.7437 30.3135C29.7437 30.1691 29.6314 30.0086 29.4388 29.8802C28.7646 29.4387 27.5848 29.4387 26.9107 29.8802Z" fill="#0F71EF" />
-                      </svg>
-                    </div>
-                    <div className="user-stat-content">
-                      <div className="user-stat-title">تعداد کاربران</div>
-                      <div className="user-stat-value">۱,۴۵۶,۰۰۳</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="info-section">
-                <h3>مدیریت آمار نظرات و کاربران</h3>
-                <p>
-                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز
-                  لورم ایپسوم متن ساختگی با تولید.
-                </p>
               </div>
 
               {/* Slide 2 - Info */}
               <div className="slide">
+                <div className="stats-image-container">
+                  <img src={statsImage} alt="آمار و نمودارها" className="stats-image" />
+                </div>
               </div>
 
               {/* Slide 3 - Additional Stats */}
@@ -265,27 +198,27 @@ const Alogin = () => {
             </div>
           </div>
 
-          {/* Slide Controls */}
+          {/* Slide Controls - Moved to bottom */}
           <div className="slide-controls">
             <button className="slide-arrow prev" onClick={prevSlide}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 12L6 8L10 4" stroke="#858585" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M8.51192 19.5694C8.19743 19.2999 8.16101 18.8264 8.43057 18.5119L14.0122 12L8.43057 5.48808C8.16101 5.17359 8.19743 4.70011 8.51192 4.43054C8.82642 4.16098 9.29989 4.1974 9.56946 4.51189L15.5695 11.5119C15.8102 11.7928 15.8102 12.2072 15.5695 12.4881L9.56946 19.4881C9.29989 19.8026 8.82642 19.839 8.51192 19.5694Z" fill="#0F71EF" />
               </svg>
             </button>
 
-            <div className="slide-dots">
+            <div className="slide-dots4">
               {[0, 1, 2].map((index) => (
                 <button
                   key={index}
-                  className={`slide-dot ${activeSlide === index ? 'active' : ''}`}
+                  className={`slide-dot4 ${activeSlide === index ? 'active' : ''}`}
                   onClick={() => setActiveSlide(index)}
                 />
               ))}
             </div>
 
             <button className="slide-arrow next" onClick={nextSlide}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 4L10 8L6 12" stroke="#858585" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M15.4881 19.5694C15.8026 19.2999 15.839 18.8264 15.5694 18.5119L9.98781 12L15.5694 5.48808C15.839 5.17359 15.8026 4.70011 15.4881 4.43054C15.1736 4.16098 14.7001 4.1974 14.4306 4.51189L8.43056 11.5119C8.18982 11.7928 8.18982 12.2072 8.43056 12.4881L14.4306 19.4881C14.7001 19.8026 15.1736 19.839 15.4881 19.5694Z" fill="#0F71EF" />
               </svg>
             </button>
           </div>
