@@ -328,15 +328,15 @@ body {
 }
 
 .submenu-item:hover {
-  color: #1e2023;
+  color: #0F71EF;
 }
 
 .submenu-item:hover .submenu-branch {
-  background-color: #1e2023;
+  background-color: #0F71EF;
 }
 
 .submenu-item:hover .submenu-branch::before {
-  background-color: #1e2023;
+  background-color: #0F71EF;
 }
 
 .menu-item-exit {
