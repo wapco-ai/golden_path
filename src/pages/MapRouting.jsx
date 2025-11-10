@@ -19,6 +19,10 @@ const MapRoutingPage = () => {
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [showOriginModal, setShowOriginModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(null);
+  const [showEntryModal, setShowEntryModal] = useState(false);
+  const [selectedEntry, setSelectedEntry] = useState(null);
+  const [tempDestination, setTempDestination] = useState(null);
+
   const storedLat = sessionStorage.getItem('qrLat');
   const storedLng = sessionStorage.getItem('qrLng');
   const storedId = sessionStorage.getItem('qrId');
@@ -128,7 +132,6 @@ const MapRoutingPage = () => {
     setIsSearching(true);
   };
 
-
   // Add this function to clear search and go back to categories
   const handleClearCategorySearch = () => {
     setModalSelectedCategory(null);
@@ -202,12 +205,16 @@ const MapRoutingPage = () => {
     })
     : recentSearches;
 
+  // FIXED: Remove the auto-navigation useEffect that was causing the issue
   useEffect(() => {
+    // Only navigate when we have both locations AND no modals are open AND we're not selecting from map
     if (userLocation?.coordinates &&
       selectedDestination?.coordinates &&
       !showDestinationModal &&
       !showOriginModal &&
-      !isSelectingFromMap) {
+      !isSelectingFromMap &&
+      !showEntryModal) {
+
       setOriginStore({
         name: userLocation.name,
         coordinates: userLocation.coordinates
@@ -226,17 +233,16 @@ const MapRoutingPage = () => {
     setDestinationStore,
     showDestinationModal,
     showOriginModal,
-    isSelectingFromMap
+    isSelectingFromMap,
+    showEntryModal
   ]);
 
   useEffect(() => {
-
     if (userLocation && userLocation.name !== intl.formatMessage({ id: 'mapCurrentLocationName' }) &&
       userLocation.name !== intl.formatMessage({ id: 'defaultBabRezaName' })) {
       setIsTracking(false);
     }
   }, [userLocation]);
-
 
   const handleSubgroupSelect = async (subgroup) => {
     let coordinates = null;
@@ -298,16 +304,13 @@ const MapRoutingPage = () => {
     setSelectedOption(null);
   };
 
+  // UPDATED: Handle destination selection - show entry modal first
   const handleDestinationSelect = (destination) => {
     if (activeInput === 'destination') {
-      setSelectedDestination(destination);
-      addSearch(destination);
+      // Store the destination temporarily and show entry modal
+      setTempDestination(destination);
       setShowDestinationModal(false);
-
-      if (location.state?.showDestinationModal) {
-        sessionStorage.setItem('updatedDestination', JSON.stringify(destination));
-        navigate('/fs');
-      }
+      setShowEntryModal(true);
     } else {
       // When setting origin manually, disable GPS tracking
       setIsTracking(false);
@@ -325,6 +328,36 @@ const MapRoutingPage = () => {
     setSearchQuery('');
   };
 
+  // NEW: Handle entry selection
+  const handleEntrySelect = (entryNumber) => {
+    setSelectedEntry(entryNumber);
+  };
+
+  // NEW: Confirm entry and proceed with routing
+  const handleConfirmEntry = () => {
+    if (tempDestination && selectedEntry) {
+      // For now, all entries use the same coordinates as the destination
+      // In the future, you can map entry numbers to specific coordinates
+      const finalDestination = {
+        ...tempDestination,
+        entry: selectedEntry
+      };
+
+      setSelectedDestination(finalDestination);
+      addSearch(finalDestination);
+
+      // Store in sessionStorage for persistence
+      sessionStorage.setItem('currentDestination', JSON.stringify(finalDestination));
+
+      // Close the modal
+      setShowEntryModal(false);
+      setTempDestination(null);
+      setSelectedEntry(null);
+
+      // The navigation will happen automatically in the useEffect above
+      // since we now have both userLocation and selectedDestination
+    }
+  };
 
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
@@ -364,7 +397,7 @@ const MapRoutingPage = () => {
     return fallback;
   };
 
-  // Add this function to handle routing from main page subgroups
+  // UPDATED: Handle routing from main page subgroups - show entry modal
   const handleRouteFromSubgroup = (subgroup) => {
     console.log('Routing from main page subgroup:', subgroup);
 
@@ -414,28 +447,10 @@ const MapRoutingPage = () => {
 
     console.log('Setting destination from main page:', destination);
 
-    // Set as destination only
-    setSelectedDestination(destination);
+    // Store temporarily and show entry modal
+    setTempDestination(destination);
+    setShowEntryModal(true);
     addSearch(destination);
-
-    // Store in sessionStorage for persistence
-    sessionStorage.setItem('currentDestination', JSON.stringify(destination));
-
-    // If we have both origin and destination, navigate to next page
-    if (userLocation && destination.coordinates) {
-      setTimeout(() => {
-        setOriginStore({
-          name: userLocation.name,
-          coordinates: userLocation.coordinates
-        });
-        setDestinationStore({
-          name: destination.name,
-          coordinates: destination.coordinates
-        });
-        navigate('/fs');
-      }, 100);
-    } else {
-    }
   };
 
   // Get subgroup description based on currently loaded geoData
@@ -580,11 +595,14 @@ const MapRoutingPage = () => {
       setMapSelectedLocation(location);
 
       if (activeInput === 'destination') {
-        setSelectedDestination({
+        // Show entry modal for destination selected from map
+        const destination = {
           name: locName,
           location: intl.formatMessage({ id: 'mapSelectedLocationFromMap' }),
           coordinates: [latlng.lat, latlng.lng]
-        });
+        };
+        setTempDestination(destination);
+        setShowEntryModal(true);
       } else {
         setUserLocation({
           name: locName,
@@ -1120,74 +1138,61 @@ const MapRoutingPage = () => {
               )}
             </>
           )}
+        </div>
+      )}
 
-          {/* Route or Info Modal */}
-          {/* {showRouteInfoModal && selectedPlace && (
-            <>
-              <div className="modal-overlay" onClick={() => setShowRouteInfoModal(false)}></div>
-              <div className="route-info-modal">
-                <div className="route-info-toggle" onClick={() => setShowRouteInfoModal(false)}>
-                  <div className="toggle-handle"></div>
+      {/* Entry Selection Modal */}
+      {showEntryModal && tempDestination && (
+        <div className="map-entry-modal-overlay">
+          <div className="map-entry-modal">
+
+            <div className="map-entry-search-section">
+              <div className="map-entry-search-box">
+                <div className="map-entry-location-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F44336">
+                    <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 1 0 0 -6z" />
+                  </svg>
                 </div>
-                <div className="modal-header">
-                  <span className="place-name-title3">{selectedPlace.name}</span>
-                  <h3>
-                    <FormattedMessage
-                      id="routeOrInfoTitle"
-                      values={{ placeName: selectedPlace.name }}
-                    />
-                  </h3>
+                <span className="map-entry-location-name">{tempDestination.name}</span>
+                <div className="map-entry-search-icon">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M9.58342 2.29163C5.55634 2.29163 2.29175 5.55622 2.29175 9.58329C2.29175 13.6104 5.55634 16.875 9.58342 16.875C13.6105 16.875 16.8751 13.6104 16.8751 9.58329C16.8751 5.55622 13.6105 2.29163 9.58342 2.29163ZM1.04175 9.58329C1.04175 4.86586 4.86598 1.04163 9.58342 1.04163C14.3008 1.04163 18.1251 4.86586 18.1251 9.58329C18.1251 11.7171 17.3427 13.6681 16.0491 15.1651L18.7754 17.8914C19.0194 18.1354 19.0194 18.5312 18.7754 18.7752C18.5313 19.0193 18.1356 19.0193 17.8915 18.7752L15.1653 16.049C13.6682 17.3426 11.7172 18.125 9.58342 18.125C4.86598 18.125 1.04175 14.3007 1.04175 9.58329Z" fill="#1E2023" />
+                  </svg>
                 </div>
-
-                <div className="route-info-options">
-                  <button
-                    className={`route-info-option ${selectedOption === 'info' ? 'selected' : ''}`}
-                    onClick={() => setSelectedOption('info')}
-                  >
-                    <div className="option-icon">
-                      <svg width="60" height="60" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M18.9916 2.58337H22.5078C24.7871 2.58334 26.6243 2.58331 28.0693 2.77758C29.5694 2.97927 30.8326 3.41076 31.8358 4.41396C32.3332 4.91141 32.6901 5.47276 32.9481 6.09525C34.5015 6.28984 35.8057 6.71727 36.8358 7.74738C37.839 8.75057 38.2704 10.0137 38.4721 11.5139C38.6664 12.9588 38.6664 14.796 38.6663 17.0753V23.9249C38.6664 26.2042 38.6664 28.0414 38.4721 29.4864C38.2704 30.9866 37.839 32.2497 36.8358 33.2529C35.8056 34.283 34.5014 34.7104 32.948 34.905C32.69 35.5274 32.3332 36.0887 31.8358 36.5861C30.8326 37.5893 29.5694 38.0208 28.0693 38.2225C26.6243 38.4168 24.7871 38.4167 22.5078 38.4167H18.9916C16.7122 38.4167 14.875 38.4168 13.4301 38.2225C11.9299 38.0208 10.6668 37.5893 9.66359 36.5861C9.16619 36.0887 8.80934 35.5274 8.55135 34.905C6.99792 34.7104 5.69372 34.283 4.66359 33.2529C3.6604 32.2497 3.22891 30.9866 3.02721 29.4864C2.83295 28.0414 2.83297 26.2042 2.83301 23.9249V17.0753C2.83297 14.796 2.83295 12.9588 3.02721 11.5139C3.22891 10.0137 3.6604 8.75057 4.66359 7.74738C5.6937 6.71727 6.99788 6.28984 8.55128 6.09524C8.80927 5.47276 9.16615 4.9114 9.66359 4.41396C10.6668 3.41076 11.9299 2.97927 13.4301 2.77758C14.875 2.58331 16.7122 2.58334 18.9916 2.58337ZM7.96373 8.73416C7.23438 8.90993 6.77968 9.16682 6.43136 9.51515C5.97009 9.97642 5.66934 10.624 5.50492 11.847C5.33566 13.1059 5.33301 14.7744 5.33301 17.1668V23.8335C5.33301 26.2258 5.33566 27.8943 5.50492 29.1533C5.66934 30.3762 5.97009 31.0238 6.43136 31.4851C6.77969 31.8334 7.23439 32.0903 7.96375 32.2661C7.83295 30.914 7.83298 29.2559 7.83301 27.2582V13.7419C7.83298 11.7442 7.83295 10.0862 7.96373 8.73416ZM33.5356 32.2661C34.265 32.0903 34.7197 31.8334 35.068 31.4851C35.5293 31.0238 35.83 30.3762 35.9944 29.1533C36.1637 27.8943 36.1663 26.2258 36.1663 23.8335V17.1668C36.1663 14.7744 36.1637 13.1059 35.9944 11.847C35.83 10.624 35.5293 9.97642 35.068 9.51515C34.7197 9.16682 34.265 8.90993 33.5356 8.73416C33.6664 10.0862 33.6664 11.7443 33.6663 13.7419V27.2582C33.6664 29.2559 33.6664 30.914 33.5356 32.2661ZM13.7632 5.25529C12.5403 5.41971 11.8926 5.72045 11.4314 6.18173C10.9701 6.643 10.6693 7.29062 10.5049 8.51358C10.3357 9.77249 10.333 11.441 10.333 13.8334V27.1667C10.333 29.5591 10.3357 31.2276 10.5049 32.4865C10.6693 33.7095 10.9701 34.3571 11.4314 34.8184C11.8926 35.2796 12.5402 35.5804 13.7632 35.7448C15.0221 35.9141 16.6906 35.9167 19.083 35.9167H22.4163C24.8087 35.9167 26.4772 35.9141 27.7361 35.7448C28.9591 35.5804 29.6067 35.2796 30.068 34.8184C30.5293 34.3571 30.83 33.7095 30.9944 32.4865C31.1637 31.2276 31.1663 29.5591 31.1663 27.1667V13.8334C31.1663 11.441 31.1637 9.77249 30.9944 8.51358C30.83 7.29062 30.5293 6.643 30.068 6.18173C29.6067 5.72045 28.9591 5.41971 27.7361 5.25529C26.4772 5.08603 24.8087 5.08338 22.4163 5.08338H19.083C16.6906 5.08338 15.0221 5.08603 13.7632 5.25529ZM14.4997 15.5C14.4997 14.8097 15.0593 14.25 15.7497 14.25H25.7497C26.44 14.25 26.9997 14.8097 26.9997 15.5C26.9997 16.1904 26.44 16.75 25.7497 16.75H15.7497C15.0593 16.75 14.4997 16.1904 14.4997 15.5ZM14.4997 22.1667C14.4997 21.4764 15.0593 20.9167 15.7497 20.9167H25.7497C26.44 20.9167 26.9997 21.4764 26.9997 22.1667C26.9997 22.8571 26.44 23.4167 25.7497 23.4167H15.7497C15.0593 23.4167 14.4997 22.8571 14.4997 22.1667ZM14.4997 28.8334C14.4997 28.143 15.0593 27.5834 15.7497 27.5834H20.7497C21.44 27.5834 21.9997 28.143 21.9997 28.8334C21.9997 29.5237 21.44 30.0834 20.7497 30.0834H15.7497C15.0593 30.0834 14.4997 29.5237 14.4997 28.8334Z" fill={selectedOption === 'info' ? "#1E90FF" : "#1E2023"} />
-                      </svg>
-                    </div>
-                    <span><FormattedMessage id="culturalInfoOption" /></span>
-                  </button>
-
-                  <button
-                    className={`route-info-option ${selectedOption === 'route' ? 'selected' : ''}`}
-                    onClick={() => setSelectedOption('route')}
-                  >
-                    <div className="option-icon">
-                      <svg width="60" height="60" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M29.227 5.37733C27.0604 5.08603 24.2134 5.08337 20.2497 5.08337C16.286 5.08337 13.4389 5.08603 11.2723 5.37733C9.14163 5.66379 7.8571 6.20861 6.90767 7.15804C5.95824 8.10746 5.41342 9.392 5.12696 11.5227C4.83566 13.6893 4.83301 16.5363 4.83301 20.5C4.83301 24.4637 4.83566 27.3108 5.12696 29.4774C5.41342 31.6081 5.95824 32.8926 6.90767 33.842C7.68705 34.6214 8.69224 35.1282 10.2059 35.4431L35.1928 10.4563C34.8778 8.94261 34.3711 7.93741 33.5917 7.15803C32.6423 6.20861 31.3577 5.66379 29.227 5.37733ZM35.5618 13.6228L25.3515 23.8331L34.3636 32.8451C34.8546 32.0131 35.1749 30.9463 35.3724 29.4774C35.6637 27.3108 35.6663 24.4637 35.6663 20.5C35.6663 17.7025 35.665 15.4612 35.5618 13.6228ZM32.5961 34.6132L23.5838 25.6008L13.3724 35.8122C15.2108 35.9154 17.4521 35.9167 20.2497 35.9167C24.2134 35.9167 27.0604 35.9141 29.227 35.6228C30.6967 35.4252 31.7639 35.1046 32.5961 34.6132ZM29.5602 2.89962C31.9681 3.22335 33.8681 3.89892 35.3594 5.39027C36.8508 6.88162 37.5264 8.78166 37.8501 11.1895C38.1664 13.542 38.1664 16.5571 38.1663 20.4044V20.5957C38.1664 24.443 38.1664 27.4581 37.8501 29.8105C37.5264 32.2184 36.8508 34.1185 35.3594 35.6098C33.8681 37.1012 31.9681 37.7767 29.5602 38.1005C27.2077 38.4167 24.1926 38.4167 20.3453 38.4167H20.1541C16.3067 38.4167 13.2917 38.4167 10.9392 38.1005C8.53129 37.7767 6.63125 37.1012 5.1399 35.6098C3.64855 34.1185 2.97299 32.2184 2.64925 29.8105C2.33297 27.4581 2.33299 24.443 2.33301 20.5957V20.4044C2.33299 16.5571 2.33297 13.542 2.64925 11.1896C2.97298 8.78166 3.64855 6.88162 5.1399 5.39027C6.63125 3.89892 8.53129 3.22335 10.9392 2.89962C13.2917 2.58334 16.3067 2.58335 20.154 2.58337H20.3453C24.1926 2.58335 27.2077 2.58334 29.5602 2.89962ZM8.16634 15.0954C8.16634 11.3237 11.4238 8.41654 15.2497 8.41654C19.0756 8.41654 22.333 11.3237 22.333 15.0954C22.333 18.4725 20.2567 22.4583 16.8076 23.9323C15.8167 24.3557 14.6827 24.3557 13.6917 23.9323C10.2427 22.4583 8.16634 18.4725 8.16634 15.0954ZM15.2497 10.9165C12.6323 10.9165 10.6663 12.8706 10.6663 15.0954C10.6663 17.6678 12.3136 20.6246 14.6742 21.6334C15.0376 21.7887 15.4618 21.7887 15.8252 21.6334C18.1858 20.6246 19.833 17.6678 19.833 15.0954C19.833 12.8706 17.8671 10.9165 15.2497 10.9165Z" fill={selectedOption === 'route' ? "#1E90FF" : "#1E2023"} />
-                        <path d="M16.9163 15.5C16.9163 16.4205 16.1701 17.1667 15.2497 17.1667C14.3292 17.1667 13.583 16.4205 13.583 15.5C13.583 14.5796 14.3292 13.8334 15.2497 13.8334C16.1701 13.8334 16.9163 14.5796 16.9163 15.5Z" fill={selectedOption === 'route' ? "#1E90FF" : "#1E2023"} />
-                      </svg>
-                    </div>
-                    <span><FormattedMessage id="routeOption" /></span>
-                  </button>
-                </div>
-                <button
-                  className="confirm-button"
-                  disabled={!selectedOption}
-                  onClick={() => {
-                    if (selectedOption === 'route') {
-                      // Create destination object from the selected subgroup
-                      const destination = {
-                        id: selectedSubgroup.value,
-                        name: selectedSubgroup.label,
-                        coordinates: selectedPlace.coordinates,
-                        location: intl.formatMessage({ id: modalSelectedCategory.label })
-                      };
-
-                      handleDestinationSelect(destination);
-                      setShowRouteInfoModal(false);
-                    }
-                  }}
-                >
-                  <FormattedMessage id="confirmContinue" />
-                </button>
               </div>
-            </>
-          )} */}
+            </div>
+
+            <div className="map-entries-section">
+              <div className="map-entries-grid">
+                {[1, 2, 3, 4].map((entryNum) => (
+                  <div
+                    key={entryNum}
+                    className={`map-entry-item ${selectedEntry === entryNum ? 'selected' : ''}`}
+                    onClick={() => handleEntrySelect(entryNum)}
+                  >
+                    <div className="map-entry-number">
+                      <FormattedMessage id="entry" /> {entryNum}
+                    </div>
+                    {selectedEntry === entryNum && (
+                      <div className="map-entry-selected-indicator">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" clipRule="evenodd" d="M13.426 3.23967C13.7319 3.52844 13.753 4.00317 13.4642 4.30907L6.63088 11.5091C6.48602 11.6621 6.28666 11.7494 6.07756 11.7515C5.86846 11.7536 5.66738 11.6704 5.51938 11.5206L2.51938 8.48727C2.22541 8.18942 2.22869 7.71455 2.52654 7.42058C2.82439 7.12661 3.29926 7.12989 3.59323 7.42774L6.05982 9.93174L12.369 3.24093C12.6578 2.93503 13.1325 2.9139 13.4384 3.20267L13.426 3.23967Z" fill="#0F71EF" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              className={`map-confirm-entry-button ${selectedEntry ? 'active' : ''}`}
+              disabled={!selectedEntry}
+              onClick={handleConfirmEntry}
+            >
+              <FormattedMessage id="confirmEntry" />
+            </button>
+          </div>
         </div>
       )}
     </div>

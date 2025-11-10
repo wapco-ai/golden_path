@@ -253,5 +253,7 @@
   "recentSearches": "حالیہ تلاش",
   "noRecentSearches": "کوئی حالیہ تلاش نہیں ہے",
   "cancel": "منسوخ کریں",
-  "profileUpdatedSuccess": "پروفائل کامیابی سے اپ ڈیٹ ہو گئی!"
+  "profileUpdatedSuccess": "پروفائل کامیابی سے اپ ڈیٹ ہو گئی!",
+  "entry": "داخلہ",
+  "confirmEntry": "داخلہ کی تصدیق کریں"
 }

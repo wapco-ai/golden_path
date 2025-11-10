@@ -253,5 +253,7 @@
   "recentSearches": "عمليات البحث الأخيرة",
   "noRecentSearches": "لا توجد عمليات بحث حديثة",
   "cancel": "إلغاء",
-  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح!"
+  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح!",
+  "entry": "مدخل",
+  "confirmEntry": "تأييد المدخل"
 }

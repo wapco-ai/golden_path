@@ -253,5 +253,7 @@
   "recentSearches": "Recent Searches",
   "noRecentSearches": "No recent searches",
   "cancel": "Cancel",
-  "profileUpdatedSuccess": "Profile updated successfully!"
+  "profileUpdatedSuccess": "Profile updated successfully!",
+  "entry": "Entry",
+  "confirmEntry": "Confirm Entry"
 }

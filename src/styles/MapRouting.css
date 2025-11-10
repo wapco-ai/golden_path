@@ -1316,3 +1316,191 @@
     padding: 20px;
   }
 }
+
+/* Entry Selection Modal */
+.map-entry-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-end;
+  z-index: 2000;
+}
+
+.map-entry-modal {
+  background: white;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 24px;
+  width: 100%;
+  max-height: 70vh;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.map-entry-modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.map-entry-search-section {
+  margin-bottom: 24px;
+}
+
+.map-entry-search-box {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: #F6F6F6;
+  border-radius: 26px;
+  gap: 12px;
+
+}
+
+.map-entry-location-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-entry-location-name {
+  flex: 1;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.map-entry-search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-entries-section {
+  margin-bottom: 24px;
+}
+
+.map-entries-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.map-entry-item {
+  position: relative;
+  padding: 16px;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+.map-entry-item:hover {
+  border-color: #0F71EF;
+  background: #f0f7ff;
+}
+
+.map-entry-item.selected {
+  border-color: #0F71EF;
+  background: #f0f7ff;
+}
+
+.map-entry-number {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.map-entry-selected-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-confirm-entry-button {
+  width: 100%;
+  padding: 12px;
+  background: #e9ecef;
+  border: none;
+  border-radius: 26px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #999;
+  cursor: not-allowed;
+  font-family: 'Vazir', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.map-confirm-entry-button.active {
+  background: #0F71EF;
+  color: white;
+  cursor: pointer;
+}
+
+.map-confirm-entry-button.active:hover {
+  background: #0d66d4;
+}
+
+/* RTL support for entry modal */
+:root:lang(fa) .map-entry-modal-title,
+:root:lang(fa) .map-entry-modal-description,
+:root:lang(fa) .map-entry-location-name,
+:root:lang(fa) .map-entry-number,
+:root:lang(fa) .map-confirm-entry-button {
+  font-family: 'Vazir', Arial, sans-serif;
+}
+
+:root:lang(ar) .map-entry-modal-title,
+:root:lang(ar) .map-entry-modal-description,
+:root:lang(ar) .map-entry-location-name,
+:root:lang(ar) .map-entry-number,
+:root:lang(ar) .map-confirm-entry-button {
+  font-family: system-ui, -apple-system, sans-serif;
+  direction: rtl;
+}
+
+:root:lang(ur) .map-entry-modal-title,
+:root:lang(ur) .map-entry-modal-description,
+:root:lang(ur) .map-entry-location-name,
+:root:lang(ur) .map-entry-number,
+:root:lang(ur) .map-confirm-entry-button {
+  font-family: system-ui, -apple-system, sans-serif;
+  direction: rtl;
+}
+
+:root:lang(en) .map-entry-modal-title,
+:root:lang(en) .map-entry-modal-description,
+:root:lang(en) .map-entry-location-name,
+:root:lang(en) .map-entry-number,
+:root:lang(en) .map-confirm-entry-button {
+  font-family: system-ui, -apple-system, sans-serif;
+  direction: ltr;
+}
+
+:root:lang(fa) .map-entry-selected-indicator,
+:root:lang(ar) .map-entry-selected-indicator,
+:root:lang(ur) .map-entry-selected-indicator {
+  right: auto;
+  left: 8px;
+}

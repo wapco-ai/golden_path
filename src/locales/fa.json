@@ -253,5 +253,7 @@
   "recentSearches": "جستجوهای اخیر شما",
   "noRecentSearches": "هیچ جستجوی اخیری وجود ندارد",
   "cancel": "لغو",
-  "profileUpdatedSuccess": "پروفایل با موفقیت به‌روزرسانی شد!"
+  "profileUpdatedSuccess": "پروفایل با موفقیت به‌روزرسانی شد!",
+  "entry": "ورودی",
+  "confirmEntry": "تأیید ورودی"
 }
