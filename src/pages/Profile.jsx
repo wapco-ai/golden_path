@@ -6,11 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import logo from '../assets/images/logo.png';
 import packageInfo from '../../package.json';
 import '../styles/Profile.css';
+import { createContext, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function Profile() {
   const navigate = useNavigate();
   const intl = useIntl();
   const appVersion = packageInfo.version;
+
+  const NavigationContext = createContext();
 
   // State for user data
   const [userData, setUserData] = useState({
@@ -349,5 +353,35 @@ function Profile() {
     </div>
   );
 }
+
+export const NavigationProvider = ({ children }) => {
+  const [originHistory, setOriginHistory] = useState({});
+  const location = useLocation();
+
+  const setOriginForProfile = (fromPath) => {
+    setOriginHistory(prev => ({
+      ...prev,
+      '/profile': fromPath
+    }));
+  };
+
+  const getOriginForProfile = () => {
+    return originHistory['/profile'] || '/';
+  };
+
+  return (
+    <NavigationContext.Provider value={{ setOriginForProfile, getOriginForProfile }}>
+      {children}
+    </NavigationContext.Provider>
+  );
+};
+
+export const useNavigationHistory = () => {
+  const context = useContext(NavigationContext);
+  if (!context) {
+    throw new Error('useNavigationHistory must be used within NavigationProvider');
+  }
+  return context;
+};
 
 export default Profile;
