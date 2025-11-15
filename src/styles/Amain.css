@@ -22,7 +22,8 @@
   box-sizing: border-box !important;
   font-family: inherit !important;
   direction: inherit !important;
-  max-height: 1000000px !important; /* Prevent Chrome collapsing */
+  max-height: 1000000px !important;
+  /* Prevent Chrome collapsing */
 }
 
 .admin-panel-isolated .admin-content-wrapper {
@@ -56,7 +57,8 @@
 }
 
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -225,7 +227,7 @@ body {
 .sidebar-menu {
   flex: 1;
   padding: 11px 0;
-  border-top: 1px solid  #F2F2F2;
+  border-top: 1px solid #F2F2F2;
 }
 
 .menu-title3 {
@@ -527,8 +529,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80px; 
-  height: 80px; 
+  width: 80px;
+  height: 80px;
   background: #fff;
   border-radius: 50%;
   z-index: 2;
@@ -1142,22 +1144,22 @@ body {
 }
 
 .search-box5 {
-  width: 300px; 
-  height: 50px; 
+  width: 300px;
+  height: 50px;
 }
 
 .notifications-btn {
-  width: 120px; 
-  height: 50px; 
+  width: 120px;
+  height: 50px;
 }
 
 .admin-sidebar {
-  width: 280px; 
+  width: 280px;
 }
 
 .sidebar-logo {
-  width: 280px; 
-  height: 80px; 
+  width: 280px;
+  height: 80px;
 }
 
 /* AdminPanel.css - Add at the end */
@@ -1168,12 +1170,12 @@ body {
     min-height: 100vh;
     overflow: hidden;
   }
-  
+
   .admin-panel-isolated .admin-header {
     height: 14vh;
     min-height: 80px;
   }
-  
+
   .admin-panel-isolated .admin-content-wrapper {
     height: 86vh;
   }
@@ -1208,7 +1210,7 @@ body {
     text-size-adjust: 100%;
     transform-origin: top right;
   }
-  
+
   .admin-panel-isolated .admin-header {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
@@ -1220,4 +1222,156 @@ body {
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+}
+
+/* Reports Section Styles */
+.reports-section {
+  background: transparent;
+  border-radius: 10px;
+  margin-bottom: 0px;
+  border: none;
+}
+
+.report-filters {
+  background: transparent;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.filter-label {
+  font-size: 12px;
+  color: #858585;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+/* Date Input with Separator */
+.date-input-with-separator {
+  display: flex;
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: white;
+  height: 36px;
+  min-width: 240px;
+}
+
+.dtg {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 13px;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  gap: 5px;
+}
+
+.date-start,
+.date-end {
+  flex: 1;
+  text-align: center;
+  color: #1E2023;
+  cursor: pointer;
+}
+
+.date-separator {
+  width: 2px;
+  height: 16px;
+  background: #1E2023;
+  margin: 0 12px;
+}
+
+/* Updated Select Wrapper */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 8px 32px 8px 12px;
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  font-size: 12px;
+  background: white;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  appearance: none;
+  height: 36px;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #858585;
+  pointer-events: none;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.clear-filters-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  color: #858585;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  height: 36px;
+}
+
+.export-report-btn {
+  padding-left: 8px;
+  padding-right: 10px;
+  background: #0F71EF;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 12px;
+  font-family: 'Vazir', Tahoma, sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  height: 36px;
+}
+
+/* Ensure the dashboard charts are hidden when in report view */
+.reports-section+.charts-section {
+  display: none;
+}
+
+/* Make sure the users table stays visible in both views */
+.users-section {
+  margin-top: 20px;
 }
