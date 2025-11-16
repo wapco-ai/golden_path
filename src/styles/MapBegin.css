@@ -1133,9 +1133,3 @@ body.modal-open {
   pointer-events: none;
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2));
 }
-
-
-/*  when swiping is happening */
-.search-bar-container.swiping {
-  transition: none;
-}
