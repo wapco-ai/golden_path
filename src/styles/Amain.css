@@ -404,6 +404,7 @@ body {
 
 .content-header {
   margin-bottom: 20px;
+  width: 77vw;
 }
 
 .content-header h1 {
@@ -1230,6 +1231,7 @@ body {
   border-radius: 10px;
   margin-bottom: 0px;
   border: none;
+  width: 79vw;
 }
 
 .report-filters {
@@ -1375,3 +1377,34 @@ body {
 .users-section {
   margin-top: 20px;
 }
+
+/* Persistent active state for submenu items */
+.submenu-item.active {
+  color: #0F71EF !important;
+}
+
+.submenu-item.active .submenu-branch {
+  background-color: #0F71EF !important;
+}
+
+.submenu-item.active .submenu-branch::before {
+  background-color: #0F71EF !important;
+}
+
+.menu-item.active .menu-icon svg path,
+.menu-item.active .submenu-arrow path {
+  fill: #1e2023 !important;
+}
+
+.submenu-item.active:hover {
+  color: #0F71EF !important;
+}
+
+.submenu-item.active:hover .submenu-branch {
+  background-color: #0F71EF !important;
+}
+
+.submenu-item.active:hover .submenu-branch::before {
+  background-color: #0F71EF !important;
+}
+

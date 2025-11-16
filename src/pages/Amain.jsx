@@ -277,7 +277,7 @@ const Amain = () => {
               {reportsManagementOpen && (
                 <div className="submenu-items">
                   <div
-                    className="submenu-item"
+                    className={`submenu-item ${currentReportView === 'کاربران ثبت نام کرده' ? 'active' : ''}`}
                     onClick={() => handleSubmenuClick('کاربران ثبت نام کرده')}
                   >
                     <div className="submenu-branch"></div>
@@ -771,9 +771,11 @@ const Amain = () => {
                     />
                   </div>
 
-                  <button className="seeInfo-btn">
-                    مشاهده همه گزارش
-                  </button>
+                  {currentReportView !== 'کاربران ثبت نام کرده' && (
+                    <button className="seeInfo-btn">
+                      مشاهده همه گزارش
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
