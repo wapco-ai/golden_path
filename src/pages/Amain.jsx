@@ -30,6 +30,13 @@ const Amain = () => {
   const calendarRef = useRef(null);
   const [breadcrumbPath, setBreadcrumbPath] = useState(['منوی اصلی', 'داشبورد', 'آمار کلی استارتاپ من']);
   const [currentReportView, setCurrentReportView] = useState(null);
+  const [pieChartTimeFilter, setPieChartTimeFilter] = useState('ماه اخیر');
+  const [barChartTimeFilter, setBarChartTimeFilter] = useState('هفته اخیر');
+  const [isPieChartFilterOpen, setIsPieChartFilterOpen] = useState(false);
+  const [isBarChartFilterOpen, setIsBarChartFilterOpen] = useState(false);
+  const [selectedBar, setSelectedBar] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
 
 
@@ -71,10 +78,79 @@ const Amain = () => {
         phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
         registerDate: '۲۷ مرداد ۱۴۰۴',
         gender: 'مرد'
+      },
+      {
+        id: 5,
+        fullName: 'مرتضی یوسف نیا',
+        phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
+        registerDate: '۲۷ مرداد ۱۴۰۴',
+        gender: 'مرد'
+      },
+      {
+        id: 5,
+        fullName: 'مرتضی یوسف نیا',
+        phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
+        registerDate: '۲۷ مرداد ۱۴۰۴',
+        gender: 'مرد'
+      },
+      {
+        id: 5,
+        fullName: 'مرتضی یوسف نیا',
+        phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
+        registerDate: '۲۷ مرداد ۱۴۰۴',
+        gender: 'مرد'
+      },
+      {
+        id: 5,
+        fullName: 'مرتضی یوسف نیا',
+        phone: '۹۱۹۳۹۳۷۸۶۹ ۹۸+',
+        registerDate: '۲۷ مرداد ۱۴۰۴',
+        gender: 'مرد'
       }
     ];
     setUsers(mockUsers);
   }, []);
+
+  const barData = [
+    { day: 'شنبه', value: 70, count: 175 },
+    { day: 'یکشنبه', value: 45, count: 112 },
+    { day: 'دوشنبه', value: 85, count: 213 },
+    { day: 'سه شنبه', value: 60, count: 150 },
+    { day: 'چهارشنبه', value: 30, count: 75 },
+    { day: 'پنجشنبه', value: 90, count: 225 },
+    { day: 'جمعه', value: 50, count: 125 }
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectedBar !== null && !event.target.closest('.bar-chart-container')) {
+        setSelectedBar(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [selectedBar]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isPieChartFilterOpen &&
+        !event.target.closest('.time-filter') &&
+        !event.target.closest('.chart-filter')) {
+        setIsPieChartFilterOpen(false);
+      }
+      if (isBarChartFilterOpen &&
+        !event.target.closest('.time-filter') &&
+        !event.target.closest('.chart-filter')) {
+        setIsBarChartFilterOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isPieChartFilterOpen, isBarChartFilterOpen]);
 
   const toggleUserManagement = () => {
     setUserManagementOpen(!userManagementOpen);
@@ -170,6 +246,44 @@ const Amain = () => {
       }, 100);
     }
   }, []);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Add this function to handle items per page change
+  const handleItemsPerPageChange = (value) => {
+    setItemsPerPage(parseInt(value));
+    setCurrentPage(1); // Reset to first page when changing items per page
+  };
+
+  // Calculate pagination data
+  const totalItems = filteredUsers.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentUsers = filteredUsers.slice(startIndex, endIndex);
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, currentPage - 2);
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+    }
+
+    return pages;
+  };
 
   return (
     <div className="admin-panel admin-panel-isolated">
@@ -362,6 +476,23 @@ const Amain = () => {
 
               </span>
               <span>مدیریت امکانات</span>
+              <svg className="submenu-arrow" width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M2.95363 5.98434C3.13334 5.77467 3.44899 5.75039 3.65866 5.9301L7.99993 9.65119L12.3412 5.9301C12.5509 5.75039 12.8665 5.77467 13.0462 5.98434C13.2259 6.194 13.2017 6.50965 12.992 6.68936L8.32532 10.6894C8.13808 10.8499 7.86178 10.8499 7.67453 10.6894L3.00787 6.68936C2.7982 6.50965 2.77392 6.194 2.95363 5.98434Z" fill="#858585" />
+              </svg>
+            </div>
+
+            <div
+              className={`menu-item ${activeMenu === 'culturemanage' ? 'active' : ''}`}
+              onClick={() => handleMenuClick('culturemanage', 'مدیریت اطلاهات فرهتگی')}
+            >
+              <span className="menu-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M8.03259 0.833375H7.96676C7.52353 0.833351 7.1416 0.833331 6.83578 0.874448C6.50802 0.918514 6.19385 1.01789 5.93901 1.27272C5.68418 1.52755 5.58481 1.84172 5.54074 2.16948C5.49963 2.47531 5.49965 2.85722 5.49967 3.30046L5.49967 4.91873C5.34329 4.86346 5.17499 4.83338 4.99967 4.83338H2.99967C2.17125 4.83338 1.49967 5.50495 1.49967 6.33338V14.1667H1.33301C1.05687 14.1667 0.833008 14.3906 0.833008 14.6667C0.833008 14.9429 1.05687 15.1667 1.33301 15.1667H14.6663C14.9425 15.1667 15.1663 14.9429 15.1663 14.6667C15.1663 14.3906 14.9425 14.1667 14.6663 14.1667H14.4997V9.66671C14.4997 8.83828 13.8281 8.16671 12.9997 8.16671H10.9997C10.8244 8.16671 10.6561 8.19679 10.4997 8.25206L10.4997 3.30047C10.4997 2.85722 10.4997 2.47531 10.4586 2.16948C10.4145 1.84172 10.3152 1.52755 10.0603 1.27272C9.8055 1.01789 9.49133 0.918514 9.16357 0.874448C8.85775 0.833331 8.47582 0.833351 8.03259 0.833375ZM13.4997 14.1667V9.66671C13.4997 9.39057 13.2758 9.16671 12.9997 9.16671H10.9997C10.7235 9.16671 10.4997 9.39057 10.4997 9.66671V14.1667H13.4997ZM9.49967 14.1667V3.33338C9.49967 2.84784 9.49861 2.53398 9.46752 2.30273C9.43836 2.08586 9.39129 2.01789 9.35323 1.97982C9.31517 1.94176 9.24719 1.89469 9.03032 1.86553C8.79907 1.83444 8.48521 1.83338 7.99967 1.83338C7.51413 1.83338 7.20028 1.83444 6.96903 1.86553C6.75216 1.89469 6.68418 1.94176 6.64612 1.97982C6.60806 2.01789 6.56099 2.08586 6.53183 2.30273C6.50074 2.53398 6.49967 2.84784 6.49967 3.33338V14.1667H9.49967ZM5.49967 14.1667V6.33338C5.49967 6.05724 5.27582 5.83338 4.99967 5.83338H2.99967C2.72353 5.83338 2.49967 6.05724 2.49967 6.33338V14.1667H5.49967Z" fill="#858585" />
+                </svg>
+
+
+              </span>
+              <span>مدیریت اطلاعات فرهنگی</span>
               <svg className="submenu-arrow" width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd" d="M2.95363 5.98434C3.13334 5.77467 3.44899 5.75039 3.65866 5.9301L7.99993 9.65119L12.3412 5.9301C12.5509 5.75039 12.8665 5.77467 13.0462 5.98434C13.2259 6.194 13.2017 6.50965 12.992 6.68936L8.32532 10.6894C8.13808 10.8499 7.86178 10.8499 7.67453 10.6894L3.00787 6.68936C2.7982 6.50965 2.77392 6.194 2.95363 5.98434Z" fill="#858585" />
               </svg>
@@ -625,11 +756,22 @@ const Amain = () => {
                       <h3>آمار بازدید هفته اخیر کاربران</h3>
                       <p>تعداد بازدید کاربران فعال از اپلیکیشن در هفته اخیر</p>
                     </div>
-                    <div className="chart-filter">
-                      <span>هفته اخیر</span>
+                    <div className="chart-filter" onClick={() => setIsBarChartFilterOpen(!isBarChartFilterOpen)}>
+                      <span>{barChartTimeFilter}</span>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M3.69213 7.09327C3.91677 6.83119 4.31133 6.80084 4.57341 7.02548L10 11.6768L15.4266 7.02548C15.6887 6.80084 16.0832 6.83119 16.3079 7.09327C16.5325 7.35535 16.5022 7.74991 16.2401 7.97455L10.4067 12.9745C10.1727 13.1752 9.82731 13.1752 9.59326 12.9745L3.75992 7.97455C3.49784 7.74991 3.46749 7.35535 3.69213 7.09327Z" fill="#1E2023" />
                       </svg>
+
+                      {isBarChartFilterOpen && (
+                        <div className="time-filter-dropdown show">
+                          <div className="time-filter-option" onClick={() => setBarChartTimeFilter('امروز')}>امروز</div>
+                          <div className="time-filter-option" onClick={() => setBarChartTimeFilter('هفته اخیر')}>هفته اخیر</div>
+                          <div className="time-filter-option" onClick={() => setBarChartTimeFilter('ماه اخیر')}>ماه اخیر</div>
+                          <div className="time-filter-option" onClick={() => setBarChartTimeFilter('سه ماه اخیر')}>سه ماه اخیر</div>
+                          <div className="time-filter-option" onClick={() => setBarChartTimeFilter('سال اخیر')}>سال اخیر</div>
+                          <div className="time-filter-option" onClick={() => setBarChartTimeFilter('همه زمان')}>همه زمان</div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -645,34 +787,23 @@ const Amain = () => {
 
                       {/* Bars */}
                       <div className="bars-container">
-                        <div className="bar-wrapper">
-                          <div className="bar" style={{ height: '70%' }}></div>
-                          <div className="x-label">شنبه</div>
-                        </div>
-                        <div className="bar-wrapper">
-                          <div className="bar" style={{ height: '45%' }}></div>
-                          <div className="x-label">یکشنبه</div>
-                        </div>
-                        <div className="bar-wrapper">
-                          <div className="bar" style={{ height: '85%' }}></div>
-                          <div className="x-label">دوشنبه</div>
-                        </div>
-                        <div className="bar-wrapper">
-                          <div className="bar" style={{ height: '60%' }}></div>
-                          <div className="x-label">سه شنبه</div>
-                        </div>
-                        <div className="bar-wrapper">
-                          <div className="bar" style={{ height: '30%' }}></div>
-                          <div className="x-label">چهارشنبه</div>
-                        </div>
-                        <div className="bar-wrapper">
-                          <div className="bar" style={{ height: '90%' }}></div>
-                          <div className="x-label">پنجشنبه</div>
-                        </div>
-                        <div className="bar-wrapper">
-                          <div className="bar" style={{ height: '50%' }}></div>
-                          <div className="x-label">جمعه</div>
-                        </div>
+                        {barData.map((bar, index) => (
+                          <div
+                            key={bar.day}
+                            className="bar-wrapper"
+                            onClick={() => setSelectedBar(selectedBar === index ? null : index)}
+                          >
+                            <div
+                              className={`bar ${selectedBar === index ? 'selected' : ''} ${selectedBar !== null && selectedBar !== index ? 'dimmed' : ''}`}
+                              style={{ height: `${bar.value}%` }}
+                            >
+                              {selectedBar === index && (
+                                <div className="bar-value">{bar.count} نفر</div>
+                              )}
+                            </div>
+                            <div className="x-label">{bar.day}</div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                     <div className="y-axis">
@@ -688,11 +819,22 @@ const Amain = () => {
               <div className="chart-container-left">
                 <div className="chart-header-with-filter">
                   <h3>نظرات ثبت شده</h3>
-                  <div className="time-filter">
-                    <span>ماه اخیر</span>
+                  <div className="time-filter" onClick={() => setIsPieChartFilterOpen(!isPieChartFilterOpen)}>
+                    <span>{pieChartTimeFilter}</span>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" clipRule="evenodd" d="M3.64645 5.64645C3.84171 5.45118 4.15829 5.45118 4.35355 5.64645L8 9.29289L11.6464 5.64645C11.8417 5.45118 12.1583 5.45118 12.3536 5.64645C12.5488 5.84171 12.5488 6.15829 12.3536 6.35355L8.35355 10.3536C8.15829 10.5488 7.84171 10.5488 7.64645 10.3536L3.64645 6.35355C3.45118 6.15829 3.45118 5.84171 3.64645 5.64645Z" fill="#1E2023" />
                     </svg>
+
+                    {isPieChartFilterOpen && (
+                      <div className="time-filter-dropdown show">
+                        <div className="time-filter-option" onClick={() => setPieChartTimeFilter('امروز')}>امروز</div>
+                        <div className="time-filter-option" onClick={() => setPieChartTimeFilter('هفته اخیر')}>هفته اخیر</div>
+                        <div className="time-filter-option" onClick={() => setPieChartTimeFilter('ماه اخیر')}>ماه اخیر</div>
+                        <div className="time-filter-option" onClick={() => setPieChartTimeFilter('سه ماه اخیر')}>سه ماه اخیر</div>
+                        <div className="time-filter-option" onClick={() => setPieChartTimeFilter('سال اخیر')}>سال اخیر</div>
+                        <div className="time-filter-option" onClick={() => setPieChartTimeFilter('همه زمان')}>همه زمان</div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -794,7 +936,7 @@ const Amain = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredUsers.map(user => (
+                  {currentUsers.map(user => (
                     <tr key={user.id}>
                       <td>
                         <div className="user-profile-cell">
@@ -820,6 +962,82 @@ const Amain = () => {
                   ))}
                 </tbody>
               </table>
+
+              {/* Add pagination controls */}
+              <div className="pagination-container">
+                {/* <div className="pagination-info">
+                  <span>نمایش</span>
+                  <select
+                    value={itemsPerPage}
+                    onChange={(e) => handleItemsPerPageChange(e.target.value)}
+                    className="items-per-page-select"
+                  >
+                    <option value="5">۵</option>
+                    <option value="10">۱۰</option>
+                    <option value="15">۱۵</option>
+                    <option value="20">۲۰</option>
+                  </select>
+                  <span>از {totalItems} مورد</span>
+                </div> */}
+
+                <div className="pagination-controls">
+                  <div className="btc">
+                    <button
+                      className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                      onClick={() => handlePageChange(1)}
+                      disabled={currentPage === 1}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"  style={{ transform: 'rotate(180deg)' }}>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M11.6584 2.95363C11.4487 2.77392 11.1331 2.7982 10.9534 3.00787L6.95337 7.67453C6.79287 7.86178 6.79287 8.13808 6.95337 8.32532L10.9534 12.992C11.1331 13.2017 11.4487 13.2259 11.6584 13.0462C11.8681 12.8665 11.8923 12.5509 11.7126 12.3412L7.99154 7.99993L11.7126 3.65866C11.8923 3.44899 11.8681 3.13334 11.6584 2.95363ZM8.9916 2.9537C8.78193 2.77399 8.46628 2.79827 8.28657 3.00793L4.28657 7.6746C4.12608 7.86185 4.12608 8.13815 4.28657 8.32539L8.28657 12.9921C8.46628 13.2017 8.78193 13.226 8.9916 13.0463C9.20126 12.8666 9.22554 12.5509 9.04583 12.3413L5.32474 8L9.04583 3.65873C9.22554 3.44906 9.20126 3.13341 8.9916 2.9537Z" fill={currentPage === 1 ? "#C5C5C5" : "#0F71EF"} />
+                      </svg>
+                    </button>
+
+                    <button
+                      className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"style={{ transform: 'rotate(180deg)' }}>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M10.3254 2.95375C10.1157 2.77404 9.80007 2.79832 9.62036 3.00799L5.62036 7.67465C5.45987 7.8619 5.45987 8.1382 5.62036 8.32544L9.62036 12.9921C9.80007 13.2018 10.1157 13.2261 10.3254 13.0463C10.535 12.8666 10.5593 12.551 10.3796 12.3413L6.65853 8.00005L10.3796 3.65878C10.5593 3.44912 10.535 3.13347 10.3254 2.95375Z" fill={currentPage === 1 ? "#C5C5C5" : "#0F71EF"} />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="page-numbers">
+                    {getPageNumbers().map(page => (
+                      <button
+                        key={page}
+                        className={`page-number ${currentPage === page ? 'active' : ''}`}
+                        onClick={() => handlePageChange(page)}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="btc">
+                    <button
+                      className={`pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M10.3254 2.95375C10.1157 2.77404 9.80007 2.79832 9.62036 3.00799L5.62036 7.67465C5.45987 7.8619 5.45987 8.1382 5.62036 8.32544L9.62036 12.9921C9.80007 13.2018 10.1157 13.2261 10.3254 13.0463C10.535 12.8666 10.5593 12.551 10.3796 12.3413L6.65853 8.00005L10.3796 3.65878C10.5593 3.44912 10.535 3.13347 10.3254 2.95375Z" fill={currentPage === totalPages ? "#C5C5C5" : "#0F71EF"} />
+                      </svg>
+                    </button>
+
+                    <button
+                      className={`pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                      onClick={() => handlePageChange(totalPages)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M11.6584 2.95363C11.4487 2.77392 11.1331 2.7982 10.9534 3.00787L6.95337 7.67453C6.79287 7.86178 6.79287 8.13808 6.95337 8.32532L10.9534 12.992C11.1331 13.2017 11.4487 13.2259 11.6584 13.0462C11.8681 12.8665 11.8923 12.5509 11.7126 12.3412L7.99154 7.99993L11.7126 3.65866C11.8923 3.44899 11.8681 3.13334 11.6584 2.95363ZM8.9916 2.9537C8.78193 2.77399 8.46628 2.79827 8.28657 3.00793L4.28657 7.6746C4.12608 7.86185 4.12608 8.13815 4.28657 8.32539L8.28657 12.9921C8.46628 13.2017 8.78193 13.226 8.9916 13.0463C9.20126 12.8666 9.22554 12.5509 9.04583 12.3413L5.32474 8L9.04583 3.65873C9.22554 3.44906 9.20126 3.13341 8.9916 2.9537Z" fill={currentPage === totalPages ? "#C5C5C5" : "#0F71EF"} />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

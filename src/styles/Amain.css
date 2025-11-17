@@ -475,7 +475,8 @@ body {
   border-radius: 6px;
   color: #1E2023;
   font-size: 12px;
-  cursor: pointer;
+  width: 110px;
+  justify-content: space-between;
 }
 
 .pie-chart-wrapper {
@@ -620,14 +621,15 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
+  right: 0;
   background: white;
   border: 1px solid #F2F2F2;
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 8px 0;
-  z-index: 10;
-  min-width: 120px;
-  display: none;
+  z-index: 100;
+  min-width: 110px;
+  margin-top: 4px;
 }
 
 .time-filter-dropdown.show {
@@ -639,10 +641,22 @@ body {
   font-size: 12px;
   color: #1E2023;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .time-filter-option:hover {
   background: #F5F6FF;
+  color: #0F71EF;
+}
+
+.chart-header-with-filter,
+.chart-header {
+  position: relative;
+  z-index: 1;
+}
+
+.time-filter-dropdown {
+  z-index: 1000;
 }
 
 /* Stats cards container */
@@ -730,7 +744,8 @@ body {
   border-radius: 6px;
   color: #1E2023;
   font-size: 12px;
-  cursor: pointer;
+  width: 110px;
+  justify-content: space-between;
 }
 
 /* Bar chart styles */
@@ -799,13 +814,53 @@ body {
 }
 
 .bar {
-  width: 20px;
+  width: 42px;
   background-color: #0F71EF;
   border-radius: 10px 10px 0 0;
   position: absolute;
   bottom: 0px;
-  width: 42px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
+
+.bar.selected {
+  background-color: #0F71EF;
+  box-shadow: 0 0 0 2px #0F71EF;
+}
+
+.bar.dimmed {
+  background-color: #A0C8FF;
+  opacity: 0.6;
+}
+
+.bar-value {
+  position: absolute;
+  top: -30px;
+  background: #0F71EF;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.bar-value::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #0F71EF;
+}
+
 
 .x-label {
   font-size: 12px;
@@ -1408,3 +1463,99 @@ body {
   background-color: #0F71EF !important;
 }
 
+.time-filter,
+.chart-filter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #F2F2F2;
+  border-radius: 6px;
+  color: #1E2023;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 16px 0;
+  justify-content: center;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: space-between;
+  align-items: center;;
+}
+
+.btc {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;;
+}
+
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #0F71EF;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  background: #F5F6FF;
+  border-color: #0F71EF;
+}
+
+.pagination-btn.disabled {
+  cursor: auto;
+  opacity: 0.5;
+  border-color: grey;
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 8px;
+}
+
+.page-number {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  background: white;
+  font-size: 12px;
+  color: #1E2023;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Vazir', Tahoma, sans-serif;
+}
+
+.page-number:hover {
+  background: #F5F6FF;
+  border-color: #0F71EF;
+}
+
+.page-number.active {
+  background: #0F71EF;
+  border-color: #0F71EF;
+  color: white;
+}
