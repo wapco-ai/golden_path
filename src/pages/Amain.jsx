@@ -36,7 +36,7 @@ const Amain = () => {
   const [isBarChartFilterOpen, setIsBarChartFilterOpen] = useState(false);
   const [selectedBar, setSelectedBar] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
 
 
 
@@ -267,7 +267,7 @@ const Amain = () => {
   // Generate page numbers to display
   const getPageNumbers = () => {
     const pages = [];
-    const maxVisiblePages = 5;
+    const maxVisiblePages = 6;
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
