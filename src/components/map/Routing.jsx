@@ -4,7 +4,6 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import esriImageryStyle from '../../services/esriImageryStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
-import AreasVectorLayer from './AreasVectorLayer';
 import useLocaleDigits from '../../utils/useLocaleDigits';
 
 
@@ -40,7 +39,6 @@ const Routing = ({ userLocation, routeSteps, currentStep }) => {
         style={{ width: '100%', height: '100%' }}
         viewState={viewState}
       >
-        <AreasVectorLayer />
         {userLocation && (
           <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="bottom">
             <div>👤</div>

@@ -8,7 +8,6 @@ import { useLangStore } from '../../store/langStore';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
 import { groups } from '../groupData';
 import { getLocationTitleById } from '../../utils/getLocationTitle';
-import AreasVectorLayer from './AreasVectorLayer';
 
 const groupColors = {
   sahn: '#4caf50',
@@ -320,7 +319,6 @@ const Mprc = ({
       onClick={handleClick}
       interactive={true}
     >
-      <AreasVectorLayer />
       {/* User location marker */}
       {userCoords && (
         <Marker longitude={userCoords.lng} latitude={userCoords.lat} anchor="center">
