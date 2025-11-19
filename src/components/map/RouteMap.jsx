@@ -5,6 +5,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import esriImageryStyle from '../../services/esriImageryStyle';
 import GeoJsonOverlay from './GeoJsonOverlay';
+import AreasVectorLayer from './AreasVectorLayer';
 import advancedDeadReckoningService from '../../services/AdvancedDeadReckoningService';
 import ArrowMarker from './ArrowMarker';
 import { buildGeoJsonPath } from '../../utils/geojsonPath.js';
@@ -367,6 +368,7 @@ const RouteMap = forwardRef(({
       attributionControl={false}
       terrain={is3DView && terrainAvailable ? { source: 'terrain', exaggeration: 1.5 } : undefined}
     >
+      <AreasVectorLayer />
       {/* User location marker - now using ArrowMarker with walking man icon */}
       {!isDrActive && (
         <Marker longitude={userLocation[1]} latitude={userLocation[0]} anchor="center">
