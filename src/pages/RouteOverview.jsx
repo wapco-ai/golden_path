@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import Map, { Marker, Source, Layer, Popup } from 'react-map-gl';
 import GeoJsonOverlay from '../components/map/GeoJsonOverlay';
-import AreasVectorLayer from '../components/map/AreasVectorLayer';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { groups, subGroups } from '../components/groupData';
@@ -406,7 +405,6 @@ const RouteOverview = () => {
           attributionControl={false}
           style={{ width: '100%', height: '100%' }}
         >
-          <AreasVectorLayer />
           <Marker longitude={routeCoordinates[0]?.[0]} latitude={routeCoordinates[0]?.[1]} anchor="bottom">
             <div className="c-circle"></div>
           </Marker>
