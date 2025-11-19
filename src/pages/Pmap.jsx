@@ -11,6 +11,7 @@ import { groups } from '../components/groupData';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/Pmap.css';
+import AreasVectorLayer from '../components/map/AreasVectorLayer';
 
 const groupColors = {
   sahn: '#4caf50',
@@ -324,6 +325,7 @@ const Pmap = () => {
           onLoad={handleMapLoad}
           interactive={true}
         >
+          <AreasVectorLayer />
           {/* Selected place marker */}
           {selectedPlace && selectedPlace.coordinates && (
             <>
