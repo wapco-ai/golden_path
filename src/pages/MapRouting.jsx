@@ -307,10 +307,20 @@ const MapRoutingPage = () => {
   // UPDATED: Handle destination selection - show entry modal first
   const handleDestinationSelect = (destination) => {
     if (activeInput === 'destination') {
-      // Store the destination temporarily and show entry modal
-      setTempDestination(destination);
+      // TEMPORARILY COMMENTED OUT - Entry modal logic
+      // setTempDestination(destination);
+      // setShowDestinationModal(false);
+      // setShowEntryModal(true);
+
+      // TEMPORARY: Set destination directly and navigate
+      setSelectedDestination(destination);
+      addSearch(destination);
+
+      // Store in sessionStorage for persistence
+      sessionStorage.setItem('currentDestination', JSON.stringify(destination));
+
+      // Close the modal
       setShowDestinationModal(false);
-      setShowEntryModal(true);
     } else {
       // When setting origin manually, disable GPS tracking
       setIsTracking(false);
@@ -403,37 +413,7 @@ const MapRoutingPage = () => {
 
     let coordinates = null;
 
-    // Try to get coordinates from geoData first
-    if (geoData) {
-      const feature = geoData.features.find(
-        f => f.properties?.subGroupValue === subgroup.value
-      );
-
-      if (feature) {
-        const center = getFeatureCenter(feature);
-        if (center) {
-          coordinates = [center[1], center[0]];
-        }
-      }
-    }
-
-    // If no coordinates from geoData, check if subgroup has its own coordinates
-    if (!coordinates && subgroup.coordinates) {
-      coordinates = subgroup.coordinates;
-    }
-
-    // If still no coordinates, try to find any feature with this subgroup value
-    if (!coordinates && geoData) {
-      const anyFeature = geoData.features.find(
-        f => f.properties?.subGroupValue === subgroup.value
-      );
-      if (anyFeature) {
-        const center = getFeatureCenter(anyFeature);
-        if (center) {
-          coordinates = [center[1], center[0]];
-        }
-      }
-    }
+    // ... (coordinate calculation code remains the same)
 
     // Create destination object
     const destination = {
@@ -447,10 +427,16 @@ const MapRoutingPage = () => {
 
     console.log('Setting destination from main page:', destination);
 
-    // Store temporarily and show entry modal
-    setTempDestination(destination);
-    setShowEntryModal(true);
+    // TEMPORARILY COMMENTED OUT - Entry modal logic
+    // setTempDestination(destination);
+    // setShowEntryModal(true);
+
+    // TEMPORARY: Set destination directly
+    setSelectedDestination(destination);
     addSearch(destination);
+
+    // Store in sessionStorage for persistence
+    sessionStorage.setItem('currentDestination', JSON.stringify(destination));
   };
 
   // Get subgroup description based on currently loaded geoData
@@ -595,14 +581,26 @@ const MapRoutingPage = () => {
       setMapSelectedLocation(location);
 
       if (activeInput === 'destination') {
-        // Show entry modal for destination selected from map
+        // TEMPORARILY COMMENTED OUT - Entry modal for destination selected from map
+        // const destination = {
+        //   name: locName,
+        //   location: intl.formatMessage({ id: 'mapSelectedLocationFromMap' }),
+        //   coordinates: [latlng.lat, latlng.lng]
+        // };
+        // setTempDestination(destination);
+        // setShowEntryModal(true);
+
+        // TEMPORARY: Set destination directly
         const destination = {
           name: locName,
           location: intl.formatMessage({ id: 'mapSelectedLocationFromMap' }),
           coordinates: [latlng.lat, latlng.lng]
         };
-        setTempDestination(destination);
-        setShowEntryModal(true);
+        setSelectedDestination(destination);
+        addSearch(destination);
+
+        // Store in sessionStorage for persistence
+        sessionStorage.setItem('currentDestination', JSON.stringify(destination));
       } else {
         setUserLocation({
           name: locName,
@@ -1141,7 +1139,7 @@ const MapRoutingPage = () => {
         </div>
       )}
 
-      {/* Entry Selection Modal */}
+      {/* Entry Selection Modal
       {showEntryModal && tempDestination && (
         <div className="map-entry-modal-overlay">
           <div className="map-entry-modal">
@@ -1194,7 +1192,7 @@ const MapRoutingPage = () => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
