@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useIntl } from 'react-intl';
@@ -52,7 +52,6 @@ const MapBeginPage = () => {
   const [currentHeight, setCurrentHeight] = useState(140);
   const [isAutoExpanding, setIsAutoExpanding] = useState(false);
   const [preventMapCentering, setPreventMapCentering] = useState(false);
-  const [dragSource, setDragSource] = useState(null);
   const clearMapSelection = () => {
     sessionStorage.removeItem('mapSelectedLat');
     sessionStorage.removeItem('mapSelectedLng');
@@ -165,138 +164,6 @@ const MapBeginPage = () => {
     }
   };
 
-  const handleToggleTouchStart = (e) => {
-    e.stopPropagation(); // Prevent body handler from firing
-    setDragSource('toggle');
-    const touchY = e.touches[0].clientY;
-    setIsDragging(true);
-    setDragStartY(touchY);
-    setDragStartHeight(currentHeight);
-    setLastTouchY(touchY);
-    setLastTouchTime(Date.now());
-    setVelocity(0);
-  };
-
-  const handleToggleTouchMove = (e) => {
-    if (!isDragging || dragSource !== 'toggle') return;
-    handleTouchMoveLogic(e);
-  };
-
-  const handleToggleTouchEnd = () => {
-    if (dragSource !== 'toggle') return;
-    handleTouchEndLogic();
-    setDragSource(null);
-  };
-
-  // Body-specific touch handlers
-  const handleBodyTouchStart = (e) => {
-    // Don't start drag if we're on the toggle (it has its own handler)
-    if (e.target.closest('.search-bar-toggle')) {
-      return;
-    }
-
-    // Don't start drag if we're on scrollable content in fully expanded mode
-    if (expandedSearch && isTouchOnScrollableContent(e.target)) {
-      return;
-    }
-
-    setDragSource('body');
-    const touchY = e.touches[0].clientY;
-    setIsDragging(true);
-    setDragStartY(touchY);
-    setDragStartHeight(currentHeight);
-    setLastTouchY(touchY);
-    setLastTouchTime(Date.now());
-    setVelocity(0);
-  };
-
-  const handleBodyTouchMove = (e) => {
-    if (!isDragging || dragSource !== 'body') return;
-    handleTouchMoveLogic(e);
-  };
-
-  const handleBodyTouchEnd = () => {
-    if (dragSource !== 'body') return;
-    handleTouchEndLogic();
-    setDragSource(null);
-  };
-
-  // Shared logic functions
-  const handleTouchMoveLogic = (e) => {
-    const touchY = e.touches[0].clientY;
-    const currentTime = Date.now();
-    const deltaTime = currentTime - lastTouchTime;
-
-    if (deltaTime > 0) {
-      const deltaY = lastTouchY - touchY;
-      const newVelocity = deltaY / deltaTime;
-      setVelocity(newVelocity);
-    }
-
-    const deltaY = dragStartY - touchY;
-    const newHeight = dragStartHeight + deltaY;
-
-    let resistance = 1;
-    if (newHeight < 140) {
-      resistance = 0.3 + (0.7 * (newHeight / 140));
-    } else if (newHeight > window.innerHeight) {
-      resistance = 0.3 + (0.7 * (window.innerHeight / newHeight));
-    }
-
-    const clampedHeight = Math.max(80, Math.min(newHeight * resistance, window.innerHeight * 1.1));
-    setCurrentHeight(clampedHeight);
-
-    setLastTouchY(touchY);
-    setLastTouchTime(currentTime);
-  };
-
-  const handleTouchEndLogic = () => {
-    setIsDragging(false);
-
-    const screenHeight = window.innerHeight;
-    const snapThreshold = 50;
-    const velocityThreshold = 0.1;
-
-    let targetHeight;
-
-    if (Math.abs(velocity) > velocityThreshold) {
-      if (velocity > 0) {
-        targetHeight = window.innerHeight;
-      } else {
-        if (currentHeight < screenHeight * 0.3) {
-          targetHeight = 140;
-        } else {
-          targetHeight = window.innerHeight * 0.41;
-        }
-      }
-    } else {
-      if (currentHeight < 140 + snapThreshold) {
-        targetHeight = 140;
-      } else if (currentHeight < screenHeight * 0.35) {
-        targetHeight = window.innerHeight * 0.41;
-      } else if (currentHeight < screenHeight * 0.7) {
-        targetHeight = window.innerHeight * 0.41;
-      } else {
-        targetHeight = screenHeight;
-      }
-    }
-
-    setCurrentHeight(targetHeight);
-
-    if (targetHeight <= 140) {
-      setShowRouting(false);
-      setExpandedSearch(false);
-    } else if (targetHeight <= screenHeight * 0.41) {
-      setExpandedSearch(false);
-      setShowRouting(true);
-    } else {
-      setExpandedSearch(true);
-      setShowRouting(true);
-    }
-
-    setVelocity(0);
-  };
-
 
   const handleMapClick = (latlng, feature) => {
     const locName = feature?.properties?.name || intl.formatMessage({ id: 'mapSelectedLocation' });
@@ -362,8 +229,6 @@ const MapBeginPage = () => {
     }
   };
 
-
-
   // Add this useEffect after your existing QR code useEffect
   useEffect(() => {
     // Check if this is a QR code entry for Bab ol Reza (sahn-payambar-azam)
@@ -395,33 +260,8 @@ const MapBeginPage = () => {
     }
   }, [storedId, storedLat, storedLng, language]);
 
-  const isTouchOnScrollableContent = (element) => {
-    const scrollableSelectors = [
-      '.shrine-events-list',
-      '.places-horizontal-list',
-      '.selected-location-section',
-      '.routing-places-section',
-      '.location-image-scroll',
-      '.search-bar' // Add this to prevent drag when touching search input
-    ];
-    
-    return scrollableSelectors.some(selector => 
-      element.closest(selector)
-    );
-  };
-
   // Add these touch event handlers
-  const handleTouchStart = useCallback((e) => {
-    // If the touch is on the toggle handle, let it handle its own click
-    if (e.target.closest('.search-bar-toggle')) {
-      return;
-    }
-
-    // If touch is on scrollable content and we're fully expanded, don't start drag
-    if (expandedSearch && isTouchOnScrollableContent(e.target)) {
-      return;
-    }
-
+  const handleTouchStart = (e) => {
     const touchY = e.touches[0].clientY;
     setIsDragging(true);
     setDragStartY(touchY);
@@ -429,9 +269,9 @@ const MapBeginPage = () => {
     setLastTouchY(touchY);
     setLastTouchTime(Date.now());
     setVelocity(0);
-  }, [currentHeight, expandedSearch]);
+  };
 
-  const handleTouchMove = useCallback((e) => {
+  const handleTouchMove = (e) => {
     if (!isDragging) return;
 
     const touchY = e.touches[0].clientY;
@@ -461,7 +301,7 @@ const MapBeginPage = () => {
 
     setLastTouchY(touchY);
     setLastTouchTime(currentTime);
-  }, [isDragging, dragStartY, dragStartHeight, lastTouchY, lastTouchTime]);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -474,7 +314,7 @@ const MapBeginPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [expandedSearch]);
 
-  const handleTouchEnd = useCallback(() => {
+  const handleTouchEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
 
@@ -528,7 +368,8 @@ const MapBeginPage = () => {
 
     // Reset velocity
     setVelocity(0);
-  }, [isDragging, velocity, currentHeight]);
+  };
+
   useEffect(() => {
     setShowImageMarkers(!selectedCategory);
   }, [selectedCategory]);
@@ -662,16 +503,13 @@ const MapBeginPage = () => {
       <div
         className={`search-bar-container ${showRouting ? 'expanded' : ''} ${expandedSearch ? 'fully-expanded' : ''} ${isDragging ? 'dragging' : ''} ${isQrCodeEntry ? 'qr-code-entry' : ''}`}
         style={isDragging || isAutoExpanding ? { height: `${currentHeight}px`, transform: 'translateY(0)' } : {}}
-        onTouchStart={handleBodyTouchStart}
-        onTouchMove={handleBodyTouchMove}
-        onTouchEnd={handleBodyTouchEnd}
       >
         <div
           className="search-bar-toggle"
           onClick={handleSearchToggle}
-          onTouchStart={handleToggleTouchStart}
-          onTouchMove={handleToggleTouchMove}
-          onTouchEnd={handleToggleTouchEnd}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <div className="toggle-handle"></div>
         </div>
@@ -684,9 +522,9 @@ const MapBeginPage = () => {
             onBlur={handleSearchBlur}
             ref={searchInputRef}
           />
-          {/* <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M9.58342 2.29163C5.55634 2.29163 2.29175 5.55622 2.29175 9.58329C2.29175 13.6104 5.55634 16.875 9.58342 16.875C13.6105 16.875 16.8751 13.6104 16.8751 9.58329C16.8751 5.55622 13.6105 2.29163 9.58342 2.29163ZM1.04175 9.58329C1.04175 4.86586 4.86598 1.04163 9.58342 1.04163C14.3008 1.04163 18.1251 4.86586 18.1251 9.58329C18.1251 11.7171 17.3427 13.6681 16.0491 15.1651L18.7754 17.8914C19.0194 18.1354 19.0194 18.5312 18.7754 18.7752C18.5313 19.0193 18.1356 19.0193 17.8915 18.7752L15.1653 16.049C13.6682 17.3426 11.7172 18.125 9.58342 18.125C4.86598 18.125 1.04175 14.3007 1.04175 9.58329Z" fill="#1E2023" />
-          </svg> */}
+          </svg>
 
 
         </form>

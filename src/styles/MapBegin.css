@@ -219,14 +219,15 @@
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-out;
+  transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
   z-index: 1000;
   overflow: hidden;
   height: 140px;
   transform: translateY(calc(100% - 140px));
   touch-action: none;
+  transition: transform 0.3s ease-out, height 0.3s ease-out;
+  touch-action: pan-y;
 }
-
 
 /* Routing Content Styling */
 .routing-content {
@@ -254,7 +255,6 @@
   transition: all 0.3s ease;
   touch-action: none;
 }
-
 
 .toggle-handle {
   width: 90px;
@@ -1062,21 +1062,11 @@ body.modal-open {
   overflow-y: auto;
   touch-action: auto;
   transition: transform 0.3s ease-out, height 0.3s ease-out;
-  touch-action: auto;
 }
 
 .search-bar-container.expanded .toggle-handle {
   transform: rotate(0deg);
 }
-
-.search-bar-container.dragging {
-  pointer-events: none;
-}
-
-.search-bar-container.dragging * {
-  pointer-events: none;
-}
-
 
 .search-bar-container.expanded:not(.fully-expanded) {
   height: 41vh;
@@ -1084,7 +1074,6 @@ body.modal-open {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   transition: transform 0.3s ease-out, height 0.3s ease-out;
-  touch-action: pan-y;
 }
 
 @media (max-width: 400px) {
