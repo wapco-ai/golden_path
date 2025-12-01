@@ -39,8 +39,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          59.6132264183836,
-          36.285146386878694
+          59.613599400000005,
+          36.28553300000001
         ]
       },
       "properties": {
@@ -59,8 +59,8 @@
         "gender": "family",
         "nodeFunction": "door",
         "restrictedTimes": [],
-        "latitude": 36.285146386878694,
-        "longitude": 59.6132264183836,
+        "latitude": 36.28553300000001,
+        "longitude": 59.613599400000005,
         "gpsMeta": null,
         "timestamp": "2025-06-12T07:49:10.477Z",
         "transportModes": [],
