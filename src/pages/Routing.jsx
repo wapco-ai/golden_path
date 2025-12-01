@@ -769,8 +769,23 @@ const RoutingPage = () => {
     }
 
     if (newRoutingState) {
-      const [lat, lng] = userLocation;
-      advancedDeadReckoningService.start({ lat, lng });
+      // Use the route's origin coordinates instead of userLocation
+      // Get origin from routeStore or session storage
+      const routeOrigin = origin?.coordinates ||
+        (sessionStorage.getItem('origin') ?
+          JSON.parse(sessionStorage.getItem('origin')).coordinates :
+          null);
+
+      if (routeOrigin && routeOrigin.length === 2) {
+        const [lat, lng] = routeOrigin;
+        advancedDeadReckoningService.start({ lat, lng });
+        // Also update userLocation to match the route origin
+        setUserLocation([lat, lng]);
+      } else {
+        // Fallback to current userLocation if route origin not available
+        const [lat, lng] = userLocation;
+        advancedDeadReckoningService.start({ lat, lng });
+      }
     } else {
       advancedDeadReckoningService.stop();
     }
