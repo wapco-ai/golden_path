@@ -380,7 +380,7 @@ const RouteMap = forwardRef(({
         </Marker>
       )}
 
-      {isDrActive && drGeoPath.length > 1 && (
+      {/* {isDrActive && drGeoPath.length > 1 && (
         <Source
           id="dr-path"
           type="geojson"
@@ -394,7 +394,7 @@ const RouteMap = forwardRef(({
         >
           <Layer id="dr-line" type="line" paint={{ 'line-color': '#e53935', 'line-width': 3, 'line-opacity': 0.7 }} />
         </Source>
-      )}
+      )} */}
 
       {/* Current step marker -  using red destination pin */}
       {routeSteps && routeSteps.length > 0 && (
