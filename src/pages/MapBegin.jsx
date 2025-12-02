@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useIntl } from 'react-intl';
@@ -360,6 +360,21 @@ const MapBeginPage = () => {
       }
     }
 
+    useEffect(() => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        // Adjust settings for mobile
+        // You might want to adjust thresholds based on device
+        const pixelRatio = window.devicePixelRatio || 1;
+        
+        // Higher DPI screens might need different sensitivity
+        if (pixelRatio >= 2) {
+          // Adjust for retina displays
+        }
+      }
+    }, []);
+
     // Smooth animation to target height
     setCurrentHeight(targetHeight);
 
@@ -390,19 +405,17 @@ const MapBeginPage = () => {
     setShowImageMarkers(isSameCategory ? true : false);
   }
 
-  const handleModalTouchStart = (e) => {
-    if (isModalDragging || isDragging) return;
+  const handleModalTouchStart = useCallback((e) => {
+    if (isDragging || isModalDragging) return;
 
     const touchY = e.touches[0].clientY;
     const modalContent = e.currentTarget;
 
-    // Check if we're at the top of the scrollable content
-    const isAtTop = modalContent.scrollTop <= 0;
-    const isAtBottom = modalContent.scrollHeight - modalContent.scrollTop <= modalContent.clientHeight + 1;
+    // Check if we can start dragging
+    const canDrag = !expandedSearch || modalContent.scrollTop <= 5;
 
-    // Only allow dragging from top or bottom edges, or when not scrollable
-    if (isAtTop || !expandedSearch) {
-      setPreventScroll(true);
+    if (canDrag) {
+      e.preventDefault();
       setIsModalDragging(true);
       setModalDragStartY(touchY);
       setModalDragStartHeight(currentHeight);
@@ -410,52 +423,128 @@ const MapBeginPage = () => {
       setModalLastTouchTime(Date.now());
       setModalVelocity(0);
 
-      // Store initial scroll position
-      setScrollStartY(touchY);
-      setScrollStartScrollTop(modalContent.scrollTop);
-    } else {
-      setPreventScroll(false);
+      // Immediately update to prevent any delay
+      requestAnimationFrame(() => {
+        // Force a reflow for smooth animation
+      });
     }
-  };
+  }, [expandedSearch, currentHeight, isDragging, isModalDragging]);
 
-  const handleModalTouchMove = (e) => {
+  const handleModalTouchMove = useCallback((e) => {
     if (!isModalDragging) return;
 
-    const touchY = e.touches[0].clientY;
-
-    // If we're in fully expanded mode and trying to scroll down, allow scrolling
-    if (expandedSearch && !preventScroll) {
-      return;
-    }
-
-    // Prevent default to stop scrolling
     e.preventDefault();
+    e.stopPropagation();
 
+    const touchY = e.touches[0].clientY;
     const currentTime = Date.now();
-    const deltaTime = currentTime - modalLastTouchTime;
 
-    if (deltaTime > 0) {
-      const deltaY = modalLastTouchY - touchY;
-      const newVelocity = deltaY / deltaTime;
-      setModalVelocity(newVelocity);
+    // Calculate velocity for smooth dragging
+    if (modalLastTouchTime > 0) {
+      const deltaTime = currentTime - modalLastTouchTime;
+      if (deltaTime > 0) {
+        const deltaY = modalLastTouchY - touchY;
+        const newVelocity = deltaY / deltaTime;
+        setModalVelocity(newVelocity);
+      }
     }
 
+    // Direct height calculation for immediate response
     const deltaY = modalDragStartY - touchY;
-    const newHeight = modalDragStartHeight + deltaY;
+    let newHeight = modalDragStartHeight + deltaY;
 
-    let resistance = 1;
+    // Apply resistance near boundaries
+    const screenHeight = window.innerHeight;
     if (newHeight < 140) {
-      resistance = 0.3 + (0.7 * (newHeight / 140));
-    } else if (newHeight > window.innerHeight) {
-      resistance = 0.3 + (0.7 * (window.innerHeight / newHeight));
+      const overshoot = 140 - newHeight;
+      newHeight = 140 - overshoot * 0.3;
+    } else if (newHeight > screenHeight) {
+      const overshoot = newHeight - screenHeight;
+      newHeight = screenHeight + overshoot * 0.3;
     }
 
-    const clampedHeight = Math.max(80, Math.min(newHeight * resistance, window.innerHeight * 1.1));
-    setCurrentHeight(clampedHeight);
+    // Update height immediately using requestAnimationFrame for smoothness
+    requestAnimationFrame(() => {
+      setCurrentHeight(Math.max(80, Math.min(newHeight, screenHeight * 1.1)));
+    });
 
     setModalLastTouchY(touchY);
     setModalLastTouchTime(currentTime);
-  };
+  }, [isModalDragging, modalDragStartY, modalDragStartHeight, modalLastTouchY, modalLastTouchTime]);
+
+
+
+  const handleModalTouchEnd = useCallback(() => {
+    if (!isModalDragging) return;
+
+    setIsModalDragging(false);
+
+    const screenHeight = window.innerHeight;
+    const snapThreshold = 30; // Reduced for mobile
+    const velocityThreshold = 0.3; // Adjusted for mobile
+
+    let targetHeight;
+
+    // Use velocity for snapping
+    if (Math.abs(modalVelocity) > velocityThreshold) {
+      if (modalVelocity > 0) {
+        // Fast swipe up - go to top
+        targetHeight = screenHeight;
+      } else {
+        // Fast swipe down
+        if (currentHeight < screenHeight * 0.4) {
+          targetHeight = 140;
+        } else {
+          targetHeight = screenHeight * 0.41;
+        }
+      }
+    } else {
+      // Position-based snapping with hysteresis
+      if (currentHeight < 140 + snapThreshold) {
+        targetHeight = 140;
+      } else if (currentHeight < screenHeight * 0.5) {
+        targetHeight = screenHeight * 0.41;
+      } else {
+        targetHeight = screenHeight;
+      }
+    }
+
+    // Smooth animation with better easing
+    const startHeight = currentHeight;
+    const duration = 250; // ms
+    const startTime = Date.now();
+
+    const animate = () => {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Cubic easing out for smooth finish
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const current = startHeight + (targetHeight - startHeight) * easeProgress;
+
+      setCurrentHeight(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Final state update
+        if (targetHeight <= 140) {
+          setShowRouting(false);
+          setExpandedSearch(false);
+        } else if (targetHeight <= screenHeight * 0.41) {
+          setExpandedSearch(false);
+          setShowRouting(true);
+        } else {
+          setExpandedSearch(true);
+          setShowRouting(true);
+        }
+      }
+    };
+
+    requestAnimationFrame(animate);
+    setModalVelocity(0);
+  }, [isModalDragging, modalVelocity, currentHeight]);
 
   useEffect(() => {
     const handleTouchMove = (e) => {
@@ -463,7 +552,7 @@ const MapBeginPage = () => {
         e.preventDefault();
       }
     };
-  
+
     const handleScroll = (e) => {
       if (preventScroll || isModalDragging) {
         e.preventDefault();
@@ -471,72 +560,18 @@ const MapBeginPage = () => {
         return false;
       }
     };
-  
+
     if (preventScroll || isModalDragging) {
       document.addEventListener('touchmove', handleTouchMove, { passive: false });
       document.addEventListener('scroll', handleScroll, { passive: false });
     }
-  
+
     return () => {
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('scroll', handleScroll);
     };
   }, [preventScroll, isModalDragging]);
-  
 
-  const handleModalTouchEnd = () => {
-    if (!isModalDragging) return;
-    setIsModalDragging(false);
-    setPreventScroll(false);
-
-    const screenHeight = window.innerHeight;
-    const snapThreshold = 50;
-    const velocityThreshold = 0.5;
-
-    let targetHeight;
-
-    if (Math.abs(modalVelocity) > velocityThreshold) {
-      if (modalVelocity > 0) {
-        // Swiping up
-        targetHeight = window.innerHeight;
-      } else {
-        // Swiping down
-        if (currentHeight < screenHeight * 0.3) {
-          targetHeight = 140;
-        } else {
-          targetHeight = window.innerHeight * 0.41;
-        }
-      }
-    } else {
-      // No significant velocity - use position-based snapping
-      if (currentHeight < 140 + snapThreshold) {
-        targetHeight = 140;
-      } else if (currentHeight < screenHeight * 0.35) {
-        targetHeight = window.innerHeight * 0.41;
-      } else if (currentHeight < screenHeight * 0.7) {
-        targetHeight = window.innerHeight * 0.41;
-      } else {
-        targetHeight = screenHeight;
-      }
-    }
-
-    // Smooth animation to target height
-    setCurrentHeight(targetHeight);
-
-    // Update UI state based on final height
-    if (targetHeight <= 140) {
-      setShowRouting(false);
-      setExpandedSearch(false);
-    } else if (targetHeight <= screenHeight * 0.41) {
-      setExpandedSearch(false);
-      setShowRouting(true);
-    } else {
-      setExpandedSearch(true);
-      setShowRouting(true);
-    }
-
-    setModalVelocity(0);
-  };
 
 
 
@@ -551,6 +586,25 @@ const MapBeginPage = () => {
       .then(data => setRoutingData(data))
       .catch(err => console.error('Failed to load routing-data.json', err));
   }, []);
+
+  useEffect(() => {
+    const modalContent = document.querySelector('.modal-content-wrapper');
+    if (!modalContent) return;
+
+    const options = { passive: false };
+
+    const handleTouchMove = (e) => {
+      if (isModalDragging) {
+        e.preventDefault();
+      }
+    };
+
+    modalContent.addEventListener('touchmove', handleTouchMove, options);
+
+    return () => {
+      modalContent.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [isModalDragging]);
 
 
   const handlePlaceClick = (placeTitle, groupValue, subGroupValue) => {
@@ -687,7 +741,11 @@ const MapBeginPage = () => {
           onTouchStart={handleModalTouchStart}
           onTouchMove={handleModalTouchMove}
           onTouchEnd={handleModalTouchEnd}
-          onClick={(e) => e.stopPropagation()} // Prevent toggle when clicking content
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain'
+          }}
         >
           <form className={`search-bar ${showRouting ? 'expanded' : ''}`}>
             <input
