@@ -44,6 +44,11 @@ import s41 from '/img/s41.jpg';
 import s42 from '/img/s42.jpg';
 import s43 from '/img/s43.jpg';
 import s44 from '/img/s44.jpg';
+import s46 from '/img/s46.jpg';
+import s47 from '/img/s47.jpg';
+import s48 from '/img/s48.jpg';
+import s49 from '/img/s49.jpg';
+import s50 from '/img/s50.jpg';
 import ic1 from '/img/ic1.png';
 import ic2 from '/img/ic2.png';
 import ic3 from '/img/ic3.png';
@@ -174,7 +179,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s41, s40, s39],
+      img: [s47, s46],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '200',
       time: '3',
@@ -280,7 +285,7 @@ export const subGroups = {
       icon: '',
       svg: ``,
       description: "توضیحات",
-      img: [s42, s43, s44],
+      img: [s48, s49, s50],
       address: 'ضریح مطهر اما رضا(ع)',
       distance: '120',
       time: '1.8',
