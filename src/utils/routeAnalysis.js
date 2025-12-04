@@ -946,10 +946,12 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
         const node = match.node;
         const props = node[2] || {};
         if (props.nodeFunction === 'door') {
+          const doorArea = props.subGroup || props.subGroupValue || '';
           steps.push({
             coordinates: [node[0], node[1]],
             type: 'stepPassDoor',
             name: props.name || '',
+            area: doorArea,
             services: props.services || {}
           });
         } else if (props.nodeFunction === 'connection') {
@@ -1167,10 +1169,12 @@ export function analyzeRoute(origin, destination, geoData, transportMode = 'walk
       seg.forEach(p => rPath.push(p));
 
       if (node[2].nodeFunction === 'door') {
+        const doorArea = node[2].subGroup || node[2].subGroupValue || '';
         rSteps.push({
           coordinates: coord,
           type: 'stepPassDoor',
           name: node[2].name || '',
+          area: doorArea,
           services: node[2].services || {}
         });
       } else if (node[2].nodeFunction === 'connection') {
