@@ -163,16 +163,10 @@ const RouteOverview = () => {
   const routeData = useMemo(() => {
     const segments = routeCoordinates.slice(1).map((c, idx) => {
       const step = routeSteps?.[idx];
-      const formatParams = {
-        name: step?.name,
-        title: step?.title,
-        num: idx + 1,
-        area: step?.area || step?.title || ''
-      };
       const base = step && step.type
         ? intl.formatMessage(
           { id: step.type },
-          formatParams
+          { name: step.name, title: step.title, num: idx + 1 }
         )
         : step?.instruction
           ? step.instruction
