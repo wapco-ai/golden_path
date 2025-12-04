@@ -164,7 +164,7 @@ const RoutingPage = () => {
       } catch (error) {
         if (!isCancelled) {
           console.error('Failed to play navigation audio', error);
-          toast.error(intl.formatMessage({ id: 'ttsPlaybackError' }));
+          // toast.error(intl.formatMessage({ id: 'ttsPlaybackError' }));
         }
       }
     };
