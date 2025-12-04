@@ -180,7 +180,7 @@
   "stepMoveToDoor": "حرکت به سمت {name}",
   "stepPassConnection": "عبور از نقطه اتصال {title}",
   "stepEnterNextSahn": "ورود به صحن بعدی از طریق نقطه اتصال {title}",
-  "stepPassDoor": "از درب شماره {name} عبور کنید و وارد {area} شوید",
+  "stepPassDoor": "عبور از {name}",
   "stepArriveDestination": "رسیدن به  {name}",
   "stepNumber": "گام {num}",
   "landmarkSuffix": "به سمت {name} بچرخید و {distance} متر به جلو بروید",
