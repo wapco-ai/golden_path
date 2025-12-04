@@ -318,75 +318,48 @@ const Mpbc = ({
     )
     : [];
 
-  // Function to render image markers for landmark service points with images
+  // Function to render image markers for subgroups with images
   const renderImageMarkers = () => {
-    if (!geoData || !showImageMarkers) return null;
+    if (!geoData) return null;
+
+    const seenSubgroups = new Set();
 
     return geoData.features
       .filter(feature => {
         if (feature.geometry.type !== 'Point') return false;
 
-        const {
-          group,
-          subGroupValue,
-          service,
-          serviceType,
-          source,
-          nodeFunction,
-          images,
-          image,
-          img
-        } = feature.properties || {};
-
-        const isLandmarkServiceFeature = [service, serviceType, source, nodeFunction]
-          .filter(Boolean)
-          .some(value => value === 'landmark');
-
-        if (!isLandmarkServiceFeature) return false;
-
+        const { group, subGroupValue } = feature.properties || {};
         const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
-        const subgroupImages = subgroup?.img
-          ? (Array.isArray(subgroup.img) ? subgroup.img : [subgroup.img])
-          : [];
 
-        const serviceImages = Array.isArray(images)
-          ? images
-          : images || image || img
-            ? [images || image || img]
-            : [];
+        const hasImage = subgroup && subgroup.img &&
+          (Array.isArray(subgroup.img) ? subgroup.img.length > 0 : true);
 
-        const availableImages = serviceImages.length > 0 ? serviceImages : subgroupImages;
+        if (!hasImage) return false;
 
-        if (availableImages.length === 0) return false;
+        // Skip if we've already seen this subgroup
+        if (seenSubgroups.has(subGroupValue)) return false;
 
-        return !selectedCategory || group === selectedCategory.value;
+        seenSubgroups.add(subGroupValue);
+
+        if (!selectedCategory || group === selectedCategory.value) {
+          return true;
+        }
+
+        return false;
       })
       .map((feature, idx) => {
         const [lng, lat] = feature.geometry.coordinates;
-        const { group, subGroupValue, images, image, img } = feature.properties || {};
+        const { group, subGroupValue } = feature.properties || {};
         const subgroup = subGroups[group]?.find(sg => sg.value === subGroupValue);
 
-        const subgroupImages = subgroup?.img
-          ? (Array.isArray(subgroup.img) ? subgroup.img : [subgroup.img])
-          : [];
-
-        const serviceImages = Array.isArray(images)
-          ? images
-          : images || image || img
-            ? [images || image || img]
-            : [];
-
-        const availableImages = serviceImages.length > 0 ? serviceImages : subgroupImages;
-        const imageUrl = availableImages[0];
+        // Get the first image if it's an array, otherwise use the string
+        const imageUrl = Array.isArray(subgroup.img) ? subgroup.img[0] : subgroup.img;
 
         return (
           <Marker key={`image-${idx}`} longitude={lng} latitude={lat} anchor="center">
             <div className="image-marker-container">
               <svg width="55" height="63" viewBox="0 0 55 63" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M54.6562 27.3281C54.6562 39.6299 46.5275 50.0319 35.3486 53.459C35.1079 53.8493 34.8535 54.2605 34.585
-54.6924L33.1699 56.9687C30.7353 60.8845 29.5175 62.8418 27.7412 62.8418C25.9651 62.8417 24.7479 60.8842 22.3135 56.9687L20.8975
-54.6924C20.6938 54.3648 20.4993 54.0485 20.3115 53.7451C8.61859 50.6476 8.59898e-05 39.9953 -1.19455e-06 27.3281C-5.34814e-07 12
-.2351 12.2351 -1.85429e-06 27.3281 -1.19455e-06C42.4211 0.000106671 54.6562 12.2352 54.6562 27.3281Z" fill="white" />
+                <path d="M54.6562 27.3281C54.6562 39.6299 46.5275 50.0319 35.3486 53.459C35.1079 53.8493 34.8535 54.2605 34.585 54.6924L33.1699 56.9687C30.7353 60.8845 29.5175 62.8418 27.7412 62.8418C25.9651 62.8417 24.7479 60.8842 22.3135 56.9687L20.8975 54.6924C20.6938 54.3648 20.4993 54.0485 20.3115 53.7451C8.61859 50.6476 8.59898e-05 39.9953 -1.19455e-06 27.3281C-5.34814e-07 12.2351 12.2351 -1.85429e-06 27.3281 -1.19455e-06C42.4211 0.000106671 54.6562 12.2352 54.6562 27.3281Z" fill="white" />
               </svg>
               <div
                 className="image-marker-content"
