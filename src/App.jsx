@@ -84,7 +84,7 @@ const AppContent = () => {
       {!hideHeaderFooter && <Header />}
       <main className={`main-content ${hideHeaderFooter ? 'no-header-footer-layout' : ''}`}>
         {/* Stylish PWA Install Modal Prompt */}
-        {showInstall && (
+        {/* {showInstall && (
           <div className="pwa-install-overlay">
             <div className="pwa-install-dialog">
               <h3>
@@ -102,7 +102,7 @@ const AppContent = () => {
               </button>
             </div>
           </div>
-        )}
+        )} */}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<Profile />} />
