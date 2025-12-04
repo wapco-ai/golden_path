@@ -180,7 +180,7 @@
   "stepMoveToDoor": "Head toward {name}",
   "stepPassConnection": "Pass connection {title}",
   "stepEnterNextSahn": "Enter next courtyard via {title}",
-  "stepPassDoor": "Go through {name}",
+  "stepPassDoor": "Go through door number {name} and enter {area}",
   "stepArriveDestination": "Arrive at {name}",
   "stepNumber": "Step {num}",
   "landmarkSuffix": "turn toward {name} and go {distance} meters ahead",

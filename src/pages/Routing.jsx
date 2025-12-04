@@ -515,10 +515,16 @@ const RoutingPage = () => {
         const [lng2, lat2] = coords[idx];
         distance = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
       }
+      const formatParams = {
+        name: s.name,
+        title: s.title,
+        num: idx + 1,
+        area: s.area || s.title || ''
+      };
       const base = s.type
         ? intl.formatMessage(
           { id: s.type },
-          { name: s.name, title: s.title, num: idx + 1 }
+          formatParams
         )
         : s.instruction || '';
       const instruction = s.landmark
@@ -574,10 +580,16 @@ const RoutingPage = () => {
           const [lng2, lat2] = altCoords[i];
           dist = Math.hypot(lng2 - lng1, lat2 - lat1) * 100000;
         }
+        const formatParams = {
+          name: st.name,
+          title: st.title,
+          num: i + 1,
+          area: st.area || st.title || ''
+        };
         const base = st.type
           ? intl.formatMessage(
             { id: st.type },
-            { name: st.name, title: st.title, num: i + 1 }
+            formatParams
           )
           : st.instruction || '';
         const instruction = st.landmark
